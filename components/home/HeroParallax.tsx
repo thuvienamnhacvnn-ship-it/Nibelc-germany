@@ -50,9 +50,9 @@ export function HeroParallax() {
       cx += (tx - cx) * 0.1;
       cy += (ty - cy) * 0.1;
       if (bg.current)
-        bg.current.style.transform = `translate3d(calc(${-cx * BG_SHIFT.x} * var(--u)), calc(${-cy * BG_SHIFT.y} * var(--u)), 0) scale(1.04)`;
+        bg.current.style.transform = `translate3d(calc(${-cx * BG_SHIFT.x} * var(--ub)), calc(${-cy * BG_SHIFT.y} * var(--ub)), 0) scale(1.04)`;
       if (fg.current)
-        fg.current.style.transform = `translate3d(calc(${cx * FG_SHIFT.x} * var(--u)), calc(${cy * FG_SHIFT.y} * var(--u)), 0)`;
+        fg.current.style.transform = `translate3d(calc(${cx * FG_SHIFT.x} * var(--ub)), calc(${cy * FG_SHIFT.y} * var(--ub)), 0)`;
       if (Math.abs(tx - cx) > 0.001 || Math.abs(ty - cy) > 0.001) {
         raf = requestAnimationFrame(tick);
       } else {
@@ -67,16 +67,20 @@ export function HeroParallax() {
     };
   }, []);
 
-  const layer = "absolute top-0 right-0 left-[calc(520*var(--u))] h-full will-change-transform";
+  const layer =
+    "absolute top-0 left-[calc(520*var(--ub))] h-full w-[calc(1184*var(--ub))] will-change-transform";
 
   return (
-    <div className="absolute inset-0 hidden overflow-hidden lg:block" aria-hidden="true">
+    <div
+      className="absolute inset-y-0 right-[calc(-1*var(--nb-gutter))] left-0 hidden overflow-hidden lg:block"
+      aria-hidden="true"
+    >
       {/* Khung 1672u neo mép phải: ở màn rộng hơn mẫu, phần thừa bên trái là
           nền navy của section, bố cục ảnh + vòng cung giữ nguyên tỷ lệ mẫu. */}
-      <div className="absolute inset-y-0 right-[calc(-1*var(--nb-gutter))] w-[calc(1672*var(--u)+var(--nb-gutter))]">
+      <div className="absolute inset-y-0 right-0 w-[calc(1672*var(--ub))]">
       {/* B2 — nền. Phóng 4% quanh quả cầu tháp truyền hình (740u,145u) để có chỗ
           cho parallax mà điểm nhấn vẫn đứng đúng vị trí mẫu. */}
-      <div ref={bg} className={layer} style={{ transform: "scale(1.04)", transformOrigin: "calc(740 * var(--u)) calc(145 * var(--u))" }}>
+      <div ref={bg} className={layer} style={{ transform: "scale(1.04)", transformOrigin: "calc(740 * var(--ub)) calc(145 * var(--ub))" }}>
         <Image
           src={HOME_BANNER.background}
           alt=""
@@ -90,13 +94,13 @@ export function HeroParallax() {
       {/* Mảng navy cắt chéo 668u → 622u, mép có dải mềm */}
       <div
         className="absolute inset-0 bg-[var(--nb-navy-hero)]"
-        style={{ clipPath: "polygon(0 0, calc(668 * var(--u)) 0, calc(622 * var(--u)) 100%, 0 100%)" }}
+        style={{ clipPath: "polygon(0 0, calc(668 * var(--ub)) 0, calc(622 * var(--ub)) 100%, 0 100%)" }}
       />
       <div
         className="absolute inset-0"
         style={{
           clipPath:
-            "polygon(calc(668 * var(--u)) 0, calc(800 * var(--u)) 0, calc(754 * var(--u)) 100%, calc(622 * var(--u)) 100%)",
+            "polygon(calc(668 * var(--ub)) 0, calc(800 * var(--ub)) 0, calc(754 * var(--ub)) 100%, calc(622 * var(--ub)) 100%)",
           background: "linear-gradient(95deg, rgba(11,42,82,.92), rgba(11,42,82,0))",
         }}
       />
@@ -112,8 +116,27 @@ export function HeroParallax() {
             <feGaussianBlur stdDeviation="7" />
           </filter>
         </defs>
-        <path d="M885 99 C 960 104, 1060 165, 1105 240 S 1190 395, 1240 462 S 1330 548, 1392 570" fill="none" stroke="url(#arc)" strokeWidth="16" opacity=".6" filter="url(#glow)" />
+        {/* quầng sáng: thở nhẹ */}
+        <path
+          className="nb-arc-glow"
+          d="M885 99 C 960 104, 1060 165, 1105 240 S 1190 395, 1240 462 S 1330 548, 1392 570"
+          fill="none"
+          stroke="url(#arc)"
+          strokeWidth="16"
+          opacity=".6"
+          filter="url(#glow)"
+        />
+        {/* nét chính */}
         <path d="M885 99 C 960 104, 1060 165, 1105 240 S 1190 395, 1240 462 S 1330 548, 1392 570" fill="none" stroke="url(#arc)" strokeWidth="5" strokeLinecap="round" />
+        {/* vệt sáng chạy dọc vòng cung */}
+        <path
+          className="nb-arc-run"
+          d="M885 99 C 960 104, 1060 165, 1105 240 S 1190 395, 1240 462 S 1330 548, 1392 570"
+          fill="none"
+          stroke="#fff3d6"
+          strokeWidth="5"
+          strokeLinecap="round"
+        />
       </svg>
 
       {/* B1 — người + bàn, nằm trên mảng navy và vòng cung */}
@@ -122,10 +145,10 @@ export function HeroParallax() {
           đầu bàn không cắt thẳng đứng trên nền navy. */}
       <div
         ref={fg}
-        className="absolute top-0 right-0 left-[calc(550*var(--u))] h-full will-change-transform"
+        className="absolute top-0 left-[calc(550*var(--ub))] h-full w-[calc(1184*var(--ub))] will-change-transform"
         style={{
-          maskImage: "linear-gradient(to right, transparent 0, #000 calc(110 * var(--u)))",
-          WebkitMaskImage: "linear-gradient(to right, transparent 0, #000 calc(110 * var(--u)))",
+          maskImage: "linear-gradient(to right, transparent 0, #000 calc(110 * var(--ub)))",
+          WebkitMaskImage: "linear-gradient(to right, transparent 0, #000 calc(110 * var(--ub)))",
         }}
       >
         <Image

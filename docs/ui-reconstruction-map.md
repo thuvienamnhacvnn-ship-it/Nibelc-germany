@@ -497,3 +497,21 @@ Ba ảnh trong `public/unternehmen/02…04` KHÔNG phải ấn phẩm giới thi
 dụng tại Đức. Ảnh tin gốc (có in dòng đó) chỉ hiện ở bản tiếng Việt.
 Mức lương ở đây là của riêng từng đơn, không phải bảng lương chung — bảng
 lương chung vẫn khoá theo CẦN ĐIỀN 03.
+
+## Banner trang chủ: đơn vị riêng và hiệu ứng
+
+- **`--ub`** là đơn vị của banner: `min(100vw, 1672px) / 1672`, KHÔNG trừ lề
+  trang. Ảnh, vòng cung và bốn huy hiệu dùng `--ub` nên giữ đúng tỷ lệ bản
+  mẫu và phủ hết bề ngang; chỉ khối chữ dùng `--u` nên vẫn thụt lề 2cm.
+- Ba chỗ từng cắt mất ảnh và để hở dải navy bên phải, nay đã bỏ: `overflow-hidden`
+  của section hero, lớp bọc bị giới hạn trong lề, và việc trừ lề hai lần
+  (lớp bọc trừ một lần, khung ảnh trừ thêm lần nữa → cả banner lệch phải 76px,
+  chàng trai bên phải bị cắt mất vai).
+- Lề trang đổi sang bậc số nguyên (0 / 24 / 48 / 76px) vì tính theo `vw` ra
+  nửa pixel và sinh thanh cuộn ngang; `html { overflow-x: clip }` chặn phần dư.
+- Bốn huy hiệu nay là liên kết thật (ngành · quy trình · quy trình · kiến thức)
+  và có hiệu ứng khi rê chuột: nhích lên, phóng nhẹ, đổi sang cam, đổ bóng cam,
+  chữ chuyển xanh đậm.
+- Vòng cung vàng có hai hiệu ứng: quầng sáng thở nhẹ (`nb-arc-glow`) và một vệt
+  sáng chạy dọc theo cung (`nb-arc-run`). Người bật "giảm chuyển động" thì cả
+  hai tắt.

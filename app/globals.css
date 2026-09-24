@@ -220,9 +220,12 @@
 :root {
   /* Lề hai bên của cả trang: 2cm trên màn lớn, thu dần ở màn nhỏ để điện
      thoại không mất chỗ. Nội dung không còn chạm mép màn hình. */
-  --nb-gutter: clamp(0px, 4.5vw, 76px);
+  --nb-gutter: 0px;
   /* 1 --u = 1px của ảnh mẫu, tính trong khung đã trừ lề hai bên. */
   --u: calc((min(100vw, 1672px) - 2 * var(--nb-gutter)) / 1672);
+  /* Đơn vị của banner: tính trên toàn bề ngang, không trừ lề — ảnh banner
+     phải phủ hết mép và giữ đúng tỷ lệ như bản gốc, chỉ chữ mới thụt lề. */
+  --ub: calc(min(100vw, 1672px) / 1672);
   --nb-navy: #0a2748;
   --nb-navy-hero: #0b2a52;
   --nb-blue: #2e8bff;
@@ -286,4 +289,47 @@ body > footer {
   .nb-ticker {
     animation: none;
   }
+}
+
+/* Vòng cung vàng trên banner: quầng sáng thở nhẹ và một vệt sáng chạy dọc. */
+@keyframes nb-arc-glow {
+  0%, 100% { opacity: .45; }
+  50% { opacity: .8; }
+}
+@keyframes nb-arc-run {
+  from { stroke-dashoffset: 1100; }
+  to { stroke-dashoffset: -220; }
+}
+.nb-arc-glow {
+  animation: nb-arc-glow 3.6s ease-in-out infinite;
+}
+.nb-arc-run {
+  stroke-dasharray: 110 1100;
+  filter: drop-shadow(0 0 6px rgba(255, 220, 150, 0.95));
+  animation: nb-arc-run 4.2s cubic-bezier(.45, 0, .2, 1) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nb-arc-glow,
+  .nb-arc-run {
+    animation: none;
+  }
+  .nb-arc-run {
+    opacity: 0;
+  }
+}
+
+/* Lề trang theo bậc số nguyên — tính theo vw sẽ ra nửa pixel và sinh thanh
+   cuộn ngang. 76px ≈ 2cm trên màn lớn. */
+@media (min-width: 640px) {
+  :root { --nb-gutter: 24px; }
+}
+@media (min-width: 1024px) {
+  :root { --nb-gutter: 48px; }
+}
+@media (min-width: 1400px) {
+  :root { --nb-gutter: 76px; }
+}
+
+html {
+  overflow-x: clip;
 }

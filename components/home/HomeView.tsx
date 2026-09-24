@@ -49,6 +49,14 @@ const ARC_POINTS = [
 
 const STRIP_ICONS = [ICONS.shield, ICONS.scale, ICONS.group, ICONS.hands];
 
+/** Bốn chặng trên vòng cung dẫn tới trang tương ứng. */
+const ARC_LINKS: ((l: Locale) => string)[] = [
+  (l) => ROUTES.industries[l],
+  (l) => ROUTES.process[l],
+  (l) => ROUTES.process[l],
+  (l) => ROUTES.knowledge[l],
+];
+
 export function HomeView({ locale }: { locale: Locale }) {
   const t = HOME[locale];
 
@@ -64,26 +72,28 @@ export function HomeView({ locale }: { locale: Locale }) {
         <MobileHero locale={locale} />
 
         {/* ---------------- HERO (máy tính) ---------------- */}
-        <section className="relative hidden overflow-hidden bg-[var(--nb-navy-hero)] text-white lg:block lg:h-[calc(667*var(--u))]">
+        <section className="relative hidden bg-[var(--nb-navy-hero)] text-white lg:block lg:h-[calc(667*var(--ub))]">
           {/* Banner 2 lớp: B2 nền + navy chéo + B1 người, có parallax */}
           <HeroParallax />
 
           {/* 4 huy hiệu nằm trên cùng (vòng cung đã ở trong HeroParallax) */}
-          <ul className="absolute inset-y-0 right-0 hidden w-[calc(1672*var(--u))] lg:block">
+          <ul className="absolute inset-y-0 right-[calc(-1*var(--nb-gutter))] hidden w-[calc(1672*var(--ub))] lg:block">
             {ARC_POINTS.map((p, i) => (
               <li
                 key={i}
-                className="absolute flex items-center"
-                style={{ left: `calc(${p.x - 28} * var(--u))`, top: `calc(${p.y - 28} * var(--u))` }}
+                className="absolute"
+                style={{ left: `calc(${p.x - 28} * var(--ub))`, top: `calc(${p.y - 28} * var(--ub))` }}
               >
-                <span className="flex h-[calc(56*var(--u))] w-[calc(56*var(--u))] items-center justify-center rounded-full bg-[var(--nb-blue-dark)] text-white ring-[calc(3*var(--u))] ring-white/90">
-                  <Svg d={p.icon} cls="h-[calc(28*var(--u))] w-[calc(28*var(--u))]" />
+                <Link href={ARC_LINKS[i]!(locale) as Route} className="group flex items-center">
+                <span className="flex h-[calc(56*var(--u))] w-[calc(56*var(--u))] items-center justify-center rounded-full bg-[var(--nb-blue-dark)] text-white ring-[calc(3*var(--u))] ring-white/90 transition duration-300 group-hover:-translate-y-[calc(3*var(--u))] group-hover:scale-110 group-hover:bg-[var(--nb-orange)] group-hover:ring-white group-hover:shadow-[0_calc(10*var(--u))_calc(24*var(--u))_calc(-8*var(--u))_rgba(255,106,19,.85)]">
+                  <Svg d={p.icon} cls="h-[calc(28*var(--u))] w-[calc(28*var(--u))] transition-transform duration-300 group-hover:scale-110" />
                 </span>
-                <span className="ml-[calc(18*var(--u))] text-[calc(17*var(--u))] leading-[1.25] font-medium text-[var(--nb-ink)] [text-shadow:0_0_calc(8*var(--u))_rgba(255,255,255,.95)]">
+                <span className="ml-[calc(18*var(--u))] text-[calc(17*var(--u))] leading-[1.25] font-medium text-[var(--nb-ink)] transition-colors duration-300 group-hover:text-[var(--nb-blue-dark)] [text-shadow:0_0_calc(8*var(--u))_rgba(255,255,255,.95)]">
                   {t.arc[i]![0]}
                   <br />
                   {t.arc[i]![1]}
                 </span>
+                </Link>
               </li>
             ))}
           </ul>
