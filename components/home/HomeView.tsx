@@ -5,6 +5,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { MobileActionBar } from "@/components/nav/MobileActionBar";
 import { HeroParallax } from "@/components/home/HeroParallax";
+import { JobTicker } from "@/components/home/JobTicker";
 import { MobileHero } from "@/components/home/MobileHero";
 import { HOME, ROUTES, type Locale } from "@/content/locales";
 
@@ -56,6 +57,9 @@ export function HomeView({ locale }: { locale: Locale }) {
       <SiteHeader locale={locale} page="home" variant="navy" />
 
       <main id="inhalt">
+        {/* ---------------- ĐƠN HÀNG ĐANG CHẠY ---------------- */}
+        <JobTicker locale={locale} />
+
         {/* ---------------- HERO (điện thoại) ---------------- */}
         <MobileHero locale={locale} />
 

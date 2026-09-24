@@ -24,6 +24,7 @@ export type PageKey =
   | "knowledge"
   | "contact"
   | "request"
+  | "jobs"
   | "agent";
 
 /** Đường dẫn từng trang theo ngôn ngữ. Route tiếng Đức là route bị khoá. */
@@ -50,6 +51,7 @@ export const ROUTES: Record<PageKey, Record<Locale, string>> = {
     en: "/en/staffing-request",
     vi: "/vi/nhu-cau-nhan-su",
   },
+  jobs: { de: "/stellenangebote", en: "/en/jobs", vi: "/vi/don-hang" },
   // Màn hình nội bộ (bản trình bày), không index — xem components/agent.
   agent: { de: "/agent-center", en: "/agent-center", vi: "/agent-center" },
 };

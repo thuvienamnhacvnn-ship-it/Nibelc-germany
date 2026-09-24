@@ -25,6 +25,7 @@ const PAGES: PageKey[] = [
   "knowledge",
   "contact",
   "request",
+  "jobs",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

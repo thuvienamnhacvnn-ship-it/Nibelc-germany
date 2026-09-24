@@ -69,6 +69,7 @@ const WORDS: Record<Locale, MenuWords> = {
         ["Personalbedarf melden", "Anfrage in vier Schritten senden"],
       ],
       candidates: [
+        ["Aktuelle Stellenangebote", "Welche Aufträge gerade laufen"],
         ["Ihr Weg nach Deutschland", "Jede Etappe erklärt"],
         ["Branchen und Berufe", "Wo aktuell eingestellt wird"],
         ["Wissen und Ratgeber", "Antworten auf häufige Fragen"],
@@ -103,6 +104,7 @@ const WORDS: Record<Locale, MenuWords> = {
         ["Report staffing needs", "Send a request in four steps"],
       ],
       candidates: [
+        ["Current openings", "Assignments running right now"],
         ["Your path to Germany", "Every stage explained"],
         ["Industries and jobs", "Where employers are hiring"],
         ["Knowledge and advice", "Answers to common questions"],
@@ -137,6 +139,7 @@ const WORDS: Record<Locale, MenuWords> = {
         ["Báo nhu cầu nhân sự", "Gửi yêu cầu qua bốn bước"],
       ],
       candidates: [
+        ["Đơn hàng đang chạy", "Những đơn đang tuyển người"],
         ["Lộ trình sang Đức", "Giải thích từng chặng"],
         ["Ngành nghề", "Nơi đang tuyển người"],
         ["Kiến thức và tư vấn", "Giải đáp câu hỏi thường gặp"],
@@ -183,7 +186,7 @@ export function mainMenu(locale: Locale): MenuItem[] {
       page: "candidates",
       label: w.candidates,
       href: r.candidates[locale],
-      children: pair(w.sub.candidates, [r.process[locale], r.industries[locale], r.knowledge[locale]]),
+      children: pair(w.sub.candidates, [r.jobs[locale], r.process[locale], r.industries[locale], r.knowledge[locale]]),
     },
     {
       page: "industries",

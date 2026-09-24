@@ -472,3 +472,28 @@ header và lề ngoài; tỷ lệ bên trong vẫn giữ nguyên. Đây là yêu
   hơn mẫu thì phần thừa nằm bên trái và là nền navy — không bao giờ hở dải
   nền bên phải. Hai lớp ảnh kéo tới sát mép phải khung (`right: 0`), tỷ lệ
   do `object-cover` giữ.
+
+## Đơn hàng đang chạy
+
+Ba ảnh trong `public/unternehmen/02…04` KHÔNG phải ấn phẩm giới thiệu mà là
+**tin tuyển dụng của các đơn hàng đang chạy**. Chúng đã được chuyển khỏi trang
+"Über uns" sang nơi đúng vai trò:
+
+- `content/jobs-current.ts` — dữ liệu từng đơn, đọc trực tiếp từ tin gốc:
+  số suất (40 / 5 / 5), nơi làm việc (München · Seevetal · Münster), mức lương
+  (2.000–2.400 € · 2.100–2.500 € · 2.000–2.400 €), 40 giờ/tuần, diện visa
+  16a · 18a · 19c kết hợp 15d, quyền lợi bảo hiểm và hỗ trợ chỗ ở.
+- `/stellenangebote` (+ `/en/jobs`, `/vi/don-hang`) — trang danh sách, mỗi đơn
+  một thẻ: thông số, công việc thực tế, yêu cầu, quyền lợi, nút ứng tuyển và
+  liên kết sang trang ngành tương ứng.
+- `components/home/JobTicker.tsx` — dải chạy ngang ở đầu trang chủ, có chấm
+  nhấp nháy, tên đơn + số suất, bấm vào là sang trang đơn hàng. Dừng khi rê
+  chuột; đứng yên nếu người dùng bật "giảm chuyển động".
+- Menu: thêm mục con "Đơn hàng đang chạy" trong nhánh Người lao động; trang
+  cũng nằm trong sitemap.
+
+**Không đưa lên web, dù tin gốc có in:** giới hạn tuổi và giới tính
+("Nam/Nữ tuyển từ 20–45") — AGG cấm nêu tuổi hay giới tính trong tin tuyển
+dụng tại Đức. Ảnh tin gốc (có in dòng đó) chỉ hiện ở bản tiếng Việt.
+Mức lương ở đây là của riêng từng đơn, không phải bảng lương chung — bảng
+lương chung vẫn khoá theo CẦN ĐIỀN 03.

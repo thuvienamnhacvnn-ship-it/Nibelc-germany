@@ -9,7 +9,7 @@ import { LEGAL } from "@/content/legal";
 import { ROUTES, industryPath, type Locale } from "@/content/locales";
 import { SIMPLE } from "@/content/page-simple";
 
-const PUB_LABEL: Record<Locale, { title: string; note: string; adsNote?: string }> = {
+const PUB_LABEL: Record<Locale, { title: string; note: string }> = {
   de: {
     title: "Aus unseren Veröffentlichungen",
     note: "Unternehmensangaben auf dieser Seite stammen aus diesem offiziellen Aushang.",
@@ -21,9 +21,6 @@ const PUB_LABEL: Record<Locale, { title: string; note: string; adsNote?: string 
   vi: {
     title: "Ấn phẩm của công ty",
     note: "Thông tin doanh nghiệp trên trang này lấy từ ấn phẩm chính thức sau.",
-    // Tin tuyển dụng ghi mức lương của riêng đợt đó, nên phải nói rõ.
-    adsNote:
-      "Các tin tuyển dụng dưới đây là ấn phẩm của từng đợt. Số lượng, mức lương và điều kiện ghi trong tin chỉ áp dụng cho đợt đó, không phải mức chung cho mọi vị trí.",
   },
 };
 
@@ -133,26 +130,6 @@ export function AboutView({ locale }: { locale: Locale }) {
               </li>
             ))}
           </ul>
-
-          {pub.adsNote && (
-            <>
-              <p className="mt-10 max-w-[80ch] rounded-lg bg-white p-4 text-sm text-[#5b6b80] ring-1 ring-[#e3e9f1]">{pub.adsNote}</p>
-              <ul className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {COMPANY_PUBLICATIONS.filter((p) => p.kind === "anzeige").map((p) => (
-                  <li key={p.src} className="overflow-hidden rounded-xl bg-white ring-1 ring-[#e3e9f1]">
-                    <Image
-                      src={p.src}
-                      alt={`${LEGAL.name} — tin tuyển dụng`}
-                      width={p.w}
-                      height={p.h}
-                      sizes="(min-width:1024px) 33vw, 100vw"
-                      className="h-full w-full object-contain"
-                    />
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
 
           <p className="mt-10">
             <Link
