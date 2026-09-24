@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { Route } from "next";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { MobileActionBar } from "@/components/nav/MobileActionBar";
+import { MobileTabBar } from "@/components/nav/MobileTabBar";
 import { HeroParallax } from "@/components/home/HeroParallax";
 import { JobTicker } from "@/components/home/JobTicker";
 import { MobileHero } from "@/components/home/MobileHero";
@@ -66,7 +66,9 @@ export function HomeView({ locale }: { locale: Locale }) {
 
       <main id="inhalt">
         {/* ---------------- ĐƠN HÀNG ĐANG CHẠY ---------------- */}
-        <JobTicker locale={locale} />
+        <div className="hidden lg:block">
+          <JobTicker locale={locale} />
+        </div>
 
         {/* ---------------- HERO (điện thoại) ---------------- */}
         <MobileHero locale={locale} />
@@ -151,7 +153,7 @@ export function HomeView({ locale }: { locale: Locale }) {
         </section>
       </main>
       <SiteFooter locale={locale} />
-      <MobileActionBar locale={locale} />
+      <MobileTabBar locale={locale} page={"home"} />
     </>
   );
 }

@@ -9,25 +9,33 @@ import { MOBILE_BANNER } from "@/content/industry-assets";
 import { HOME, ROUTES, type Locale } from "@/content/locales";
 
 /**
- * Banner trang chủ cho điện thoại — hai lớp ảnh, giống bản desktop nhưng
- * dựng dọc:
+ * Banner trang chủ cho điện thoại — dựng dọc, giữ đủ thành phần của bản
+ * desktop: hai lớp ảnh, vòng cung vàng và bốn huy hiệu.
+ *
  *   nền  = khung cửa kính nhìn ra skyline Berlin (ảnh dọc 941×1672)
- *   trên = PNG hai nhân vật đã tách nền
+ *   trên = PNG hai nhân vật đã tách nền — ĐỨNG YÊN, không chạy theo cảm biến
  *
- * Nghiêng máy thì NỀN chạy ngược hướng nghiêng, hai nhân vật nhích nhẹ theo
- * hướng nghiêng. Hai lớp đi ngược nhau nên mắt đọc ra chiều sâu — cùng một
- * nguyên tắc với hiệu ứng rê chuột ở bản desktop.
+ * Nghiêng máy thì chỉ NỀN chạy ngược hướng nghiêng; người và các huy hiệu giữ
+ * nguyên chỗ, nên mắt đọc ra chiều sâu mà chủ thể không bị rung.
  *
- * iOS 13+ bắt buộc người dùng bấm mới cho đọc cảm biến, nên có nút nhỏ
- * "3D" ở góc; Android chạy ngay. Máy không có cảm biến, hoặc người dùng bật
- * "giảm chuyển động", thì banner đứng yên — vẫn hiển thị đầy đủ.
+ * iOS 13+ bắt buộc người dùng bấm mới cho đọc cảm biến → nút nhỏ "3D" ở góc.
+ * Máy không có cảm biến, hoặc người dùng bật "giảm chuyển động", thì banner
+ * đứng yên và vẫn hiển thị đầy đủ.
  */
 
-/** Biên độ dịch chuyển, đơn vị px màn hình */
+/** Biên độ dịch chuyển của nền, đơn vị px màn hình */
 const BG = { x: 26, y: 18 };
-const FG = { x: 9, y: 6 };
 /** Góc nghiêng (độ) tương ứng biên độ tối đa */
 const RANGE = 22;
+
+/** Bốn huy hiệu trên vòng cung — toạ độ theo khung 390×477 của banner dọc */
+const ARC = [
+  { x: 60, y: 96, icon: "search", flip: false },
+  { x: 122, y: 168, icon: "doc", flip: false },
+  { x: 196, y: 236, icon: "plane", flip: false },
+  // huy hiệu cuối nằm gần đầu người bên phải → chữ lật sang trái icon
+  { x: 316, y: 318, icon: "users", flip: true },
+];
 
 type Permissioned = typeof DeviceOrientationEvent & {
   requestPermission?: () => Promise<"granted" | "denied">;
@@ -36,7 +44,6 @@ type Permissioned = typeof DeviceOrientationEvent & {
 export function MobileHero({ locale }: { locale: Locale }) {
   const t = HOME[locale];
   const bg = useRef<HTMLDivElement>(null);
-  const fg = useRef<HTMLDivElement>(null);
   const [needsPermission, setNeedsPermission] = useState(false);
   const [on, setOn] = useState(false);
 
@@ -44,9 +51,21 @@ export function MobileHero({ locale }: { locale: Locale }) {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const D = window.DeviceOrientationEvent as Permissioned | undefined;
     if (!D) return;
-    // iOS: phải hỏi quyền trong một cú chạm của người dùng
-    if (typeof D.requestPermission === "function") setNeedsPermission(true);
-    else setOn(true);
+    setOn(true);
+    if (typeof D.requestPermission !== "function") return;
+    // iOS: không có quyền thì không sự kiện nào tới — lúc đó mới mời bấm
+    let seen = false;
+    const mark = () => {
+      seen = true;
+    };
+    window.addEventListener("deviceorientation", mark, { passive: true, once: true });
+    const timer = setTimeout(() => {
+      if (!seen) setNeedsPermission(true);
+    }, 1200);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("deviceorientation", mark);
+    };
   }, []);
 
   useEffect(() => {
@@ -72,10 +91,8 @@ export function MobileHero({ locale }: { locale: Locale }) {
     function tick() {
       cx += (tx - cx) * 0.08;
       cy += (ty - cy) * 0.08;
-      // nền chạy NGƯỢC hướng nghiêng
-      if (bg.current) bg.current.style.transform = `translate3d(${-cx * BG.x}px, ${-cy * BG.y}px, 0) scale(1.12)`;
-      // người nhích NHẸ theo hướng nghiêng
-      if (fg.current) fg.current.style.transform = `translate3d(${cx * FG.x}px, ${cy * FG.y}px, 0)`;
+      // chỉ nền chạy, và chạy NGƯỢC hướng nghiêng
+      if (bg.current) bg.current.style.transform = `translate3d(${-cx * BG.x}px, ${-cy * BG.y}px, 0) scale(1.14)`;
       if (Math.abs(tx - cx) > 0.001 || Math.abs(ty - cy) > 0.001) raf = requestAnimationFrame(tick);
       else raf = 0;
     }
@@ -102,36 +119,59 @@ export function MobileHero({ locale }: { locale: Locale }) {
 
   return (
     <section className="relative overflow-hidden bg-[var(--nb-navy-hero)] text-white lg:hidden">
-      {/* ---- hai lớp ảnh ---- */}
-      <div className="relative aspect-[9/11] w-full overflow-hidden">
-        <div ref={bg} className="absolute inset-0 will-change-transform" style={{ transform: "scale(1.12)" }}>
-          <Image
-            src={MOBILE_BANNER.background}
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-[50%_35%]"
-          />
+      {/* ---- hai lớp ảnh + vòng cung + huy hiệu ---- */}
+      <div className="relative aspect-[390/477] w-full overflow-hidden">
+        {/* nền: lớp duy nhất chạy theo cảm biến */}
+        <div ref={bg} className="absolute inset-0 will-change-transform" style={{ transform: "scale(1.14)" }}>
+          <Image src={MOBILE_BANNER.background} alt="" fill priority sizes="100vw" className="object-cover object-[50%_32%]" />
         </div>
 
-        {/* Nhân vật: neo đáy, rộng hơn khung một chút để có chỗ nhích */}
-        <div ref={fg} className="absolute inset-x-[-4%] bottom-0 will-change-transform">
-          <Image
-            src={MOBILE_BANNER.foreground}
-            alt={MOBILE_BANNER.alt}
-            width={1100}
-            height={709}
-            priority
-            sizes="108vw"
-            className="h-auto w-full"
-          />
+        {/* vòng cung vàng — nằm dưới người, như bản desktop */}
+        <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 390 477" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="m-arc" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0" stopColor="#ffc15e" />
+              <stop offset="1" stopColor="#ff6a13" />
+            </linearGradient>
+            <filter id="m-glow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="5" />
+            </filter>
+          </defs>
+          <path className="nb-arc-glow" d="M48 78 C 96 104, 140 150, 176 208 S 250 300, 330 330" fill="none" stroke="url(#m-arc)" strokeWidth="11" opacity=".55" filter="url(#m-glow)" />
+          <path d="M48 78 C 96 104, 140 150, 176 208 S 250 300, 330 330" fill="none" stroke="url(#m-arc)" strokeWidth="3.5" strokeLinecap="round" />
+          <path className="nb-arc-run" d="M48 78 C 96 104, 140 150, 176 208 S 250 300, 330 330" fill="none" stroke="#fff3d6" strokeWidth="3.5" strokeLinecap="round" />
+        </svg>
+
+        {/* PNG hai nhân vật: cố định, không chạy theo cảm biến */}
+        <div className="absolute inset-x-0 bottom-0">
+          <Image src={MOBILE_BANNER.foreground} alt={MOBILE_BANNER.alt} width={1100} height={709} priority sizes="100vw" className="h-auto w-full" />
         </div>
 
-        {/* Chuyển sang nền navy ở đáy để nối liền với khối chữ */}
+        {/* bốn huy hiệu, trên cùng */}
+        <ul className="absolute inset-0">
+          {ARC.map((p, i) => (
+            <li key={p.icon} className="absolute" style={{ left: `${(p.x / 390) * 100}%`, top: `${(p.y / 477) * 100}%` }}>
+              <Link
+                href={[ROUTES.industries, ROUTES.process, ROUTES.process, ROUTES.knowledge][i]![locale] as Route}
+                className={`flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 active:scale-95 ${p.flip ? "flex-row-reverse" : ""}`}
+              >
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--nb-blue-dark)] text-white ring-2 ring-white/90">
+                  <Icon name={p.icon} className="h-5 w-5" strokeWidth={1.8} />
+                </span>
+                <span className="text-[11px] leading-[1.15] font-semibold text-[var(--nb-ink)] [text-shadow:0_0_6px_rgba(255,255,255,.95)]">
+                  {t.arc[i]![0]}
+                  <br />
+                  {t.arc[i]![1]}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        {/* chuyển sang nền navy ở đáy để nối liền với khối chữ */}
         <div
-          className="absolute inset-x-0 bottom-0 h-[38%]"
-          style={{ background: "linear-gradient(to bottom, rgba(11,42,82,0), var(--nb-navy-hero) 88%)" }}
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[30%]"
+          style={{ background: "linear-gradient(to bottom, rgba(11,42,82,0), var(--nb-navy-hero) 92%)" }}
           aria-hidden="true"
         />
 
@@ -149,7 +189,7 @@ export function MobileHero({ locale }: { locale: Locale }) {
       </div>
 
       {/* ---- chữ ---- */}
-      <div className="relative px-5 pt-2 pb-8">
+      <div className="relative px-5 pt-1 pb-8">
         <p className="text-[11px] font-semibold tracking-[0.18em] text-[#7fb1ff] uppercase">{t.eyebrow}</p>
         <h1 className="mt-2 text-[34px] leading-[1.1] font-extrabold tracking-[-0.02em] text-white">
           {t.h1a}
@@ -177,25 +217,6 @@ export function MobileHero({ locale }: { locale: Locale }) {
           </Link>
         </div>
       </div>
-
-      {/* ---- bốn chặng, dạng thẻ ngang cuộn được ---- */}
-      <ul className="flex snap-x gap-3 overflow-x-auto px-5 pb-7 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {t.arc.map(([a, b], i) => (
-          <li
-            key={a}
-            className="flex min-w-[45%] snap-start items-center gap-3 rounded-xl bg-white/10 px-4 py-3 ring-1 ring-white/15"
-          >
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--nb-blue-dark)] text-sm font-bold">
-              {i + 1}
-            </span>
-            <span className="text-[13px] leading-[1.25] font-medium">
-              {a}
-              <br />
-              {b}
-            </span>
-          </li>
-        ))}
-      </ul>
     </section>
   );
 }

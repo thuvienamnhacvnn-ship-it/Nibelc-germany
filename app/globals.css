@@ -273,7 +273,7 @@ body > footer {
 /* Chừa chỗ cho thanh hành động dưới màn hình (chỉ có trên điện thoại). */
 @media (max-width: 1023px) {
   body {
-    padding-bottom: calc(4.5rem + env(safe-area-inset-bottom));
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
   }
 }
 

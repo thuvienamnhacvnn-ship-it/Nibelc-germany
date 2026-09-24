@@ -4,7 +4,7 @@ import type { Route } from "next";
 import type { CSSProperties, ReactNode } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { MobileActionBar } from "@/components/nav/MobileActionBar";
+import { MobileTabBar } from "@/components/nav/MobileTabBar";
 import { Icon } from "@/components/ui/Icon";
 import { industryAssets, type Industry } from "@/content/industries";
 import { LOCALES, ROUTES, industryPath, type Locale } from "@/content/locales";
@@ -353,7 +353,7 @@ export function IndustryDetailView({ locale, industry }: { locale: Locale; indus
         </footer>
       </main>
       <SiteFooter locale={locale} />
-      <MobileActionBar locale={locale} />
+      <MobileTabBar locale={locale} page={"industries"} />
     </>
   );
 }

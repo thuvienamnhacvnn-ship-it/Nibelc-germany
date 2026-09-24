@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
 import { Icon } from "@/components/ui/Icon";
-import { MobileMenu } from "@/components/nav/MobileMenu";
+import { MobileTicker } from "@/components/nav/MobileTicker";
 import { NavDropdown } from "@/components/nav/NavDropdown";
 import { LOCALES, ROUTES, type Locale, type PageKey } from "@/content/locales";
 import { navFor, requestLabel, submenuFor } from "@/content/nav-menu";
@@ -46,8 +46,10 @@ export function SiteHeader({
           : "border-b border-[var(--nb-line)] bg-white/95 text-[var(--nb-ink)] backdrop-blur"
       }`}
     >
-      <div className="mx-auto flex h-16 items-center px-4 lg:h-[calc(78*var(--u))] lg:px-[calc(34*var(--u))]">
-        <Link href={ROUTES.home[locale] as Route} className="flex shrink-0 items-center" aria-label="NIBELC">
+      <MobileTicker locale={locale} />
+
+      <div className="mx-auto flex h-14 items-center justify-center px-4 max-lg:justify-center lg:h-[calc(78*var(--u))] lg:justify-start lg:px-[calc(34*var(--u))]">
+        <Link href={ROUTES.home[locale] as Route} className="flex shrink-0 items-center max-lg:mx-auto" aria-label="NIBELC">
           <Image
             src={navy ? "/nibelc-logo-dark.svg" : "/nibelc-logo.svg"}
             alt="NIBELC GmbH"
@@ -116,7 +118,7 @@ export function SiteHeader({
           })}
         </nav>
 
-        <div className="ml-auto flex items-center gap-[calc(22*var(--u))] max-lg:gap-2">
+        <div className="ml-auto flex items-center gap-[calc(22*var(--u))] max-lg:hidden">
           <details className="relative max-lg:hidden">
             <summary className="flex cursor-pointer list-none items-center gap-[calc(7*var(--u))] text-[calc(14*var(--u))] [&::-webkit-details-marker]:hidden">
               <Icon name="globe" className="h-[calc(19*var(--u))] w-[calc(19*var(--u))]" strokeWidth={1.8} />
@@ -146,7 +148,6 @@ export function SiteHeader({
             <Icon name="arrowRight" className="h-4 w-4 lg:h-[calc(17*var(--u))] lg:w-[calc(17*var(--u))]" strokeWidth={2} />
           </Link>
 
-          <MobileMenu locale={locale} navy={navy} langHrefs={hrefs} cta={{ label: requestLabel(locale), href: ROUTES.request[locale] }} />
         </div>
       </div>
     </header>

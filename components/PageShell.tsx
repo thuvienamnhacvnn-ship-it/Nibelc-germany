@@ -2,7 +2,7 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { MobileActionBar } from "@/components/nav/MobileActionBar";
+import { MobileTabBar } from "@/components/nav/MobileTabBar";
 import { ROUTES, type Locale, type PageKey } from "@/content/locales";
 import { navFor, requestLabel } from "@/content/nav-menu";
 
@@ -69,7 +69,7 @@ export function PageShell({
       </main>
 
       <SiteFooter locale={locale} />
-      <MobileActionBar locale={locale} />
+      <MobileTabBar locale={locale} page={page} />
     </>
   );
 }

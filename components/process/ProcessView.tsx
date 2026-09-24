@@ -4,7 +4,7 @@ import type { Route } from "next";
 import type { CSSProperties } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { MobileActionBar } from "@/components/nav/MobileActionBar";
+import { MobileTabBar } from "@/components/nav/MobileTabBar";
 import { PrintButton } from "@/components/process/PrintButton";
 import { Icon } from "@/components/ui/Icon";
 import { PAGE_HERO } from "@/content/industry-assets";
@@ -322,7 +322,7 @@ export function ProcessView({ locale }: { locale: Locale }) {
         </section>
       </main>
       <SiteFooter locale={locale} />
-      <MobileActionBar locale={locale} />
+      <MobileTabBar locale={locale} page={"process"} />
     </>
   );
 }

@@ -515,3 +515,31 @@ lương chung vẫn khoá theo CẦN ĐIỀN 03.
 - Vòng cung vàng có hai hiệu ứng: quầng sáng thở nhẹ (`nb-arc-glow`) và một vệt
   sáng chạy dọc theo cung (`nb-arc-run`). Người bật "giảm chuyển động" thì cả
   hai tắt.
+
+## Khung điện thoại kiểu ứng dụng (bản 2)
+
+**Header** (`SiteHeader`, dưới 1024px): chỉ hai thứ — dải chữ chạy
+(`components/nav/MobileTicker.tsx`, nội dung là đơn hàng đang tuyển, bấm vào
+sang trang đơn hàng) nằm trên cùng, và **logo NIBELC căn giữa** ngay dưới.
+Không nav, không nút, không hộp ngôn ngữ — tất cả đã xuống menu đáy.
+
+**Menu đáy** (`components/nav/MobileTabBar.tsx`) thay thanh hành động cũ:
+thanh bo tròn nổi trên nền, năm ô — Trang chủ · Ngành nghề · **nút tròn cam
+nhô lên** (gửi yêu cầu) · Đơn hàng · Menu. Ô đang mở đổi màu và có chấm cam.
+"Menu" mở tấm trượt từ đáy lên: toàn bộ menu chính (menu con mở gập), nút gọi,
+nút liên hệ và ba ngôn ngữ. Tấm trượt render qua portal vì header có
+`backdrop-blur` — thuộc tính đó biến mọi `position: fixed` bên trong thành neo
+theo header.
+
+**Banner điện thoại** (`MobileHero`) nay có đủ như bản desktop: vòng cung vàng
+(cùng hai hiệu ứng `nb-arc-glow` + `nb-arc-run`) và bốn huy hiệu dẫn sang
+ngành / quy trình / quy trình / kiến thức. Huy hiệu cuối lật chữ sang trái để
+không nằm lên mặt người trong ảnh.
+
+**Hiệu ứng nghiêng máy:** chỉ lớp NỀN chạy, và chạy ngược hướng nghiêng
+(biên độ 26×18px, làm mượt 8%/khung hình); PNG hai nhân vật **đứng yên** nên
+chủ thể không rung. Cách bật cảm biến: gắn tai nghe ngay từ đầu; nếu sau 1,2
+giây không nhận được sự kiện nào và trình duyệt có `requestPermission` (đúng
+iOS 13+) thì mới hiện nút "3D" mời người dùng bấm. Trước đây cứ thấy
+`requestPermission` là hiện nút, nhưng Chrome trên Android cũng khai hàm đó
+mà vẫn gửi sự kiện ngay — nút thành thừa và hiệu ứng không chạy.
