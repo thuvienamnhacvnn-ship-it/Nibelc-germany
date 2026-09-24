@@ -9,7 +9,8 @@
 | Dữ liệu biểu mẫu | `/opt/nibelc-data` — **ngoài** mã nguồn, `git pull` không đụng tới |
 | Tiến trình | pm2 `nibelc` → `next start -p 3460` |
 | nginx | `/etc/nginx/sites-available/nibelc` → `127.0.0.1:3460` |
-| Tên miền | `nibelcgermany.de` (Namecheap) |
+| Tên miền | `nibelcgermany.de` (Namecheap) — đã trỏ A @ và www về VPS |
+| HTTPS | Let's Encrypt, cấp 24/09/2026, hết hạn 23/12/2026, certbot tự gia hạn |
 
 ## Cập nhật sau khi push mã mới
 
@@ -28,6 +29,9 @@ Bản ghi DNS cần có ở Namecheap (Domain List → Manage → Advanced DNS):
 |---|---|---|---|
 | A Record | `@` | `57.129.45.199` | Automatic |
 | A Record | `www` | `57.129.45.199` | Automatic |
+
+**Đã làm xong ngày 24/09/2026** — cả hai bản ghi A đã trỏ về `57.129.45.199`
+và chứng chỉ đã cấp. Phần dưới giữ lại để làm lại khi đổi máy chủ.
 
 Sau khi DNS đã về (kiểm bằng `nslookup nibelcgermany.de 1.1.1.1`):
 
