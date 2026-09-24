@@ -67,14 +67,13 @@ export function HeroParallax() {
     };
   }, []);
 
-  const layer =
-    "absolute top-0 left-[calc(520*var(--u))] h-full w-[calc(1184*var(--u))] will-change-transform";
+  const layer = "absolute top-0 right-0 left-[calc(520*var(--u))] h-full will-change-transform";
 
   return (
     <div className="absolute inset-0 hidden overflow-hidden lg:block" aria-hidden="true">
       {/* Khung 1672u neo mép phải: ở màn rộng hơn mẫu, phần thừa bên trái là
           nền navy của section, bố cục ảnh + vòng cung giữ nguyên tỷ lệ mẫu. */}
-      <div className="nb-photo-right absolute inset-y-0 w-[calc(1672*var(--u))]">
+      <div className="absolute inset-y-0 right-[calc(-1*var(--nb-gutter))] w-[calc(1672*var(--u)+var(--nb-gutter))]">
       {/* B2 — nền. Phóng 4% quanh quả cầu tháp truyền hình (740u,145u) để có chỗ
           cho parallax mà điểm nhấn vẫn đứng đúng vị trí mẫu. */}
       <div ref={bg} className={layer} style={{ transform: "scale(1.04)", transformOrigin: "calc(740 * var(--u)) calc(145 * var(--u))" }}>
@@ -123,7 +122,7 @@ export function HeroParallax() {
           đầu bàn không cắt thẳng đứng trên nền navy. */}
       <div
         ref={fg}
-        className="absolute top-0 left-[calc(550*var(--u))] h-full w-[calc(1184*var(--u))] will-change-transform"
+        className="absolute top-0 right-0 left-[calc(550*var(--u))] h-full will-change-transform"
         style={{
           maskImage: "linear-gradient(to right, transparent 0, #000 calc(110 * var(--u)))",
           WebkitMaskImage: "linear-gradient(to right, transparent 0, #000 calc(110 * var(--u)))",

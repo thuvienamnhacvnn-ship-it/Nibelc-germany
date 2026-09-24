@@ -3,6 +3,8 @@ import Link from "next/link";
 import type { Route } from "next";
 import type { CSSProperties, ReactNode } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
+import { MobileActionBar } from "@/components/nav/MobileActionBar";
 import { Icon } from "@/components/ui/Icon";
 import { industryAssets, type Industry } from "@/content/industries";
 import { LOCALES, ROUTES, industryPath, type Locale } from "@/content/locales";
@@ -231,14 +233,14 @@ export function IndustryDetailView({ locale, industry }: { locale: Locale; indus
               <br />
               {t.expert[1]}
             </p>
-            <ul className="relative mt-5 flex lg:mt-[calc(46*var(--u))]">
+            <ul className="relative mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3 lg:mt-[calc(46*var(--u))] lg:flex lg:gap-0">
               {t.stats.map((s, i) => {
                 const locked = s.value === null && !statsOk;
                 if (locked && isProduction()) return null;
                 return (
                   <li
                     key={s.label.join()}
-                    className={`flex-1 ${i > 0 ? "border-l border-[#c9d6ea] pl-4 lg:pl-[calc(26*var(--u))]" : "lg:pl-[calc(4*var(--u))]"}`}
+                    className={`flex-1 ${i > 0 ? "max-sm:border-t max-sm:pt-3 sm:border-l sm:border-[#c9d6ea] sm:pl-4 lg:pl-[calc(26*var(--u))]" : "lg:pl-[calc(4*var(--u))]"} border-[#c9d6ea]`}
                   >
                     {s.value === "" ? (
                       <Icon name="handshake" className="h-8 w-8 text-[#1f4f9f] lg:h-[calc(30*var(--u))] lg:w-[calc(30*var(--u))]" strokeWidth={1.6} />
@@ -350,6 +352,8 @@ export function IndustryDetailView({ locale, industry }: { locale: Locale; indus
           </p>
         </footer>
       </main>
+      <SiteFooter locale={locale} />
+      <MobileActionBar locale={locale} />
     </>
   );
 }

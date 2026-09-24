@@ -41,18 +41,20 @@ export function SiteHeader({
   return (
     <header
       className={`sticky top-0 z-50 ${
-        navy ? "bg-[var(--nb-navy)] text-white" : "bg-white/95 text-[var(--nb-ink)] shadow-[0_1px_0_rgba(15,35,64,.08)] backdrop-blur"
+        navy
+          ? "border-b border-white/20 bg-[var(--nb-navy)] text-white shadow-[0_1px_0_rgba(255,255,255,.12)]"
+          : "border-b border-[var(--nb-line)] bg-white/95 text-[var(--nb-ink)] backdrop-blur"
       }`}
     >
       <div className="mx-auto flex h-16 items-center px-4 lg:h-[calc(78*var(--u))] lg:px-[calc(34*var(--u))]">
         <Link href={ROUTES.home[locale] as Route} className="flex shrink-0 items-center" aria-label="NIBELC">
           <Image
-            src="/nibelc-logo.svg"
+            src={navy ? "/nibelc-logo-dark.svg" : "/nibelc-logo.svg"}
             alt="NIBELC GmbH"
             width={1201}
             height={376}
             priority
-            className={`h-9 w-auto lg:h-[calc(52*var(--u))] ${navy ? "brightness-0 invert" : ""}`}
+            className="h-9 w-auto lg:h-[calc(52*var(--u))]"
           />
           <span
             className={`mx-[calc(18*var(--u))] hidden h-[calc(42*var(--u))] w-px lg:block ${navy ? "bg-white/30" : "bg-[var(--nb-line)]"}`}

@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
+import { MobileActionBar } from "@/components/nav/MobileActionBar";
 import { Icon } from "@/components/ui/Icon";
 import { INDUSTRY_ASSETS } from "@/content/industry-assets";
 import { isApproved, isProduction } from "@/lib/field-gate";
@@ -185,6 +187,8 @@ export function CandidatesView({ locale }: { locale: Locale }) {
           </div>
         </section>
       </main>
+      <SiteFooter locale={locale} />
+      <MobileActionBar locale={locale} />
     </>
   );
 }

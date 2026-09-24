@@ -21,7 +21,7 @@ export function AgentCenterView() {
         {/* Cột trái */}
         <aside className="hidden w-[272px] shrink-0 bg-[#0b2a52] text-white lg:block">
           <Link href={ROUTES.home.de as Route} className="flex h-[78px] items-center px-6">
-            <Image src="/nibelc-logo.svg" alt="NIBELC GmbH" width={1201} height={376} className="h-9 w-auto brightness-0 invert" />
+            <Image src="/nibelc-logo-dark.svg" alt="NIBELC GmbH" width={1201} height={376} className="h-9 w-auto" />
           </Link>
           <nav aria-label="Arbeitsbereich" className="mt-2">
             <ul>

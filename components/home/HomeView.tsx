@@ -2,7 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
+import { MobileActionBar } from "@/components/nav/MobileActionBar";
 import { HeroParallax } from "@/components/home/HeroParallax";
+import { MobileHero } from "@/components/home/MobileHero";
 import { HOME, ROUTES, type Locale } from "@/content/locales";
 
 /**
@@ -53,8 +56,11 @@ export function HomeView({ locale }: { locale: Locale }) {
       <SiteHeader locale={locale} page="home" variant="navy" />
 
       <main id="inhalt">
-        {/* ---------------- HERO ---------------- */}
-        <section className="relative overflow-hidden bg-[var(--nb-navy-hero)] text-white lg:h-[calc(667*var(--u))]">
+        {/* ---------------- HERO (điện thoại) ---------------- */}
+        <MobileHero locale={locale} />
+
+        {/* ---------------- HERO (máy tính) ---------------- */}
+        <section className="relative hidden overflow-hidden bg-[var(--nb-navy-hero)] text-white lg:block lg:h-[calc(667*var(--u))]">
           {/* Banner 2 lớp: B2 nền + navy chéo + B1 người, có parallax */}
           <HeroParallax />
 
@@ -79,7 +85,7 @@ export function HomeView({ locale }: { locale: Locale }) {
           </ul>
 
           {/* Chữ sát mép trái 50u */}
-          <div className="relative px-4 py-14 lg:absolute lg:top-0 lg:left-[calc(50*var(--u))] lg:w-[calc(660*var(--u))] lg:px-0 lg:py-0">
+          <div className="absolute top-0 left-[calc(50*var(--u))] w-[calc(660*var(--u))]">
             <p className="text-xs font-bold tracking-[0.3em] text-[var(--nb-blue)] uppercase lg:mt-[calc(89*var(--u))] lg:text-[calc(15.5*var(--u))]">
               {t.eyebrow}
             </p>
@@ -114,22 +120,24 @@ export function HomeView({ locale }: { locale: Locale }) {
 
         {/* ---------------- DẢI 4 Ô ---------------- */}
         <section className="bg-[var(--nb-strip)] lg:h-[calc(173*var(--u))]">
-          <ul className="grid h-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:px-[calc(45*var(--u))]">
+          <ul className="grid h-full grid-cols-2 max-sm:gap-y-1 lg:grid-cols-4 lg:px-[calc(45*var(--u))]">
             {t.strip.map(([title, sub], i) => (
               <li
                 key={title}
-                className={`flex items-center gap-4 px-6 py-6 lg:gap-[calc(28*var(--u))] lg:px-[calc(30*var(--u))] lg:py-0 lg:mt-[calc(34*var(--u))] lg:mb-[calc(64*var(--u))] ${i > 0 ? "lg:border-l lg:border-[var(--nb-line)]" : ""}`}
+                className={`flex items-center gap-3 px-4 py-5 max-lg:flex-col max-lg:items-start max-lg:gap-2 lg:gap-[calc(28*var(--u))] lg:px-[calc(30*var(--u))] lg:py-0 lg:mt-[calc(34*var(--u))] lg:mb-[calc(64*var(--u))] ${i > 0 ? "lg:border-l lg:border-[var(--nb-line)]" : ""}`}
               >
-                <Svg d={STRIP_ICONS[i]} cls="h-12 w-12 shrink-0 text-[var(--nb-ink)] lg:h-[calc(52*var(--u))] lg:w-[calc(52*var(--u))]" />
+                <Svg d={STRIP_ICONS[i]} cls="h-9 w-9 shrink-0 text-[var(--nb-ink)] lg:h-[calc(52*var(--u))] lg:w-[calc(52*var(--u))]" />
                 <span>
-                  <span className="block text-lg font-bold whitespace-nowrap text-[var(--nb-ink)] lg:text-[calc(20*var(--u))]">{title}</span>
-                  <span className="block whitespace-nowrap text-[var(--nb-muted)] lg:text-[calc(16*var(--u))]">{sub}</span>
+                  <span className="block text-[15px] font-bold text-[var(--nb-ink)] lg:text-[calc(20*var(--u))] lg:whitespace-nowrap">{title}</span>
+                  <span className="block text-[13px] leading-[1.35] text-[var(--nb-muted)] lg:text-[calc(16*var(--u))] lg:whitespace-nowrap">{sub}</span>
                 </span>
               </li>
             ))}
           </ul>
         </section>
       </main>
+      <SiteFooter locale={locale} />
+      <MobileActionBar locale={locale} />
     </>
   );
 }

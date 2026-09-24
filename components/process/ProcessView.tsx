@@ -3,6 +3,8 @@ import Link from "next/link";
 import type { Route } from "next";
 import type { CSSProperties } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
+import { MobileActionBar } from "@/components/nav/MobileActionBar";
 import { PrintButton } from "@/components/process/PrintButton";
 import { Icon } from "@/components/ui/Icon";
 import { PAGE_HERO } from "@/content/industry-assets";
@@ -50,12 +52,16 @@ function LaneCard({
   status,
   statusLabel,
   responsible,
+  laneLabel,
+  laneKind,
   style,
 }: {
   lane: ProcessLane;
   status: StepStatus;
   statusLabel: string;
   responsible: string;
+  laneLabel: string;
+  laneKind: "company" | "candidate";
   style: CSSProperties;
 }) {
   const s = STATUS_STYLE[status];
@@ -64,6 +70,14 @@ function LaneCard({
       className={`${ABS} relative rounded-lg bg-white p-4 ring-1 ring-[#e3e9f1] shadow-[0_6px_18px_-12px_rgba(15,35,64,.35)] lg:rounded-[calc(8*var(--u))] lg:px-[calc(14*var(--u))] lg:pt-[calc(10*var(--u))] lg:pb-0`}
       style={style}
     >
+      <p
+        className={`mb-2 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold lg:hidden ${
+          laneKind === "company" ? "bg-[#e7eefb] text-[#0b3a80]" : "bg-[#e9f0ff] text-[#1450b0]"
+        }`}
+      >
+        <Icon name={laneKind === "company" ? "building" : "user"} className="h-3.5 w-3.5" strokeWidth={1.9} />
+        {laneLabel}
+      </p>
       <ul className="space-y-1 lg:space-y-0">
         {lane.bullets.map((b) => (
           <li key={b} className="flex gap-2 text-sm text-[#2a3d58] lg:gap-[calc(9*var(--u))] lg:text-[calc(12*var(--u))] lg:leading-[calc(16.5*var(--u))]">
@@ -225,7 +239,7 @@ export function ProcessView({ locale }: { locale: Locale }) {
           {(["company", "candidate"] as const).map((k) => (
             <div
               key={k}
-              className={`${ABS} mt-6 flex items-center gap-4 rounded-lg px-5 py-4 text-white lg:mt-0 lg:flex-col lg:items-start lg:justify-center lg:gap-[calc(6*var(--u))] lg:rounded-[calc(8*var(--u))] lg:px-[calc(24*var(--u))] lg:py-0 ${
+              className={`${ABS} mt-6 hidden items-center gap-4 rounded-lg px-5 py-4 text-white lg:mt-0 lg:flex lg:flex-col lg:items-start lg:justify-center lg:gap-[calc(6*var(--u))] lg:rounded-[calc(8*var(--u))] lg:px-[calc(24*var(--u))] lg:py-0 ${
                 k === "company" ? "bg-[#0b3a80]" : "bg-[#1450b0]"
               }`}
               style={box(22, LANE[k].y, 161, LANE[k].h)}
@@ -242,11 +256,11 @@ export function ProcessView({ locale }: { locale: Locale }) {
           <div className="mt-4 grid gap-4 lg:contents">
             {t.steps.map((s, i) => (
               <div key={s.title} className="grid gap-2 lg:contents">
-                <p className="mt-2 flex items-center gap-3 font-bold text-[#10284d] lg:hidden">
+                <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 font-bold text-[#10284d] lg:hidden">
                   <span className={`flex h-8 w-8 items-center justify-center rounded-full text-white ${i === 0 ? "bg-[var(--nb-orange)]" : "bg-[#0b4ea2]"}`}>{i + 1}</span>
                   {s.title}
-                  <span className="font-normal text-[#6b7a8f]">
-                    · {s.sub[0]} {s.sub[1]}
+                  <span className="w-full text-[13px] font-normal text-[#6b7a8f]">
+                    {s.sub[0]} {s.sub[1]}
                   </span>
                 </p>
                 {(["company", "candidate"] as const).map((k) => (
@@ -256,6 +270,8 @@ export function ProcessView({ locale }: { locale: Locale }) {
                     status={SAMPLE_STATUS[i]!}
                     statusLabel={t.status[SAMPLE_STATUS[i]!]}
                     responsible={t.responsible}
+                    laneLabel={t.lanes[k][0]}
+                    laneKind={k}
                     style={box(CARD_X[i]!, LANE[k].y, CARD_W[i]!, LANE[k].h)}
                   />
                 ))}
@@ -305,6 +321,8 @@ export function ProcessView({ locale }: { locale: Locale }) {
           </div>
         </section>
       </main>
+      <SiteFooter locale={locale} />
+      <MobileActionBar locale={locale} />
     </>
   );
 }

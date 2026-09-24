@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
+import { MobileActionBar } from "@/components/nav/MobileActionBar";
 import { Icon } from "@/components/ui/Icon";
 import { INDUSTRY_ASSETS } from "@/content/industry-assets";
 import { allIndustries, industryName } from "@/content/industries";
@@ -58,7 +60,7 @@ export function EmployersView({ locale }: { locale: Locale }) {
           />
 
           <div className="relative px-4 py-12 lg:absolute lg:top-0 lg:left-[calc(43*var(--u))] lg:w-[calc(760*var(--u))] lg:p-0">
-            <p className="text-xs font-bold tracking-[0.32em] text-[#1f3b63] uppercase lg:mt-[calc(38*var(--u))] lg:text-[calc(15*var(--u))]">
+            <p className="text-[11px] font-bold tracking-[0.16em] text-[#1f3b63] uppercase lg:tracking-[0.32em] lg:mt-[calc(38*var(--u))] lg:text-[calc(15*var(--u))]">
               {t.eyebrow}
             </p>
             <h1 className="mt-4 text-4xl leading-tight font-extrabold tracking-[-0.02em] lg:mt-[calc(10*var(--u))] lg:text-[calc(64*var(--u))] lg:leading-[calc(60*var(--u))] [:lang(vi)_&]:lg:leading-[calc(68*var(--u))]">
@@ -104,7 +106,7 @@ export function EmployersView({ locale }: { locale: Locale }) {
           {/* Ngành */}
           <section className="lg:absolute lg:inset-x-0 lg:top-0">
             <div className="flex items-center justify-between lg:absolute lg:top-[calc(12*var(--u))] lg:left-[calc(43*var(--u))] lg:w-[calc(1588*var(--u))]">
-              <h2 className="text-sm font-bold tracking-[0.2em] text-[#1f3b63] uppercase lg:text-[calc(14*var(--u))]">{t.industriesLabel}</h2>
+              <h2 className="text-[13px] font-bold tracking-[0.12em] text-[#1f3b63] uppercase lg:tracking-[0.2em] lg:text-[calc(14*var(--u))]">{t.industriesLabel}</h2>
               <Link href={ROUTES.industries[locale] as Route} className="flex items-center gap-2 text-sm font-semibold text-[#1d5fd6] hover:underline lg:text-[calc(14*var(--u))]">
                 {t.allIndustries}
                 <Icon name="arrowRight" className="h-4 w-4 lg:h-[calc(16*var(--u))] lg:w-[calc(16*var(--u))]" />
@@ -140,7 +142,7 @@ export function EmployersView({ locale }: { locale: Locale }) {
 
           {/* 6 bước */}
           <section className="lg:absolute lg:top-[calc(140*var(--u))] lg:left-[calc(43*var(--u))] lg:w-[calc(1172*var(--u))]">
-            <h2 className="text-sm font-bold tracking-[0.2em] text-[#1f3b63] uppercase lg:mt-[calc(4*var(--u))] lg:text-[calc(14*var(--u))]">{t.stepsLabel}</h2>
+            <h2 className="text-[13px] font-bold tracking-[0.12em] text-[#1f3b63] uppercase lg:tracking-[0.2em] lg:mt-[calc(4*var(--u))] lg:text-[calc(14*var(--u))]">{t.stepsLabel}</h2>
             <ol className="mt-5 grid gap-6 sm:grid-cols-3 lg:mt-[calc(16*var(--u))] lg:grid-cols-6 lg:gap-[calc(4*var(--u))] lg:pl-[calc(17*var(--u))]">
               {t.steps.map((s, i) => (
                 <li key={s.title} className="relative">
@@ -178,7 +180,7 @@ export function EmployersView({ locale }: { locale: Locale }) {
 
           {/* Dịch vụ */}
           <section id="services" className="lg:absolute lg:top-[calc(298*var(--u))] lg:left-[calc(43*var(--u))] lg:w-[calc(620*var(--u))]">
-            <h2 className="text-sm font-bold tracking-[0.2em] text-[#1f3b63] uppercase lg:text-[calc(14*var(--u))]">{t.servicesLabel}</h2>
+            <h2 className="text-[13px] font-bold tracking-[0.12em] text-[#1f3b63] uppercase lg:tracking-[0.2em] lg:text-[calc(14*var(--u))]">{t.servicesLabel}</h2>
             <ul className="mt-4 grid grid-cols-2 gap-3 lg:mt-[calc(13*var(--u))] lg:grid-cols-4 lg:gap-[calc(10*var(--u))]">
               {t.services.map((s) => (
                 <li key={s.title} className="flex flex-col items-center rounded-md bg-white p-4 text-center ring-1 ring-[#e3e9f1] lg:h-[calc(132*var(--u))] lg:rounded-[calc(6*var(--u))] lg:px-[calc(8*var(--u))] lg:pt-[calc(12*var(--u))]">
@@ -188,22 +190,24 @@ export function EmployersView({ locale }: { locale: Locale }) {
                 </li>
               ))}
             </ul>
-            {/* Thanh chứng thực: giữ khung, nội dung khoá tới khi CẦN ĐIỀN 05 được duyệt */}
-            <div className="mt-4 flex items-center gap-4 rounded-md bg-white px-4 py-3 ring-1 ring-[#e3e9f1] lg:mt-[calc(15*var(--u))] lg:h-[calc(45*var(--u))] lg:rounded-[calc(6*var(--u))] lg:px-[calc(12*var(--u))] lg:py-0">
-              <Icon name="quote" className="h-6 w-6 shrink-0 text-[#1d5fd6] lg:h-[calc(22*var(--u))] lg:w-[calc(22*var(--u))]" strokeWidth={2.2} />
-              {isApproved("05") ? null : <span className="h-px flex-1 bg-[#e3e9f1]" aria-hidden="true" />}
-            </div>
+            {/* Thanh chứng thực chỉ xuất hiện khi CẦN ĐIỀN 05 được duyệt —
+                trước đó khung rỗng chỉ làm rối, nhất là trên điện thoại. */}
+            {isApproved("05") && (
+              <div className="mt-4 flex items-center gap-4 rounded-md bg-white px-4 py-3 ring-1 ring-[#e3e9f1] lg:mt-[calc(15*var(--u))] lg:h-[calc(45*var(--u))] lg:rounded-[calc(6*var(--u))] lg:px-[calc(12*var(--u))] lg:py-0">
+                <Icon name="quote" className="h-6 w-6 shrink-0 text-[#1d5fd6] lg:h-[calc(22*var(--u))] lg:w-[calc(22*var(--u))]" strokeWidth={2.2} />
+              </div>
+            )}
           </section>
 
           {/* Bảng điều khiển minh hoạ */}
           <section className="lg:absolute lg:top-[calc(298*var(--u))] lg:left-[calc(680*var(--u))] lg:w-[calc(537*var(--u))]">
-            <h2 className="text-sm font-bold tracking-[0.2em] text-[#1f3b63] uppercase lg:text-[calc(14*var(--u))]">{t.dashLabel}</h2>
-            <div className="mt-4 flex overflow-hidden rounded-lg bg-white shadow-[0_6px_22px_-10px_rgba(15,35,64,.3)] ring-1 ring-[#e3e9f1] lg:mt-[calc(8*var(--u))] lg:h-[calc(185*var(--u))] lg:rounded-[calc(8*var(--u))]">
-              <ul className="w-28 shrink-0 space-y-1 bg-[var(--nb-navy-hero)] py-3 text-white/85 lg:w-[calc(103*var(--u))] lg:space-y-[calc(3*var(--u))] lg:py-[calc(10*var(--u))]">
+            <h2 className="text-[13px] font-bold tracking-[0.12em] text-[#1f3b63] uppercase lg:tracking-[0.2em] lg:text-[calc(14*var(--u))]">{t.dashLabel}</h2>
+            <div className="mt-4 flex max-lg:flex-col overflow-hidden rounded-lg bg-white shadow-[0_6px_22px_-10px_rgba(15,35,64,.3)] ring-1 ring-[#e3e9f1] lg:mt-[calc(8*var(--u))] lg:h-[calc(185*var(--u))] lg:rounded-[calc(8*var(--u))]">
+              <ul className="flex w-full shrink-0 gap-1 overflow-x-auto bg-[var(--nb-navy-hero)] py-2 text-white/85 max-lg:px-2 lg:w-[calc(103*var(--u))] lg:flex-col lg:space-y-1 lg:overflow-visible lg:py-3 lg:w-[calc(103*var(--u))] lg:space-y-[calc(3*var(--u))] lg:py-[calc(10*var(--u))]">
                 {t.dash.menu.map((m, i) => (
                   <li
                     key={m}
-                    className={`flex items-center gap-2 px-3 py-1 text-[11px] lg:gap-[calc(6*var(--u))] lg:px-[calc(10*var(--u))] lg:py-[calc(4*var(--u))] lg:text-[calc(9.5*var(--u))] lg:whitespace-nowrap ${i === 0 ? "bg-[#1d5fd6] text-white" : ""}`}
+                    className={`flex shrink-0 items-center gap-2 rounded px-3 py-1 text-[11px] lg:gap-[calc(6*var(--u))] lg:px-[calc(10*var(--u))] lg:py-[calc(4*var(--u))] lg:text-[calc(9.5*var(--u))] lg:whitespace-nowrap ${i === 0 ? "bg-[#1d5fd6] text-white" : ""}`}
                   >
                     <Icon name={["grid", "users", "doc", "home", "check", "chart"][i]!} className="h-3 w-3 lg:h-[calc(11*var(--u))] lg:w-[calc(11*var(--u))]" />
                     {m}
@@ -219,7 +223,7 @@ export function EmployersView({ locale }: { locale: Locale }) {
                   </span>
                 </div>
                 <p className="text-[10px] text-[#8a97a8] lg:text-[calc(9*var(--u))]">{t.dash.sample}</p>
-                <ul className="mt-2 grid grid-cols-4 gap-2 lg:mt-[calc(8*var(--u))] lg:gap-[calc(9*var(--u))]">
+                <ul className="mt-2 grid grid-cols-2 gap-2 lg:grid-cols-4 lg:mt-[calc(8*var(--u))] lg:gap-[calc(9*var(--u))]">
                   {t.dash.stats.map(([n, l], i) => (
                     <li key={l} className="rounded-md p-2 ring-1 ring-[#e3e9f1] lg:h-[calc(72*var(--u))] lg:rounded-[calc(6*var(--u))] lg:p-[calc(8*var(--u))]">
                       <span className="flex items-center gap-2">
@@ -264,6 +268,8 @@ export function EmployersView({ locale }: { locale: Locale }) {
           </section>
         </div>
       </main>
+      <SiteFooter locale={locale} />
+      <MobileActionBar locale={locale} />
     </>
   );
 }

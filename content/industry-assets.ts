@@ -89,6 +89,18 @@ export const COMPANY_PUBLICATIONS = [
 export const COMPANY_PUBLICATIONS_SOURCE: AssetSource = "kit";
 
 /**
+ * Banner trang chủ cho điện thoại — ảnh dọc + PNG hai nhân vật đã tách nền.
+ * Nghiêng máy thì nền chạy ngược hướng nghiêng (xem MobileHero).
+ */
+export const MOBILE_BANNER = {
+  background: "/kit/banner-mobile/bg.jpg",
+  foreground: "/kit/banner-mobile/fg.png",
+  alt: "Beraterin und Kandidat im Gespräch",
+  source: "kit" as AssetSource,
+  approved: true,
+} as const;
+
+/**
  * Banner trang chủ — hai lớp do Sếp đặt trong KIT (screens/B1.png, B2.png).
  * B2 là nền (skyline qua cửa kính), B1 là PNG người + bàn đã tách nền.
  * Rê chuột thì nền chạy ngược hướng chuột để tạo chiều sâu.

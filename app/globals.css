@@ -266,3 +266,10 @@ body > footer {
 .nb-photo-left {
   left: calc(-1 * var(--nb-gutter));
 }
+
+/* Chừa chỗ cho thanh hành động dưới màn hình (chỉ có trên điện thoại). */
+@media (max-width: 1023px) {
+  body {
+    padding-bottom: calc(4.5rem + env(safe-area-inset-bottom));
+  }
+}

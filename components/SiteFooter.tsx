@@ -28,7 +28,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
     <footer className="bg-[#0a2748] text-white">
       <div className="mx-auto grid max-w-[1400px] gap-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-4 lg:px-10">
         <div>
-          <Image src="/nibelc-logo.svg" alt="NIBELC GmbH" width={1201} height={376} className="h-10 w-auto brightness-0 invert" />
+          <Image src="/nibelc-logo-dark.svg" alt="NIBELC GmbH" width={1201} height={376} className="h-10 w-auto" />
           <p className="mt-4 text-sm leading-6 text-white/80">
             NIBELC TalentBridge Deutschland
             <br />

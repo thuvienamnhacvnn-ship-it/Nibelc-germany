@@ -441,3 +441,34 @@ thu nhỏ và lùi vào. Trên điện thoại lề co lại còn ~18px.
 **Hệ quả:** bố cục sáu trang mẫu không còn khớp pixel với `screens/*.png` ở phần
 header và lề ngoài; tỷ lệ bên trong vẫn giữ nguyên. Đây là yêu cầu của chủ dự án
 (menu thống nhất, không tràn sát mép), đặt trên DESIGN LOCK ban đầu.
+
+## Bản điện thoại (kiểu ứng dụng)
+
+- `components/home/MobileHero.tsx`: banner riêng cho điện thoại, hai lớp —
+  nền dọc (cửa kính nhìn ra skyline Berlin) + PNG hai nhân vật đã tách nền.
+  **Nghiêng máy thì nền chạy ngược hướng nghiêng**, nhân vật nhích nhẹ theo,
+  tạo chiều sâu; cùng nguyên tắc với hiệu ứng rê chuột ở bản desktop.
+  iOS 13+ đòi người dùng bấm mới cho đọc cảm biến → nút nhỏ "3D" ở góc ảnh.
+  Bật "giảm chuyển động" trong hệ điều hành thì banner đứng yên.
+- `components/nav/MobileActionBar.tsx`: thanh hành động cố định dưới màn hình
+  (gọi · gửi yêu cầu · liên hệ), chỉ có dưới 1024px; đáy trang chừa chỗ bằng
+  `padding-bottom` trong globals.css.
+- Chân trang `SiteFooter` nay có ở **mọi** trang (trước chỉ các trang phụ có).
+- Sửa cho vừa màn hình nhỏ: nhãn chữ hoa giảm giãn cách, bảng điều khiển mẫu
+  ở trang 02 xếp dọc và số liệu thành lưới 2 cột, khối số liệu trang 05 xếp
+  dọc, thẻ hai làn trang 06 có nhãn "Unternehmen/Bewerber" riêng vì bảng hai
+  làn chỉ đọc được ở desktop, thanh chứng thực rỗng (chưa duyệt CẦN ĐIỀN 05)
+  không còn vẽ khung trống.
+- Đã quét tràn ngang ở 360 / 390 / 430 / 768 / 1440 / 1672px: sạch.
+
+## Logo và banner sau khi có lề trang
+
+- Logo giữ nguyên màu gốc. Nền tối dùng `public/nibelc-logo-dark.svg` —
+  chỉ đổi phần chữ sang trắng, dải màu cờ Đức giữ nguyên (trước đây dùng
+  `brightness-0 invert` làm mất hết màu).
+- Header có đường kẻ mảnh dưới chân (trắng mờ trên nền navy, xám nhạt trên
+  nền sáng) để không chìm vào banner cùng màu.
+- Banner trang chủ **neo mép phải màn hình** và rộng `1672u + lề`: màn rộng
+  hơn mẫu thì phần thừa nằm bên trái và là nền navy — không bao giờ hở dải
+  nền bên phải. Hai lớp ảnh kéo tới sát mép phải khung (`right: 0`), tỷ lệ
+  do `object-cover` giữ.
