@@ -145,7 +145,7 @@ export function HeroParallax() {
           đầu bàn không cắt thẳng đứng trên nền navy. */}
       <div
         ref={fg}
-        className="absolute top-0 left-[calc(550*var(--ub))] h-full w-[calc(1184*var(--ub))] will-change-transform"
+        className="absolute top-0 right-0 h-full w-[calc(1184*var(--ub))] will-change-transform"
         style={{
           maskImage: "linear-gradient(to right, transparent 0, #000 calc(110 * var(--ub)))",
           WebkitMaskImage: "linear-gradient(to right, transparent 0, #000 calc(110 * var(--ub)))",
