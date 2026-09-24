@@ -531,10 +531,14 @@ nút liên hệ và ba ngôn ngữ. Tấm trượt render qua portal vì header 
 `backdrop-blur` — thuộc tính đó biến mọi `position: fixed` bên trong thành neo
 theo header.
 
-**Banner điện thoại** (`MobileHero`) nay có đủ như bản desktop: vòng cung vàng
-(cùng hai hiệu ứng `nb-arc-glow` + `nb-arc-run`) và bốn huy hiệu dẫn sang
-ngành / quy trình / quy trình / kiến thức. Huy hiệu cuối lật chữ sang trái để
-không nằm lên mặt người trong ảnh.
+**Banner điện thoại** (`MobileHero`): logo NIBELC nằm giữa banner, chếch lên
+cao; ngay dưới là **đường line ngang** (dải màu vàng→cam, có vệt sáng chạy dọc
+`nb-line-run`) với **bốn icon xếp một hàng trên line** và **chấm tròn cam xen
+giữa** các icon. Đỉnh banner phủ một lớp tối mờ để logo, line và chữ đọc được
+trên nền trời sáng. Vòng cung cong của bản desktop không dùng ở đây.
+
+**Header điện thoại** chỉ còn dải chữ chạy, không nền màu. Trang chủ không lặp
+logo (đã có trong banner); các trang khác hiện logo căn giữa trên nền trắng.
 
 **Hiệu ứng nghiêng máy:** chỉ lớp NỀN chạy, và chạy ngược hướng nghiêng
 (biên độ 26×18px, làm mượt 8%/khung hình); PNG hai nhân vật **đứng yên** nên

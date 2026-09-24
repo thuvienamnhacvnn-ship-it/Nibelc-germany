@@ -333,3 +333,17 @@ body > footer {
 html {
   overflow-x: clip;
 }
+
+/* Vệt sáng chạy dọc đường line dưới logo (banner điện thoại). */
+@keyframes nb-line-run {
+  0% { left: -20%; opacity: 0; }
+  12% { opacity: .9; }
+  88% { opacity: .9; }
+  100% { left: 100%; opacity: 0; }
+}
+.nb-line-run {
+  animation: nb-line-run 4.5s cubic-bezier(.4, 0, .25, 1) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nb-line-run { animation: none; opacity: 0; }
+}

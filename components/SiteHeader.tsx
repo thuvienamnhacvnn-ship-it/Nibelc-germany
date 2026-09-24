@@ -40,7 +40,7 @@ export function SiteHeader({
 
   return (
     <header
-      className={`sticky top-0 z-50 ${
+      className={`sticky top-0 z-50 max-lg:border-0 max-lg:bg-transparent max-lg:shadow-none ${
         navy
           ? "border-b border-white/20 bg-[var(--nb-navy)] text-white shadow-[0_1px_0_rgba(255,255,255,.12)]"
           : "border-b border-[var(--nb-line)] bg-white/95 text-[var(--nb-ink)] backdrop-blur"
@@ -48,7 +48,17 @@ export function SiteHeader({
     >
       <MobileTicker locale={locale} />
 
-      <div className="mx-auto flex h-14 items-center justify-center px-4 max-lg:justify-center lg:h-[calc(78*var(--u))] lg:justify-start lg:px-[calc(34*var(--u))]">
+      {page !== "home" && (
+        <Link
+          href={ROUTES.home[locale] as Route}
+          aria-label="NIBELC"
+          className="flex h-14 items-center justify-center border-b border-[var(--nb-line)] bg-white lg:hidden"
+        >
+          <Image src="/nibelc-logo.svg" alt="NIBELC GmbH" width={1201} height={376} priority className="h-9 w-auto" />
+        </Link>
+      )}
+
+      <div className="mx-auto hidden items-center px-4 lg:flex lg:h-[calc(78*var(--u))] lg:justify-start lg:px-[calc(34*var(--u))]">
         <Link href={ROUTES.home[locale] as Route} className="flex shrink-0 items-center max-lg:mx-auto" aria-label="NIBELC">
           <Image
             src={navy ? "/nibelc-logo-dark.svg" : "/nibelc-logo.svg"}

@@ -28,14 +28,8 @@ const BG = { x: 26, y: 18 };
 /** Góc nghiêng (độ) tương ứng biên độ tối đa */
 const RANGE = 22;
 
-/** Bốn huy hiệu trên vòng cung — toạ độ theo khung 390×477 của banner dọc */
-const ARC = [
-  { x: 60, y: 96, icon: "search", flip: false },
-  { x: 122, y: 168, icon: "doc", flip: false },
-  { x: 196, y: 236, icon: "plane", flip: false },
-  // huy hiệu cuối nằm gần đầu người bên phải → chữ lật sang trái icon
-  { x: 316, y: 318, icon: "users", flip: true },
-];
+/** Bốn chặng xếp một hàng ngang trên đường line dưới logo */
+const STEPS = ["search", "doc", "plane", "users"];
 
 type Permissioned = typeof DeviceOrientationEvent & {
   requestPermission?: () => Promise<"granted" | "denied">;
@@ -126,47 +120,55 @@ export function MobileHero({ locale }: { locale: Locale }) {
           <Image src={MOBILE_BANNER.background} alt="" fill priority sizes="100vw" className="object-cover object-[50%_32%]" />
         </div>
 
-        {/* vòng cung vàng — nằm dưới người, như bản desktop */}
-        <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 390 477" preserveAspectRatio="none" aria-hidden="true">
-          <defs>
-            <linearGradient id="m-arc" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0" stopColor="#ffc15e" />
-              <stop offset="1" stopColor="#ff6a13" />
-            </linearGradient>
-            <filter id="m-glow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="5" />
-            </filter>
-          </defs>
-          <path className="nb-arc-glow" d="M48 78 C 96 104, 140 150, 176 208 S 250 300, 330 330" fill="none" stroke="url(#m-arc)" strokeWidth="11" opacity=".55" filter="url(#m-glow)" />
-          <path d="M48 78 C 96 104, 140 150, 176 208 S 250 300, 330 330" fill="none" stroke="url(#m-arc)" strokeWidth="3.5" strokeLinecap="round" />
-          <path className="nb-arc-run" d="M48 78 C 96 104, 140 150, 176 208 S 250 300, 330 330" fill="none" stroke="#fff3d6" strokeWidth="3.5" strokeLinecap="round" />
-        </svg>
-
         {/* PNG hai nhân vật: cố định, không chạy theo cảm biến */}
         <div className="absolute inset-x-0 bottom-0">
           <Image src={MOBILE_BANNER.foreground} alt={MOBILE_BANNER.alt} width={1100} height={709} priority sizes="100vw" className="h-auto w-full" />
         </div>
 
-        {/* bốn huy hiệu, trên cùng */}
-        <ul className="absolute inset-0">
-          {ARC.map((p, i) => (
-            <li key={p.icon} className="absolute" style={{ left: `${(p.x / 390) * 100}%`, top: `${(p.y / 477) * 100}%` }}>
-              <Link
-                href={[ROUTES.industries, ROUTES.process, ROUTES.process, ROUTES.knowledge][i]![locale] as Route}
-                className={`flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 active:scale-95 ${p.flip ? "flex-row-reverse" : ""}`}
-              >
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--nb-blue-dark)] text-white ring-2 ring-white/90">
-                  <Icon name={p.icon} className="h-5 w-5" strokeWidth={1.8} />
-                </span>
-                <span className="text-[11px] leading-[1.15] font-semibold text-[var(--nb-ink)] [text-shadow:0_0_6px_rgba(255,255,255,.95)]">
-                  {t.arc[i]![0]}
-                  <br />
-                  {t.arc[i]![1]}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {/* phủ tối nhẹ ở đỉnh: logo và hàng icon phải đọc được trên nền trời */}
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-[34%]"
+          style={{ background: "linear-gradient(to bottom, rgba(8,30,60,.62), rgba(8,30,60,.30) 55%, rgba(8,30,60,0))" }}
+          aria-hidden="true"
+        />
+
+        {/* logo giữa banner, chếch lên cao */}
+        <Link href={ROUTES.home[locale] as Route} aria-label="NIBELC" className="absolute inset-x-0 top-[5%] flex justify-center">
+          <Image src="/nibelc-logo-dark.svg" alt="NIBELC GmbH" width={1201} height={376} priority className="h-11 w-auto drop-shadow-[0_2px_10px_rgba(6,26,54,.65)]" />
+        </Link>
+
+        {/* đường line ngang dưới logo: bốn icon trên line, chấm tròn xen giữa */}
+        <div className="absolute inset-x-5 top-[21%]">
+          <span
+            className="absolute inset-x-0 top-1/2 h-[2px] -translate-y-1/2 rounded-full"
+            style={{ background: "linear-gradient(90deg, rgba(255,193,94,0), #ffc15e 12%, #ff6a13 88%, rgba(255,106,19,0))" }}
+            aria-hidden="true"
+          />
+          <span className="nb-line-run absolute top-1/2 h-[2px] w-16 -translate-y-1/2 rounded-full bg-white/85" aria-hidden="true" />
+
+          <ul className="relative flex items-center justify-between">
+            {STEPS.map((icon, i) => (
+              <li key={icon} className="contents">
+                {i > 0 && (
+                  <span className="h-2 w-2 shrink-0 rounded-full bg-[#ffc15e] ring-2 ring-[#ffc15e]/35" aria-hidden="true" />
+                )}
+                <Link
+                  href={[ROUTES.industries, ROUTES.process, ROUTES.process, ROUTES.knowledge][i]![locale] as Route}
+                  className="flex w-[70px] flex-col items-center gap-1 active:scale-95"
+                >
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[var(--nb-blue-dark)] text-white ring-[3px] ring-white/90 shadow-[0_6px_16px_-6px_rgba(6,26,54,.8)]">
+                    <Icon name={icon} className="h-5 w-5" strokeWidth={1.9} />
+                  </span>
+                  <span className="text-center text-[10px] leading-[1.15] font-semibold text-white [text-shadow:0_1px_3px_rgba(6,26,54,1),0_0_10px_rgba(6,26,54,.9)]">
+                    {t.arc[i]![0]}
+                    <br />
+                    {t.arc[i]![1]}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
 
         {/* chuyển sang nền navy ở đáy để nối liền với khối chữ */}
         <div
