@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { Route } from "next";
 import type { CSSProperties, ReactNode } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
-import { SiteFooter } from "@/components/SiteFooter";
+import { LegalStrip } from "@/components/LegalStrip";
 import { MobileTabBar } from "@/components/nav/MobileTabBar";
 import { Icon } from "@/components/ui/Icon";
 import { industryAssets, type Industry } from "@/content/industries";
@@ -352,7 +352,7 @@ export function IndustryDetailView({ locale, industry }: { locale: Locale; indus
           </p>
         </footer>
       </main>
-      <SiteFooter locale={locale} />
+      <LegalStrip locale={locale} />
       <MobileTabBar locale={locale} page={"industries"} />
     </>
   );

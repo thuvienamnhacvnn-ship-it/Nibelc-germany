@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
 import { SiteHeader } from "@/components/SiteHeader";
-import { SiteFooter } from "@/components/SiteFooter";
+import { LegalStrip } from "@/components/LegalStrip";
 import { MobileTabBar } from "@/components/nav/MobileTabBar";
 import { RequestForm, type Option } from "@/components/forms/RequestForm";
 import { Icon } from "@/components/ui/Icon";
@@ -131,7 +131,7 @@ export function RequestView({ locale }: { locale: Locale }) {
         </section>
       </main>
 
-      <SiteFooter locale={locale} />
+      <LegalStrip locale={locale} />
       <MobileTabBar locale={locale} page={"request"} />
     </>
   );

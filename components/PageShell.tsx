@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
+import { LegalStrip } from "@/components/LegalStrip";
 import { SiteFooter } from "@/components/SiteFooter";
 import { MobileTabBar } from "@/components/nav/MobileTabBar";
 import { ROUTES, type Locale, type PageKey } from "@/content/locales";
@@ -68,7 +69,8 @@ export function PageShell({
         {children}
       </main>
 
-      <SiteFooter locale={locale} />
+      {/* Chân trang đầy đủ chỉ còn ở "Über uns"; trang khác chỉ có dải pháp lý. */}
+      {page === "about" ? <SiteFooter locale={locale} /> : <LegalStrip locale={locale} />}
       <MobileTabBar locale={locale} page={page} />
     </>
   );

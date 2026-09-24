@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { Route } from "next";
 import type { CSSProperties } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
-import { SiteFooter } from "@/components/SiteFooter";
+import { LegalStrip } from "@/components/LegalStrip";
 import { MobileTabBar } from "@/components/nav/MobileTabBar";
 import { PrintButton } from "@/components/process/PrintButton";
 import { Icon } from "@/components/ui/Icon";
@@ -321,7 +321,7 @@ export function ProcessView({ locale }: { locale: Locale }) {
           </div>
         </section>
       </main>
-      <SiteFooter locale={locale} />
+      <LegalStrip locale={locale} />
       <MobileTabBar locale={locale} page={"process"} />
     </>
   );

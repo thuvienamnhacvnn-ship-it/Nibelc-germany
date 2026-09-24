@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
 import { SiteHeader } from "@/components/SiteHeader";
-import { SiteFooter } from "@/components/SiteFooter";
+import { LegalStrip } from "@/components/LegalStrip";
 import { MobileTabBar } from "@/components/nav/MobileTabBar";
 import { HeroParallax } from "@/components/home/HeroParallax";
 import { JobTicker } from "@/components/home/JobTicker";
@@ -152,7 +152,7 @@ export function HomeView({ locale }: { locale: Locale }) {
           </ul>
         </section>
       </main>
-      <SiteFooter locale={locale} />
+      <LegalStrip locale={locale} />
       <MobileTabBar locale={locale} page={"home"} />
     </>
   );

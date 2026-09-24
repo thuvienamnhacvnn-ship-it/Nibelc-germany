@@ -26,8 +26,8 @@ export function SiteFooter({ locale }: { locale: Locale }) {
 
   return (
     <footer className="bg-[#0a2748] text-white">
-      <div className="mx-auto grid max-w-[1400px] gap-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-4 lg:px-10">
-        <div>
+      <div className="mx-auto grid max-w-[1400px] gap-8 px-6 py-10 text-center sm:grid-cols-2 sm:gap-10 sm:py-12 sm:text-left lg:grid-cols-4 lg:px-10">
+        <div className="flex flex-col items-center sm:items-start">
           <Image src="/nibelc-logo-dark.svg" alt="NIBELC GmbH" width={1201} height={376} className="h-10 w-auto" />
           <p className="mt-4 text-sm leading-6 text-white/80">
             NIBELC TalentBridge Deutschland
@@ -41,7 +41,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
 
         <nav aria-label={w.nav}>
           <h2 className="text-sm font-bold text-white">{w.nav}</h2>
-          <ul className="mt-4 space-y-2 text-sm text-white/80">
+          <ul className="mx-auto mt-4 grid max-w-[18rem] grid-cols-2 gap-x-4 gap-y-2 text-sm text-white/80 sm:mx-0 sm:max-w-none sm:grid-cols-1">
             {menu.map((m) => (
               <li key={m.href}>
                 <Link href={m.href as Route} className="hover:text-white hover:underline">
@@ -54,7 +54,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
 
         <div>
           <h2 className="text-sm font-bold text-white">{w.contact}</h2>
-          <address className="mt-4 space-y-3 text-sm text-white/80 not-italic">
+          <address className="mt-4 flex flex-col items-center gap-3 text-sm text-white/80 not-italic sm:items-start">
             <p>
               {LEGAL.name}
               <br />
@@ -64,13 +64,13 @@ export function SiteFooter({ locale }: { locale: Locale }) {
               <br />
               {LEGAL.country}
             </p>
-            <p className="flex items-center gap-2">
+            <p className="flex items-center justify-center gap-2 sm:justify-start">
               <Icon name="mail" className="h-4 w-4 shrink-0" strokeWidth={1.7} />
               <a href={`mailto:${LEGAL.email}`} className="hover:text-white hover:underline">
                 {LEGAL.email}
               </a>
             </p>
-            <p className="flex items-center gap-2">
+            <p className="flex items-center justify-center gap-2 sm:justify-start">
               <Icon name="phone" className="h-4 w-4 shrink-0" strokeWidth={1.7} />
               <a href={`tel:${LEGAL.phone.replace(/\s/g, "")}`} className="hover:text-white hover:underline">
                 {LEGAL.phone}
@@ -81,7 +81,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
 
         <div>
           <h2 className="text-sm font-bold text-white">{w.legal}</h2>
-          <ul className="mt-4 space-y-2 text-sm text-white/80">
+          <ul className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-white/80 sm:block sm:space-y-2">
             {impressumComplete() && (
               <li>
                 <Link href={LEGAL_ROUTES.impressum as Route} className="hover:text-white hover:underline">
@@ -104,7 +104,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
       </div>
 
       <div className="border-t border-white/15">
-        <p className="mx-auto max-w-[1400px] px-6 py-5 text-xs text-white/60 lg:px-10">
+        <p className="mx-auto max-w-[1400px] px-6 py-5 text-center text-xs text-white/60 sm:text-left lg:px-10">
           © {year} {LEGAL.name}
         </p>
       </div>

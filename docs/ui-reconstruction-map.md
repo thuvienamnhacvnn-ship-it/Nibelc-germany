@@ -547,3 +547,18 @@ giây không nhận được sự kiện nào và trình duyệt có `requestPer
 iOS 13+) thì mới hiện nút "3D" mời người dùng bấm. Trước đây cứ thấy
 `requestPermission` là hiện nút, nhưng Chrome trên Android cũng khai hàm đó
 mà vẫn gửi sự kiện ngay — nút thành thừa và hiệu ứng không chạy.
+
+
+## Điện thoại — bản chốt của Sếp
+
+- **Banner ghim tại chỗ**: khối ảnh `sticky`, phần dưới trượt lên che; banner
+  không trôi xuống khi cuộn.
+- Trong banner, theo thứ tự: logo giữa (chếch trên) → đường line ngang cắt
+  ngang tâm bốn icon, có chấm tròn cam xen giữa → **tiêu đề ba dòng cỡ nhỏ**
+  ngay dưới hàng icon. Không còn đoạn mô tả nhỏ và hai nút — nút gửi yêu cầu
+  đã nằm ở menu đáy.
+- **Chân trang đầy đủ chỉ còn ở trang Über uns**, và ở đó xếp một cột căn giữa
+  cho điện thoại (danh sách điều hướng chia hai cột cho cân). Các trang khác
+  dùng `components/LegalStrip.tsx` — một dòng gọn gồm tên pháp nhân,
+  Datenschutz, Kontakt, Über uns. Lý do giữ dòng này: luật Đức đòi trang bảo
+  mật dữ liệu phải với tới được từ **mọi** trang.

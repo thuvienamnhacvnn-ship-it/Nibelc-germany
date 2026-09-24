@@ -114,7 +114,7 @@ export function MobileHero({ locale }: { locale: Locale }) {
   return (
     <section className="relative overflow-hidden bg-[var(--nb-navy-hero)] text-white lg:hidden">
       {/* ---- hai lớp ảnh + vòng cung + huy hiệu ---- */}
-      <div className="relative aspect-[390/477] w-full overflow-hidden">
+      <div className="sticky top-8 z-0 aspect-[390/430] w-full overflow-hidden">
         {/* nền: lớp duy nhất chạy theo cảm biến */}
         <div ref={bg} className="absolute inset-0 will-change-transform" style={{ transform: "scale(1.14)" }}>
           <Image src={MOBILE_BANNER.background} alt="" fill priority sizes="100vw" className="object-cover object-[50%_32%]" />
@@ -127,8 +127,8 @@ export function MobileHero({ locale }: { locale: Locale }) {
 
         {/* phủ tối nhẹ ở đỉnh: logo và hàng icon phải đọc được trên nền trời */}
         <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-[34%]"
-          style={{ background: "linear-gradient(to bottom, rgba(8,30,60,.62), rgba(8,30,60,.30) 55%, rgba(8,30,60,0))" }}
+          className="pointer-events-none absolute inset-x-0 top-0 h-[62%]"
+          style={{ background: "linear-gradient(to bottom, rgba(8,30,60,.66), rgba(8,30,60,.42) 45%, rgba(8,30,60,.22) 70%, rgba(8,30,60,0))" }}
           aria-hidden="true"
         />
 
@@ -138,19 +138,21 @@ export function MobileHero({ locale }: { locale: Locale }) {
         </Link>
 
         {/* đường line ngang dưới logo: bốn icon trên line, chấm tròn xen giữa */}
-        <div className="absolute inset-x-5 top-[21%]">
-          <span
-            className="absolute inset-x-0 top-1/2 h-[2px] -translate-y-1/2 rounded-full"
-            style={{ background: "linear-gradient(90deg, rgba(255,193,94,0), #ffc15e 12%, #ff6a13 88%, rgba(255,106,19,0))" }}
-            aria-hidden="true"
-          />
-          <span className="nb-line-run absolute top-1/2 h-[2px] w-16 -translate-y-1/2 rounded-full bg-white/85" aria-hidden="true" />
+        <div className="absolute inset-x-5 top-[19%]">
+          <div className="relative">
+            {/* đường line cắt ngang tâm các icon (icon cao 44 → tâm ở 22) */}
+            <span
+              className="absolute inset-x-0 top-[22px] h-[2px] -translate-y-1/2 rounded-full"
+              style={{ background: "linear-gradient(90deg, rgba(255,193,94,0), #ffc15e 12%, #ff6a13 88%, rgba(255,106,19,0))" }}
+              aria-hidden="true"
+            />
+            <span className="nb-line-run absolute top-[22px] h-[2px] w-16 -translate-y-1/2 rounded-full bg-white/85" aria-hidden="true" />
 
-          <ul className="relative flex items-center justify-between">
+            <ul className="relative flex items-start justify-between">
             {STEPS.map((icon, i) => (
               <li key={icon} className="contents">
                 {i > 0 && (
-                  <span className="h-2 w-2 shrink-0 rounded-full bg-[#ffc15e] ring-2 ring-[#ffc15e]/35" aria-hidden="true" />
+                  <span className="mt-[18px] h-2 w-2 shrink-0 rounded-full bg-[#ffc15e] ring-2 ring-[#ffc15e]/35" aria-hidden="true" />
                 )}
                 <Link
                   href={[ROUTES.industries, ROUTES.process, ROUTES.process, ROUTES.knowledge][i]![locale] as Route}
@@ -167,7 +169,18 @@ export function MobileHero({ locale }: { locale: Locale }) {
                 </Link>
               </li>
             ))}
-          </ul>
+            </ul>
+          </div>
+
+          {/* tiêu đề ba dòng, gọn ngay dưới hàng icon */}
+          <h1 className="mt-4 text-center text-[21px] leading-[1.2] font-extrabold tracking-[-0.01em] text-white [text-shadow:0_2px_4px_rgba(6,26,54,1),0_0_16px_rgba(6,26,54,.95)]">
+            {t.h1a}
+            <br />
+            {t.h1b}
+            <br />
+            <span className="text-[#7fc0ff]">{t.h1accent}</span>
+            <span className="text-[var(--nb-orange)]">.</span>
+          </h1>
         </div>
 
         {/* chuyển sang nền navy ở đáy để nối liền với khối chữ */}
@@ -190,35 +203,6 @@ export function MobileHero({ locale }: { locale: Locale }) {
         )}
       </div>
 
-      {/* ---- chữ ---- */}
-      <div className="relative px-5 pt-1 pb-8">
-        <p className="text-[11px] font-semibold tracking-[0.18em] text-[#7fb1ff] uppercase">{t.eyebrow}</p>
-        <h1 className="mt-2 text-[34px] leading-[1.1] font-extrabold tracking-[-0.02em] text-white">
-          {t.h1a}
-          <br />
-          {t.h1b}
-          <br />
-          <span className="text-[var(--nb-blue)]">{t.h1accent}</span>
-          <span className="text-[var(--nb-orange)]">.</span>
-        </h1>
-        <p className="mt-3 text-[15px] leading-6 text-white/85">{t.sub}</p>
-
-        <div className="mt-5 flex flex-col gap-3">
-          <Link
-            href={ROUTES.request[locale] as Route}
-            className="flex h-12 items-center justify-center gap-2 rounded-xl bg-[var(--nb-orange)] font-semibold text-white active:bg-[var(--nb-orange-dark)]"
-          >
-            {t.ctaPrimary}
-            <Icon name="arrowRight" className="h-4 w-4" strokeWidth={2} />
-          </Link>
-          <Link
-            href={ROUTES.contact[locale] as Route}
-            className="flex h-12 items-center justify-center gap-2 rounded-xl border border-white/45 font-semibold text-white active:bg-white/10"
-          >
-            {t.ctaSecondary}
-          </Link>
-        </div>
-      </div>
     </section>
   );
 }
