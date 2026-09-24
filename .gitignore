@@ -1,0 +1,28 @@
+node_modules/
+.next/
+out/
+build/
+.env
+.env.local
+*.log
+.DS_Store
+.pglite/
+kit/screens/
+kit/reference-ui/
+
+# Next 16 tu sinh, khong de lo cong cu dung khi giao khach
+AGENTS.md
+CLAUDE.md
+
+# File tam cua TypeScript, khong de trong repo
+tsconfig.tsbuildinfo
+
+# Dữ liệu biểu mẫu gửi về, không thuộc mã nguồn
+.data/
+.next-build/
+
+# Ảnh chụp đối chiếu mẫu và ảnh kiểm thử — chỉ dùng khi dựng, không giao kèm
+artifacts/
+
+# Tài liệu hướng dẫn công cụ dựng, không để trong repo giao khách
+kit/docs/CLAUDE-CODE-MASTER-PROMPT.md

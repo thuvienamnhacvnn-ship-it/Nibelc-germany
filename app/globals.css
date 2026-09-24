@@ -1,0 +1,268 @@
+@import "tailwindcss";
+
+/* Home folder (C:\Users\admin) là một git repo riêng. Nếu để Tailwind v4 tự dò
+   nguồn, nó có thể quét ngược ra ngoài project và làm `next dev` treo.
+   Vì vậy khai báo nguồn tường minh. */
+@source "./";
+@source "../components";
+@source "../content";
+@source "../lib";
+
+@theme {
+  /* Hệ màu TƯƠI SÁNG.
+     Lấy tinh thần từ bộ poster của Sếp: trời xanh trong, nắng vàng kim,
+     trắng sạch. Nhưng đây là web chứ không phải poster, nên độ bão hoà
+     dùng có liều: màu rực để nhấn, nền vẫn phải trắng và thoáng. */
+  /* Navy là nền chủ đạo của header và hero, theo screens/01.
+     Tươi sáng nằm ở điểm nhấn đặt trên nền này: xanh sáng, cam, vàng kim. */
+  --color-navy: #0b2545;
+  --color-navy-deep: #071b33;
+  --color-navy-soft: #12385f;
+
+  --color-ink: #10263f;
+  --color-body: #41556e;
+  --color-muted: #7b8da4;
+
+  /* Xanh trời */
+  --color-brand-50: #f0f9ff;
+  --color-brand-100: #e0f2fe;
+  --color-brand-200: #bae6fd;
+  --color-brand-400: #38bdf8;
+  --color-brand-500: #0ea5e9;
+  --color-brand-600: #0284c7;
+  --color-brand-700: #0369a1;
+
+  /* Nắng vàng kim — màu nhấn chính, thay cho cam trầm */
+  --color-gold-100: #fef3c7;
+  --color-gold-300: #fcd34d;
+  --color-gold-400: #fbbf24;
+  --color-gold-500: #f59e0b;
+
+  /* Cam đỏ cho nút hành động */
+  --color-accent-400: #fb923c;
+  --color-accent-500: #f97316;
+  --color-accent-600: #ea580c;
+
+  --color-mint-100: #d1fae5;
+  --color-mint-500: #10b981;
+  --color-mint-600: #059669;
+
+  /* Sắc pastel cho ô icon — mỗi chủ đề một màu để hàng thẻ không đơn điệu.
+     Nền rất nhạt, chữ/icon đậm cùng tông, luôn đạt tương phản AA. */
+  --tint-sky-bg: #e0f2fe;
+  --tint-sky-fg: #0369a1;
+  --tint-amber-bg: #fef3c7;
+  --tint-amber-fg: #b45309;
+  --tint-mint-bg: #d1fae5;
+  --tint-mint-fg: #047857;
+  --tint-violet-bg: #ede9fe;
+  --tint-violet-fg: #6d28d9;
+  --tint-rose-bg: #ffe4e6;
+  --tint-rose-fg: #be123c;
+  --tint-teal-bg: #ccfbf1;
+  --tint-teal-fg: #0f766e;
+  --tint-indigo-bg: #e0e7ff;
+  --tint-indigo-fg: #4338ca;
+  --tint-orange-bg: #ffedd5;
+  --tint-orange-fg: #c2410c;
+
+  --color-page: #ffffff;
+  --color-surface: #f0f9ff;
+  --color-line: #dbeafe;
+
+  --radius-card: 18px;
+  --radius-btn: 12px;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, Arial, sans-serif;
+  --font-display: "Manrope", var(--font-sans);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-page);
+    color: var(--color-body);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--color-ink);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    /* Tiếng Đức có từ ghép rất dài (Anlagenmechaniker, Aufenthaltserlaubnis).
+       Không có hai dòng này thì tiêu đề tràn ngang ở 375px. */
+    hyphens: auto;
+    overflow-wrap: break-word;
+  }
+
+  /* WCAG 2.2: focus phải thấy rõ trên mọi nền */
+  :focus-visible {
+    outline: 3px solid var(--color-brand-500);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+}
+
+@layer components {
+  .container-page {
+    width: 100%;
+    margin-inline: auto;
+    max-width: 1200px;
+    padding-inline: 16px; /* lề mobile, tránh cắt chữ ở 375px */
+  }
+
+  @media (min-width: 768px) {
+    .container-page {
+      padding-inline: 32px;
+    }
+  }
+
+  /* Thẻ trắng bo tròn — đơn vị dựng hình chính của cả site */
+  .card {
+    background-color: #fff;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    box-shadow:
+      0 1px 2px rgb(16 36 58 / 0.04),
+      0 8px 24px -12px rgb(16 36 58 / 0.1);
+  }
+
+  .card-hover {
+    transition:
+      box-shadow 0.25s ease,
+      transform 0.25s ease;
+  }
+
+  .card-hover:hover {
+    box-shadow:
+      0 2px 4px rgb(16 36 58 / 0.05),
+      0 18px 40px -16px rgb(16 36 58 / 0.22);
+    transform: translateY(-2px);
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: var(--radius-btn);
+    background-color: var(--color-accent-500);
+    padding: 0.875rem 1.75rem;
+    font-weight: 600;
+    color: #fff;
+    box-shadow: 0 8px 20px -8px rgb(249 115 22 / 0.65);
+    transition:
+      background-color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-accent-600);
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: var(--radius-btn);
+    border: 1px solid var(--color-line);
+    background-color: #fff;
+    padding: 0.875rem 1.75rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    transition:
+      border-color 0.2s ease,
+      background-color 0.2s ease;
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--color-brand-400);
+    background-color: var(--color-brand-50);
+  }
+
+  /* Nhãn nhỏ chữ hoa giãn cách, mở đầu mỗi khối */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-brand-600);
+  }
+
+  .eyebrow::after {
+    content: "";
+    height: 2px;
+    width: 2.25rem;
+    background-color: var(--color-gold-400);
+    border-radius: 2px;
+  }
+}
+
+/* DESIGN LOCK: 1 đơn vị --u = 1px của ảnh mẫu 1672×941.
+   Ở viewport 1672 mọi kích thước khớp đúng ảnh mẫu; màn khác co giãn theo tỷ lệ.
+   Trần 1672: màn rộng hơn KHÔNG phóng to chữ/header — chỉ phần ảnh banner
+   (neo mép phải) giãn theo. Phóng theo bề ngang làm header và tiêu đề to hơn mẫu. */
+:root {
+  /* Lề hai bên của cả trang: 2cm trên màn lớn, thu dần ở màn nhỏ để điện
+     thoại không mất chỗ. Nội dung không còn chạm mép màn hình. */
+  --nb-gutter: clamp(0px, 4.5vw, 76px);
+  /* 1 --u = 1px của ảnh mẫu, tính trong khung đã trừ lề hai bên. */
+  --u: calc((min(100vw, 1672px) - 2 * var(--nb-gutter)) / 1672);
+  --nb-navy: #0a2748;
+  --nb-navy-hero: #0b2a52;
+  --nb-blue: #2e8bff;
+  --nb-blue-dark: #0b4ea2;
+  --nb-orange: #ff6a13;
+  --nb-orange-dark: #ea5a06;
+  --nb-ink: #0f2340;
+  --nb-muted: #5b6b80;
+  --nb-strip: #f3f6fa;
+  --nb-line: #d6dee8;
+}
+
+/* Bề rộng theo mẫu chỉ áp ở desktop; mobile để phần tử tự chảy. */
+@media (min-width: 1024px) {
+  [data-lgw] {
+    width: calc(var(--w) * var(--u));
+  }
+}
+
+
+/* LỀ TRANG — nền tràn hết bề ngang, chữ và nội dung lùi vào 2cm.
+   Dùng viền trong suốt thay cho padding: nền vẽ tới mép ngoài (border-box),
+   còn mọi thứ bên trong — kể cả phần tử đặt tuyệt đối — tính từ mép trong. */
+header,
+main > section,
+main > div,
+main > footer,
+body > footer {
+  border-inline: var(--nb-gutter) solid transparent;
+}
+
+/* Ảnh nền của banner được phép chạy ra sát mép màn hình. */
+.nb-photo-right {
+  right: calc(-1 * var(--nb-gutter));
+}
+@media (min-width: 1024px) {
+  .lg:nb-photo-right {
+    right: calc(-1 * var(--nb-gutter));
+  }
+}
+.nb-photo-left {
+  left: calc(-1 * var(--nb-gutter));
+}
