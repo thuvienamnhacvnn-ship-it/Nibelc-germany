@@ -41,8 +41,8 @@ export function PageShell({
         {/* Banner hai cột: chữ bên trái trên nền sáng, ảnh bên phải để
             nguyên — không phủ lớp màu nào lên ảnh. */}
         <section className="bg-[#eef3f9]">
-          <div className="lg:flex lg:items-stretch">
-            <div className="mx-auto w-full max-w-[1400px] px-6 py-12 lg:mx-0 lg:ml-auto lg:max-w-none lg:basis-[52%] lg:py-16 lg:pr-10 lg:pl-10 xl:pl-[max(2.5rem,calc((100vw-1400px)/2+2.5rem))]">
+          <div className="flex flex-col lg:flex-row lg:items-stretch">
+            <div className="order-2 mx-auto w-full max-w-[1400px] px-6 py-10 lg:order-1 lg:mx-0 lg:ml-auto lg:max-w-none lg:basis-[52%] lg:py-16 lg:pr-10 lg:pl-10 xl:pl-[max(2.5rem,calc((100vw-1400px)/2+2.5rem))]">
               <p className="text-xs font-semibold tracking-[0.2em] text-[#1f4f9f] uppercase">{eyebrow}</p>
               <h1 className="mt-3 max-w-[20ch] text-4xl font-extrabold tracking-[-0.02em] text-[#10284d] lg:text-5xl lg:leading-[1.08]">
                 {title}
@@ -51,7 +51,7 @@ export function PageShell({
             </div>
 
             {hero && (
-              <div className="relative aspect-[16/10] w-full lg:aspect-auto lg:min-h-[360px] lg:basis-[48%]">
+              <div className="relative order-1 aspect-[390/230] w-full lg:order-2 lg:aspect-auto lg:min-h-[360px] lg:basis-[48%]">
                 <Image
                   src={hero}
                   alt={heroAlt ?? ""}

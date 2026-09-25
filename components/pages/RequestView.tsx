@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
 import { SiteHeader } from "@/components/SiteHeader";
+import { MobileBanner } from "@/components/MobileBanner";
 import { LegalStrip } from "@/components/LegalStrip";
 import { MobileTabBar } from "@/components/nav/MobileTabBar";
 import { RequestForm, type Option } from "@/components/forms/RequestForm";
@@ -30,6 +31,7 @@ export function RequestView({ locale }: { locale: Locale }) {
       <SiteHeader locale={locale} page="request" variant="light" />
 
       <main id="inhalt" className="bg-[#f3f6fb]">
+        <MobileBanner src={INDUSTRY_ASSETS["produktion-maschinen-anlagen"]!.portraitTeam} focus={"55% 35%"} priority />
         <section className="relative overflow-hidden bg-[#eef3f9]">
           <div className="nb-photo-right absolute inset-y-0 hidden w-[52%] lg:block">
             <Image

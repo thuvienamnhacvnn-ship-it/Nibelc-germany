@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
 import { SiteHeader } from "@/components/SiteHeader";
+import { MobileBanner } from "@/components/MobileBanner";
 import { LegalStrip } from "@/components/LegalStrip";
 import { MobileTabBar } from "@/components/nav/MobileTabBar";
 import { Icon } from "@/components/ui/Icon";
@@ -36,6 +37,7 @@ export function IndustriesView({ locale }: { locale: Locale }) {
     <>
       <SiteHeader locale={locale} page="industries" variant="light" />
       <main id="inhalt" className="bg-white">
+        <MobileBanner src={INDUSTRY_ASSETS["produktion-maschinen-anlagen"]!.portraitTeam} focus={"50% 32%"} priority />
         {/* ---------------- HERO ---------------- */}
         <section className="relative overflow-hidden bg-[#eaf1f8] lg:h-[calc(277*var(--u))]">
           <div className="nb-photo-right absolute inset-y-0 left-[calc(760*var(--u))] hidden lg:block">

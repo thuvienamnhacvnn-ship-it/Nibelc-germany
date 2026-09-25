@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
 import { SiteHeader } from "@/components/SiteHeader";
+import { MobileBanner } from "@/components/MobileBanner";
 import { LegalStrip } from "@/components/LegalStrip";
 import { MobileTabBar } from "@/components/nav/MobileTabBar";
 import { Icon } from "@/components/ui/Icon";
@@ -36,6 +37,7 @@ export function CandidatesView({ locale }: { locale: Locale }) {
       <SiteHeader locale={locale} page="candidates" variant="light" />
 
       <main id="inhalt" className="bg-[#fdfdfd]">
+        <MobileBanner src={INDUSTRY_ASSETS["akademische-fachkraefte"]!.hero} focus={"55% 45%"} priority />
         {/* ---------------- HERO ---------------- */}
         <section className="relative overflow-hidden bg-[#eef2f7] lg:h-[calc(560*var(--u))]">
           <div className="nb-photo-right absolute inset-y-0 left-[calc(560*var(--u))] hidden lg:block">

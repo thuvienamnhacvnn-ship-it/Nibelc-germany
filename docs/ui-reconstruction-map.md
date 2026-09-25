@@ -562,3 +562,19 @@ mà vẫn gửi sự kiện ngay — nút thành thừa và hiệu ứng không 
   dùng `components/LegalStrip.tsx` — một dòng gọn gồm tên pháp nhân,
   Datenschutz, Kontakt, Über uns. Lý do giữ dòng này: luật Đức đòi trang bảo
   mật dữ liệu phải với tới được từ **mọi** trang.
+
+
+## Banner đồng bộ trên điện thoại
+
+Rà lại toàn bộ: các trang 02, 03, 04 và 08 chỉ hiện ảnh hero từ 1024px
+(`hidden lg:block`), nên mở trên điện thoại là trang trơ chữ, lạc hẳn với
+trang chủ và hai trang 05, 06 vốn có ảnh trên đầu.
+
+Chuẩn thống nhất: **ảnh nằm trên, chữ nằm dưới**, ảnh tỉ lệ 390×230.
+
+- `components/MobileBanner.tsx` — băng ảnh đầu trang dùng chung (ảnh + phủ
+  sáng nhẹ ở đáy để nối vào khối chữ). Gắn cho 02, 03, 04 và 08.
+- `PageShell` (Über uns, Leistungen, Wissen, Kontakt, Stellenangebote): trên
+  điện thoại đảo thứ tự bằng `order` để ảnh lên trước chữ; từ `lg` trở lên
+  vẫn là hai cột chữ-trái / ảnh-phải như cũ.
+- Bản máy tính không đổi.
