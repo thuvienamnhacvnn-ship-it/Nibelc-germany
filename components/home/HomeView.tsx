@@ -135,7 +135,7 @@ export function HomeView({ locale }: { locale: Locale }) {
         </section>
 
         {/* ---------------- DẢI 4 Ô ---------------- */}
-        <section className="bg-[var(--nb-strip)] lg:h-[calc(173*var(--u))]">
+        <section className="hidden bg-[var(--nb-strip)] lg:block lg:h-[calc(173*var(--u))]">
           <ul className="grid h-full grid-cols-2 max-sm:gap-y-1 lg:grid-cols-4 lg:px-[calc(45*var(--u))]">
             {t.strip.map(([title, sub], i) => (
               <li

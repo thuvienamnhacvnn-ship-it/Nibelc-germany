@@ -114,15 +114,15 @@ export function MobileHero({ locale }: { locale: Locale }) {
   return (
     <section className="relative overflow-hidden bg-[var(--nb-navy-hero)] text-white lg:hidden">
       {/* ---- hai lớp ảnh + vòng cung + huy hiệu ---- */}
-      <div className="sticky top-8 z-0 aspect-[390/430] w-full overflow-hidden">
+      <div className="sticky top-8 z-0 h-[calc(100svh-2rem)] w-full overflow-hidden">
         {/* nền: lớp duy nhất chạy theo cảm biến */}
         <div ref={bg} className="absolute inset-0 will-change-transform" style={{ transform: "scale(1.14)" }}>
-          <Image src={MOBILE_BANNER.background} alt="" fill priority sizes="100vw" className="object-cover object-[50%_32%]" />
+          <Image src={MOBILE_BANNER.background} alt="" fill priority sizes="100vw" className="object-cover object-[50%_38%]" />
         </div>
 
         {/* PNG hai nhân vật: cố định, không chạy theo cảm biến */}
-        <div className="absolute inset-x-0 bottom-0">
-          <Image src={MOBILE_BANNER.foreground} alt={MOBILE_BANNER.alt} width={1100} height={709} priority sizes="100vw" className="h-auto w-full" />
+        <div className="absolute bottom-[72px] left-1/2 w-[142%] -translate-x-1/2">
+          <Image src={MOBILE_BANNER.foreground} alt={MOBILE_BANNER.alt} width={1100} height={709} priority sizes="142vw" className="h-auto w-full" />
         </div>
 
         {/* phủ tối nhẹ ở đỉnh: logo và hàng icon phải đọc được trên nền trời */}
