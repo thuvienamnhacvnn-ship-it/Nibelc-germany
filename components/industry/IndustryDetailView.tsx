@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Route } from "next";
 import type { CSSProperties, ReactNode } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
+import { MobileBanner } from "@/components/MobileBanner";
 import { LegalStrip } from "@/components/LegalStrip";
 import { MobileTabBar } from "@/components/nav/MobileTabBar";
 import { Icon } from "@/components/ui/Icon";
@@ -69,9 +70,10 @@ export function IndustryDetailView({ locale, industry }: { locale: Locale; indus
       <SiteHeader locale={locale} page="industries" variant="light" langHrefs={langHrefs} />
 
       <main id="inhalt" className="bg-[#eef3f9]">
+        <MobileBanner src={a.hero} alt={industry.alt.hero} focus={d.heroFocus} priority />
         {/* ---------------- HERO ---------------- */}
         <section className="relative overflow-hidden bg-[#eef3f9] lg:h-[calc(358*var(--u))]">
-          <div className="relative aspect-[16/9] lg:nb-photo-right lg:absolute lg:inset-y-0 lg:left-[calc(540*var(--u))] lg:aspect-auto">
+          <div className="hidden lg:nb-photo-right lg:absolute lg:inset-y-0 lg:left-[calc(540*var(--u))] lg:block">
             <Image
               src={a.hero}
               alt={industry.alt.hero}

@@ -578,3 +578,16 @@ Chuẩn thống nhất: **ảnh nằm trên, chữ nằm dưới**, ảnh tỉ l
   điện thoại đảo thứ tự bằng `order` để ảnh lên trước chữ; từ `lg` trở lên
   vẫn là hai cột chữ-trái / ảnh-phải như cũ.
 - Bản máy tính không đổi.
+
+
+### Rà vòng hai
+
+- Trang 05 và 06 trên điện thoại vẫn dùng khối ảnh riêng tỉ lệ 16:9 (thấp hơn
+  và không có lớp phủ) → chuyển sang `MobileBanner` như các trang khác.
+- Trang `/datenschutz` dựng tay, **không có banner** → cho dùng chung
+  `PageShell`, nên nay có đủ banner, header và chân trang như mọi trang.
+- Tiêu đề trong `PageShell` cho phép ngắt âm tiết (`hyphens: auto`) và cỡ chữ
+  nhỏ hơn ở điện thoại: từ ghép tiếng Đức như "Datenschutzerklärung" trước đây
+  bị cắt cụt giữa chữ.
+- Kết quả đo: mọi trang đều có ảnh banner cao 230px, mép trên 88px ở 390px;
+  không trang nào tràn ngang ở 390 và 1440.

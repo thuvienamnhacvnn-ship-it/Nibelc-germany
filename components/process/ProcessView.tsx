@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Route } from "next";
 import type { CSSProperties } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
+import { MobileBanner } from "@/components/MobileBanner";
 import { LegalStrip } from "@/components/LegalStrip";
 import { MobileTabBar } from "@/components/nav/MobileTabBar";
 import { PrintButton } from "@/components/process/PrintButton";
@@ -110,9 +111,10 @@ export function ProcessView({ locale }: { locale: Locale }) {
       <SiteHeader locale={locale} page="process" variant="light" />
 
       <main id="inhalt" className="bg-[#f3f6fb]">
+        <MobileBanner src={PAGE_HERO.prozess} focus="60% 55%" priority />
         {/* ---------------- HERO ---------------- */}
         <section className="relative overflow-hidden bg-[#f1f5fa] lg:h-[calc(327*var(--u))]">
-          <div className="relative aspect-[16/9] lg:nb-photo-right lg:absolute lg:inset-y-0 lg:left-[calc(700*var(--u))] lg:aspect-auto">
+          <div className="hidden lg:nb-photo-right lg:absolute lg:inset-y-0 lg:left-[calc(700*var(--u))] lg:block">
             <Image
               src={PAGE_HERO.prozess}
               alt=""

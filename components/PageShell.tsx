@@ -44,7 +44,7 @@ export function PageShell({
           <div className="flex flex-col lg:flex-row lg:items-stretch">
             <div className="order-2 mx-auto w-full max-w-[1400px] px-6 py-10 lg:order-1 lg:mx-0 lg:ml-auto lg:max-w-none lg:basis-[52%] lg:py-16 lg:pr-10 lg:pl-10 xl:pl-[max(2.5rem,calc((100vw-1400px)/2+2.5rem))]">
               <p className="text-xs font-semibold tracking-[0.2em] text-[#1f4f9f] uppercase">{eyebrow}</p>
-              <h1 className="mt-3 max-w-[20ch] text-4xl font-extrabold tracking-[-0.02em] text-[#10284d] lg:text-5xl lg:leading-[1.08]">
+              <h1 className="mt-3 max-w-[20ch] text-[30px] leading-[1.15] font-extrabold tracking-[-0.02em] break-words text-[#10284d] [hyphens:auto] sm:text-4xl lg:text-5xl lg:leading-[1.08]">
                 {title}
               </h1>
               {lead && <p className="mt-4 max-w-[52ch] text-lg text-[#2a3d58]">{lead}</p>}
