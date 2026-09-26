@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
 import { useEffect, useRef, useState } from "react";
+import { HeroSearch } from "@/components/home/HeroSearch";
 import { Icon } from "@/components/ui/Icon";
 import { MOBILE_BANNER } from "@/content/industry-assets";
 import { HOME, ROUTES, type Locale } from "@/content/locales";
@@ -181,6 +182,10 @@ export function MobileHero({ locale }: { locale: Locale }) {
             <span className="text-[#7fc0ff]">{t.h1accent}</span>
             <span className="text-[var(--nb-orange)]">.</span>
           </h1>
+
+          <div className="mt-4 flex justify-center">
+            <HeroSearch locale={locale} />
+          </div>
         </div>
 
         {/* chuyển sang nền navy ở đáy để nối liền với khối chữ */}

@@ -5,6 +5,8 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { LegalStrip } from "@/components/LegalStrip";
 import { MobileTabBar } from "@/components/nav/MobileTabBar";
 import { HeroParallax } from "@/components/home/HeroParallax";
+import { HeroSearch } from "@/components/home/HeroSearch";
+import { IndustryRail } from "@/components/home/IndustryRail";
 import { JobStage } from "@/components/jobs/JobStage";
 import { JOB_ORDERS } from "@/content/jobs-current";
 import { JobTicker } from "@/components/home/JobTicker";
@@ -133,8 +135,15 @@ export function HomeView({ locale }: { locale: Locale }) {
                 {t.ctaSecondary}
               </Link>
             </div>
+
+              <div className="mt-[calc(26*var(--u))]">
+                <HeroSearch locale={locale} />
+              </div>
           </div>
         </section>
+
+        {/* ---------------- NGÀNH NGHỀ ---------------- */}
+        <IndustryRail locale={locale} />
 
         {/* ---------------- SÂN KHẤU ĐƠN HÀNG ---------------- */}
         <JobStage locale={locale} jobs={JOB_ORDERS} />

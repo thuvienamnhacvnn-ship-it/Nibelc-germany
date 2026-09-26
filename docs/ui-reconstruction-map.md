@@ -621,3 +621,23 @@ trang ngành, trang lộ trình. Không thêm đơn hàng, không đổi con s�
 trang nào hiển thị trạng thái. Lương vẫn ghi rõ là của riêng từng đơn.
 
 **Đường lùi:** `scripts/khoi-phuc.sh <mã-commit>` quay web về bản cũ.
+
+## Theo bộ mẫu mới (11 màn Sếp gửi) — dữ liệu và ảnh giữ nguyên
+
+| Màn mẫu | Đã dựng ở |
+|---|---|
+| 01 Trang chủ | hero + `HeroSearch` (ô tìm) + `IndustryRail` (dải ngành) + `JobStage` (carousel đơn hàng) |
+| 02 Danh sách đơn hàng | `components/jobs/JobBrowser.tsx` — thanh lọc, danh mục ngành có số đếm, lưới thẻ có ảnh |
+| 03 Chi tiết đơn hàng | `components/jobs/JobDetailView.tsx` — `JobGallery` (ảnh lớn + cột ảnh nhỏ), bốn ô thông số, tab (Tổng quan · Công việc · Yêu cầu · Quyền lợi · Liên hệ), cột tư vấn |
+| Mobile 01–07 | banner toàn màn hình, thẻ vuốt ngang, menu đáy sẵn có |
+
+**Khác mẫu, vì dữ liệu không có:**
+- Mẫu lọc theo "Quốc gia" và "Trạng thái": mọi đơn đều ở Đức và dữ liệu không
+  có trường trạng thái → bộ lọc dùng Ngành nghề · Nơi làm việc · Mức lương.
+- Mẫu có nút "Lưu đơn hàng" (cần tài khoản) và kênh Zalo/WhatsApp với số điện
+  thoại khác → không dựng; cột tư vấn dùng đúng số và email trong
+  `content/legal.ts`.
+- Mẫu ghi các nước Albania, Hy Lạp và những đơn hàng không có thật → không đưa
+  vào; toàn bộ thẻ đọc từ ba đơn trong `content/jobs-current.ts`.
+- Ô tìm trên banner dẫn sang `/stellenangebote?q=…` và lọc trong ba đơn đang
+  có; không có máy tìm kiếm riêng.
