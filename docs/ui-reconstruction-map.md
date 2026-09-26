@@ -591,3 +591,33 @@ Chuẩn thống nhất: **ảnh nằm trên, chữ nằm dưới**, ảnh tỉ l
   bị cắt cụt giữa chữ.
 - Kết quả đo: mọi trang đều có ảnh banner cao 230px, mép trên 88px ở 390px;
   không trang nào tràn ngang ở 390 và 1440.
+
+## JOB MOTION — sân khấu đơn hàng
+
+**Giữ nguyên 100%:** dữ liệu ba đơn hàng trong `content/jobs-current.ts`
+(số suất 40/5/5, lương, giờ, nơi làm, diện visa, công việc, yêu cầu, quyền lợi,
+ảnh tin gốc), thông tin công ty và liên hệ, toàn bộ route cũ, menu, biểu mẫu,
+trang ngành, trang lộ trình. Không thêm đơn hàng, không đổi con số nào.
+
+**Mới:**
+- `components/jobs/JobStage.tsx` — sân khấu ở trang chủ. Máy tính: ba tấm nằm
+  ngang, tấm giữa nổi (scale 1, z cao), hai tấm bên lùi lại (scale .82, mờ,
+  giảm bão hoà), hai mép sân khấu mờ dần vào nền. Tự chuyển 6,5 giây, **dừng
+  hẳn khi người xem chạm vào** (rê chuột, chạm, bấm nút, dùng phím ←/→); có
+  thanh tiến trình, số thứ tự, nút trước/sau và nút tạm dừng. Điện thoại: mỗi
+  màn một đơn, vuốt ngang bằng `scroll-snap`, chấm chỉ vị trí, nút "Xem đơn
+  hàng" cỡ lớn. Không thêm thư viện hiệu ứng nào. Bật "giảm chuyển động" thì
+  không tự chuyển và không biến đổi tỷ lệ. Có vùng `aria-live` đọc đơn đang mở.
+- `components/jobs/JobDetailView.tsx` + route `/stellenangebote/[job]`
+  (+ `/en/jobs/[job]`, `/vi/don-hang/[job]`) — trang chi tiết từng đơn: hero
+  navy với ảnh ngành, tiêu đề lớn, thẻ số suất và nơi làm, hai nút hiện có
+  (ứng tuyển → Kontakt, báo nhu cầu → Personalbedarf), dải bốn thông số, ba cột
+  công việc / yêu cầu / quyền lợi, tin gốc (chỉ bản tiếng Việt), **các đơn hàng
+  khác** và nút quay lại danh sách. `generateStaticParams` + `dynamicParams`
+  tắt nên mã đơn lạ trả 404.
+- Trang danh sách: tiêu đề và nút chính của mỗi đơn nay dẫn sang trang chi tiết.
+
+**Không suy diễn:** dữ liệu không có trường "trạng thái tuyển dụng" nên không
+trang nào hiển thị trạng thái. Lương vẫn ghi rõ là của riêng từng đơn.
+
+**Đường lùi:** `scripts/khoi-phuc.sh <mã-commit>` quay web về bản cũ.

@@ -6,7 +6,7 @@ import { Icon } from "@/components/ui/Icon";
 import { INDUSTRY_ASSETS } from "@/content/industry-assets";
 import { industryBySlug, industryName } from "@/content/industries";
 import { JOBS_COPY, JOB_ORDERS, totalSlots } from "@/content/jobs-current";
-import { ROUTES, industryPath, type Locale } from "@/content/locales";
+import { ROUTES, industryPath, jobPath, type Locale } from "@/content/locales";
 
 /**
  * Trang "đơn hàng đang chạy" — các vị trí đang tuyển, đọc từ
@@ -48,7 +48,11 @@ export function JobsView({ locale }: { locale: Locale }) {
                 {/* đầu thẻ */}
                 <div className="flex flex-wrap items-start gap-4 border-b border-[#eef2f7] bg-[#f7f9fc] px-6 py-5">
                   <div className="min-w-0 flex-1">
-                    <h2 className="text-xl font-bold text-[#10284d] lg:text-2xl">{j.title[locale]}</h2>
+                    <h2 className="text-xl font-bold text-[#10284d] lg:text-2xl">
+                      <Link href={jobPath(locale, j.id) as Route} className="hover:text-[var(--nb-blue-dark)] hover:underline">
+                        {j.title[locale]}
+                      </Link>
+                    </h2>
                     <p className="mt-1 text-[#5b6b80]">{j.summary[locale]}</p>
                   </div>
                   <p className="flex items-center gap-2 rounded-full bg-[var(--nb-orange)] px-4 py-2 font-bold text-white">
@@ -115,7 +119,7 @@ export function JobsView({ locale }: { locale: Locale }) {
                 {/* nút */}
                 <div className="flex flex-wrap items-center gap-3 border-t border-[#eef2f7] bg-[#f7f9fc] px-6 py-5">
                   <Link
-                    href={ROUTES.contact[locale] as Route}
+                    href={jobPath(locale, j.id) as Route}
                     className="inline-flex items-center gap-2 rounded-lg bg-[var(--nb-orange)] px-6 py-3 font-semibold text-white hover:bg-[var(--nb-orange-dark)]"
                   >
                     {t.apply}

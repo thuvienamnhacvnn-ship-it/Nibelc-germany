@@ -216,6 +216,16 @@ export const JOB_ORDERS: JobOrder[] = [
   },
 ];
 
+/** Một đơn hàng theo mã; dùng cho trang chi tiết. */
+export function jobById(id: string): JobOrder | undefined {
+  return JOB_ORDERS.find((j) => j.id === id);
+}
+
+/** Các đơn hàng khác, để gợi ý ở cuối trang chi tiết. */
+export function otherJobs(id: string): JobOrder[] {
+  return JOB_ORDERS.filter((j) => j.id !== id);
+}
+
 export function totalSlots(): number {
   return JOB_ORDERS.reduce((n, j) => n + j.slots, 0);
 }

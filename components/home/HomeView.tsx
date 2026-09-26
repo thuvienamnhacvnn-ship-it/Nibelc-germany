@@ -5,6 +5,8 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { LegalStrip } from "@/components/LegalStrip";
 import { MobileTabBar } from "@/components/nav/MobileTabBar";
 import { HeroParallax } from "@/components/home/HeroParallax";
+import { JobStage } from "@/components/jobs/JobStage";
+import { JOB_ORDERS } from "@/content/jobs-current";
 import { JobTicker } from "@/components/home/JobTicker";
 import { MobileHero } from "@/components/home/MobileHero";
 import { HOME, ROUTES, type Locale } from "@/content/locales";
@@ -133,6 +135,9 @@ export function HomeView({ locale }: { locale: Locale }) {
             </div>
           </div>
         </section>
+
+        {/* ---------------- SÂN KHẤU ĐƠN HÀNG ---------------- */}
+        <JobStage locale={locale} jobs={JOB_ORDERS} />
 
         {/* ---------------- DẢI 4 Ô ---------------- */}
         <section className="hidden bg-[var(--nb-strip)] lg:block lg:h-[calc(173*var(--u))]">
