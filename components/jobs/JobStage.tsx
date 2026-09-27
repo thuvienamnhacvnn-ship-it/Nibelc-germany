@@ -11,34 +11,34 @@ import { STAGE } from "@/content/job-stage";
 import { ROUTES, jobPath, type Locale } from "@/content/locales";
 
 /**
- * SÂN KHẤU ĐƠN HÀNG — trang chủ trình diễn các đơn đang tuyển.
+ * JOB STAGE — sân khấu đơn hàng, thứ đầu tiên người xem thấy khi mở web.
  *
- * Máy tính: ba tấm nằm ngang, tấm giữa nổi hẳn, hai tấm bên lùi lại và nhỏ hơn
- * để tạo chiều sâu. Tự chuyển sau 6,5 giây và DỪNG HẲN ngay khi người xem chạm
- * vào (rê chuột, bấm nút, dùng bàn phím) — không giành quyền điều khiển.
- * Điện thoại: mỗi màn một đơn, vuốt ngang bằng cuộn có điểm dừng (scroll-snap),
- * không dùng thư viện hiệu ứng nào.
+ * Máy tính: chiếm gần trọn màn hình. Một tấm poster lớn ở giữa, các đơn còn
+ * lại lùi về hai bên theo chiều sâu (xoay nhẹ, thu nhỏ, mờ đi). Số thứ tự
+ * khổng lồ nằm sau ảnh. Đổi đơn bằng chuột, bàn phím (←/→), kéo ngang hoặc
+ * nút; tự chạy sau 6 giây và dừng hẳn khi người xem chạm vào.
  *
- * Mọi số liệu đọc thẳng từ `content/jobs-current.ts`; ở đây không có dữ liệu.
- * Người bật "giảm chuyển động" thì không có chuyển động tự động và không có
- * biến đổi tỷ lệ.
+ * Điện thoại: một "rạp" riêng — ảnh nghề chiếm phần lớn màn hình, chữ và nút
+ * nằm trong vùng ngón cái, vuốt ngang để đổi đơn, tấm kế lộ một phần để báo
+ * hiệu vuốt được. Không thu nhỏ bố cục máy tính.
+ *
+ * Mọi số liệu đọc từ `content/jobs-current.ts`. Người bật "giảm chuyển động"
+ * thì không tự chạy và không có chuyển cảnh.
  */
 
-const AUTO_MS = 6500;
-
-function fmtSalary(j: JobOrder) {
-  return `${j.salary.from.toLocaleString("de-DE")} – ${j.salary.to.toLocaleString("de-DE")} €`;
-}
+const AUTO_MS = 6000;
 
 export function JobStage({ locale, jobs }: { locale: Locale; jobs: JobOrder[] }) {
   const t = STAGE[locale];
   const c = JOBS_COPY[locale];
   const n = jobs.length;
+
   const [active, setActive] = useState(0);
   const [auto, setAuto] = useState(true);
   const [progress, setProgress] = useState(0);
-  const track = useRef<HTMLUListElement>(null);
   const reduced = useRef(false);
+  const track = useRef<HTMLUListElement>(null);
+  const drag = useRef<{ x: number; on: boolean }>({ x: 0, on: false });
 
   useEffect(() => {
     reduced.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -53,227 +53,303 @@ export function JobStage({ locale, jobs }: { locale: Locale; jobs: JobOrder[] })
     [n],
   );
 
-  // tự chuyển + thanh tiến trình
   useEffect(() => {
     if (!auto || n < 2) return;
     const started = Date.now();
-    const tick = window.setInterval(() => {
+    const id = window.setInterval(() => {
       const p = Math.min(1, (Date.now() - started) / AUTO_MS);
       setProgress(p);
       if (p >= 1) setActive((i) => (i + 1) % n);
     }, 80);
-    return () => window.clearInterval(tick);
+    return () => window.clearInterval(id);
   }, [auto, active, n]);
 
-  useEffect(() => {
-    if (!auto) setProgress(0);
-  }, [auto]);
-
-  // bàn phím
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") go(1);
       if (e.key === "ArrowLeft") go(-1);
     };
-    const el = track.current?.closest("section");
-    el?.addEventListener("keydown", onKey as EventListener);
-    return () => el?.removeEventListener("keydown", onKey as EventListener);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [go]);
 
-  // điện thoại: cuộn tới đâu thì chấm sáng tới đó
+  // kéo ngang bằng chuột / touchpad trên máy tính
+  const onPointerDown = (e: React.PointerEvent) => {
+    drag.current = { x: e.clientX, on: true };
+    setAuto(false);
+  };
+  const onPointerUp = (e: React.PointerEvent) => {
+    if (!drag.current.on) return;
+    const dx = e.clientX - drag.current.x;
+    drag.current.on = false;
+    if (Math.abs(dx) > 60) go(dx < 0 ? 1 : -1);
+  };
+
   const onScroll = () => {
     const el = track.current;
     if (!el) return;
-    const i = Math.round(el.scrollLeft / (el.clientWidth * 0.86));
+    const i = Math.round(el.scrollLeft / (el.clientWidth * 0.88));
     setActive(Math.max(0, Math.min(n - 1, i)));
   };
+
+  const job = jobs[active]!;
+  const fallback = INDUSTRY_ASSETS["gartenbau-gaertner"]!.hero;
 
   return (
     <section
       aria-roledescription="carousel"
       aria-label={t.title}
-      tabIndex={-1}
       onMouseEnter={() => setAuto(false)}
       onTouchStart={() => setAuto(false)}
-      className="relative overflow-hidden bg-[var(--nb-navy-deep)] py-10 text-white lg:py-16"
+      className="relative isolate overflow-hidden bg-[#071322] text-[#F6F4EF]"
     >
-      {/* vệt sáng nền, rất nhẹ */}
-      <span
-        className="pointer-events-none absolute -top-40 left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full opacity-25 blur-[90px]"
-        style={{ background: "radial-gradient(closest-side, rgba(45,120,220,.55), rgba(7,29,58,0))" }}
-        aria-hidden="true"
-      />
+      {/* nền: ảnh của đơn đang xem, làm mờ và tối */}
+      <div className="absolute inset-0 -z-10">
+        {jobs.map((j, i) => (
+          <Image
+            key={j.id}
+            src={INDUSTRY_ASSETS[j.industry]?.hero ?? fallback}
+            alt=""
+            fill
+            priority={i === 0}
+            sizes="100vw"
+            className={`object-cover transition-opacity duration-700 motion-reduce:transition-none ${i === active ? "opacity-100" : "opacity-0"}`}
+          />
+        ))}
+        <span className="absolute inset-0 bg-[#071322]/85" aria-hidden="true" />
+        <span
+          className="absolute inset-0"
+          style={{ background: "radial-gradient(58% 52% at 50% 42%, rgba(213,166,75,.18), rgba(7,19,34,0) 70%)" }}
+          aria-hidden="true"
+        />
+      </div>
 
-      <div className="relative mx-auto max-w-[1400px] px-5 lg:px-10">
-        {/* tiêu đề khối */}
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="flex items-center gap-2 text-[11px] font-bold tracking-[0.22em] text-[var(--nb-gold)] uppercase lg:text-xs">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--nb-gold)] opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--nb-gold)]" />
-              </span>
-              {t.eyebrow}
-            </p>
-            <h2 className="mt-3 max-w-[18ch] text-[28px] leading-[1.1] font-extrabold tracking-[-0.02em] text-white lg:text-[44px]">
-              {t.title}
-            </h2>
-            <p className="mt-3 max-w-[60ch] text-sm text-white/70 lg:text-base">{t.lead}</p>
-          </div>
-
+      {/* ------------------------------------------------ MÁY TÍNH */}
+      <div className="relative mx-auto hidden min-h-[88svh] max-w-[1600px] flex-col justify-center px-10 py-12 lg:flex">
+        <div className="flex items-end justify-between gap-6">
+          <p className="flex items-center gap-3 text-[11px] font-bold tracking-[0.3em] text-[#D5A64B] uppercase">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#D5A64B] opacity-70" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#D5A64B]" />
+            </span>
+            {t.eyebrow}
+          </p>
           <Link
             href={ROUTES.jobs[locale] as Route}
-            className="hidden items-center gap-2 rounded-full border border-white/25 px-5 py-2.5 text-sm font-semibold hover:bg-white/10 lg:inline-flex"
+            className="flex items-center gap-2 rounded-full border border-[#F6F4EF]/25 px-5 py-2.5 text-sm font-semibold transition hover:border-[#D5A64B] hover:text-[#D5A64B]"
           >
             {t.all}
             <Icon name="arrowRight" className="h-4 w-4" strokeWidth={2} />
           </Link>
         </div>
 
-        {/* ---------- MÁY TÍNH: ba tấm, tấm giữa nổi ---------- */}
-        <div className="relative mt-10 hidden h-[430px] lg:block">
+        <div
+          className="relative mt-7 h-[540px] cursor-grab select-none active:cursor-grabbing"
+          onPointerDown={onPointerDown}
+          onPointerUp={onPointerUp}
+        >
+          {/* số thứ tự khổng lồ nằm sau ảnh */}
+          <span
+            key={`num-${active}`}
+            aria-hidden="true"
+            className="nb-kinetic pointer-events-none absolute top-1/2 left-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 text-[20vw] leading-none font-black text-[#F6F4EF]/[.09]"
+          >
+            {String(active + 1).padStart(2, "0")}
+          </span>
+
           {jobs.map((j, i) => {
-            const d = ((i - active + n) % n + Math.floor(n / 2)) % n - Math.floor(n / 2);
+            const d = ((((i - active + n) % n) + Math.floor(n / 2)) % n) - Math.floor(n / 2);
             const off = Math.max(-1, Math.min(1, d));
             const isActive = d === 0;
+            const img = INDUSTRY_ASSETS[j.industry]?.hero ?? fallback;
+
             return (
               <article
                 key={j.id}
                 aria-hidden={!isActive}
-                className="absolute top-0 left-1/2 w-[620px] transition-[transform,opacity] duration-700 ease-[cubic-bezier(.2,.7,.2,1)] motion-reduce:transition-none"
+                className="absolute top-0 left-1/2 w-[620px] transition-[transform,opacity,filter] duration-[700ms] ease-[cubic-bezier(.2,.75,.2,1)] motion-reduce:transition-none"
                 style={{
-                  transform: `translate3d(calc(-50% + ${off * 430}px), ${isActive ? 0 : 26}px, 0) scale(${isActive ? 1 : 0.82})`,
-                  opacity: Math.abs(d) > 1 ? 0 : isActive ? 1 : 0.5,
-                  zIndex: isActive ? 20 : 10,
-                  filter: isActive ? "none" : "saturate(.6)",
+                  transform: `translate3d(calc(-50% + ${off * 470}px), ${isActive ? 0 : 38}px, 0) scale(${isActive ? 1 : 0.76}) rotateY(${off * -7}deg)`,
+                  opacity: Math.abs(d) > 1 ? 0 : isActive ? 1 : 0.42,
+                  filter: isActive ? "none" : "saturate(.5) brightness(.82)",
                   pointerEvents: isActive ? "auto" : "none",
+                  zIndex: isActive ? 20 : 10,
                 }}
               >
-                <StageCard job={j} locale={locale} big />
+                <Link
+                  href={jobPath(locale, j.id) as Route}
+                  className="group relative block h-[540px] overflow-hidden rounded-[28px] ring-1 ring-[#F6F4EF]/15"
+                  style={isActive ? ({ viewTransitionName: `job-${j.id}` } as React.CSSProperties) : undefined}
+                >
+                  <Image
+                    src={img}
+                    alt=""
+                    fill
+                    sizes="620px"
+                    className="object-cover transition-transform duration-[1200ms] group-hover:scale-[1.05] motion-reduce:transition-none"
+                  />
+                  <span
+                    className="absolute inset-0"
+                    style={{ background: "linear-gradient(180deg, rgba(7,19,34,.12) 22%, rgba(7,19,34,.93) 78%)" }}
+                    aria-hidden="true"
+                  />
+
+                  <span className="absolute top-6 left-6 flex items-center gap-2 rounded-full bg-[#071322]/70 px-4 py-2 text-xs font-bold tracking-[0.18em] uppercase backdrop-blur">
+                    <Icon name="germany" className="h-4 w-4 text-[#D5A64B]" />
+                    {t.country}
+                  </span>
+
+                  <span className="absolute inset-x-0 bottom-0 p-8">
+                    {isActive && (
+                      <span key={`title-${j.id}`} className="block">
+                        <span className="nb-kinetic block text-[12px] font-bold tracking-[0.26em] text-[#D5A64B] uppercase" style={{ animationDelay: "40ms" }}>
+                          {j.locations.join(" · ")}
+                        </span>
+                        <span className="nb-kinetic mt-3 block text-[36px] leading-[1.06] font-black tracking-[-0.03em]" style={{ animationDelay: "120ms" }}>
+                          {j.title[locale]}
+                        </span>
+                        <span className="nb-kinetic mt-5 flex flex-wrap items-end gap-x-8 gap-y-3" style={{ animationDelay: "220ms" }}>
+                          <span className="block">
+                            <span className="block text-[10px] tracking-[0.2em] text-[#F6F4EF]/55 uppercase">{c.salaryLabel}</span>
+                            <b className="block text-[24px] leading-tight font-black text-[#D5A64B]">
+                              {j.salary.from.toLocaleString("de-DE")} – {j.salary.to.toLocaleString("de-DE")} €
+                            </b>
+                          </span>
+                          <span className="block">
+                            <span className="block text-[10px] tracking-[0.2em] text-[#F6F4EF]/55 uppercase">{c.slotsLabel}</span>
+                            <b className="block text-[24px] leading-tight font-black">{j.slots}</b>
+                          </span>
+                          <span className="block">
+                            <span className="block text-[10px] tracking-[0.2em] text-[#F6F4EF]/55 uppercase">{c.hoursLabel}</span>
+                            <b className="block text-[24px] leading-tight font-black">{j.hoursPerWeek} h</b>
+                          </span>
+                        </span>
+                        <span
+                          className="nb-kinetic mt-6 flex h-12 w-fit items-center gap-3 rounded-full bg-[#D5A64B] px-7 font-bold text-[#231a05] transition-[gap] group-hover:gap-5"
+                          style={{ animationDelay: "320ms" }}
+                        >
+                          {t.detail}
+                          <Icon name="arrowRight" className="h-4 w-4" strokeWidth={2.4} />
+                        </span>
+                      </span>
+                    )}
+                  </span>
+                </Link>
               </article>
             );
           })}
         </div>
 
-        {/* mép trái/phải mờ dần để hai tấm bên chìm vào nền */}
-        <span className="pointer-events-none absolute inset-y-0 left-0 hidden w-24 bg-gradient-to-r from-[#071d3a] to-transparent lg:block" aria-hidden="true" />
-        <span className="pointer-events-none absolute inset-y-0 right-0 hidden w-24 bg-gradient-to-l from-[#071d3a] to-transparent lg:block" aria-hidden="true" />
-
-        {/* điều khiển máy tính */}
-        <div className="mt-6 hidden items-center gap-4 lg:flex">
-          <button type="button" onClick={() => go(-1)} aria-label={t.prev} className="flex h-11 w-11 items-center justify-center rounded-full border border-white/25 hover:bg-white/10">
+        <div className="mt-9 flex items-center gap-5">
+          <button type="button" onClick={() => go(-1)} aria-label={t.prev} className="flex h-12 w-12 items-center justify-center rounded-full border border-[#F6F4EF]/25 transition hover:border-[#D5A64B] hover:text-[#D5A64B]">
             <Icon name="chevronRight" className="h-5 w-5 rotate-180" strokeWidth={2} />
           </button>
-          <button type="button" onClick={() => go(1)} aria-label={t.next} className="flex h-11 w-11 items-center justify-center rounded-full border border-white/25 hover:bg-white/10">
+          <button type="button" onClick={() => go(1)} aria-label={t.next} className="flex h-12 w-12 items-center justify-center rounded-full border border-[#F6F4EF]/25 transition hover:border-[#D5A64B] hover:text-[#D5A64B]">
             <Icon name="chevronRight" className="h-5 w-5" strokeWidth={2} />
           </button>
 
-          <span className="h-1 flex-1 overflow-hidden rounded-full bg-white/15" aria-hidden="true">
+          <span className="text-sm tabular-nums text-[#F6F4EF]/60">
+            <b className="text-[#F6F4EF]">{String(active + 1).padStart(2, "0")}</b> / {String(n).padStart(2, "0")}
+          </span>
+
+          <span className="h-px flex-1 overflow-hidden bg-[#F6F4EF]/15" aria-hidden="true">
             <span
-              className="block h-full rounded-full bg-[var(--nb-gold)] transition-[width] duration-100 ease-linear"
+              className="block h-full bg-[#D5A64B] transition-[width] duration-100 ease-linear"
               style={{ width: `${auto ? progress * 100 : ((active + 1) / n) * 100}%` }}
             />
           </span>
-
-          <span className="text-sm tabular-nums text-white/70">{t.ofLabel(active + 1, n)}</span>
 
           <button
             type="button"
             onClick={() => setAuto((v) => !v)}
             aria-label={auto ? t.pause : t.play}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/25 hover:bg-white/10"
+            className="flex h-12 w-12 items-center justify-center rounded-full border border-[#F6F4EF]/25 transition hover:border-[#D5A64B] hover:text-[#D5A64B]"
           >
             <Icon name={auto ? "pause" : "play"} className="h-4 w-4" strokeWidth={2} />
           </button>
         </div>
+      </div>
 
-        {/* ---------- ĐIỆN THOẠI: vuốt ngang ---------- */}
+      {/* ------------------------------------------------ ĐIỆN THOẠI */}
+      <div className="relative flex min-h-[86svh] flex-col lg:hidden">
+        <div className="flex items-center justify-between px-5 pt-5">
+          <p className="flex items-center gap-2 text-[10px] font-bold tracking-[0.24em] text-[#D5A64B] uppercase">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#D5A64B] opacity-70" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#D5A64B]" />
+            </span>
+            {t.eyebrow}
+          </p>
+          <span className="text-xs tabular-nums text-[#F6F4EF]/60">
+            <b className="text-[#F6F4EF]">{String(active + 1).padStart(2, "0")}</b> / {String(n).padStart(2, "0")}
+          </span>
+        </div>
+
         <ul
           ref={track}
           onScroll={onScroll}
-          className="mt-7 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 lg:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="mt-4 flex flex-1 snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          {jobs.map((j) => (
-            <li key={j.id} className="w-[86%] shrink-0 snap-center">
-              <StageCard job={j} locale={locale} />
-            </li>
-          ))}
+          {jobs.map((j) => {
+            const img = INDUSTRY_ASSETS[j.industry]?.hero ?? fallback;
+            return (
+              <li key={j.id} className="w-[88%] shrink-0 snap-center">
+                <Link
+                  href={jobPath(locale, j.id) as Route}
+                  className="relative flex h-full min-h-[60svh] flex-col justify-end overflow-hidden rounded-[24px] ring-1 ring-[#F6F4EF]/15"
+                  style={{ viewTransitionName: `job-${j.id}` } as React.CSSProperties}
+                >
+                  <Image src={img} alt="" fill sizes="88vw" className="object-cover" />
+                  <span
+                    className="absolute inset-0"
+                    style={{ background: "linear-gradient(180deg, rgba(7,19,34,.08) 28%, rgba(7,19,34,.94) 84%)" }}
+                    aria-hidden="true"
+                  />
+                  <span className="absolute top-4 left-4 flex items-center gap-1.5 rounded-full bg-[#071322]/70 px-3 py-1.5 text-[10px] font-bold tracking-[0.16em] uppercase backdrop-blur">
+                    <Icon name="germany" className="h-3.5 w-3.5 text-[#D5A64B]" />
+                    {t.country}
+                  </span>
+
+                  <span className="relative p-5">
+                    <span className="block text-[11px] font-bold tracking-[0.2em] text-[#D5A64B] uppercase">{j.locations[0]}</span>
+                    <span className="mt-2 block text-[23px] leading-[1.12] font-black tracking-[-0.02em]">{j.title[locale]}</span>
+                    <span className="mt-3 flex items-end gap-6">
+                      <span>
+                        <span className="block text-[10px] tracking-[0.18em] text-[#F6F4EF]/55 uppercase">{c.salaryLabel}</span>
+                        <b className="block text-lg leading-tight font-black text-[#D5A64B]">
+                          {j.salary.from.toLocaleString("de-DE")} – {j.salary.to.toLocaleString("de-DE")} €
+                        </b>
+                      </span>
+                      <span>
+                        <span className="block text-[10px] tracking-[0.18em] text-[#F6F4EF]/55 uppercase">{c.slotsLabel}</span>
+                        <b className="block text-lg leading-tight font-black">{j.slots}</b>
+                      </span>
+                    </span>
+                    <span className="mt-4 flex h-12 items-center justify-center gap-2 rounded-xl bg-[#D5A64B] font-bold text-[#231a05]">
+                      {t.detail}
+                      <Icon name="arrowRight" className="h-4 w-4" strokeWidth={2.4} />
+                    </span>
+                  </span>
+                </Link>
+              </li>
+            );
+          })}
         </ul>
 
-        <div className="mt-4 flex items-center justify-between lg:hidden">
-          <span className="flex gap-1.5" aria-hidden="true">
-            {jobs.map((j, i) => (
-              <span key={j.id} className={`h-1.5 rounded-full transition-all ${i === active ? "w-6 bg-[var(--nb-gold)]" : "w-1.5 bg-white/35"}`} />
-            ))}
+        <div className="flex items-center gap-3 px-5 pb-5">
+          <span className="h-px flex-1 overflow-hidden bg-[#F6F4EF]/15" aria-hidden="true">
+            <span className="block h-full bg-[#D5A64B] transition-[width] duration-300" style={{ width: `${((active + 1) / n) * 100}%` }} />
           </span>
-          <Link href={ROUTES.jobs[locale] as Route} className="flex items-center gap-1.5 text-sm font-semibold text-white/85">
+          <Link href={ROUTES.jobs[locale] as Route} className="flex items-center gap-1.5 text-xs font-semibold text-[#F6F4EF]/80">
             {t.all}
-            <Icon name="arrowRight" className="h-4 w-4" strokeWidth={2} />
+            <Icon name="arrowRight" className="h-3.5 w-3.5" strokeWidth={2} />
           </Link>
         </div>
-
-        <p className="sr-only" aria-live="polite">
-          {t.ofLabel(active + 1, n)} — {jobs[active]?.title[locale]} · {jobs[active]?.slots} {c.slots}
-        </p>
       </div>
+
+      <p className="sr-only" aria-live="polite">
+        {t.ofLabel(active + 1, n)} — {job.title[locale]} · {job.slots} {c.slots}
+      </p>
     </section>
-  );
-}
-
-/** Một tấm đơn hàng. `big` là bản dùng ở giữa sân khấu trên máy tính. */
-function StageCard({ job, locale, big }: { job: JobOrder; locale: Locale; big?: boolean }) {
-  const t = STAGE[locale];
-  const c = JOBS_COPY[locale];
-  const img = INDUSTRY_ASSETS[job.industry]?.hero ?? INDUSTRY_ASSETS["gartenbau-gaertner"]!.hero;
-
-  return (
-    <Link
-      href={jobPath(locale, job.id) as Route}
-      className="group block overflow-hidden rounded-2xl bg-[#0d2banchor] ring-1 ring-white/12 transition hover:ring-white/35"
-      style={{ background: "linear-gradient(180deg,var(--nb-navy-card),#0b2140)" }}
-    >
-      <span className={`relative block w-full overflow-hidden ${big ? "h-[230px]" : "h-[170px]"}`}>
-        <Image
-          src={img}
-          alt=""
-          fill
-          sizes={big ? "620px" : "86vw"}
-          className="object-cover transition-transform duration-700 group-hover:scale-[1.04] motion-reduce:transition-none"
-        />
-        <span className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(7,29,58,.05), rgba(7,29,58,.85))" }} aria-hidden="true" />
-        <span className="absolute top-4 left-4 flex items-center gap-2 rounded-full bg-[var(--nb-gold)] px-3.5 py-1.5 text-sm font-bold text-[#231a05]">
-          {job.slots}
-          <span className="text-xs font-semibold">{c.slots}</span>
-        </span>
-        <span className="absolute right-4 bottom-4 flex items-center gap-1.5 rounded-full bg-black/45 px-3 py-1 text-xs font-semibold backdrop-blur">
-          <Icon name="pin" className="h-3.5 w-3.5" strokeWidth={1.9} />
-          {t.country}
-        </span>
-      </span>
-
-      <span className="block p-5 lg:p-6">
-        <span className={`block font-extrabold tracking-[-0.01em] text-white ${big ? "text-[26px] leading-[1.15]" : "text-[19px] leading-[1.2]"}`}>
-          {job.title[locale]}
-        </span>
-        <span className="mt-2 block text-sm text-white/65">{job.locations.join(" · ")}</span>
-
-        <span className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-white/12 pt-4 text-sm">
-          <span className="flex items-center gap-2">
-            <Icon name="chart" className="h-4 w-4 text-[var(--nb-gold)]" strokeWidth={1.9} />
-            <b className="font-bold text-white">{fmtSalary(job)}</b>
-            <span className="text-white/55">{c.perMonth}</span>
-          </span>
-          <span className="flex items-center gap-2 text-white/75">
-            <Icon name="clock" className="h-4 w-4 text-[var(--nb-gold)]" strokeWidth={1.9} />
-            {job.hoursPerWeek} h
-          </span>
-        </span>
-
-        <span className="mt-5 flex h-11 items-center justify-center gap-2 rounded-xl bg-white/12 font-semibold text-white transition group-hover:bg-[var(--nb-gold)] group-hover:text-[#231a05]">
-          {t.detail}
-          <Icon name="arrowRight" className="h-4 w-4" strokeWidth={2} />
-        </span>
-      </span>
-    </Link>
   );
 }

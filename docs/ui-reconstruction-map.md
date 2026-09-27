@@ -641,3 +641,22 @@ trang nào hiển thị trạng thái. Lương vẫn ghi rõ là của riêng t�
   vào; toàn bộ thẻ đọc từ ba đơn trong `content/jobs-current.ts`.
 - Ô tìm trên banner dẫn sang `/stellenangebote?q=…` và lọc trong ba đơn đang
   có; không có máy tìm kiếm riêng.
+
+## JOBVERSE — sân khấu đơn hàng là thứ đầu tiên
+
+- **Trang chủ mở ra là đơn hàng**, không phải banner giới thiệu: `JobStage`
+  nay chiếm gần trọn màn hình và đứng trước mọi khối khác; phần giới thiệu
+  công ty, dải ngành và các khối còn lại xuống dưới.
+- **Máy tính**: poster lớn ở giữa, các đơn khác lùi ra hai bên (thu nhỏ .76,
+  xoay 7°, giảm bão hoà), số thứ tự khổng lồ nằm sau ảnh, chữ trượt lên theo
+  lớp khi đổi đơn (`nb-kinetic`). Đổi đơn bằng nút, phím ←/→, **kéo ngang**;
+  tự chạy 6 giây và dừng hẳn khi người xem chạm vào.
+- **Điện thoại**: "rạp" riêng — ảnh nghề chiếm phần lớn màn, lương và số suất
+  nổi bật, nút lớn trong vùng ngón cái, vuốt ngang với tấm kế lộ một phần,
+  chỉ báo 01/03 và thanh tiến trình. Không thu nhỏ bố cục máy tính.
+- **Chuyển cảnh thẻ → trang chi tiết**: poster và ảnh lớn ở trang chi tiết
+  mang cùng `view-transition-name` (`job-<id>`), nên ảnh nở ra thay vì nhảy
+  trang. Trình duyệt không hỗ trợ thì vẫn điều hướng bình thường.
+- Màu theo prompt: navy gần đen `#071322`, ivory `#F6F4EF`, champagne gold
+  `#D5A64B`.
+- Đã quét 390 / 430 / 768 / 1024 / 1440 / 1920px: mọi trang 200, không tràn.
