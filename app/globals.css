@@ -261,11 +261,6 @@ body > footer {
 .nb-photo-right {
   right: calc(-1 * var(--nb-gutter));
 }
-@media (min-width: 1024px) {
-  .lg:nb-photo-right {
-    right: calc(-1 * var(--nb-gutter));
-  }
-}
 .nb-photo-left {
   left: calc(-1 * var(--nb-gutter));
 }

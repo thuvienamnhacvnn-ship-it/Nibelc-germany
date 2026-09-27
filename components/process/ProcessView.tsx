@@ -114,7 +114,7 @@ export function ProcessView({ locale }: { locale: Locale }) {
         <MobileBanner src={PAGE_HERO.prozess} focus="60% 55%" priority />
         {/* ---------------- HERO ---------------- */}
         <section className="relative overflow-hidden bg-[#f1f5fa] lg:h-[calc(327*var(--u))]">
-          <div className="hidden lg:nb-photo-right lg:absolute lg:inset-y-0 lg:left-[calc(700*var(--u))] lg:block">
+          <div className="nb-photo-right hidden lg:absolute lg:inset-y-0 lg:left-[calc(700*var(--u))] lg:block">
             <Image
               src={PAGE_HERO.prozess}
               alt=""

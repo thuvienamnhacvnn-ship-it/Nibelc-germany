@@ -73,7 +73,7 @@ export function IndustryDetailView({ locale, industry }: { locale: Locale; indus
         <MobileBanner src={a.hero} alt={industry.alt.hero} focus={d.heroFocus} priority />
         {/* ---------------- HERO ---------------- */}
         <section className="relative overflow-hidden bg-[#eef3f9] lg:h-[calc(358*var(--u))]">
-          <div className="hidden lg:nb-photo-right lg:absolute lg:inset-y-0 lg:left-[calc(540*var(--u))] lg:block">
+          <div className="nb-photo-right hidden lg:absolute lg:inset-y-0 lg:left-[calc(540*var(--u))] lg:block">
             <Image
               src={a.hero}
               alt={industry.alt.hero}
