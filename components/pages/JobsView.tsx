@@ -2,9 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
 import { PageShell } from "@/components/PageShell";
+import { AbroadList } from "@/components/jobs/AbroadList";
 import { Icon } from "@/components/ui/Icon";
 import { INDUSTRY_ASSETS } from "@/content/industry-assets";
 import { industryBySlug, industryName } from "@/content/industries";
+import { ABROAD_ORDERS } from "@/content/jobs-abroad";
 import { JOBS_COPY, JOB_ORDERS, totalSlots } from "@/content/jobs-current";
 import { ROUTES, industryPath, type Locale } from "@/content/locales";
 
@@ -33,7 +35,7 @@ export function JobsView({ locale }: { locale: Locale }) {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--nb-orange)] opacity-75" />
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[var(--nb-orange)]" />
             </span>
-            {JOB_ORDERS.length} × {t.eyebrow}
+            {JOB_ORDERS.length + ABROAD_ORDERS.length} × {t.eyebrow}
           </span>
           <span className="font-semibold text-[#10284d]">
             {totalSlots()} {t.slots}
@@ -44,7 +46,7 @@ export function JobsView({ locale }: { locale: Locale }) {
           {JOB_ORDERS.map((j) => {
             const industry = industryBySlug(j.industry);
             return (
-              <li key={j.id} className="overflow-hidden rounded-2xl bg-white ring-1 ring-[#e3e9f1]">
+              <li key={j.id} id={j.id} className="scroll-mt-28 overflow-hidden rounded-2xl bg-white ring-1 ring-[#e3e9f1]">
                 {/* đầu thẻ */}
                 <div className="flex flex-wrap items-start gap-4 border-b border-[#eef2f7] bg-[#f7f9fc] px-6 py-5">
                   <div className="min-w-0 flex-1">
@@ -134,6 +136,8 @@ export function JobsView({ locale }: { locale: Locale }) {
             );
           })}
         </ul>
+
+        <AbroadList locale={locale} />
 
         <p className="mt-8 max-w-[95ch] rounded-xl bg-[#f7f9fc] p-5 text-sm leading-6 text-[#5b6b80] ring-1 ring-[#e3e9f1]">
           {t.note}

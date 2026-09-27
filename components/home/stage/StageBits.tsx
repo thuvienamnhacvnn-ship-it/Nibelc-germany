@@ -4,17 +4,17 @@ import { Icon } from "@/components/ui/Icon";
  * Các mảnh dùng chung của banner trang chủ (bản desktop và bản điện thoại).
  */
 
-/** Lá cờ Đức trong vòng tròn — vẽ bằng CSS, không cần thêm file ảnh. */
-export function FlagDE({ size }: { size: string }) {
+/** Cờ quốc gia trong vòng tròn — ba dải màu vẽ bằng CSS, không thêm file ảnh. */
+export function Flag({ colors, size }: { colors: string[]; size: string }) {
   return (
     <span
       className="inline-block shrink-0 overflow-hidden rounded-full ring-1 ring-white/50"
       style={{ width: size, height: size }}
       aria-hidden="true"
     >
-      <span className="block h-1/3 w-full bg-[#111]" />
-      <span className="block h-1/3 w-full bg-[#dd0000]" />
-      <span className="block h-1/3 w-full bg-[#ffce00]" />
+      {colors.map((c, i) => (
+        <span key={i} className="block h-1/3 w-full" style={{ background: c }} />
+      ))}
     </span>
   );
 }
@@ -27,7 +27,7 @@ export function FlagVN({ size }: { size: string }) {
       style={{ width: size, height: size }}
       aria-hidden="true"
     >
-      <span className="text-[#ff0] leading-none" style={{ fontSize: `calc(${size} * .72)` }}>
+      <span className="leading-none text-[#ff0]" style={{ fontSize: `calc(${size} * .72)` }}>
         ★
       </span>
     </span>
@@ -59,7 +59,7 @@ export function Fact({
         <Icon name={icon} className="shrink-0" style={{ width: u(box * 0.55), height: u(box * 0.55) }} strokeWidth={1.7} />
       </span>
       <span className="min-w-0 leading-tight">
-        <b className="block font-bold text-white" style={{ fontSize: u(compact ? 14 : 17) }}>
+        <b className="block truncate font-bold text-white" style={{ fontSize: u(compact ? 13 : 16) }}>
           {value}
         </b>
         <span className="block truncate text-white/60" style={{ fontSize: u(compact ? 10 : 12) }}>

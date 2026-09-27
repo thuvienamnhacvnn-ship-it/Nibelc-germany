@@ -4,12 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
 import { useCallback, useEffect, useState } from "react";
-import { Fact, FlagDE, FlagVN } from "@/components/home/stage/StageBits";
+import { Fact, Flag, FlagVN } from "@/components/home/stage/StageBits";
 import { Icon } from "@/components/ui/Icon";
 import { activeIndustries, industryName } from "@/content/industries";
 import { INDUSTRY_ASSETS } from "@/content/industry-assets";
 import { STAGE } from "@/content/home-stage";
-import { JOB_ORDERS } from "@/content/jobs-current";
+import { stageCards } from "@/content/jobs-stage";
 import { LOCALES, ROUTES, industryPath, type Locale } from "@/content/locales";
 import { mainMenu } from "@/content/nav-menu";
 
@@ -43,7 +43,7 @@ const CHIP_ICON: Record<string, string> = {
 export function StageMobile({ locale }: { locale: Locale }) {
   const t = STAGE[locale];
   const titleSize = locale === "vi" ? 84 : locale === "en" ? 72 : 62;
-  const jobs = JOB_ORDERS;
+  const jobs = stageCards(locale);
   const n = jobs.length;
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -65,14 +65,6 @@ export function StageMobile({ locale }: { locale: Locale }) {
   /** Vuốt ngang để đổi thẻ */
   const [x0, setX0] = useState<number | null>(null);
 
-  const offsetOf = (i: number) => {
-    let d = i - active;
-    if (d > n / 2) d -= n;
-    if (d < -n / 2) d += n;
-    return d;
-  };
-
-  const job = jobs[active]!;
 
   return (
     <section className="relative isolate overflow-hidden bg-[var(--nb-stage-navy)] text-white lg:hidden">
@@ -88,7 +80,7 @@ export function StageMobile({ locale }: { locale: Locale }) {
         className="absolute inset-0 -z-10"
         style={{
           background:
-            "linear-gradient(180deg, rgba(4,11,24,.72) 0, rgba(4,11,24,.32) 14%, rgba(4,11,24,.55) 40%, rgba(4,11,24,.9) 72%, rgba(4,11,24,.98) 100%)",
+            "linear-gradient(180deg, rgba(4,11,24,.58) 0, rgba(4,11,24,.14) 16%, rgba(4,11,24,.36) 40%, rgba(4,11,24,.82) 70%, rgba(4,11,24,.96) 100%)",
         }}
         aria-hidden="true"
       />
@@ -121,7 +113,7 @@ export function StageMobile({ locale }: { locale: Locale }) {
               className="flex items-center font-semibold"
               style={{ gap: u(10), fontSize: u(26) }}
             >
-              {locale === "vi" ? <FlagVN size={u(32)} /> : <FlagDE size={u(32)} />}
+              {locale === "vi" ? <FlagVN size={u(32)} /> : <Flag colors={["#111111","#dd0000","#ffce00"]} size={u(32)} />}
               {locale.toUpperCase()}
               <Icon name="chevronDown" style={{ width: u(22), height: u(22) }} strokeWidth={2.2} />
             </button>
@@ -261,14 +253,14 @@ export function StageMobile({ locale }: { locale: Locale }) {
           setX0(null);
         }}
       >
-        {jobs.map((j, i) => {
-          const d = offsetOf(i);
-          if (Math.abs(d) > 1) return null;
+        {[0, -1, 1].map((d, pos) => {
+          const i = (((active + d) % n) + n) % n;
+          const j = jobs[i]!;
+          const img = j.image;
           const center = d === 0;
-          const img = INDUSTRY_ASSETS[j.industry]?.hero ?? INDUSTRY_ASSETS["gartenbau-gaertner"]!.hero;
           return (
             <Link
-              key={j.id}
+              key={d}
               href={`${ROUTES.jobs[locale]}#${j.id}` as Route}
               aria-hidden={!center}
               tabIndex={center ? undefined : -1}
@@ -293,7 +285,7 @@ export function StageMobile({ locale }: { locale: Locale }) {
               }}
             >
               <span className="relative block overflow-hidden" style={{ height: u(center ? 300 : 404) }}>
-                <Image src={img} alt="" fill sizes="60vw" className="object-cover" style={{ objectPosition: "50% 40%" }} />
+                <Image src={img} alt="" fill sizes="60vw" className="object-cover" style={{ objectPosition: j.focus }} />
                 <span
                   className="absolute inset-0"
                   style={{ background: "linear-gradient(180deg, rgba(5,14,29,.1) 0, rgba(5,14,29,.35) 58%, rgba(5,14,29,.96) 100%)" }}
@@ -304,15 +296,15 @@ export function StageMobile({ locale }: { locale: Locale }) {
                   style={{ right: u(20), top: u(8), fontSize: u(center ? 86 : 62), lineHeight: 1.1 }}
                   aria-hidden="true"
                 >
-                  {String(i + 1).padStart(2, "0")}
+                  {String(pos + 1).padStart(2, "0")}
                 </span>
               </span>
 
               <span className="relative block" style={{ padding: u(center ? 26 : 18), paddingTop: u(4) }}>
                 <span className="flex items-center" style={{ gap: u(10) }}>
-                  <FlagDE size={u(center ? 32 : 26)} />
+                  <Flag colors={j.flag} size={u(center ? 32 : 26)} />
                   <span className="font-semibold text-white/85" style={{ fontSize: u(center ? 26 : 22) }}>
-                    {t.country}
+                    {j.countryName}
                   </span>
                 </span>
                 <b
@@ -326,7 +318,7 @@ export function StageMobile({ locale }: { locale: Locale }) {
                     WebkitLineClamp: 2,
                   }}
                 >
-                  {j.title[locale]}
+                  {j.title}
                 </b>
                 <span className="flex items-baseline" style={{ gap: u(10), marginTop: u(14) }}>
                   <span
@@ -336,7 +328,9 @@ export function StageMobile({ locale }: { locale: Locale }) {
                     €
                   </span>
                   <b className="font-bold text-[var(--nb-gold)]" style={{ fontSize: u(center ? 36 : 26) }}>
-                    {EUR(j.salary.from)} – {EUR(j.salary.to)} €
+                    {j.salary.from === j.salary.to
+                      ? `${EUR(j.salary.from)} €`
+                      : `${EUR(j.salary.from)} – ${EUR(j.salary.to)} €`}
                   </b>
                 </span>
 
@@ -344,9 +338,9 @@ export function StageMobile({ locale }: { locale: Locale }) {
                   <>
                     <span className="block bg-white/15" style={{ height: 1, marginBlock: u(18) }} aria-hidden="true" />
                     <span className="flex items-center justify-between" style={{ gap: u(8) }}>
-                      <Fact icon="users" value={String(j.slots)} label={t.facts[0]} u={u} />
-                      <Fact icon="clock" value={`${j.hoursPerWeek}h`} label={t.facts[1]} u={u} />
-                      <Fact icon="pin" value={String(j.locations.length)} label={t.facts[2]} u={u} />
+                      {j.facts.map((ft) => (
+                        <Fact key={ft.label} icon={ft.icon} value={ft.value} label={ft.label} u={u} />
+                      ))}
                     </span>
                     <span
                       className="nb-gold-btn flex items-center justify-center"
@@ -406,7 +400,7 @@ export function StageMobile({ locale }: { locale: Locale }) {
               key={j.id}
               type="button"
               onClick={() => setActive(i)}
-              aria-label={j.title[locale]}
+              aria-label={j.title}
               className="absolute -translate-x-1/2 rounded-full"
               style={{
                 left: `${((i + 1) / n) * 100}%`,
@@ -434,7 +428,7 @@ export function StageMobile({ locale }: { locale: Locale }) {
         style={{ gap: u(16), padding: `${u(26)} ${u(24)} 0`, scrollPaddingInline: u(24) }}
       >
         {activeIndustries().map((ind) => {
-          const on = ind.slug === job.industry;
+          const on = false;
           return (
             <li key={ind.slug} className="shrink-0">
               <Link

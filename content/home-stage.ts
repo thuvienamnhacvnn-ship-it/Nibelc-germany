@@ -62,7 +62,7 @@ export const STAGE: Record<Locale, StageCopy> = {
     journeySub: "Jede Etappe erklärt",
     strip: [
       ["Viele Berufsfelder", "Breites Angebot"],
-      ["Einsatz in Deutschland", "Betriebe vor Ort"],
+      ["Mehrere Länder", "Deutschland, Griechenland, Albanien, Litauen"],
       ["Geprüfte Betriebe", "Verlässliche Partner"],
       ["Begleitung im ganzen Ablauf", "Von der Bewerbung bis zur Ausreise"],
       ["Beratung 1:1", "Vietnamesisch – Deutsch"],
@@ -89,7 +89,7 @@ export const STAGE: Record<Locale, StageCopy> = {
     journeySub: "Every stage explained",
     strip: [
       ["Many job families", "A broad choice"],
-      ["Placements in Germany", "Employers on site"],
+      ["Several countries", "Germany, Greece, Albania, Lithuania"],
       ["Vetted employers", "Reliable partners"],
       ["Support end to end", "From application to departure"],
       ["1:1 guidance", "Vietnamese – German"],
@@ -116,7 +116,7 @@ export const STAGE: Record<Locale, StageCopy> = {
     journeySub: "Bắt đầu tương lai tốt đẹp hơn",
     strip: [
       ["Nhiều ngành nghề", "Cơ hội đa dạng"],
-      ["Làm việc tại Đức", "Doanh nghiệp sở tại"],
+      ["Quốc gia phong phú", "Đức, Hy Lạp, Albania, Litva"],
       ["Doanh nghiệp uy tín", "Đối tác tin cậy"],
       ["Hỗ trợ toàn diện", "Từ hồ sơ đến xuất cảnh"],
       ["Tư vấn 1:1", "Tiếng Việt – Tiếng Đức"],
