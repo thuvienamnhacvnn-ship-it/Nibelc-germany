@@ -139,9 +139,7 @@ export function JobDetailView({ locale, job }: { locale: Locale; job: JobOrder }
             </Link>
 
             <div className="mt-5 grid gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-center">
-              <div style={{ viewTransitionName: `job-${job.id}` } as React.CSSProperties}>
-                <JobGallery images={[set.hero, set.portraitWork, set.portraitTeam, set.detail]} alt={job.title[locale]} />
-              </div>
+              <JobGallery images={[set.hero, set.portraitWork, set.portraitTeam, set.detail]} alt={job.title[locale]} />
 
               <div>
                 <p className="flex flex-wrap items-center gap-3 text-[11px] font-bold tracking-[0.2em] uppercase lg:text-xs">

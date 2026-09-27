@@ -69,11 +69,11 @@ export function HomeView({ locale }: { locale: Locale }) {
       <main id="inhalt">
         {/* ---------------- ĐƠN HÀNG ĐANG CHẠY ---------------- */}
 
-        {/* ---------------- SÂN KHẤU ĐƠN HÀNG ---------------- */}
-        <JobStage locale={locale} jobs={JOB_ORDERS} />
-
         {/* ---------------- BANNER (theo mẫu 01) ---------------- */}
         <HeroJobs locale={locale} industryCount={activeIndustries().length} />
+
+        {/* ---------------- SÂN KHẤU ĐƠN HÀNG ---------------- */}
+        <JobStage locale={locale} jobs={JOB_ORDERS} />
 
         {/* ---------------- NGÀNH NGHỀ ---------------- */}
         <IndustryRail locale={locale} />

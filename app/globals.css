@@ -352,27 +352,3 @@ html {
 @media (prefers-reduced-motion: reduce) {
   .nb-line-run { animation: none; opacity: 0; }
 }
-
-/* JOBVERSE — chữ trượt lên khi đổi đơn hàng (kinetic typography) */
-@keyframes nb-kinetic {
-  from { opacity: 0; transform: translate3d(0, 18px, 0); }
-  to { opacity: 1; transform: translate3d(0, 0, 0); }
-}
-.nb-kinetic {
-  animation: nb-kinetic 620ms cubic-bezier(.2, .75, .2, 1) both;
-}
-
-/* Chuyển cảnh giữa tấm poster ở trang chủ và ảnh lớn ở trang chi tiết */
-@view-transition {
-  navigation: auto;
-}
-::view-transition-group(*) {
-  animation-duration: 520ms;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .nb-kinetic { animation: none; }
-  ::view-transition-group(*),
-  ::view-transition-old(*),
-  ::view-transition-new(*) { animation: none !important; }
-}
