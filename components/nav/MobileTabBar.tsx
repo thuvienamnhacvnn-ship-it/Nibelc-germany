@@ -24,15 +24,16 @@ import { contactLabel, mainMenu, requestLabel } from "@/content/nav-menu";
 
 const TABS: { page: PageKey; icon: string }[] = [
   { page: "home", icon: "home" },
-  { page: "industries", icon: "grid" },
   { page: "jobs", icon: "briefcase" },
+  { page: "industries", icon: "grid" },
+  { page: "contact", icon: "chat" },
 ];
 
 /** Nhãn ngắn — nhãn menu chính quá dài cho ô rộng ~70px */
 const TAB_LABEL: Record<Locale, Record<string, string>> = {
-  de: { home: "Start", industries: "Branchen", jobs: "Stellen", menu: "Menü", call: "Anrufen" },
-  en: { home: "Home", industries: "Industries", jobs: "Jobs", menu: "Menu", call: "Call" },
-  vi: { home: "Trang chủ", industries: "Ngành", jobs: "Đơn hàng", menu: "Menu", call: "Gọi điện" },
+  de: { home: "Start", industries: "Branchen", jobs: "Stellen", contact: "Kontakt", menu: "Menü", call: "Anrufen" },
+  en: { home: "Home", industries: "Industries", jobs: "Jobs", contact: "Contact", menu: "Menu", call: "Call" },
+  vi: { home: "Trang chủ", industries: "Ngành", jobs: "Đơn hàng", contact: "Liên hệ", menu: "Menu", call: "Gọi điện" },
 };
 
 export function MobileTabBar({ locale, page }: { locale: Locale; page: PageKey }) {
@@ -92,7 +93,7 @@ export function MobileTabBar({ locale, page }: { locale: Locale; page: PageKey }
           <div className="flex w-[84px] shrink-0 justify-center">
             <Link
               href={ROUTES.request[locale] as Route}
-              className="-mt-6 flex h-16 w-16 flex-col items-center justify-center gap-0.5 rounded-full bg-[var(--nb-orange)] text-white shadow-[0_10px_24px_-6px_rgba(255,106,19,.75)] ring-4 ring-white active:scale-95"
+              className="-mt-6 flex h-16 w-16 flex-col items-center justify-center gap-0.5 rounded-full bg-[var(--nb-gold)] text-[#231a05] shadow-[0_10px_24px_-6px_rgba(240,180,41,.75)] ring-4 ring-white active:scale-95"
             >
               <Icon name="send" className="h-6 w-6" strokeWidth={1.9} />
               <span className="text-[9px] font-bold">{requestLabel(locale).split(" ")[0]}</span>
@@ -100,6 +101,7 @@ export function MobileTabBar({ locale, page }: { locale: Locale; page: PageKey }
           </div>
 
           {tab(TABS[2]!)}
+          {tab(TABS[3]!)}
 
           <button
             type="button"

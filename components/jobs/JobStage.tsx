@@ -95,11 +95,11 @@ export function JobStage({ locale, jobs }: { locale: Locale; jobs: JobOrder[] })
       tabIndex={-1}
       onMouseEnter={() => setAuto(false)}
       onTouchStart={() => setAuto(false)}
-      className="relative overflow-hidden bg-[#071d3a] py-10 text-white lg:py-16"
+      className="relative overflow-hidden bg-[var(--nb-navy-deep)] py-10 text-white lg:py-16"
     >
       {/* vệt sáng nền, rất nhẹ */}
       <span
-        className="pointer-events-none absolute -top-40 left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full opacity-45 blur-[90px]"
+        className="pointer-events-none absolute -top-40 left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full opacity-25 blur-[90px]"
         style={{ background: "radial-gradient(closest-side, rgba(45,120,220,.55), rgba(7,29,58,0))" }}
         aria-hidden="true"
       />
@@ -108,10 +108,10 @@ export function JobStage({ locale, jobs }: { locale: Locale; jobs: JobOrder[] })
         {/* tiêu đề khối */}
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="flex items-center gap-2 text-[11px] font-bold tracking-[0.22em] text-[#8fc0ff] uppercase lg:text-xs">
+            <p className="flex items-center gap-2 text-[11px] font-bold tracking-[0.22em] text-[var(--nb-gold)] uppercase lg:text-xs">
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--nb-orange)] opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--nb-orange)]" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--nb-gold)] opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--nb-gold)]" />
               </span>
               {t.eyebrow}
             </p>
@@ -170,7 +170,7 @@ export function JobStage({ locale, jobs }: { locale: Locale; jobs: JobOrder[] })
 
           <span className="h-1 flex-1 overflow-hidden rounded-full bg-white/15" aria-hidden="true">
             <span
-              className="block h-full rounded-full bg-[var(--nb-orange)] transition-[width] duration-100 ease-linear"
+              className="block h-full rounded-full bg-[var(--nb-gold)] transition-[width] duration-100 ease-linear"
               style={{ width: `${auto ? progress * 100 : ((active + 1) / n) * 100}%` }}
             />
           </span>
@@ -203,7 +203,7 @@ export function JobStage({ locale, jobs }: { locale: Locale; jobs: JobOrder[] })
         <div className="mt-4 flex items-center justify-between lg:hidden">
           <span className="flex gap-1.5" aria-hidden="true">
             {jobs.map((j, i) => (
-              <span key={j.id} className={`h-1.5 rounded-full transition-all ${i === active ? "w-6 bg-[var(--nb-orange)]" : "w-1.5 bg-white/35"}`} />
+              <span key={j.id} className={`h-1.5 rounded-full transition-all ${i === active ? "w-6 bg-[var(--nb-gold)]" : "w-1.5 bg-white/35"}`} />
             ))}
           </span>
           <Link href={ROUTES.jobs[locale] as Route} className="flex items-center gap-1.5 text-sm font-semibold text-white/85">
@@ -230,7 +230,7 @@ function StageCard({ job, locale, big }: { job: JobOrder; locale: Locale; big?: 
     <Link
       href={jobPath(locale, job.id) as Route}
       className="group block overflow-hidden rounded-2xl bg-[#0d2banchor] ring-1 ring-white/12 transition hover:ring-white/35"
-      style={{ background: "linear-gradient(180deg,#0d2b52,#0a2039)" }}
+      style={{ background: "linear-gradient(180deg,var(--nb-navy-card),#0b2140)" }}
     >
       <span className={`relative block w-full overflow-hidden ${big ? "h-[230px]" : "h-[170px]"}`}>
         <Image
@@ -241,7 +241,7 @@ function StageCard({ job, locale, big }: { job: JobOrder; locale: Locale; big?: 
           className="object-cover transition-transform duration-700 group-hover:scale-[1.04] motion-reduce:transition-none"
         />
         <span className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(7,29,58,.05), rgba(7,29,58,.85))" }} aria-hidden="true" />
-        <span className="absolute top-4 left-4 flex items-center gap-2 rounded-full bg-[var(--nb-orange)] px-3.5 py-1.5 text-sm font-bold text-white">
+        <span className="absolute top-4 left-4 flex items-center gap-2 rounded-full bg-[var(--nb-gold)] px-3.5 py-1.5 text-sm font-bold text-[#231a05]">
           {job.slots}
           <span className="text-xs font-semibold">{c.slots}</span>
         </span>
@@ -259,17 +259,17 @@ function StageCard({ job, locale, big }: { job: JobOrder; locale: Locale; big?: 
 
         <span className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-white/12 pt-4 text-sm">
           <span className="flex items-center gap-2">
-            <Icon name="chart" className="h-4 w-4 text-[#8fc0ff]" strokeWidth={1.9} />
+            <Icon name="chart" className="h-4 w-4 text-[var(--nb-gold)]" strokeWidth={1.9} />
             <b className="font-bold text-white">{fmtSalary(job)}</b>
             <span className="text-white/55">{c.perMonth}</span>
           </span>
           <span className="flex items-center gap-2 text-white/75">
-            <Icon name="clock" className="h-4 w-4 text-[#8fc0ff]" strokeWidth={1.9} />
+            <Icon name="clock" className="h-4 w-4 text-[var(--nb-gold)]" strokeWidth={1.9} />
             {job.hoursPerWeek} h
           </span>
         </span>
 
-        <span className="mt-5 flex h-11 items-center justify-center gap-2 rounded-xl bg-white/12 font-semibold text-white transition group-hover:bg-[var(--nb-orange)]">
+        <span className="mt-5 flex h-11 items-center justify-center gap-2 rounded-xl bg-white/12 font-semibold text-white transition group-hover:bg-[var(--nb-gold)] group-hover:text-[#231a05]">
           {t.detail}
           <Icon name="arrowRight" className="h-4 w-4" strokeWidth={2} />
         </span>

@@ -222,7 +222,7 @@ export function JobBrowser({
                         <Icon name="germany" className="h-3.5 w-3.5" />
                         {t.country}
                       </span>
-                      <span className="absolute right-3 bottom-3 rounded-full bg-[var(--nb-orange)] px-3 py-1 text-xs font-bold text-white">
+                      <span className="absolute right-3 bottom-3 rounded-full bg-[var(--nb-gold)] px-3 py-1 text-xs font-bold text-[#231a05]">
                         {j.slots} {c.slots}
                       </span>
                     </span>
@@ -242,7 +242,7 @@ export function JobBrowser({
                         </span>
                       </span>
 
-                      <span className="mt-4 flex h-11 items-center justify-center gap-2 rounded-xl bg-[var(--nb-strip)] font-semibold text-[#10284d] transition group-hover:bg-[var(--nb-orange)] group-hover:text-white">
+                      <span className="mt-4 flex h-11 items-center justify-center gap-2 rounded-xl bg-[var(--nb-strip)] font-semibold text-[#10284d] transition group-hover:bg-[var(--nb-gold)] group-hover:text-[#231a05]">
                         {t.detail}
                         <Icon name="arrowRight" className="h-4 w-4" strokeWidth={2} />
                       </span>

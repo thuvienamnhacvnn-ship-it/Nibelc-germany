@@ -131,7 +131,7 @@ export function JobDetailView({ locale, job }: { locale: Locale; job: JobOrder }
 
       <main id="inhalt" className="bg-white">
         {/* ---------------- ĐẦU TRANG: ảnh + thông số ---------------- */}
-        <section className="bg-[#071d3a] text-white">
+        <section className="bg-[var(--nb-navy-deep)] text-white">
           <div className="mx-auto max-w-[1400px] px-5 pt-5 pb-10 lg:px-10 lg:pt-8 lg:pb-14">
             <Link href={ROUTES.jobs[locale] as Route} className="inline-flex items-center gap-2 text-sm font-semibold text-white/75 hover:text-white">
               <Icon name="chevronRight" className="h-4 w-4 rotate-180" strokeWidth={2} />
@@ -143,10 +143,10 @@ export function JobDetailView({ locale, job }: { locale: Locale; job: JobOrder }
 
               <div>
                 <p className="flex flex-wrap items-center gap-3 text-[11px] font-bold tracking-[0.2em] uppercase lg:text-xs">
-                  <span className="flex items-center gap-2 text-[#8fc0ff]">
+                  <span className="flex items-center gap-2 text-[var(--nb-gold)]">
                     <span className="relative flex h-2 w-2">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--nb-orange)] opacity-75" />
-                      <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--nb-orange)]" />
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--nb-gold)] opacity-75" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--nb-gold)]" />
                     </span>
                     {t.eyebrow}
                   </span>
@@ -162,7 +162,7 @@ export function JobDetailView({ locale, job }: { locale: Locale; job: JobOrder }
                 <ul className="mt-6 grid grid-cols-2 gap-3">
                   {facts.map((f) => (
                     <li key={f.sub} className="flex items-center gap-3 rounded-xl bg-white/10 px-4 py-3 ring-1 ring-white/10">
-                      <Icon name={f.icon} className="h-5 w-5 shrink-0 text-[#8fc0ff]" strokeWidth={1.8} />
+                      <Icon name={f.icon} className="h-5 w-5 shrink-0 text-[var(--nb-gold)]" strokeWidth={1.8} />
                       <span className="min-w-0">
                         <b className="block text-[14px] leading-tight font-bold break-words sm:text-[15px]">{f.value}</b>
                         <span className="block text-xs text-white/60">{f.sub}</span>
@@ -174,7 +174,7 @@ export function JobDetailView({ locale, job }: { locale: Locale; job: JobOrder }
                 <p className="mt-6 flex flex-wrap gap-3">
                   <Link
                     href={ROUTES.contact[locale] as Route}
-                    className="inline-flex h-12 flex-1 min-w-[190px] items-center justify-center gap-2 rounded-xl bg-[var(--nb-orange)] px-6 font-semibold text-white hover:bg-[var(--nb-orange-dark)]"
+                    className="inline-flex h-12 flex-1 min-w-[190px] items-center justify-center gap-2 rounded-xl bg-[var(--nb-gold)] px-6 font-bold text-[#231a05] hover:bg-[var(--nb-gold-dark)]"
                   >
                     {c.apply}
                     <Icon name="arrowRight" className="h-4 w-4" strokeWidth={2} />
@@ -306,7 +306,7 @@ export function JobDetailView({ locale, job }: { locale: Locale; job: JobOrder }
 
         {/* ---------------- ĐƠN KHÁC ---------------- */}
         {others.length > 0 && (
-          <section className="bg-[#071d3a] py-12 text-white lg:py-16">
+          <section className="bg-[var(--nb-navy-deep)] py-12 text-white lg:py-16">
             <div className="mx-auto max-w-[1400px] px-5 lg:px-10">
               <h2 className="text-2xl font-bold lg:text-3xl">{t.related}</h2>
               <ul className="mt-7 grid gap-5 sm:grid-cols-2">
@@ -315,7 +315,7 @@ export function JobDetailView({ locale, job }: { locale: Locale; job: JobOrder }
                     <Link
                       href={jobPath(locale, j.id) as Route}
                       className="group flex items-stretch gap-4 overflow-hidden rounded-2xl ring-1 ring-white/12 hover:ring-white/35"
-                      style={{ background: "linear-gradient(180deg,#0d2b52,#0a2039)" }}
+                      style={{ background: "linear-gradient(180deg,var(--nb-navy-card),#0b2140)" }}
                     >
                       <span className="relative w-28 shrink-0 overflow-hidden sm:w-36">
                         <Image

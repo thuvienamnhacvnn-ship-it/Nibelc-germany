@@ -4,13 +4,11 @@ import type { Route } from "next";
 import { SiteHeader } from "@/components/SiteHeader";
 import { LegalStrip } from "@/components/LegalStrip";
 import { MobileTabBar } from "@/components/nav/MobileTabBar";
-import { HeroParallax } from "@/components/home/HeroParallax";
-import { HeroSearch } from "@/components/home/HeroSearch";
+import { HeroJobs } from "@/components/home/HeroJobs";
 import { IndustryRail } from "@/components/home/IndustryRail";
 import { JobStage } from "@/components/jobs/JobStage";
+import { activeIndustries } from "@/content/industries";
 import { JOB_ORDERS } from "@/content/jobs-current";
-import { JobTicker } from "@/components/home/JobTicker";
-import { MobileHero } from "@/components/home/MobileHero";
 import { HOME, ROUTES, type Locale } from "@/content/locales";
 
 /**
@@ -70,77 +68,9 @@ export function HomeView({ locale }: { locale: Locale }) {
 
       <main id="inhalt">
         {/* ---------------- ĐƠN HÀNG ĐANG CHẠY ---------------- */}
-        <div className="hidden lg:block">
-          <JobTicker locale={locale} />
-        </div>
 
-        {/* ---------------- HERO (điện thoại) ---------------- */}
-        <MobileHero locale={locale} />
-
-        {/* ---------------- HERO (máy tính) ---------------- */}
-        <section className="relative hidden bg-[var(--nb-navy-hero)] text-white lg:block lg:h-[calc(667*var(--ub))]">
-          {/* Banner 2 lớp: B2 nền + navy chéo + B1 người, có parallax */}
-          <HeroParallax />
-
-          {/* 4 huy hiệu nằm trên cùng (vòng cung đã ở trong HeroParallax) */}
-          <ul className="absolute inset-y-0 right-[calc(-1*var(--nb-gutter))] hidden w-[calc(1672*var(--ub))] lg:block">
-            {ARC_POINTS.map((p, i) => (
-              <li
-                key={i}
-                className="absolute"
-                style={{ left: `calc(${p.x - 28} * var(--ub))`, top: `calc(${p.y - 28} * var(--ub))` }}
-              >
-                <Link href={ARC_LINKS[i]!(locale) as Route} className="group flex items-center">
-                <span className="flex h-[calc(56*var(--u))] w-[calc(56*var(--u))] items-center justify-center rounded-full bg-[var(--nb-blue-dark)] text-white ring-[calc(3*var(--u))] ring-white/90 transition duration-300 group-hover:-translate-y-[calc(3*var(--u))] group-hover:scale-110 group-hover:bg-[var(--nb-orange)] group-hover:ring-white group-hover:shadow-[0_calc(10*var(--u))_calc(24*var(--u))_calc(-8*var(--u))_rgba(255,106,19,.85)]">
-                  <Svg d={p.icon} cls="h-[calc(28*var(--u))] w-[calc(28*var(--u))] transition-transform duration-300 group-hover:scale-110" />
-                </span>
-                <span className="ml-[calc(18*var(--u))] text-[calc(17*var(--u))] leading-[1.25] font-medium text-[var(--nb-ink)] transition-colors duration-300 group-hover:text-[var(--nb-blue-dark)] [text-shadow:0_0_calc(8*var(--u))_rgba(255,255,255,.95)]">
-                  {t.arc[i]![0]}
-                  <br />
-                  {t.arc[i]![1]}
-                </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          {/* Chữ sát mép trái 50u */}
-          <div className="absolute top-0 left-[calc(50*var(--u))] w-[calc(660*var(--u))]">
-            <p className="text-xs font-bold tracking-[0.3em] text-[var(--nb-blue)] uppercase lg:mt-[calc(89*var(--u))] lg:text-[calc(15.5*var(--u))]">
-              {t.eyebrow}
-            </p>
-            <h1 className="mt-5 text-[2.6rem] leading-[1] font-extrabold tracking-[-0.035em] text-white lg:mt-[calc(18*var(--u))] lg:text-[calc(76*var(--u))] lg:leading-[calc(77*var(--u))] [:lang(vi)_&]:lg:leading-[calc(83*var(--u))]">
-              {t.h1a}
-              <br />
-              {t.h1b}
-              <br />
-              <span className="text-[var(--nb-blue)]">{t.h1accent}</span>
-              <span className="text-[var(--nb-orange)]">.</span>
-            </h1>
-            <p className="mt-6 max-w-xl text-lg text-white/85 lg:mt-[calc(26*var(--u))] lg:max-w-[calc(560*var(--u))] lg:text-[calc(22*var(--u))] lg:leading-[calc(35*var(--u))]">
-              {t.sub}
-            </p>
-            <div className="mt-8 flex flex-wrap gap-4 lg:mt-[calc(31*var(--u))] lg:gap-[calc(19*var(--u))]">
-              <Link
-                href={ROUTES.employers[locale] as Route}
-                className="inline-flex items-center gap-3 rounded-xl bg-[var(--nb-orange)] px-7 py-4 font-semibold hover:bg-[var(--nb-orange-dark)] lg:h-[calc(69*var(--u))] lg:rounded-[calc(12*var(--u))] lg:px-[calc(36*var(--u))] lg:py-0 lg:text-[calc(19.5*var(--u))]"
-              >
-                {t.ctaPrimary}
-                <span aria-hidden="true">→</span>
-              </Link>
-              <Link
-                href={ROUTES.process[locale] as Route}
-                className="inline-flex items-center rounded-xl border-2 border-white/90 px-7 py-4 font-medium hover:bg-white/10 lg:h-[calc(69*var(--u))] lg:rounded-[calc(12*var(--u))] lg:px-[calc(40*var(--u))] lg:py-0 lg:text-[calc(19.5*var(--u))]"
-              >
-                {t.ctaSecondary}
-              </Link>
-            </div>
-
-              <div className="mt-[calc(26*var(--u))]">
-                <HeroSearch locale={locale} />
-              </div>
-          </div>
-        </section>
+        {/* ---------------- BANNER (theo mẫu 01) ---------------- */}
+        <HeroJobs locale={locale} industryCount={activeIndustries().length} />
 
         {/* ---------------- SÂN KHẤU ĐƠN HÀNG ---------------- */}
         <JobStage locale={locale} jobs={JOB_ORDERS} />

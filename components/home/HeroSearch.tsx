@@ -46,7 +46,7 @@ export function HeroSearch({ locale }: { locale: Locale }) {
       </label>
       <button
         type="submit"
-        className="flex h-11 shrink-0 items-center gap-2 rounded-xl bg-[var(--nb-orange)] px-5 font-semibold text-white hover:bg-[var(--nb-orange-dark)]"
+        className="flex h-11 shrink-0 items-center gap-2 rounded-xl bg-[var(--nb-gold)] px-5 font-bold text-[#231a05] hover:bg-[var(--nb-gold-dark)]"
       >
         {w.submit}
       </button>
