@@ -142,11 +142,11 @@ export function HomeView({ locale }: { locale: Locale }) {
           </div>
         </section>
 
-        {/* ---------------- NGÀNH NGHỀ ---------------- */}
-        <IndustryRail locale={locale} />
-
         {/* ---------------- SÂN KHẤU ĐƠN HÀNG ---------------- */}
         <JobStage locale={locale} jobs={JOB_ORDERS} />
+
+        {/* ---------------- NGÀNH NGHỀ ---------------- */}
+        <IndustryRail locale={locale} />
 
         {/* ---------------- DẢI 4 Ô ---------------- */}
         <section className="hidden bg-[var(--nb-strip)] lg:block lg:h-[calc(173*var(--u))]">
