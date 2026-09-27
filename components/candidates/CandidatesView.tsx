@@ -2,86 +2,119 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
 import { SiteHeader } from "@/components/SiteHeader";
+import { MobileBanner } from "@/components/MobileBanner";
 import { LegalStrip } from "@/components/LegalStrip";
 import { MobileTabBar } from "@/components/nav/MobileTabBar";
 import { Icon } from "@/components/ui/Icon";
 import { INDUSTRY_ASSETS } from "@/content/industry-assets";
-import { JOB_ORDERS, JOBS_COPY, totalSlots } from "@/content/jobs-current";
-import { ROUTES, jobPath, type Locale } from "@/content/locales";
+import { isApproved, isProduction } from "@/lib/field-gate";
+import { ROUTES, type Locale } from "@/content/locales";
+import { navFor, requestLabel } from "@/content/nav-menu";
 import { CANDIDATES } from "@/content/page-candidates";
 
 /**
- * Trang dành cho người lao động — dựng theo bộ mẫu mới ("Dành cho người lao
- * động Việt Nam"): đầu trang navy có ảnh, danh sách việc cần làm với icon
- * vàng, các đơn hàng đang tuyển và nút tư vấn.
+ * Trang 03 — screens/03-fuer-bewerber-vietnam.png. Bố cục bị khoá.
  *
- * Chữ vẫn từ `content/page-candidates.ts`. Dải số liệu của bản cũ đã bỏ:
- * ba trong bốn ô là số chưa được duyệt (CẦN ĐIỀN 05) nên luôn trống ở
- * production; thay vào đó là số đơn hàng và số suất — dữ liệu thật.
+ * Toạ độ desktop (1 --u = 1px ảnh mẫu):
+ *   hero 0–560, header trong suốt 0–84 đè lên ảnh (ảnh chạy tới mép trên)
+ *   chữ nhỏ y≈127 · H1 hai dòng, dòng 2 có từ nhấn CAM · phụ đề 3 dòng từ y≈316
+ *   nút y 416–482 · hàng 3 điểm tin cậy y 510–548
+ *   8 thẻ chủ đề y 583–778 (x 35–1639, bề ngang mỗi thẻ theo mẫu)
+ *   dải số liệu navy y 799–941 (vạch ngăn x 338, 635, 952, 1263)
  */
+
+/** Bề ngang 8 thẻ đo từ mẫu */
+const CARD_W = [174, 187, 182, 185, 191, 207, 199, 201];
+/** Mép trái 4 cột số liệu và cột trích dẫn */
+const STAT_W = [293, 297, 317, 311];
+
 export function CandidatesView({ locale }: { locale: Locale }) {
   const t = CANDIDATES[locale];
-  const c = JOBS_COPY[locale];
+  const statVerified = isApproved("05");
 
   return (
     <>
-      <SiteHeader locale={locale} page="process" />
+      <SiteHeader locale={locale} page="candidates" variant="light" />
 
-      <main id="inhalt" className="bg-white">
-        {/* ---------------- ĐẦU TRANG ---------------- */}
-        <section className="relative isolate overflow-hidden bg-[var(--nb-navy-deep)] text-white">
-          <div className="absolute inset-0 -z-10">
+      <main id="inhalt" className="bg-[#fdfdfd]">
+        <MobileBanner src={INDUSTRY_ASSETS["akademische-fachkraefte"]!.hero} focus={"55% 45%"} priority />
+        {/* ---------------- HERO ---------------- */}
+        <section className="relative overflow-hidden bg-[#eef2f7] lg:h-[calc(560*var(--u))]">
+          <div className="nb-photo-right absolute inset-y-0 left-[calc(560*var(--u))] hidden lg:block">
             <Image
               src={INDUSTRY_ASSETS["akademische-fachkraefte"]!.hero}
               alt=""
               fill
               priority
-              sizes="100vw"
-              className="object-cover object-[55%_40%]"
-            />
-            <span
-              className="absolute inset-0"
-              style={{ background: "linear-gradient(90deg, rgba(10,31,61,.96), rgba(10,31,61,.86) 45%, rgba(10,31,61,.5))" }}
-              aria-hidden="true"
+              sizes="70vw"
+              className="object-cover"
+              style={{ objectPosition: "55% 40%" }}
             />
           </div>
+          <div
+            className="nb-photo-right absolute inset-y-0 left-0 hidden lg:block"
+            style={{
+              background:
+                "linear-gradient(90deg, #f3f6fa 0, #f3f6fa calc(600 * var(--u)), rgba(243,246,250,.75) calc(700 * var(--u)), rgba(243,246,250,0) calc(860 * var(--u)))",
+            }}
+            aria-hidden="true"
+          />
+          {/* Dải sáng trên cùng để header trong suốt vẫn đọc được trên ảnh */}
+          <div
+            className="absolute inset-x-0 top-0 hidden h-[calc(110*var(--u))] bg-[linear-gradient(180deg,rgba(243,246,250,.85),rgba(243,246,250,0))] lg:block"
+            aria-hidden="true"
+          />
 
-          <div className="mx-auto max-w-[1400px] px-5 py-12 lg:px-10 lg:py-20">
-            <p className="flex items-center gap-2 text-[11px] font-bold tracking-[0.24em] text-[var(--nb-gold)] uppercase lg:text-xs">
-              <span className="h-px w-8 bg-[var(--nb-gold)]" aria-hidden="true" />
+          <div className="relative px-4 py-12 lg:absolute lg:top-0 lg:left-[calc(39*var(--u))] lg:w-[calc(830*var(--u))] lg:p-0">
+            <p className="text-xs tracking-[0.3em] text-[#4a5a6e] uppercase lg:mt-[calc(126*var(--u))] lg:text-[calc(14*var(--u))]">
               {t.eyebrow}
             </p>
-            <h1 className="mt-4 max-w-[18ch] text-[32px] leading-[1.08] font-extrabold tracking-[-0.025em] text-white lg:text-[54px]">
+            <h1 className="mt-4 text-4xl font-extrabold tracking-[-0.025em] text-[var(--nb-ink)] lg:mt-[calc(16*var(--u))] lg:text-[calc(59*var(--u))] lg:leading-[calc(70*var(--u))]">
               {t.h1a}
-              <span className="block">
-                <span className="text-[var(--nb-gold)]">{t.h1accent}</span>
-                {t.h1rest}
-              </span>
+              <br />
+              <span className="text-[#f26a21]">{t.h1accent}</span>
+              {t.h1rest}
             </h1>
-            <p className="mt-4 max-w-[58ch] whitespace-pre-line text-white/80 lg:text-lg">{t.sub}</p>
-
-            <p className="mt-7 flex flex-wrap gap-3">
+            <p className="mt-5 max-w-xl text-lg text-[#3a4a5e] lg:mt-[calc(12*var(--u))] lg:max-w-[calc(680*var(--u))] lg:text-[calc(20*var(--u))] lg:leading-[calc(28*var(--u))] lg:whitespace-pre-line">
+              {t.sub}
+            </p>
+            <div className="mt-7 flex flex-wrap gap-4 lg:mt-[calc(22*var(--u))] lg:gap-[calc(17*var(--u))]">
               <Link
-                href={ROUTES.jobs[locale] as Route}
-                className="inline-flex h-12 items-center gap-2 rounded-xl bg-[var(--nb-gold)] px-7 font-bold text-[#231a05] hover:bg-[var(--nb-gold-dark)]"
+                href={ROUTES.industries[locale] as Route}
+                className="inline-flex items-center gap-4 rounded-md bg-[#1647a8] px-7 py-4 font-semibold text-white hover:bg-[#0f3a8f] lg:h-[calc(66*var(--u))] lg:rounded-[calc(6*var(--u))] lg:px-[calc(39*var(--u))] lg:py-0 lg:text-[calc(21*var(--u))]"
               >
-                {c.tickerCta}
-                <Icon name="arrowRight" className="h-4 w-4" strokeWidth={2.2} />
+                {t.cta}
+                <Icon name="arrowRight" className="h-6 w-6 lg:h-[calc(24*var(--u))] lg:w-[calc(24*var(--u))]" strokeWidth={2.2} />
               </Link>
               <Link
                 href={ROUTES.process[locale] as Route}
-                className="inline-flex h-12 items-center gap-2 rounded-xl border border-white/35 px-7 font-semibold hover:bg-white/10"
+                className="inline-flex items-center gap-4 rounded-md border-[1.5px] border-[#1d3f7a] bg-white/70 px-5 py-3 text-[var(--nb-ink)] hover:bg-white lg:h-[calc(66*var(--u))] lg:rounded-[calc(6*var(--u))] lg:px-[calc(22*var(--u))] lg:py-0"
               >
-                {t.secondary[0]}
+                <span className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-[#1d3f7a] lg:h-[calc(36*var(--u))] lg:w-[calc(36*var(--u))]">
+                  <Icon name="chevronRight" className="h-5 w-5 lg:h-[calc(18*var(--u))] lg:w-[calc(18*var(--u))]" strokeWidth={2.4} />
+                </span>
+                <span className="text-sm leading-tight lg:text-[calc(15*var(--u))] lg:leading-[calc(21*var(--u))]">
+                  {t.secondary[0]}
+                  <br />
+                  {t.secondary[1]}
+                </span>
               </Link>
-            </p>
-
-            <ul className="mt-9 flex flex-wrap gap-x-8 gap-y-4 border-t border-white/15 pt-6">
+            </div>
+            <ul className="mt-7 grid gap-4 sm:grid-cols-3 lg:mt-[calc(28*var(--u))] lg:flex lg:gap-0">
               {t.trust.map(([a, b], i) => (
-                <li key={a} className="flex items-center gap-3">
-                  <Icon name={["briefcase", "shield", "handshake"][i]!} className="h-7 w-7 shrink-0 text-[var(--nb-gold)]" strokeWidth={1.7} />
-                  <span className="text-sm text-white/80">
-                    <b className="block font-semibold text-white">{a}</b>
+                <li
+                  key={a}
+                  className="flex items-center gap-3 lg:gap-[calc(20*var(--u))]"
+                  style={{ ["--w" as string]: [237, 236, 250][i] } as React.CSSProperties}
+                  data-lgw
+                >
+                  <Icon
+                    name={["cap", "shield", "users"][i]!}
+                    className="h-8 w-8 shrink-0 text-[#1d5fd6] lg:h-[calc(34*var(--u))] lg:w-[calc(34*var(--u))]"
+                  />
+                  <span className="text-sm text-[#3a4a5e] lg:text-[calc(14*var(--u))] lg:leading-[calc(19*var(--u))]">
+                    {a}
+                    <br />
                     {b}
                   </span>
                 </li>
@@ -90,88 +123,74 @@ export function CandidatesView({ locale }: { locale: Locale }) {
           </div>
         </section>
 
-        {/* ---------------- ĐƠN HÀNG ĐANG TUYỂN ---------------- */}
-        <section className="mx-auto max-w-[1400px] px-5 py-12 lg:px-10 lg:py-16">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <h2 className="text-2xl font-bold text-[#10284d] lg:text-3xl">{c.title}</h2>
-              <p className="mt-2 text-sm text-[#5b6b80]">
-                {JOB_ORDERS.length} × {c.eyebrow} · {totalSlots()} {c.slots}
-              </p>
-            </div>
-            <Link href={ROUTES.jobs[locale] as Route} className="flex items-center gap-2 font-semibold text-[#1647a8] hover:underline">
-              {c.tickerCta}
-              <Icon name="arrowRight" className="h-4 w-4" strokeWidth={2} />
-            </Link>
-          </div>
-
-          <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {JOB_ORDERS.map((j) => (
-              <li key={j.id}>
+        {/* ---------------- 8 THẺ CHỦ ĐỀ ---------------- */}
+        <section className="px-4 py-8 lg:h-[calc(239*var(--u))] lg:px-[calc(35*var(--u))] lg:pt-[calc(23*var(--u))] lg:pb-0">
+          <ul className="grid gap-3 sm:grid-cols-2 lg:flex lg:gap-[calc(11*var(--u))]">
+            {t.topics.map((c, i) => (
+              <li key={c.title} className="lg:shrink-0" style={{ ["--w" as string]: CARD_W[i] } as React.CSSProperties}
+                  data-lgw>
                 <Link
-                  href={jobPath(locale, j.id) as Route}
-                  className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white ring-1 ring-[#e3e9f1] hover:ring-[var(--nb-gold)]"
+                  href={(i === 0 ? ROUTES.industries[locale] : ROUTES.process[locale]) as Route}
+                  className="relative flex h-full flex-col rounded-xl bg-white p-4 shadow-[0_8px_24px_-12px_rgba(15,35,64,.25)] ring-1 ring-[#eef2f7] hover:ring-[#1d5fd6] lg:h-[calc(195*var(--u))] lg:rounded-[calc(10*var(--u))] lg:p-[calc(17*var(--u))]"
                 >
-                  <span className="relative block h-[150px] overflow-hidden">
-                    <Image
-                      src={INDUSTRY_ASSETS[j.industry]?.hero ?? INDUSTRY_ASSETS["gartenbau-gaertner"]!.hero}
-                      alt=""
-                      fill
-                      sizes="(min-width:1024px) 30vw, 100vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none"
-                    />
-                    <span className="absolute right-3 bottom-3 rounded-full bg-[var(--nb-gold)] px-3 py-1 text-xs font-bold text-[#231a05]">
-                      {j.slots} {c.slots}
-                    </span>
+                  <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[#e8f0fc] text-[#1d5fd6] lg:h-[calc(60*var(--u))] lg:w-[calc(60*var(--u))]">
+                    <Icon name={c.icon} className="h-7 w-7 lg:h-[calc(30*var(--u))] lg:w-[calc(30*var(--u))]" />
                   </span>
-                  <span className="flex flex-1 flex-col p-5">
-                    <b className="block font-bold text-[#10284d]">{j.title[locale]}</b>
-                    <span className="mt-1 block text-sm text-[#5b6b80]">{j.locations.join(" · ")}</span>
-                    <span className="mt-3 flex items-center gap-2 text-sm font-bold text-[#10284d]">
-                      <Icon name="chart" className="h-4 w-4 text-[#1f4f9f]" strokeWidth={1.9} />
-                      {j.salary.from.toLocaleString("de-DE")} – {j.salary.to.toLocaleString("de-DE")} €
-                    </span>
+                  <span className="mt-3 font-bold text-[var(--nb-ink)] lg:mt-[calc(17*var(--u))] lg:text-[calc(16.5*var(--u))] lg:leading-[calc(21*var(--u))] lg:whitespace-nowrap">
+                    {c.title}
                   </span>
+                  <span className="mt-1 text-sm text-[#5b6b80] lg:mt-[calc(6*var(--u))] lg:text-[calc(12.5*var(--u))] lg:leading-[calc(19*var(--u))]">
+                    {c.text}
+                  </span>
+                  <Icon
+                    name="chevronRight"
+                    className="absolute right-4 bottom-4 h-5 w-5 text-[#1d5fd6] lg:right-[calc(20*var(--u))] lg:bottom-[calc(16*var(--u))] lg:h-[calc(20*var(--u))] lg:w-[calc(20*var(--u))]"
+                    strokeWidth={2.4}
+                  />
                 </Link>
               </li>
             ))}
           </ul>
         </section>
 
-        {/* ---------------- TÁM CHỦ ĐỀ ---------------- */}
-        <section className="bg-[#f7f9fc] py-12 lg:py-16">
-          <div className="mx-auto max-w-[1400px] px-5 lg:px-10">
-            <h2 className="text-2xl font-bold text-[#10284d] lg:text-3xl">{t.secondary[1]}</h2>
-            <ul className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {t.topics.map((x) => (
-                <li key={x.title} className="rounded-2xl bg-white p-5 ring-1 ring-[#e3e9f1]">
-                  <Icon name={x.icon} className="h-8 w-8 text-[var(--nb-gold)]" strokeWidth={1.7} />
-                  <h3 className="mt-3 font-bold text-[#10284d]">{x.title}</h3>
-                  <p className="mt-1 text-sm leading-6 text-[#5b6b80]">{x.text}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        {/* ---------------- KẾT ---------------- */}
-        <section className="bg-[var(--nb-navy-deep)] py-12 text-white lg:py-16">
-          <div className="mx-auto flex max-w-[1400px] flex-col items-center gap-5 px-5 text-center lg:px-10">
-            <p className="max-w-[60ch] text-xl font-semibold text-white italic lg:text-2xl">{t.quote}</p>
-            <p className="text-sm text-white/60">{t.quoteBy}</p>
-            <Link
-              href={ROUTES.contact[locale] as Route}
-              className="inline-flex h-12 items-center gap-2 rounded-xl bg-[var(--nb-gold)] px-7 font-bold text-[#231a05] hover:bg-[var(--nb-gold-dark)]"
-            >
-              {t.cta}
-              <Icon name="arrowRight" className="h-4 w-4" strokeWidth={2.2} />
-            </Link>
+        {/* ---------------- DẢI SỐ LIỆU ---------------- */}
+        <section className="bg-[radial-gradient(ellipse_at_30%_120%,#1d4a7d,#153862_55%,#112f55)] text-white lg:h-[calc(142*var(--u))]">
+          <div className="grid gap-6 px-4 py-8 sm:grid-cols-2 lg:flex lg:h-full lg:gap-0 lg:p-0">
+            {t.stats.map((s, i) => {
+              // Số chưa xác minh: dev hiện gạch ngang để thấy chỗ trống,
+              // production bỏ hẳn ô đó (policy CẦN ĐIỀN 05).
+              if (s.value === null && !statVerified && isProduction()) return null;
+              return (
+                <div
+                  key={s.label}
+                  className={`flex items-center gap-4 lg:h-full lg:gap-[calc(28*var(--u))] ${i === 0 ? "lg:pl-[calc(45*var(--u))]" : "lg:border-l lg:border-white/20 lg:pl-[calc(34*var(--u))]"}`}
+                  style={{ ["--w" as string]: STAT_W[i] } as React.CSSProperties}
+                  data-lgw
+                >
+                  <Icon name={s.icon} className="h-12 w-12 shrink-0 lg:h-[calc(58*var(--u))] lg:w-[calc(58*var(--u))]" strokeWidth={1.4} />
+                  <span>
+                    <span className="block text-3xl leading-none font-bold lg:text-[calc(34*var(--u))]">
+                      {s.value ?? "—"}
+                    </span>
+                    <span className="mt-1 block text-sm text-white/85 lg:mt-[calc(6*var(--u))] lg:text-[calc(16*var(--u))] lg:leading-[calc(20*var(--u))]">
+                      {s.label}
+                    </span>
+                  </span>
+                </div>
+              );
+            })}
+            <figure className="lg:flex lg:h-full lg:flex-1 lg:flex-col lg:justify-center lg:border-l lg:border-white/20 lg:pr-[calc(42*var(--u))] lg:pl-[calc(45*var(--u))]">
+              <blockquote className="text-lg lg:text-[calc(18*var(--u))] lg:leading-[calc(24*var(--u))]">“{t.quote}”</blockquote>
+              <figcaption className="mt-3 flex items-end justify-between gap-4 lg:mt-[calc(14*var(--u))]">
+                <span className="h-[5px] w-16 bg-[var(--nb-orange)] lg:h-[calc(5*var(--u))] lg:w-[calc(64*var(--u))]" aria-hidden="true" />
+                <span className="text-sm text-white/85 lg:text-[calc(14*var(--u))]">{t.quoteBy}</span>
+              </figcaption>
+            </figure>
           </div>
         </section>
       </main>
-
       <LegalStrip locale={locale} />
-      <MobileTabBar locale={locale} page="process" />
+      <MobileTabBar locale={locale} page={"candidates"} />
     </>
   );
 }

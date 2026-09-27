@@ -97,7 +97,7 @@ export function ServicesView({ locale }: { locale: Locale }) {
             <p className="mt-6">
               <Link
                 href={ROUTES.request[locale] as Route}
-                className="inline-flex items-center gap-3 rounded-md bg-[var(--nb-gold)] px-6 py-3 font-bold text-[#231a05] hover:bg-[var(--nb-gold-dark)]"
+                className="inline-flex items-center gap-3 rounded-md bg-[var(--nb-orange)] px-6 py-3 font-semibold text-white hover:bg-[var(--nb-orange-dark)]"
               >
                 {SIMPLE[locale].contact.title}
                 <Icon name="arrowRight" className="h-4 w-4" strokeWidth={2} />

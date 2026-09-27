@@ -1,6 +1,5 @@
 import { activeIndustries, industryName } from "@/content/industries";
-import { JOB_ORDERS } from "@/content/jobs-current";
-import { ROUTES, industryPath, jobPath, type Locale, type PageKey } from "@/content/locales";
+import { ROUTES, industryPath, type Locale, type PageKey } from "@/content/locales";
 
 /**
  * MENU CHÍNH — một cây duy nhất cho cả web.
@@ -43,14 +42,12 @@ interface MenuWords {
   about: string;
   request: string;
   contact: string;
-  jobsNav: string;
   sub: {
     employers: [string, string][];
     candidates: [string, string][];
     knowledge: [string, string][];
     about: [string, string][];
     allIndustries: string;
-    allJobs: string;
   };
 }
 
@@ -65,7 +62,6 @@ const WORDS: Record<Locale, MenuWords> = {
     about: "Über uns",
     request: "Anfrage starten",
     contact: "Kontakt",
-    jobsNav: "Stellen",
     sub: {
       employers: [
         ["Leistungen im Überblick", "Was wir für Ihren Betrieb übernehmen"],
@@ -89,7 +85,6 @@ const WORDS: Record<Locale, MenuWords> = {
         ["Kontakt", "Ansprechpartner und Anschrift"],
       ],
       allIndustries: "Alle Branchen ansehen",
-      allJobs: "Alle offenen Stellen",
     },
   },
   en: {
@@ -102,7 +97,6 @@ const WORDS: Record<Locale, MenuWords> = {
     about: "About us",
     request: "Start a request",
     contact: "Contact",
-    jobsNav: "Jobs",
     sub: {
       employers: [
         ["Services at a glance", "What we handle for your company"],
@@ -126,7 +120,6 @@ const WORDS: Record<Locale, MenuWords> = {
         ["Contact", "People and address"],
       ],
       allIndustries: "See all industries",
-      allJobs: "All open positions",
     },
   },
   vi: {
@@ -139,7 +132,6 @@ const WORDS: Record<Locale, MenuWords> = {
     about: "Về chúng tôi",
     request: "Gửi yêu cầu",
     contact: "Liên hệ",
-    jobsNav: "Đơn hàng",
     sub: {
       employers: [
         ["Dịch vụ tổng quan", "Chúng tôi lo những phần nào"],
@@ -163,7 +155,6 @@ const WORDS: Record<Locale, MenuWords> = {
         ["Liên hệ", "Người phụ trách và địa chỉ"],
       ],
       allIndustries: "Xem tất cả ngành nghề",
-      allJobs: "Tất cả đơn hàng",
     },
   },
 };
@@ -177,44 +168,14 @@ export function mainMenu(locale: Locale): MenuItem[] {
   const w = WORDS[locale];
   const r = ROUTES;
 
-  const jobLinks: MenuLink[] = JOB_ORDERS.map((j) => ({
-    label: j.title[locale],
-    href: jobPath(locale, j.id),
-    desc: `${j.slots} · ${j.locations[0]}`,
-  }));
-
   const industryLinks: MenuLink[] = activeIndustries().map((i) => ({
     label: industryName(i, locale),
     href: industryPath(locale, i.slug),
     desc: i.berufDe,
   }));
 
-  // Thứ tự theo bộ mẫu: Trang chủ · Đơn hàng · Ngành nghề · Quy trình ·
-  // Doanh nghiệp · Liên hệ. Người lao động, Kiến thức và Về chúng tôi nằm
-  // trong menu con để hàng nav gọn như mẫu.
   return [
     { page: "home", label: w.home, href: r.home[locale] },
-    {
-      page: "jobs",
-      label: w.jobsNav,
-      href: r.jobs[locale],
-      children: [
-        { label: w.sub.allJobs, href: r.jobs[locale] },
-        ...jobLinks,
-      ],
-    },
-    {
-      page: "industries",
-      label: w.industries,
-      href: r.industries[locale],
-      children: [...industryLinks, { label: w.sub.allIndustries, href: r.industries[locale] }],
-    },
-    {
-      page: "process",
-      label: w.process,
-      href: r.process[locale],
-      children: pair(w.sub.candidates, [r.jobs[locale], r.process[locale], r.industries[locale], r.knowledge[locale]]),
-    },
     {
       page: "employers",
       label: w.employers,
@@ -222,9 +183,28 @@ export function mainMenu(locale: Locale): MenuItem[] {
       children: pair(w.sub.employers, [r.services[locale], r.process[locale], r.request[locale]]),
     },
     {
-      page: "contact",
-      label: w.contact,
-      href: r.contact[locale],
+      page: "candidates",
+      label: w.candidates,
+      href: r.candidates[locale],
+      children: pair(w.sub.candidates, [r.jobs[locale], r.process[locale], r.industries[locale], r.knowledge[locale]]),
+    },
+    {
+      page: "industries",
+      label: w.industries,
+      href: r.industries[locale],
+      children: [...industryLinks, { label: w.sub.allIndustries, href: r.industries[locale] }],
+    },
+    { page: "process", label: w.process, href: r.process[locale] },
+    {
+      page: "knowledge",
+      label: w.knowledge,
+      href: r.knowledge[locale],
+      children: pair(w.sub.knowledge, [`${r.knowledge[locale]}#faq`, r.process[locale], r.industries[locale]]),
+    },
+    {
+      page: "about",
+      label: w.about,
+      href: r.about[locale],
       children: pair(w.sub.about, [r.about[locale], r.services[locale], r.contact[locale]]),
     },
   ];
