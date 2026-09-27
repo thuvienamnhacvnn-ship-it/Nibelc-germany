@@ -226,6 +226,9 @@
   /* Đơn vị của banner: tính trên toàn bề ngang, không trừ lề — ảnh banner
      phải phủ hết mép và giữ đúng tỷ lệ như bản gốc, chỉ chữ mới thụt lề. */
   --ub: calc(min(100vw, 1672px) / 1672);
+  /* Đơn vị của banner điện thoại: 1px của ảnh mẫu 941 rộng. Cắt ở 480px để
+     máy tính bảng không nhận một banner cao gần hai nghìn pixel. */
+  --um: calc(min(100vw - 2 * var(--nb-gutter), 480px) / 941);
   --nb-navy: #0a2748;
   --nb-navy-hero: #0b2a52;
   --nb-blue: #2e8bff;
@@ -341,4 +344,89 @@ html {
 }
 @media (prefers-reduced-motion: reduce) {
   .nb-line-run { animation: none; opacity: 0; }
+}
+
+/* ============================================================
+   BANNER TRANG CHỦ — "sân khấu đơn hàng"
+   Dựng theo hai ảnh mẫu Sếp gửi 27/09/2026 (desktop 1672×941,
+   điện thoại 941×1672): nền xanh đêm, chữ và viền vàng.
+   Chỉ dùng trong khu vực banner, không đụng tới màu của cả web.
+   ============================================================ */
+:root {
+  --nb-gold: #e8c266;
+  --nb-gold-soft: #f3d98b;
+  --nb-gold-deep: #b8893c;
+  --nb-gold-line: rgba(232, 194, 102, 0.45);
+  --nb-stage-navy: #050e1d;
+}
+
+/* Chữ lớn mạ vàng như bản mẫu */
+.nb-gold-text {
+  background: linear-gradient(180deg, #fffaf0 0%, #f7dd9f 38%, #e6bb66 68%, #cfa055 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: 0;
+  hyphens: none;
+  /* Playfair cao hơn ô dòng nên nếu không nới ô ra thì background-clip cắt
+     ngang chân chữ ("và Châu Âu" mất nửa dưới). Nới bằng padding rồi kéo lại
+     bằng margin âm để bố cục không đổi. */
+  padding-block: 0.16em;
+  margin-block: -0.16em;
+}
+
+.nb-gold-pill {
+  border-radius: 9999px;
+  border: 1px solid var(--nb-gold-line);
+  background: rgba(232, 194, 102, 0.12);
+  color: #f7e6ba;
+  font-weight: 600;
+}
+.nb-gold-pill:hover {
+  background: rgba(232, 194, 102, 0.2);
+}
+
+.nb-gold-btn {
+  border-radius: 12px;
+  background: linear-gradient(180deg, #f6e0a3, #d9a94f);
+  color: #231a05;
+  font-weight: 700;
+}
+.nb-stage-card:hover .nb-gold-btn {
+  background: linear-gradient(180deg, #fbebc2, #e2b75c);
+}
+
+/* Thẻ đơn hàng trên sân khấu: kính tối, viền vàng, xoay 3D */
+.nb-stage-card {
+  background: linear-gradient(180deg, rgba(11, 24, 45, 0.94), rgba(5, 12, 25, 0.98));
+  border: 1px solid rgba(232, 194, 102, 0.38);
+  transform-style: preserve-3d;
+  transition:
+    left 0.65s cubic-bezier(0.22, 0.8, 0.2, 1),
+    top 0.65s cubic-bezier(0.22, 0.8, 0.2, 1),
+    width 0.65s cubic-bezier(0.22, 0.8, 0.2, 1),
+    height 0.65s cubic-bezier(0.22, 0.8, 0.2, 1),
+    transform 0.65s cubic-bezier(0.22, 0.8, 0.2, 1),
+    box-shadow 0.65s ease;
+}
+
+.nb-stage-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  background: rgba(9, 19, 36, 0.55);
+  color: #fff;
+  backdrop-filter: blur(4px);
+}
+.nb-stage-arrow:hover {
+  border-color: var(--nb-gold);
+  color: var(--nb-gold);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nb-stage-card {
+    transition: none;
+  }
 }

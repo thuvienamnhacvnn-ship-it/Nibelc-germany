@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Manrope } from "next/font/google";
+import { Inter, Manrope, Playfair_Display } from "next/font/google";
 import { SITE } from "@/content/site";
 import "./globals.css";
 
@@ -13,6 +13,14 @@ const manrope = Manrope({
   subsets: ["latin", "latin-ext", "vietnamese"],
   weight: ["600", "700", "800"],
   variable: "--font-manrope",
+  display: "swap",
+});
+
+// Chữ lớn mạ vàng ở banner trang chủ dùng serif đúng như ảnh mẫu.
+const playfair = Playfair_Display({
+  subsets: ["latin", "latin-ext", "vietnamese"],
+  weight: ["600", "700", "800"],
+  variable: "--font-serif",
   display: "swap",
 });
 
@@ -41,7 +49,7 @@ export default function RootLayout({
   return (
     // Mặc định là tiếng Đức. Các khối tiếng Việt tự khai lang="vi" tại chỗ
     // để trình đọc màn hình đọc đúng giọng.
-    <html lang="de" className={`${inter.variable} ${manrope.variable}`}>
+    <html lang="de" className={`${inter.variable} ${manrope.variable} ${playfair.variable}`}>
       <body>
         <a
           href="#inhalt"

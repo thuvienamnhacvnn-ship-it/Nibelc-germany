@@ -38,6 +38,7 @@ const G: Record<string, React.ReactNode> = {
   lock: <><rect x="5" y="10.5" width="14" height="10" rx="2" /><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5" /></>,
   grid: <><rect x="4" y="4" width="7" height="7" rx="1" /><rect x="13" y="4" width="7" height="7" rx="1" /><rect x="4" y="13" width="7" height="7" rx="1" /><rect x="13" y="13" width="7" height="7" rx="1" /></>,
   quote: <path d="M5 11h4v7H3v-5a6 6 0 0 1 4-5.7M15 11h4v7h-6v-5a6 6 0 0 1 4-5.7" />,
+  pause: <><rect x="7" y="5" width="3.4" height="14" rx="1" /><rect x="13.6" y="5" width="3.4" height="14" rx="1" /></>,
   play: <path d="M8 5.5v13l11-6.5Z" fill="currentColor" stroke="none" />,
   briefcase: <><rect x="3" y="7.5" width="18" height="12" rx="2.5" /><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5M3 12.5h18" /></>,
   star: <path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9Z" />,
@@ -65,15 +66,19 @@ export function Icon({
   name,
   className = "h-6 w-6",
   strokeWidth = 1.7,
+  style,
 }: {
   name: IconName;
   className?: string;
   strokeWidth?: number;
+  /** Banner trang chủ đặt cỡ icon theo --ub nên cần style trực tiếp */
+  style?: React.CSSProperties;
 }) {
   return (
     <svg
       viewBox="0 0 24 24"
       className={className}
+      style={style}
       fill="none"
       stroke="currentColor"
       strokeWidth={strokeWidth}

@@ -29,24 +29,29 @@ export function SiteHeader({
 }: {
   locale: Locale;
   page: PageKey;
-  /** Chỉ đổi màu nền, không đổi kích thước hay bố cục */
-  variant?: "navy" | "light";
+  /** Chỉ đổi màu nền, không đổi kích thước hay bố cục.
+   *  "stage" là biến thể của banner trang chủ: nền trong suốt, nằm đè lên
+   *  banner và không hiện gì ở điện thoại (bản điện thoại có thanh trên riêng). */
+  variant?: "navy" | "light" | "stage";
   /** Trang chi tiết ngành giữ nguyên slug khi đổi ngôn ngữ */
   langHrefs?: Record<Locale, string>;
 }) {
-  const navy = variant === "navy";
+  const stage = variant === "stage";
+  const navy = variant === "navy" || stage;
   const nav = navFor(locale, page);
   const hrefs = langHrefs ?? (Object.fromEntries(LOCALES.map((l) => [l, ROUTES[page][l]])) as Record<Locale, string>);
 
   return (
     <header
-      className={`sticky top-0 z-50 max-lg:border-0 max-lg:bg-transparent max-lg:shadow-none ${
-        navy
-          ? "border-b border-white/20 bg-[var(--nb-navy)] text-white shadow-[0_1px_0_rgba(255,255,255,.12)]"
-          : "border-b border-[var(--nb-line)] bg-white/95 text-[var(--nb-ink)] backdrop-blur"
+      className={`z-50 max-lg:border-0 max-lg:bg-transparent max-lg:shadow-none ${
+        stage
+          ? "absolute inset-x-0 top-0 border-0 bg-transparent text-white max-lg:hidden"
+          : navy
+          ? "sticky top-0 border-b border-white/20 bg-[var(--nb-navy)] text-white shadow-[0_1px_0_rgba(255,255,255,.12)]"
+          : "sticky top-0 border-b border-[var(--nb-line)] bg-white/95 text-[var(--nb-ink)] backdrop-blur"
       }`}
     >
-      <MobileTicker locale={locale} />
+      {!stage && <MobileTicker locale={locale} />}
 
       {page !== "home" && (
         <Link
@@ -118,7 +123,7 @@ export function SiteHeader({
                 {item.active && (
                   <span
                     className={`absolute inset-x-[calc(-4*var(--u))] top-[calc(50%+13*var(--u))] h-[calc(3*var(--u))] rounded-full ${
-                      navy ? "bg-[var(--nb-orange)]" : "bg-[var(--nb-blue-dark)]"
+                      stage ? "bg-[var(--nb-gold)]" : navy ? "bg-[var(--nb-orange)]" : "bg-[var(--nb-blue-dark)]"
                     }`}
                     aria-hidden="true"
                   />
@@ -152,7 +157,7 @@ export function SiteHeader({
 
           <Link
             href={ROUTES.request[locale] as Route}
-            className="inline-flex items-center gap-2 rounded-md bg-[var(--nb-orange)] px-3 py-2 text-sm font-semibold whitespace-nowrap text-white hover:bg-[var(--nb-orange-dark)] max-lg:hidden lg:h-[calc(44*var(--u))] lg:gap-[calc(10*var(--u))] lg:rounded-[calc(7*var(--u))] lg:px-[calc(22*var(--u))] lg:py-0 lg:text-[calc(15*var(--u))]"
+            className={`inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold whitespace-nowrap ${stage ? "nb-gold-btn" : "bg-[var(--nb-orange)] text-white hover:bg-[var(--nb-orange-dark)]"}  max-lg:hidden lg:h-[calc(44*var(--u))] lg:gap-[calc(10*var(--u))] lg:rounded-[calc(7*var(--u))] lg:px-[calc(22*var(--u))] lg:py-0 lg:text-[calc(15*var(--u))]`}
           >
             {requestLabel(locale)}
             <Icon name="arrowRight" className="h-4 w-4 lg:h-[calc(17*var(--u))] lg:w-[calc(17*var(--u))]" strokeWidth={2} />
