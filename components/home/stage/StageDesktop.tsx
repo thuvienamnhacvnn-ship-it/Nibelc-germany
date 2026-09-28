@@ -44,13 +44,13 @@ const CY = BASE.y + BASE.h / 2;
 
 /** Tâm thẻ ở từng ô, đo trên ảnh mẫu, kèm cỡ thu nhỏ và góc xoay. */
 const SLOT: Record<number, { cx: number; cy: number; s: number; rot: number; z: number; dim: number; op: number }> = {
-  0: { cx: 876, cy: 416, s: 1, rot: 0, z: 40, dim: 0, op: 1 },
-  [-1]: { cx: 524, cy: 500, s: 0.58, rot: -15, z: 30, dim: 0.18, op: 1 },
-  1: { cx: 1244, cy: 514, s: 0.58, rot: 15, z: 30, dim: 0.18, op: 1 },
-  [-2]: { cx: 308, cy: 569, s: 0.42, rot: -22, z: 20, dim: 0.36, op: 1 },
-  2: { cx: 1479, cy: 557, s: 0.42, rot: 22, z: 20, dim: 0.36, op: 1 },
-  [-3]: { cx: 110, cy: 600, s: 0.3, rot: -28, z: 10, dim: 0.5, op: 0 },
-  3: { cx: 1660, cy: 592, s: 0.3, rot: 28, z: 10, dim: 0.5, op: 0 },
+  0: { cx: 876, cy: 400, s: 1, rot: 0, z: 40, dim: 0, op: 1 },
+  [-1]: { cx: 470, cy: 486, s: 0.58, rot: -15, z: 30, dim: 0.18, op: 1 },
+  1: { cx: 1292, cy: 500, s: 0.58, rot: 15, z: 30, dim: 0.18, op: 1 },
+  [-2]: { cx: 196, cy: 556, s: 0.42, rot: -22, z: 20, dim: 0.36, op: 1 },
+  2: { cx: 1576, cy: 544, s: 0.42, rot: 22, z: 20, dim: 0.36, op: 1 },
+  [-3]: { cx: -60, cy: 590, s: 0.3, rot: -28, z: 10, dim: 0.5, op: 0 },
+  3: { cx: 1800, cy: 582, s: 0.3, rot: 28, z: 10, dim: 0.5, op: 0 },
 };
 
 const EUR = (n: number) => n.toLocaleString("de-DE");
@@ -71,13 +71,15 @@ export function StageDesktop({ locale }: { locale: Locale }) {
   const cards = useMemo(() => stageCards(locale), [locale]);
   const menu = useMemo(() => mainMenu(locale), [locale]);
   const n = cards.length;
-  const titleSize = locale === "vi" ? 68 : locale === "en" ? 58 : 50;
+  const titleSize = locale === "vi" ? 60 : locale === "en" ? 52 : 44;
 
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const stageRef = useRef<HTMLDivElement>(null);
   /** Đơn đang đứng giữa ở lần vẽ trước, để biết tấm nào vừa rời khỏi giữa */
   const truocDo = useRef(0);
+  /** Tấm nào đã lật bao nhiêu độ — để lần sau lật tiếp nửa vòng, không giật về 0 */
+  const gocQuay = useRef<Record<string, number>>({});
 
   const go = useCallback((d: number) => setActive((i) => (i + d + n) % n), [n]);
 
@@ -122,25 +124,44 @@ export function StageDesktop({ locale }: { locale: Locale }) {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     /** Nhịp chung của một lần đổi đơn — trùng với thời gian tấm trượt sang ô mới */
-    const NHIP = 1000;
-    const DIU = "cubic-bezier(.32,.72,0,1)";
+    const NHIP = 1400;
+    const DIU = "cubic-bezier(.22,.61,.24,1)";
 
     const quay = (id: string | undefined, vaoGiua: boolean) => {
       if (!id) return;
       const el = stageRef.current?.querySelector<HTMLElement>('[data-card="' + id + '"] .nb-stage-card');
       if (!el) return;
-      /* Tấm đi lên làm tấm chính thì nhấc cao lên rồi hạ xuống đúng lúc vào
-         giữa; tấm chính cũ thì chùng xuống một nhịp để nhường chỗ. Vòng quay
-         kéo đúng bằng quãng đường đi, nên vừa tới nơi là vừa tròn một vòng. */
-      const nhac = vaoGiua ? "-7%" : "5%";
-      el.animate(
+
+      /* Lật đúng NỬA vòng mỗi lần đổi đơn. Lật nửa vòng thì tấm dừng ở mặt
+         sau, nên đúng giữa chừng phải soi gương phần nội dung (scaleX(-1)):
+         mặt sau lật ngược một lần nữa thành ra chữ vẫn đọc xuôi. Lần đổi sau
+         lật tiếp nửa vòng để về lại mặt trước.
+
+         Tấm đi lên làm tấm chính thì nhấc cao lên rồi hạ xuống đúng lúc vào
+         giữa; tấm chính cũ chùng xuống một nhịp để nhường chỗ. Nửa vòng kéo
+         đúng bằng quãng đường đi, nên vừa tới nơi là vừa xong. */
+      const cu = gocQuay.current[id] ?? 0;
+      const moi = cu + 180;
+      gocQuay.current[id] = moi;
+      const nhac = vaoGiua ? "-5%" : "3.5%";
+
+      el.getAnimations().forEach((a) => {
+        if (a.id === "lat") a.cancel();
+      });
+      const chay = el.animate(
         [
-          { transform: "translateY(0) rotateY(0deg)" },
-          { transform: `translateY(${nhac}) rotateY(180deg)`, offset: 0.5 },
-          { transform: "translateY(0) rotateY(360deg)" },
+          { transform: `translateY(0) rotateY(${cu}deg)` },
+          { transform: `translateY(${nhac}) rotateY(${cu + 90}deg)`, offset: 0.5 },
+          { transform: `translateY(0) rotateY(${moi}deg)` },
         ],
-        { duration: NHIP, easing: DIU },
+        { duration: NHIP, easing: DIU, fill: "forwards" },
       );
+      chay.id = "lat";
+
+      const mat = el.querySelector<HTMLElement>(".nb-card-face");
+      window.setTimeout(() => {
+        if (mat) mat.style.transform = (moi / 180) % 2 === 0 ? "" : "scaleX(-1)";
+      }, NHIP / 2);
     };
 
     // Cả hai bắt đầu cùng một lúc: tấm phụ nhảy lên giữa, tấm chính lùi ra.
@@ -175,22 +196,17 @@ export function StageDesktop({ locale }: { locale: Locale }) {
           }}
           aria-hidden="true"
         />
-      </div>
-
-      {/* Khung nội dung đúng 1672u, căn giữa — thu nhỏ theo --us nên luôn vừa
-          một khung hình kể cả màn hình thấp. */}
-      <div className="absolute inset-y-0 left-1/2 -translate-x-1/2" style={{ width: u(1672) }}>
         {/* ---------------- CHỮ LỚN ---------------- */}
-        <div className="absolute" style={{ left: u(110), top: u(36), width: u(560) }}>
+        <div className="absolute" style={{ left: "3cm", top: u(58), width: u(520), zIndex: 10 }}>
           {/* Logo nay đứng ngay trên tiêu đề chính, không còn trên thanh header */}
-          <Link href={ROUTES.home[locale] as Route} aria-label="NIBELC" className="mb-[calc(10*var(--us))] block">
+          <Link href={ROUTES.home[locale] as Route} aria-label="NIBELC" className="mb-[calc(8*var(--us))] block">
             <Image
               src="/nibelc-logo-dark.svg"
               alt="NIBELC GmbH"
               width={1201}
               height={376}
               priority
-              style={{ height: u(40), width: "auto" }}
+              style={{ height: u(34), width: "auto" }}
             />
           </Link>
           <p className="font-semibold text-white/85 uppercase" style={{ fontSize: u(15), letterSpacing: u(6) }}>
@@ -206,7 +222,7 @@ export function StageDesktop({ locale }: { locale: Locale }) {
           </h1>
           {/* Dòng phụ hẹp hơn tiêu đề: thẻ bên trái bắt đầu ở x=396, câu tiếng
               Đức dài sẽ chui xuống dưới thẻ nếu để rộng bằng tiêu đề. */}
-          <p className="text-white/85" style={{ marginTop: u(8), fontSize: u(19), lineHeight: u(27), maxWidth: u(286) }}>
+          <p className="text-white/85" style={{ marginTop: u(8), fontSize: u(18), lineHeight: u(25), maxWidth: u(270) }}>
             {t.sub[0]}
             <br />
             {t.sub[1]}
@@ -214,18 +230,22 @@ export function StageDesktop({ locale }: { locale: Locale }) {
           <Link
             href={ROUTES.jobs[locale] as Route}
             className="nb-gold-pill group inline-flex items-center justify-between"
-            style={{ marginTop: u(10), height: u(50), width: u(280), paddingLeft: u(22), paddingRight: u(6), fontSize: u(16) }}
+            style={{ marginTop: u(12), height: u(46), width: u(262), paddingLeft: u(20), paddingRight: u(5), fontSize: u(15) }}
           >
             {t.cta}
             <span
               className="flex items-center justify-center rounded-full bg-[#1b1405] text-[var(--nb-gold)] transition group-hover:translate-x-[2px]"
-              style={{ width: u(38), height: u(38) }}
+              style={{ width: u(36), height: u(36) }}
             >
               <Icon name="arrowRight" style={{ width: u(18), height: u(18) }} strokeWidth={2} />
             </span>
           </Link>
         </div>
+      </div>
 
+      {/* Khung nội dung đúng 1672u, căn giữa — thu nhỏ theo --us nên luôn vừa
+          một khung hình kể cả màn hình thấp. */}
+      <div className="absolute inset-y-0 left-1/2 -translate-x-1/2" style={{ width: u(1672) }}>
         {/* ---------------- SÂN KHẤU THẺ ---------------- */}
         <div ref={stageRef} className="absolute inset-0" style={{ perspective: u(1600) }}>
           {RANGE.map((d) => {
@@ -275,6 +295,7 @@ export function StageDesktop({ locale }: { locale: Locale }) {
                       : `0 ${u(30)} ${u(60)} rgba(0,0,0,.5)`,
                   }}
                 >
+                <span className="nb-card-face block h-full w-full">
                 <span className="relative block overflow-hidden" style={{ height: u(BASE.h - 336) }}>
                   <Image
                     src={card.image}
@@ -377,6 +398,7 @@ export function StageDesktop({ locale }: { locale: Locale }) {
                   <span className="absolute inset-0" style={{ background: `rgba(5,12,25,${s.dim})` }} aria-hidden="true" />
                 )}
                 </span>
+                </span>
               </Link>
             );
           })}
@@ -454,11 +476,11 @@ export function StageDesktop({ locale }: { locale: Locale }) {
         <nav
           aria-label="Menu chính"
           className="absolute flex items-center justify-center"
-          style={{ left: u(74), right: u(74), top: u(830), height: u(94), zIndex: 45 }}
+          style={{ left: u(74), right: u(74), top: u(852), height: u(68), zIndex: 45 }}
         >
           <ul
             className="nb-menu-bar flex items-stretch"
-            style={{ height: u(94), borderRadius: u(47), padding: u(8), gap: u(4) }}
+            style={{ height: u(68), borderRadius: u(34), padding: u(6), gap: u(2) }}
           >
             {menu.map((m) => {
               const on = m.page === "home";
@@ -471,14 +493,14 @@ export function StageDesktop({ locale }: { locale: Locale }) {
                       on ? " nb-menu-on" : " nb-menu-off"
                     }`}
                     style={{
-                      gap: u(10),
-                      paddingInline: u(22),
-                      borderRadius: u(39),
-                      fontSize: u(17),
+                      gap: u(8),
+                      paddingInline: u(17),
+                      borderRadius: u(28),
+                      fontSize: u(15),
                       fontWeight: 700,
                     }}
                   >
-                    <Icon name={MENU_ICON[m.page] ?? "grid"} style={{ width: u(22), height: u(22) }} strokeWidth={1.9} />
+                    <Icon name={MENU_ICON[m.page] ?? "grid"} style={{ width: u(18), height: u(18) }} strokeWidth={1.9} />
                     {m.label}
                   </Link>
                 </li>
@@ -489,9 +511,9 @@ export function StageDesktop({ locale }: { locale: Locale }) {
               <details className="nb-menu-lang relative flex">
                 <summary
                   className="nb-menu-off flex cursor-pointer list-none items-center [&::-webkit-details-marker]:hidden"
-                  style={{ gap: u(8), paddingInline: u(18), borderRadius: u(39), fontSize: u(17), fontWeight: 700 }}
+                  style={{ gap: u(7), paddingInline: u(14), borderRadius: u(28), fontSize: u(15), fontWeight: 700 }}
                 >
-                  <Icon name="globe" style={{ width: u(20), height: u(20) }} strokeWidth={1.9} />
+                  <Icon name="globe" style={{ width: u(17), height: u(17) }} strokeWidth={1.9} />
                   {locale.toUpperCase()}
                 </summary>
                 <ul
@@ -518,10 +540,10 @@ export function StageDesktop({ locale }: { locale: Locale }) {
               <Link
                 href={ROUTES.request[locale] as Route}
                 className="nb-menu-cta flex items-center whitespace-nowrap"
-                style={{ gap: u(10), paddingInline: u(24), borderRadius: u(39), fontSize: u(17), fontWeight: 800 }}
+                style={{ gap: u(8), paddingInline: u(19), borderRadius: u(28), fontSize: u(15), fontWeight: 800 }}
               >
                 {requestLabel(locale)}
-                <Icon name="arrowRight" style={{ width: u(20), height: u(20) }} strokeWidth={2.2} />
+                <Icon name="arrowRight" style={{ width: u(17), height: u(17) }} strokeWidth={2.2} />
               </Link>
             </li>
           </ul>

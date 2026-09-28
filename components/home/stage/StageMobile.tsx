@@ -66,6 +66,8 @@ export function StageMobile({ locale }: { locale: Locale }) {
   const stageRef = useRef<HTMLDivElement>(null);
   /** Đơn đang đứng giữa ở lần vẽ trước, để biết tấm nào vừa rời khỏi giữa */
   const truocDo = useRef(0);
+  /** Tấm nào đã lật bao nhiêu độ — để lần sau lật tiếp nửa vòng, không giật về 0 */
+  const gocQuay = useRef<Record<string, number>>({});
   const [menu, setMenu] = useState(false);
 
   const go = useCallback((d: number) => setActive((i) => (i + d + n) % n), [n]);
@@ -96,25 +98,44 @@ export function StageMobile({ locale }: { locale: Locale }) {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     /** Nhịp chung của một lần đổi đơn — trùng với thời gian tấm trượt sang ô mới */
-    const NHIP = 1000;
-    const DIU = "cubic-bezier(.32,.72,0,1)";
+    const NHIP = 1400;
+    const DIU = "cubic-bezier(.22,.61,.24,1)";
 
     const quay = (id: string | undefined, vaoGiua: boolean) => {
       if (!id) return;
       const el = stageRef.current?.querySelector<HTMLElement>('[data-card="' + id + '"] .nb-stage-card');
       if (!el) return;
-      /* Tấm đi lên làm tấm chính thì nhấc cao lên rồi hạ xuống đúng lúc vào
-         giữa; tấm chính cũ thì chùng xuống một nhịp để nhường chỗ. Vòng quay
-         kéo đúng bằng quãng đường đi, nên vừa tới nơi là vừa tròn một vòng. */
-      const nhac = vaoGiua ? "-7%" : "5%";
-      el.animate(
+
+      /* Lật đúng NỬA vòng mỗi lần đổi đơn. Lật nửa vòng thì tấm dừng ở mặt
+         sau, nên đúng giữa chừng phải soi gương phần nội dung (scaleX(-1)):
+         mặt sau lật ngược một lần nữa thành ra chữ vẫn đọc xuôi. Lần đổi sau
+         lật tiếp nửa vòng để về lại mặt trước.
+
+         Tấm đi lên làm tấm chính thì nhấc cao lên rồi hạ xuống đúng lúc vào
+         giữa; tấm chính cũ chùng xuống một nhịp để nhường chỗ. Nửa vòng kéo
+         đúng bằng quãng đường đi, nên vừa tới nơi là vừa xong. */
+      const cu = gocQuay.current[id] ?? 0;
+      const moi = cu + 180;
+      gocQuay.current[id] = moi;
+      const nhac = vaoGiua ? "-5%" : "3.5%";
+
+      el.getAnimations().forEach((a) => {
+        if (a.id === "lat") a.cancel();
+      });
+      const chay = el.animate(
         [
-          { transform: "translateY(0) rotateY(0deg)" },
-          { transform: `translateY(${nhac}) rotateY(180deg)`, offset: 0.5 },
-          { transform: "translateY(0) rotateY(360deg)" },
+          { transform: `translateY(0) rotateY(${cu}deg)` },
+          { transform: `translateY(${nhac}) rotateY(${cu + 90}deg)`, offset: 0.5 },
+          { transform: `translateY(0) rotateY(${moi}deg)` },
         ],
-        { duration: NHIP, easing: DIU },
+        { duration: NHIP, easing: DIU, fill: "forwards" },
       );
+      chay.id = "lat";
+
+      const mat = el.querySelector<HTMLElement>(".nb-card-face");
+      window.setTimeout(() => {
+        if (mat) mat.style.transform = (moi / 180) % 2 === 0 ? "" : "scaleX(-1)";
+      }, NHIP / 2);
     };
 
     // Cả hai bắt đầu cùng một lúc: tấm phụ nhảy lên giữa, tấm chính lùi ra.
@@ -358,6 +379,7 @@ export function StageMobile({ locale }: { locale: Locale }) {
                     : `0 ${u(30)} ${u(56)} rgba(0,0,0,.5)`,
                 }}
               >
+              <span className="nb-card-face block h-full w-full">
               <span className="relative block overflow-hidden" style={{ height: u(300) }}>
                 <Image src={img} alt="" fill sizes="60vw" className="object-cover" style={{ objectPosition: j.focus }} />
                 <span
@@ -423,6 +445,7 @@ export function StageMobile({ locale }: { locale: Locale }) {
                   {t.detail}
                   <Icon name="arrowRight" style={{ width: u(28), height: u(28) }} strokeWidth={2.2} />
                 </span>
+              </span>
               </span>
               </span>
             </Link>

@@ -406,11 +406,11 @@ html {
 .nb-stage-frame {
   transform-style: preserve-3d;
   will-change: transform;
-  /* 1s — đúng bằng nhịp quay của tấm board, để tấm vào tới giữa cũng là lúc
-     vừa tròn một vòng. */
+  /* 1,4s — đúng bằng nhịp quay của tấm board, để tấm vào tới giữa cũng là
+     lúc vừa tròn một vòng. Chậm hơn mức 1s trước đó cho đỡ giật mắt. */
   transition:
-    transform 1s cubic-bezier(0.32, 0.72, 0, 1),
-    opacity 0.6s ease;
+    transform 1.4s cubic-bezier(0.22, 0.61, 0.24, 1),
+    opacity 0.8s ease;
 }
 
 /* Tấm board: lo phần nhìn, và là thứ quay trọn vòng khi đổi đơn. */
@@ -420,7 +420,7 @@ html {
   border: 1.5px solid rgba(232, 194, 102, 0.5);
   transform-style: preserve-3d;
   will-change: transform;
-  transition: box-shadow 1s cubic-bezier(0.32, 0.72, 0, 1), border-color 0.6s ease;
+  transition: box-shadow 1.4s cubic-bezier(0.22, 0.61, 0.24, 1), border-color 0.8s ease;
 }
 
 .nb-stage-arrow {
