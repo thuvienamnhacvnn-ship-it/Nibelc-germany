@@ -44,13 +44,13 @@ const CY = BASE.y + BASE.h / 2;
 
 /** Tâm thẻ ở từng ô, đo trên ảnh mẫu, kèm cỡ thu nhỏ và góc xoay. */
 const SLOT: Record<number, { cx: number; cy: number; s: number; rot: number; z: number; dim: number; op: number }> = {
-  0: { cx: 876, cy: 400, s: 1, rot: 0, z: 40, dim: 0, op: 1 },
-  [-1]: { cx: 470, cy: 486, s: 0.58, rot: -15, z: 30, dim: 0.18, op: 1 },
-  1: { cx: 1292, cy: 500, s: 0.58, rot: 15, z: 30, dim: 0.18, op: 1 },
-  [-2]: { cx: 196, cy: 556, s: 0.42, rot: -22, z: 20, dim: 0.36, op: 1 },
-  2: { cx: 1576, cy: 544, s: 0.42, rot: 22, z: 20, dim: 0.36, op: 1 },
-  [-3]: { cx: -60, cy: 590, s: 0.3, rot: -28, z: 10, dim: 0.5, op: 0 },
-  3: { cx: 1800, cy: 582, s: 0.3, rot: 28, z: 10, dim: 0.5, op: 0 },
+  0: { cx: 876, cy: 462, s: 1, rot: 0, z: 40, dim: 0, op: 1 },
+  [-1]: { cx: 470, cy: 548, s: 0.58, rot: -15, z: 30, dim: 0.18, op: 1 },
+  1: { cx: 1292, cy: 562, s: 0.58, rot: 15, z: 30, dim: 0.18, op: 1 },
+  [-2]: { cx: 196, cy: 618, s: 0.42, rot: -22, z: 20, dim: 0.36, op: 1 },
+  2: { cx: 1576, cy: 606, s: 0.42, rot: 22, z: 20, dim: 0.36, op: 1 },
+  [-3]: { cx: -60, cy: 652, s: 0.3, rot: -28, z: 10, dim: 0.5, op: 0 },
+  3: { cx: 1800, cy: 644, s: 0.3, rot: 28, z: 10, dim: 0.5, op: 0 },
 };
 
 const EUR = (n: number) => n.toLocaleString("de-DE");
@@ -325,11 +325,6 @@ export function StageDesktop({ locale }: { locale: Locale }) {
                     style={{ objectPosition: card.focus }}
                   />
                   <span
-                    className="absolute inset-0"
-                    style={{ background: "linear-gradient(180deg, rgba(5,14,29,.12) 0, rgba(5,14,29,.32) 52%, rgba(5,14,29,.95) 100%)" }}
-                    aria-hidden="true"
-                  />
-                  <span
                     className="absolute font-[family-name:var(--font-serif)] font-bold text-white/30"
                     style={{ right: u(26), top: u(8), fontSize: u(86), lineHeight: 1.1 }}
                     aria-hidden="true"
@@ -422,11 +417,6 @@ export function StageDesktop({ locale }: { locale: Locale }) {
                     sizes="50vw"
                     className="object-cover"
                     style={{ objectPosition: card.focus }}
-                  />
-                  <span
-                    className="absolute inset-0"
-                    style={{ background: "linear-gradient(180deg, rgba(5,14,29,.12) 0, rgba(5,14,29,.32) 52%, rgba(5,14,29,.95) 100%)" }}
-                    aria-hidden="true"
                   />
                   <span
                     className="absolute font-[family-name:var(--font-serif)] font-bold text-white/30"
@@ -528,7 +518,7 @@ export function StageDesktop({ locale }: { locale: Locale }) {
           onClick={() => go(-1)}
           aria-label={t.prev}
           className="nb-stage-arrow absolute"
-          style={{ left: u(74), top: u(510), width: u(62), height: u(62), zIndex: 45 }}
+          style={{ left: u(74), top: u(572), width: u(62), height: u(62), zIndex: 45 }}
         >
           <Icon name="chevronRight" style={{ width: u(24), height: u(24), transform: "rotate(180deg)" }} strokeWidth={2} />
         </button>
@@ -537,7 +527,7 @@ export function StageDesktop({ locale }: { locale: Locale }) {
           onClick={() => go(1)}
           aria-label={t.next}
           className="nb-stage-arrow absolute"
-          style={{ right: u(74), top: u(510), width: u(62), height: u(62), zIndex: 45 }}
+          style={{ right: u(74), top: u(572), width: u(62), height: u(62), zIndex: 45 }}
         >
           <Icon name="chevronRight" style={{ width: u(24), height: u(24) }} strokeWidth={2} />
         </button>
@@ -549,38 +539,18 @@ export function StageDesktop({ locale }: { locale: Locale }) {
             <span className="text-white/45" style={{ fontSize: u(17) }}> / {n}</span>
           </span>
 
-          <span className="relative mx-[3%] flex flex-1 items-center" style={{ height: u(3) }}>
-            <span className="absolute inset-x-0 rounded-full bg-white/20" style={{ height: u(3) }} aria-hidden="true" />
-            <span
-              className="absolute left-0 rounded-full bg-white transition-[width] duration-500"
-              style={{ height: u(3), width: `${((active + 1) / n) * 100}%` }}
-              aria-hidden="true"
-            />
-            {cards.map((card, i) => (
-              <button
-                key={card.id}
-                type="button"
-                onClick={() => setActive(i)}
-                aria-label={card.title}
-                className="absolute -translate-x-1/2 rounded-full transition"
-                style={{
-                  left: `${((i + 1) / n) * 100}%`,
-                  width: u(9),
-                  height: u(9),
-                  background: i <= active ? "#fff" : "rgba(255,255,255,.35)",
-                }}
-              />
-            ))}
-          </span>
-
-          <Link href={ROUTES.jobs[locale] as Route} className="shrink-0 text-white/75 hover:text-white" style={{ fontSize: u(16) }}>
+          <Link
+            href={ROUTES.jobs[locale] as Route}
+            className="ml-auto shrink-0 text-white/75 hover:text-white"
+            style={{ fontSize: u(16) }}
+          >
             {t.allJobs}
           </Link>
           <button
             type="button"
             onClick={() => setPaused((p) => !p)}
             aria-label={paused ? t.play : t.pause}
-            className="nb-stage-arrow ml-[1.4%] shrink-0"
+            className="nb-stage-arrow ml-[calc(22*var(--us))] shrink-0"
             style={{ width: u(40), height: u(40) }}
           >
             <Icon name={paused ? "play" : "pause"} style={{ width: u(16), height: u(16) }} strokeWidth={2} />

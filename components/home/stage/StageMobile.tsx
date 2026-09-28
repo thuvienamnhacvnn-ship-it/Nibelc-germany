@@ -386,11 +386,6 @@ export function StageMobile({ locale }: { locale: Locale }) {
               <span className="relative block overflow-hidden" style={{ height: u(300) }}>
                 <Image src={img} alt="" fill sizes="60vw" className="object-cover" style={{ objectPosition: j.focus }} />
                 <span
-                  className="absolute inset-0"
-                  style={{ background: "linear-gradient(180deg, rgba(5,14,29,.1) 0, rgba(5,14,29,.35) 58%, rgba(5,14,29,.96) 100%)" }}
-                  aria-hidden="true"
-                />
-                <span
                   className="absolute font-[family-name:var(--font-serif)] font-bold text-white/30"
                   style={{ right: u(20), top: u(8), fontSize: u(86), lineHeight: 1.1 }}
                   aria-hidden="true"
@@ -453,11 +448,6 @@ export function StageMobile({ locale }: { locale: Locale }) {
               <span className="nb-mat nb-mat-sau" aria-hidden="true">
               <span className="relative block overflow-hidden" style={{ height: u(300) }}>
                 <Image src={img} alt="" fill sizes="60vw" className="object-cover" style={{ objectPosition: j.focus }} />
-                <span
-                  className="absolute inset-0"
-                  style={{ background: "linear-gradient(180deg, rgba(5,14,29,.1) 0, rgba(5,14,29,.35) 58%, rgba(5,14,29,.96) 100%)" }}
-                  aria-hidden="true"
-                />
                 <span
                   className="absolute font-[family-name:var(--font-serif)] font-bold text-white/30"
                   style={{ right: u(20), top: u(8), fontSize: u(86), lineHeight: 1.1 }}
@@ -555,29 +545,7 @@ export function StageMobile({ locale }: { locale: Locale }) {
           </b>
           <span className="text-white/45" style={{ fontSize: u(28) }}> / {n}</span>
         </span>
-        <span className="relative flex flex-1 items-center" style={{ height: u(6) }}>
-          <span className="absolute inset-x-0 rounded-full bg-white/20" style={{ height: u(6) }} aria-hidden="true" />
-          <span
-            className="absolute left-0 rounded-full bg-white transition-[width] duration-500"
-            style={{ height: u(6), width: `${((active + 1) / n) * 100}%` }}
-            aria-hidden="true"
-          />
-          {jobs.map((j, i) => (
-            <button
-              key={j.id}
-              type="button"
-              onClick={() => setActive(i)}
-              aria-label={j.title}
-              className="absolute -translate-x-1/2 rounded-full"
-              style={{
-                left: `${((i + 1) / n) * 100}%`,
-                width: u(16),
-                height: u(16),
-                background: i <= active ? "#fff" : "rgba(255,255,255,.35)",
-              }}
-            />
-          ))}
-        </span>
+        <span className="flex-1" aria-hidden="true" />
         <button
           type="button"
           onClick={() => setPaused((p) => !p)}
