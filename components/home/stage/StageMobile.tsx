@@ -158,7 +158,7 @@ export function StageMobile({ locale }: { locale: Locale }) {
         className="absolute inset-0 -z-10"
         style={{
           background:
-            "linear-gradient(180deg, rgba(3,8,18,.72) 0, rgba(3,8,18,.26) 18%, rgba(3,8,18,.42) 44%, rgba(3,8,18,.78) 70%, rgba(3,8,18,.94) 100%)",
+            "linear-gradient(180deg, rgba(3,8,18,.5) 0, rgba(3,8,18,.08) 18%, rgba(3,8,18,.22) 44%, rgba(3,8,18,.6) 70%, rgba(3,8,18,.86) 100%)",
         }}
         aria-hidden="true"
       />

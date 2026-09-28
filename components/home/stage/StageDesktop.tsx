@@ -189,7 +189,7 @@ export function StageDesktop({ locale }: { locale: Locale }) {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(90deg, rgba(3,8,18,.9) 0, rgba(3,8,18,.55) 22%, rgba(3,8,18,.3) 42%, rgba(3,8,18,.5) 72%, rgba(3,8,18,.88) 100%), linear-gradient(180deg, rgba(3,8,18,.8) 0, rgba(3,8,18,.28) 14%, rgba(3,8,18,.26) 58%, rgba(3,8,18,.72) 84%, rgba(3,8,18,.95) 100%)",
+              "linear-gradient(90deg, rgba(3,8,18,.72) 0, rgba(3,8,18,.26) 18%, rgba(3,8,18,0) 34%, rgba(3,8,18,0) 72%, rgba(3,8,18,.3) 100%), linear-gradient(180deg, rgba(3,8,18,.34) 0, rgba(3,8,18,0) 10%, rgba(3,8,18,0) 64%, rgba(3,8,18,.3) 84%, rgba(3,8,18,.66) 100%)",
           }}
           aria-hidden="true"
         />
