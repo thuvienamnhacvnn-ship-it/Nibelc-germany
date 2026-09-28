@@ -121,17 +121,31 @@ export function StageDesktop({ locale }: { locale: Locale }) {
     if (truoc === active) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const quay = (id: string | undefined) => {
+    /** Nhịp chung của một lần đổi đơn — trùng với thời gian tấm trượt sang ô mới */
+    const NHIP = 1000;
+    const DIU = "cubic-bezier(.32,.72,0,1)";
+
+    const quay = (id: string | undefined, vaoGiua: boolean) => {
       if (!id) return;
       const el = stageRef.current?.querySelector<HTMLElement>('[data-card="' + id + '"] .nb-stage-card');
-      el?.animate([{ transform: "rotateY(0deg)" }, { transform: "rotateY(360deg)" }], {
-        duration: 850,
-        easing: "cubic-bezier(.32,.72,0,1)",
-      });
+      if (!el) return;
+      /* Tấm đi lên làm tấm chính thì nhấc cao lên rồi hạ xuống đúng lúc vào
+         giữa; tấm chính cũ thì chùng xuống một nhịp để nhường chỗ. Vòng quay
+         kéo đúng bằng quãng đường đi, nên vừa tới nơi là vừa tròn một vòng. */
+      const nhac = vaoGiua ? "-7%" : "5%";
+      el.animate(
+        [
+          { transform: "translateY(0) rotateY(0deg)" },
+          { transform: `translateY(${nhac}) rotateY(180deg)`, offset: 0.5 },
+          { transform: "translateY(0) rotateY(360deg)" },
+        ],
+        { duration: NHIP, easing: DIU },
+      );
     };
 
-    quay(cards[active]?.id);
-    quay(cards[truoc]?.id);
+    // Cả hai bắt đầu cùng một lúc: tấm phụ nhảy lên giữa, tấm chính lùi ra.
+    quay(cards[active]?.id, true);
+    quay(cards[truoc]?.id, false);
   }, [active, cards]);
 
   return (
