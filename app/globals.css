@@ -404,13 +404,12 @@ html {
   background: linear-gradient(180deg, rgba(11, 24, 45, 0.94), rgba(5, 12, 25, 0.98));
   border: 1px solid rgba(232, 194, 102, 0.38);
   transform-style: preserve-3d;
+  will-change: transform;
+  backface-visibility: hidden;
   transition:
-    left 0.65s cubic-bezier(0.22, 0.8, 0.2, 1),
-    top 0.65s cubic-bezier(0.22, 0.8, 0.2, 1),
-    width 0.65s cubic-bezier(0.22, 0.8, 0.2, 1),
-    height 0.65s cubic-bezier(0.22, 0.8, 0.2, 1),
-    transform 0.65s cubic-bezier(0.22, 0.8, 0.2, 1),
-    box-shadow 0.65s ease;
+    transform 0.72s cubic-bezier(0.16, 0.84, 0.24, 1),
+    box-shadow 0.72s ease,
+    opacity 0.5s ease;
 }
 
 .nb-stage-arrow {

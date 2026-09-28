@@ -28,6 +28,21 @@ import { mainMenu } from "@/content/nav-menu";
  */
 
 const u = (n: number) => `calc(${n} * var(--um))`;
+
+/** Khung gốc của thẻ và tâm thẻ ở từng ô, đo trên ảnh mẫu 941 rộng. */
+const BASE = { x: 232, w: 478, h: 748 };
+const CX = BASE.x + BASE.w / 2;
+const CY = BASE.h / 2;
+const SLOT: Record<number, { cx: number; cy: number; s: number; rot: number; z: number; dim: number; op: number }> = {
+  0: { cx: 471, cy: 374, s: 1, rot: 0, z: 30, dim: 0, op: 1 },
+  [-1]: { cx: 78, cy: 424, s: 0.47, rot: -16, z: 20, dim: 0.22, op: 1 },
+  1: { cx: 864, cy: 424, s: 0.47, rot: 16, z: 20, dim: 0.22, op: 1 },
+  [-2]: { cx: -230, cy: 452, s: 0.34, rot: -22, z: 10, dim: 0.4, op: 0 },
+  2: { cx: 1172, cy: 452, s: 0.34, rot: 22, z: 10, dim: 0.4, op: 0 },
+};
+
+/** Khoảng cách được dựng ra DOM; ±2 nằm ngoài màn hình để thẻ bay vào, bay ra. */
+const RANGE = [-2, -1, 0, 1, 2];
 const EUR = (n: number) => n.toLocaleString("de-DE");
 
 const CHIP_ICON: Record<string, string> = {
@@ -253,14 +268,16 @@ export function StageMobile({ locale }: { locale: Locale }) {
           setX0(null);
         }}
       >
-        {[0, -1, 1].map((d, pos) => {
+        {RANGE.map((d) => {
           const i = (((active + d) % n) + n) % n;
           const j = jobs[i]!;
           const img = j.image;
           const center = d === 0;
+          const pos = d === 0 ? 0 : d < 0 ? 1 : 2;
           return (
             <Link
-              key={d}
+              /* Khoá theo đơn hàng, không theo ô — xem ghi chú ở bản desktop. */
+              key={j.id}
               href={`${ROUTES.jobs[locale]}#${j.id}` as Route}
               aria-hidden={!center}
               tabIndex={center ? undefined : -1}
@@ -272,19 +289,20 @@ export function StageMobile({ locale }: { locale: Locale }) {
               }}
               className="nb-stage-card absolute top-0 block overflow-hidden"
               style={{
-                left: center ? u(232) : d < 0 ? u(-24) : u(742),
-                width: center ? u(478) : u(224),
-                height: center ? u(748) : u(628),
-                marginTop: center ? 0 : u(88),
-                zIndex: center ? 30 : 20,
+                left: u(BASE.x),
+                width: u(BASE.w),
+                height: u(BASE.h),
+                zIndex: SLOT[d]!.z,
+                opacity: SLOT[d]!.op,
+                pointerEvents: SLOT[d]!.op === 0 ? "none" : undefined,
                 borderRadius: u(26),
-                transform: center ? "none" : `rotateY(${d < 0 ? -16 : 16}deg)`,
+                transform: `translate3d(calc(${SLOT[d]!.cx - CX} * var(--um)), calc(${SLOT[d]!.cy - CY} * var(--um)), 0) rotateY(${SLOT[d]!.rot}deg) scale(${SLOT[d]!.s})`,
                 boxShadow: center
                   ? `0 ${u(40)} ${u(80)} rgba(0,0,0,.6), 0 0 ${u(70)} rgba(232,194,102,.3)`
-                  : `0 ${u(24)} ${u(50)} rgba(0,0,0,.5)`,
+                  : `0 ${u(40)} ${u(70)} rgba(0,0,0,.5)`,
               }}
             >
-              <span className="relative block overflow-hidden" style={{ height: u(center ? 300 : 404) }}>
+              <span className="relative block overflow-hidden" style={{ height: u(300) }}>
                 <Image src={img} alt="" fill sizes="60vw" className="object-cover" style={{ objectPosition: j.focus }} />
                 <span
                   className="absolute inset-0"
@@ -293,25 +311,25 @@ export function StageMobile({ locale }: { locale: Locale }) {
                 />
                 <span
                   className="absolute font-[family-name:var(--font-serif)] font-bold text-white/30"
-                  style={{ right: u(20), top: u(8), fontSize: u(center ? 86 : 62), lineHeight: 1.1 }}
+                  style={{ right: u(20), top: u(8), fontSize: u(86), lineHeight: 1.1 }}
                   aria-hidden="true"
                 >
                   {String(pos + 1).padStart(2, "0")}
                 </span>
               </span>
 
-              <span className="relative block" style={{ padding: u(center ? 26 : 18), paddingTop: u(4) }}>
+              <span className="relative block" style={{ padding: u(26), paddingTop: u(4) }}>
                 <span className="flex items-center" style={{ gap: u(10) }}>
-                  <Flag colors={j.flag} size={u(center ? 32 : 26)} />
-                  <span className="font-semibold text-white/85" style={{ fontSize: u(center ? 26 : 22) }}>
+                  <Flag colors={j.flag} size={u(32)} />
+                  <span className="font-semibold text-white/85" style={{ fontSize: u(26) }}>
                     {j.countryName}
                   </span>
                 </span>
                 <b
                   className="block overflow-hidden font-bold text-white"
                   style={{
-                    fontSize: u(center ? 36 : 26),
-                    lineHeight: u(center ? 44 : 32),
+                    fontSize: u(36),
+                    lineHeight: u(44),
                     marginTop: u(12),
                     display: "-webkit-box",
                     WebkitBoxOrient: "vertical",
@@ -327,30 +345,28 @@ export function StageMobile({ locale }: { locale: Locale }) {
                   >
                     €
                   </span>
-                  <b className="font-bold text-[var(--nb-gold)]" style={{ fontSize: u(center ? 36 : 26) }}>
+                  <b className="font-bold whitespace-nowrap text-[var(--nb-gold)]" style={{ fontSize: u(36) }}>
                     {j.salary.from === j.salary.to
                       ? `${EUR(j.salary.from)} €`
                       : `${EUR(j.salary.from)} – ${EUR(j.salary.to)} €`}
                   </b>
                 </span>
 
-                {center && (
-                  <>
-                    <span className="block bg-white/15" style={{ height: 1, marginBlock: u(18) }} aria-hidden="true" />
-                    <span className="flex items-center justify-between" style={{ gap: u(8) }}>
-                      {j.facts.map((ft) => (
-                        <Fact key={ft.label} icon={ft.icon} value={ft.value} label={ft.label} u={u} />
-                      ))}
-                    </span>
-                    <span
-                      className="nb-gold-btn flex items-center justify-center"
-                      style={{ marginTop: u(22), height: u(84), gap: u(12), fontSize: u(30), borderRadius: u(18) }}
-                    >
-                      {t.detail}
-                      <Icon name="arrowRight" style={{ width: u(28), height: u(28) }} strokeWidth={2.2} />
-                    </span>
-                  </>
-                )}
+                <span className="block bg-white/15" style={{ height: 1, marginBlock: u(18) }} aria-hidden="true" />
+                <span className="flex items-center justify-between" style={{ gap: u(8) }}>
+                  {j.facts.map((ft) => (
+                    <Fact key={ft.label} icon={ft.icon} value={ft.value} label={ft.label} u={u} />
+                  ))}
+                </span>
+                {/* Nút chỉ sáng ở thẻ giữa nhưng vẫn chiếm chỗ ở thẻ bên, để mọi
+                    thẻ chung một bố cục — chuyển cảnh khi đó chỉ là transform. */}
+                <span
+                  className="nb-gold-btn flex items-center justify-center transition-opacity duration-500"
+                  style={{ marginTop: u(22), height: u(84), gap: u(12), fontSize: u(30), borderRadius: u(18), opacity: center ? 1 : 0 }}
+                >
+                  {t.detail}
+                  <Icon name="arrowRight" style={{ width: u(28), height: u(28) }} strokeWidth={2.2} />
+                </span>
               </span>
             </Link>
           );

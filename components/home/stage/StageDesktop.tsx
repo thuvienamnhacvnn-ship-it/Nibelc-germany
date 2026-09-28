@@ -29,15 +29,27 @@ import { ROUTES, type Locale } from "@/content/locales";
 
 const u = (n: number) => `calc(${n} * var(--us))`;
 
-/** Thứ tự vẽ các ô: giữa trước rồi lan ra hai bên — cũng là thứ tự đánh số 01…05 */
-const ORDER = [0, -1, 1, -2, 2];
+/** Ô nào ứng với số mấy trên ảnh mẫu: giữa là 01, rồi lan dần ra hai bên. */
+const POS: Record<number, number> = { 0: 1, [-1]: 2, 1: 3, [-2]: 4, 2: 5 };
 
-const SLOT: Record<number, { x: number; y: number; w: number; h: number; rot: number; z: number; dim: number }> = {
-  0: { x: 645, y: 92, w: 462, h: 648, rot: 0, z: 40, dim: 0 },
-  [-1]: { x: 396, y: 298, w: 256, h: 404, rot: -15, z: 30, dim: 0.2 },
-  1: { x: 1116, y: 312, w: 256, h: 404, rot: 15, z: 30, dim: 0.2 },
-  [-2]: { x: 212, y: 432, w: 192, h: 274, rot: -22, z: 20, dim: 0.42 },
-  2: { x: 1382, y: 402, w: 194, h: 310, rot: 22, z: 20, dim: 0.42 },
+/** Các khoảng cách được dựng ra DOM. ±3 nằm ngoài sân khấu, để thẻ có chỗ
+ *  bay vào và bay ra thay vì hiện ra đột ngột ở rìa. */
+const RANGE = [-3, -2, -1, 0, 1, 2, 3];
+
+/** Khung gốc của thẻ — mọi thẻ đều có đúng khung này, chỉ khác phép biến đổi. */
+const BASE = { x: 645, y: 92, w: 462, h: 648 };
+const CX = BASE.x + BASE.w / 2;
+const CY = BASE.y + BASE.h / 2;
+
+/** Tâm thẻ ở từng ô, đo trên ảnh mẫu, kèm cỡ thu nhỏ và góc xoay. */
+const SLOT: Record<number, { cx: number; cy: number; s: number; rot: number; z: number; dim: number; op: number }> = {
+  0: { cx: 876, cy: 416, s: 1, rot: 0, z: 40, dim: 0, op: 1 },
+  [-1]: { cx: 524, cy: 500, s: 0.58, rot: -15, z: 30, dim: 0.18, op: 1 },
+  1: { cx: 1244, cy: 514, s: 0.58, rot: 15, z: 30, dim: 0.18, op: 1 },
+  [-2]: { cx: 308, cy: 569, s: 0.42, rot: -22, z: 20, dim: 0.36, op: 1 },
+  2: { cx: 1479, cy: 557, s: 0.42, rot: 22, z: 20, dim: 0.36, op: 1 },
+  [-3]: { cx: 110, cy: 600, s: 0.3, rot: -28, z: 10, dim: 0.5, op: 0 },
+  3: { cx: 1660, cy: 592, s: 0.3, rot: 28, z: 10, dim: 0.5, op: 0 },
 };
 
 const EUR = (n: number) => n.toLocaleString("de-DE");
@@ -77,7 +89,7 @@ export function StageDesktop({ locale }: { locale: Locale }) {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(90deg, rgba(4,11,24,.88) 0, rgba(4,11,24,.42) 32%, rgba(4,11,24,.12) 50%, rgba(4,11,24,.42) 72%, rgba(4,11,24,.86) 100%), linear-gradient(180deg, rgba(4,11,24,.8) 0, rgba(4,11,24,0) 16%, rgba(4,11,24,0) 60%, rgba(4,11,24,.94) 100%)",
+              "linear-gradient(90deg, rgba(4,11,24,.8) 0, rgba(4,11,24,.34) 24%, rgba(4,11,24,0) 44%), linear-gradient(180deg, rgba(4,11,24,.62) 0, rgba(4,11,24,0) 12%, rgba(4,11,24,0) 62%, rgba(4,11,24,.58) 80%, rgba(4,11,24,.93) 100%)",
           }}
           aria-hidden="true"
         />
@@ -119,16 +131,19 @@ export function StageDesktop({ locale }: { locale: Locale }) {
 
         {/* ---------------- SÂN KHẤU THẺ ---------------- */}
         <div className="absolute inset-0" style={{ perspective: u(1600) }}>
-          {ORDER.map((d, pos) => {
+          {RANGE.map((d) => {
             const s = SLOT[d]!;
             const i = (((active + d) % n) + n) % n;
             const card = cards[i]!;
             const center = d === 0;
-            const far = Math.abs(d) === 2;
+            const pos = (POS[d] ?? 6) - 1;
 
             return (
               <Link
-                key={d}
+                /* Khoá theo ĐƠN HÀNG chứ không theo ô: có vậy khi đổi thẻ,
+                   React mới giữ nguyên phần tử cũ và để CSS đưa nó sang ô mới.
+                   Khoá theo ô thì nó chỉ thay chữ tại chỗ, không hề chuyển động. */
+                key={card.id}
                 href={`${ROUTES.jobs[locale]}#${card.id}` as Route}
                 aria-hidden={!center}
                 tabIndex={center ? undefined : -1}
@@ -140,27 +155,26 @@ export function StageDesktop({ locale }: { locale: Locale }) {
                 }}
                 className="nb-stage-card absolute block overflow-hidden"
                 style={{
-                  left: u(s.x),
-                  top: u(s.y),
-                  width: u(s.w),
-                  height: u(s.h),
+                  left: u(BASE.x),
+                  top: u(BASE.y),
+                  width: u(BASE.w),
+                  height: u(BASE.h),
                   zIndex: s.z,
-                  borderRadius: u(center ? 26 : 18),
-                  transform: `rotateY(${s.rot}deg)`,
+                  opacity: s.op,
+                  pointerEvents: s.op === 0 ? "none" : undefined,
+                  borderRadius: u(26),
+                  transform: `translate3d(calc(${s.cx - CX} * var(--us)), calc(${s.cy - CY} * var(--us)), 0) rotateY(${s.rot}deg) scale(${s.s})`,
                   boxShadow: center
                     ? `0 ${u(40)} ${u(90)} rgba(0,0,0,.6), 0 0 ${u(70)} rgba(232,194,102,.28)`
-                    : `0 ${u(24)} ${u(50)} rgba(0,0,0,.55)`,
+                    : `0 ${u(40)} ${u(80)} rgba(0,0,0,.55)`,
                 }}
               >
-                <span
-                  className="relative block overflow-hidden"
-                  style={{ height: u(center ? s.h - 336 : far ? s.h - 122 : s.h - 182) }}
-                >
+                <span className="relative block overflow-hidden" style={{ height: u(BASE.h - 336) }}>
                   <Image
                     src={card.image}
                     alt=""
                     fill
-                    sizes={center ? "50vw" : "25vw"}
+                    sizes="50vw"
                     className="object-cover"
                     style={{ objectPosition: card.focus }}
                   />
@@ -171,42 +185,33 @@ export function StageDesktop({ locale }: { locale: Locale }) {
                   />
                   <span
                     className="absolute font-[family-name:var(--font-serif)] font-bold text-white/30"
-                    style={{
-                      right: u(center ? 26 : 12),
-                      top: u(center ? 8 : 4),
-                      fontSize: u(center ? 86 : far ? 34 : 44),
-                      lineHeight: 1.1,
-                    }}
+                    style={{ right: u(26), top: u(8), fontSize: u(86), lineHeight: 1.1 }}
                     aria-hidden="true"
                   >
                     {String(pos + 1).padStart(2, "0")}
                   </span>
-                  {center && (
-                    <span
-                      className="absolute font-semibold tracking-[0.3em] text-white/45 uppercase"
-                      style={{ right: u(14), top: u(120), fontSize: u(12), writingMode: "vertical-rl" }}
-                      aria-hidden="true"
-                    >
-                      {card.countryName}
-                    </span>
-                  )}
+                  <span
+                    className="absolute font-semibold tracking-[0.3em] text-white/45 uppercase transition-opacity duration-500"
+                    style={{ right: u(14), top: u(120), fontSize: u(12), writingMode: "vertical-rl", opacity: center ? 1 : 0 }}
+                    aria-hidden="true"
+                  >
+                    {card.countryName}
+                  </span>
                 </span>
 
-                <span className="relative block" style={{ padding: u(center ? 24 : far ? 11 : 14), paddingTop: u(center ? 4 : 2) }}>
-                  {!far && (
-                    <span className="flex items-center" style={{ gap: u(center ? 10 : 7) }}>
-                      <Flag colors={card.flag} size={u(center ? 22 : 16)} />
-                      <span className="font-semibold text-white/80" style={{ fontSize: u(center ? 15 : 12) }}>
-                        {card.countryName}
-                      </span>
+                <span className="relative block" style={{ padding: u(24), paddingTop: u(4) }}>
+                  <span className="flex items-center" style={{ gap: u(10) }}>
+                    <Flag colors={card.flag} size={u(22)} />
+                    <span className="font-semibold text-white/80" style={{ fontSize: u(15) }}>
+                      {card.countryName}
                     </span>
-                  )}
+                  </span>
                   <b
                     className="block overflow-hidden font-bold text-white"
                     style={{
-                      fontSize: u(center ? 27 : far ? 13 : 17),
-                      lineHeight: u(center ? 34 : far ? 17 : 22),
-                      marginTop: u(center ? 10 : far ? 0 : 6),
+                      fontSize: u(27),
+                      lineHeight: u(34),
+                      marginTop: u(10),
                       display: "-webkit-box",
                       WebkitBoxOrient: "vertical",
                       WebkitLineClamp: 2,
@@ -215,56 +220,51 @@ export function StageDesktop({ locale }: { locale: Locale }) {
                     {card.title}
                   </b>
 
-                  <span className="flex items-baseline" style={{ gap: u(center ? 8 : 6), marginTop: u(center ? 12 : far ? 5 : 7) }}>
+                  <span className="flex items-baseline" style={{ gap: u(8), marginTop: u(12) }}>
                     <span
                       className="flex shrink-0 items-center justify-center rounded-full border border-[var(--nb-gold-line)] text-[var(--nb-gold)]"
-                      style={{
-                        width: u(center ? 26 : far ? 15 : 18),
-                        height: u(center ? 26 : far ? 15 : 18),
-                        fontSize: u(center ? 14 : far ? 9 : 10),
-                      }}
+                      style={{ width: u(26), height: u(26), fontSize: u(14) }}
                     >
                       €
                     </span>
                     <b
                       className="font-bold whitespace-nowrap text-[var(--nb-gold)]"
-                      style={{ fontSize: u(center ? 25 : far ? 12 : 16) }}
+                      style={{ fontSize: u(25) }}
                     >
                       {card.salary.from === card.salary.to
                         ? `${EUR(card.salary.from)} €`
                         : `${EUR(card.salary.from)} – ${EUR(card.salary.to)} €`}
                     </b>
-                    {!far && (
-                      <span className="text-white/60" style={{ fontSize: u(center ? 16 : 11) }}>
-                        {t.perMonth}
-                      </span>
-                    )}
+                    <span className="text-white/60" style={{ fontSize: u(16) }}>
+                      {t.perMonth}
+                    </span>
                   </span>
 
-                  {!far && card.facts.length > 0 && (
+                  {card.facts.length > 0 && (
                     <>
                       <span
                         className="block bg-white/15"
-                        style={{ height: 1, marginTop: u(center ? 16 : 9), marginBottom: u(center ? 14 : 8) }}
+                        style={{ height: 1, marginTop: u(16), marginBottom: u(14) }}
                         aria-hidden="true"
                       />
-                      <span className="flex items-center justify-between" style={{ gap: u(center ? 10 : 6) }}>
-                        {card.facts.slice(0, center ? 3 : 2).map((f) => (
-                          <Fact key={f.label} icon={f.icon} value={f.value} label={f.label} u={u} compact={!center} />
+                      <span className="flex items-center justify-between" style={{ gap: u(10) }}>
+                        {card.facts.map((f) => (
+                          <Fact key={f.label} icon={f.icon} value={f.value} label={f.label} u={u} />
                         ))}
                       </span>
                     </>
                   )}
 
-                  {center && (
-                    <span
-                      className="nb-gold-btn flex items-center justify-center"
-                      style={{ marginTop: u(20), height: u(56), gap: u(10), fontSize: u(18) }}
-                    >
-                      {t.detail}
-                      <Icon name="arrowRight" style={{ width: u(18), height: u(18) }} strokeWidth={2.2} />
-                    </span>
-                  )}
+                  {/* Nút chỉ sáng ở thẻ giữa nhưng vẫn chiếm chỗ ở thẻ bên, để
+                      mọi thẻ chung một bố cục — có vậy mới chuyển cảnh được
+                      bằng mỗi transform, không phải dựng lại bố cục mỗi khung. */}
+                  <span
+                    className="nb-gold-btn flex items-center justify-center transition-opacity duration-500"
+                    style={{ marginTop: u(20), height: u(56), gap: u(10), fontSize: u(18), opacity: center ? 1 : 0 }}
+                  >
+                    {t.detail}
+                    <Icon name="arrowRight" style={{ width: u(18), height: u(18) }} strokeWidth={2.2} />
+                  </span>
                 </span>
 
                 {s.dim > 0 && (

@@ -155,65 +155,6 @@ export const JOB_ORDERS: JobOrder[] = [
       ],
     },
   },
-  {
-    id: "gewaechshaus-instandhaltung",
-    industry: "elektrotechnik-elektroniker",
-    poster: { src: "/unternehmen/04-stellenanzeige-instandhaltung.jpg", w: 708, h: 1138 },
-    slots: 5,
-    salary: { from: 2000, to: 2400, currency: "EUR", per: "month" },
-    hoursPerWeek: 40,
-    locations: ["München", "Seevetal", "Münster"],
-    visa: "16a · 18a · 19c (i. V. m. 15d)",
-    title: {
-      de: "Instandhaltung im Gewächshausbetrieb",
-      en: "Maintenance technician, greenhouse farm",
-      vi: "Thợ bảo trì trang trại nhà kính",
-    },
-    summary: {
-      de: "Technik im Gewächshaus warten, Störungen beheben, Anlagen betriebsbereit halten.",
-      en: "Maintaining greenhouse technology, fixing faults, keeping systems running.",
-      vi: "Bảo trì thiết bị nhà kính, xử lý sự cố, giữ hệ thống vận hành ổn định.",
-    },
-    tasks: {
-      de: [
-        "Wartung von Bewässerungs-, Klima- und Fördertechnik",
-        "Störungen suchen und beheben",
-        "Kleinreparaturen an Gebäude und Anlagen",
-        "Wartungsarbeiten dokumentieren",
-      ],
-      en: [
-        "Servicing irrigation, climate and conveyor systems",
-        "Finding and fixing faults",
-        "Minor repairs to buildings and equipment",
-        "Documenting maintenance work",
-      ],
-      vi: [
-        "Bảo trì hệ thống tưới, khí hậu và băng chuyền",
-        "Tìm và khắc phục sự cố",
-        "Sửa chữa nhỏ nhà xưởng và thiết bị",
-        "Ghi chép công việc bảo trì",
-      ],
-    },
-    requirements: {
-      de: ["Handwerkliche oder technische Vorerfahrung", "Deutschkenntnisse A1–A2 von Vorteil"],
-      en: ["Practical or technical experience", "German at A1–A2 is an advantage"],
-      vi: ["Có tay nghề kỹ thuật hoặc cơ khí", "Có tiếng Đức A1–A2 là lợi thế"],
-    },
-    benefits: {
-      de: [
-        "Sozial-, Renten- und Krankenversicherung wie deutsche Beschäftigte",
-        "Unterstützung bei Unterkunft bzw. Wohnkostenzuschuss",
-      ],
-      en: [
-        "Social, pension and health insurance like German employees",
-        "Help with accommodation or a housing allowance",
-      ],
-      vi: [
-        "Được hưởng bảo hiểm xã hội, hưu trí, y tế như lao động Đức",
-        "Được hỗ trợ chỗ ở hoặc phụ cấp nhà ở",
-      ],
-    },
-  },
 ];
 
 export function totalSlots(): number {

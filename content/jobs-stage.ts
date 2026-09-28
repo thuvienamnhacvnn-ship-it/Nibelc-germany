@@ -34,19 +34,27 @@ export interface StageCard {
   facts: StageFact[];
 }
 
+const HOME_SLOT: ((slug: string) => string)[] = [
+  (slug) => INDUSTRY_ASSETS[slug]?.hero ?? INDUSTRY_ASSETS["gartenbau-gaertner"]!.hero,
+  (slug) => INDUSTRY_ASSETS[slug]?.portraitTeam ?? INDUSTRY_ASSETS["gartenbau-gaertner"]!.portraitTeam,
+  (slug) => INDUSTRY_ASSETS[slug]?.detail ?? INDUSTRY_ASSETS["gartenbau-gaertner"]!.detail,
+];
+
 export function stageCards(locale: Locale): StageCard[] {
   const s = STAGE[locale];
   const c = JOBS_COPY[locale];
   const contractLabel = locale === "vi" ? "Hợp đồng" : locale === "en" ? "Contract" : "Vertrag";
   const visaLabel = c.visaLabel;
 
-  const home: StageCard[] = JOB_ORDERS.map((j) => ({
+  const home: StageCard[] = JOB_ORDERS.map((j, i) => ({
     id: j.id,
     country: "de" as const,
     countryName: COUNTRY_NAME.de[locale],
     flag: COUNTRY_FLAG.de,
     title: j.title[locale],
-    image: INDUSTRY_ASSETS[j.industry]?.hero ?? INDUSTRY_ASSETS["gartenbau-gaertner"]!.hero,
+    // Hai đơn nhà kính dùng chung một bộ ảnh KIT; lấy khác slot cho mỗi đơn
+    // để trên băng chuyền không thấy đúng một người lặp lại hai lần.
+    image: HOME_SLOT[i % HOME_SLOT.length]!(j.industry),
     focus: "50% 42%",
     salary: { from: j.salary.from, to: j.salary.to },
     facts: [
