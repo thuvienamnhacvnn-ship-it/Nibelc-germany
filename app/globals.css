@@ -401,15 +401,17 @@ html {
 
 /* Thẻ đơn hàng trên sân khấu: kính tối, viền vàng, xoay 3D */
 .nb-stage-card {
-  background: linear-gradient(180deg, rgba(11, 24, 45, 0.94), rgba(5, 12, 25, 0.98));
-  border: 1px solid rgba(232, 194, 102, 0.38);
+  /* Thân thẻ theo đúng bản mẫu: gần như đen, hơi ám ấm — không phải navy. */
+  background: linear-gradient(180deg, rgba(16, 15, 14, 0.94), rgba(8, 8, 9, 0.985));
+  border: 1.5px solid rgba(232, 194, 102, 0.5);
   transform-style: preserve-3d;
   will-change: transform;
   backface-visibility: hidden;
   transition:
-    transform 0.72s cubic-bezier(0.16, 0.84, 0.24, 1),
-    box-shadow 0.72s ease,
-    opacity 0.5s ease;
+    transform 0.85s cubic-bezier(0.32, 0.72, 0, 1),
+    box-shadow 0.85s cubic-bezier(0.32, 0.72, 0, 1),
+    border-color 0.6s ease,
+    opacity 0.55s ease;
 }
 
 .nb-stage-arrow {
@@ -430,5 +432,59 @@ html {
 @media (prefers-reduced-motion: reduce) {
   .nb-stage-card {
     transition: none;
+  }
+}
+
+/* ---------- Viền vàng của thẻ đơn hàng ----------
+   Thẻ đang đứng giữa có một vòng sáng chạy quanh viền: dùng conic-gradient
+   xoay quanh, cắt rỗng ruột bằng mask nên chỉ còn đúng đường viền. Không
+   dùng box-shadow phát sáng nữa — Sếp chỉ muốn đổ bóng. */
+@property --nb-ang {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.nb-stage-card[data-center="true"] {
+  border-color: transparent;
+}
+
+.nb-stage-card[data-center="true"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(
+    from var(--nb-ang),
+    rgba(232, 194, 102, 0.25),
+    #e8c266 14%,
+    #fff4d2 22%,
+    #f3d98b 30%,
+    rgba(232, 194, 102, 0.3) 52%,
+    rgba(232, 194, 102, 0.25) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: nb-ring 7s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes nb-ring {
+  to {
+    --nb-ang: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nb-stage-card[data-center="true"]::before {
+    animation: none;
   }
 }

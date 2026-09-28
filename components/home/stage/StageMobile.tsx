@@ -287,6 +287,7 @@ export function StageMobile({ locale }: { locale: Locale }) {
                   setActive(i);
                 }
               }}
+              data-center={center}
               className="nb-stage-card absolute top-0 block overflow-hidden"
               style={{
                 left: u(BASE.x),
@@ -298,8 +299,8 @@ export function StageMobile({ locale }: { locale: Locale }) {
                 borderRadius: u(26),
                 transform: `translate3d(calc(${SLOT[d]!.cx - CX} * var(--um)), calc(${SLOT[d]!.cy - CY} * var(--um)), 0) rotateY(${SLOT[d]!.rot}deg) scale(${SLOT[d]!.s})`,
                 boxShadow: center
-                  ? `0 ${u(40)} ${u(80)} rgba(0,0,0,.6), 0 0 ${u(70)} rgba(232,194,102,.3)`
-                  : `0 ${u(40)} ${u(70)} rgba(0,0,0,.5)`,
+                  ? `0 ${u(34)} ${u(64)} rgba(0,0,0,.62), 0 ${u(10)} ${u(22)} rgba(0,0,0,.45)`
+                  : `0 ${u(30)} ${u(56)} rgba(0,0,0,.5)`,
               }}
             >
               <span className="relative block overflow-hidden" style={{ height: u(300) }}>

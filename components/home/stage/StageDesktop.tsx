@@ -153,6 +153,7 @@ export function StageDesktop({ locale }: { locale: Locale }) {
                     setActive(i);
                   }
                 }}
+                data-center={center}
                 className="nb-stage-card absolute block overflow-hidden"
                 style={{
                   left: u(BASE.x),
@@ -165,8 +166,8 @@ export function StageDesktop({ locale }: { locale: Locale }) {
                   borderRadius: u(26),
                   transform: `translate3d(calc(${s.cx - CX} * var(--us)), calc(${s.cy - CY} * var(--us)), 0) rotateY(${s.rot}deg) scale(${s.s})`,
                   boxShadow: center
-                    ? `0 ${u(40)} ${u(90)} rgba(0,0,0,.6), 0 0 ${u(70)} rgba(232,194,102,.28)`
-                    : `0 ${u(40)} ${u(80)} rgba(0,0,0,.55)`,
+                    ? `0 ${u(34)} ${u(70)} rgba(0,0,0,.62), 0 ${u(8)} ${u(20)} rgba(0,0,0,.45)`
+                    : `0 ${u(30)} ${u(60)} rgba(0,0,0,.5)`,
                 }}
               >
                 <span className="relative block overflow-hidden" style={{ height: u(BASE.h - 336) }}>
