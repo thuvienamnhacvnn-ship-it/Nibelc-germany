@@ -88,6 +88,7 @@ export function StageMobile({ locale }: { locale: Locale }) {
         alt=""
         fill
         priority
+        quality={92}
         sizes="100vw"
         className="-z-10 object-cover object-top"
       />
@@ -95,7 +96,7 @@ export function StageMobile({ locale }: { locale: Locale }) {
         className="absolute inset-0 -z-10"
         style={{
           background:
-            "linear-gradient(180deg, rgba(4,11,24,.58) 0, rgba(4,11,24,.14) 16%, rgba(4,11,24,.36) 40%, rgba(4,11,24,.82) 70%, rgba(4,11,24,.96) 100%)",
+            "linear-gradient(180deg, rgba(4,11,24,.5) 0, rgba(4,11,24,.06) 18%, rgba(4,11,24,.2) 42%, rgba(4,11,24,.6) 70%, rgba(4,11,24,.88) 100%)",
         }}
         aria-hidden="true"
       />

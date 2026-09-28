@@ -84,12 +84,20 @@ export function StageDesktop({ locale }: { locale: Locale }) {
     >
       {/* khung 1672u, kéo ra sát hai mép màn hình bất kể lề trang */}
       <div className="absolute inset-y-0 right-[calc(-1*var(--nb-gutter))] left-[calc(-1*var(--nb-gutter))]">
-        <Image src="/kit/banner/stage-desktop.jpg" alt="" fill priority sizes="100vw" className="object-cover" />
+        <Image
+          src="/kit/banner/stage-desktop.jpg"
+          alt=""
+          fill
+          priority
+          quality={92}
+          sizes="100vw"
+          className="object-cover"
+        />
         <span
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(90deg, rgba(4,11,24,.8) 0, rgba(4,11,24,.34) 24%, rgba(4,11,24,0) 44%), linear-gradient(180deg, rgba(4,11,24,.62) 0, rgba(4,11,24,0) 12%, rgba(4,11,24,0) 62%, rgba(4,11,24,.58) 80%, rgba(4,11,24,.93) 100%)",
+              "linear-gradient(90deg, rgba(4,11,24,.7) 0, rgba(4,11,24,.22) 22%, rgba(4,11,24,0) 40%), linear-gradient(180deg, rgba(4,11,24,.5) 0, rgba(4,11,24,0) 10%, rgba(4,11,24,0) 66%, rgba(4,11,24,.42) 82%, rgba(4,11,24,.86) 100%)",
           }}
           aria-hidden="true"
         />
