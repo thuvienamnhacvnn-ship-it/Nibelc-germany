@@ -545,16 +545,10 @@ html.nb-lock body {
    Đứng yên ở chỗ cũ; rê chuột vào thì lao chếch lên phía trước, to dần rồi
    mất hút. Rời chuột ra bay ngược về chỗ cũ, chậm hơn lúc đi cho êm. */
 .nb-plane {
-  /* Bay về chỗ cũ: vào chậm và giảm tốc dần cho mượt. */
-  transition: transform 1.7s cubic-bezier(0.18, 0.72, 0.28, 1);
+  /* Cả chuyến bay do JavaScript điều khiển (xem StageDesktop): CSS :hover
+     không dùng được vì máy bay nhích khỏi con trỏ là mất hover ngay. */
   will-change: transform;
-}
-.nb-plane:hover {
-  /* Rê chuột vào: bay tiếp đúng hướng mũi đang chỉ (chếch lên bên phải) cho
-     tới khi ra hẳn khỏi màn hình. Không mờ đi — bay ra thật, rồi bay vào lại
-     từ bên phải theo đúng đường chéo đó. */
-  transform: translate3d(230%, -390%, 0);
-  transition: transform 1.25s cubic-bezier(0.5, 0, 0.85, 0.45);
+  cursor: pointer;
 }
 
 @media (prefers-reduced-motion: reduce) {

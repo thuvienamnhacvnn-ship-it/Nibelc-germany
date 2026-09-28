@@ -74,10 +74,43 @@ export function StageDesktop({ locale }: { locale: Locale }) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const stageRef = useRef<HTMLDivElement>(null);
+  const mayBayRef = useRef<HTMLSpanElement>(null);
+  /** Đang trong một lượt bay ra – bay vào, không nhận lượt mới */
+  const dangBay = useRef(false);
   /** Đơn đang đứng giữa ở lần vẽ trước, để biết tấm nào vừa rời khỏi giữa */
   const truocDo = useRef(0);
   /** Tấm nào đã lật bao nhiêu độ — để lần sau lật tiếp nửa vòng, không giật về 0 */
   const gocQuay = useRef<Record<string, number>>({});
+
+  /* Rê chuột vào máy bay: nó bay chéo ra hẳn khỏi khung hình, rồi bay vào lại
+     TỪ NGOÀI MÉP PHẢI về đúng chỗ cũ.
+
+     Không dùng :hover của CSS được: máy bay vừa nhích khỏi con trỏ là mất
+     hover, nên nó quay đầu ngay giữa chừng chứ không ra nổi khỏi màn hình.
+     Chốt trạng thái ở đây rồi chạy trọn hai chặng, con trỏ đi đâu mặc kệ. */
+  const choMayBayCatCanh = useCallback(() => {
+    const el = mayBayRef.current;
+    if (!el || dangBay.current) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    dangBay.current = true;
+
+    const ra = el.animate(
+      [{ transform: "translate3d(0,0,0)" }, { transform: "translate3d(240%, -400%, 0)" }],
+      { duration: 1250, easing: "cubic-bezier(.5,0,.85,.45)", fill: "forwards" },
+    );
+    ra.onfinish = () => {
+      // Lúc này máy bay đã ở ngoài màn hình nên đổi chỗ đứng không ai thấy:
+      // đưa nó ra ngoài MÉP PHẢI, ngang tầm bay cũ, rồi cho bay vào.
+      const vao = el.animate(
+        [{ transform: "translate3d(300%, -40%, 0)" }, { transform: "translate3d(0,0,0)" }],
+        { duration: 1750, easing: "cubic-bezier(.18,.72,.28,1)" },
+      );
+      ra.cancel();
+      vao.onfinish = () => {
+        dangBay.current = false;
+      };
+    };
+  }, []);
 
   const go = useCallback((d: number) => setActive((i) => (i + d + n) % n), [n]);
 
@@ -224,7 +257,12 @@ export function StageDesktop({ locale }: { locale: Locale }) {
             Nền mới không còn in sẵn máy bay; máy bay là ảnh PNG rời, đặt đúng
             chỗ cũ trên nền trời. Rê chuột vào thì nó lao vút về phía trước rồi
             mất hút, rời chuột ra lại bay về chỗ cũ. */}
-        <span className="nb-plane absolute" style={{ left: u(1176), top: u(96), width: u(300), zIndex: 6 }}>
+        <span
+          ref={mayBayRef}
+          onPointerEnter={choMayBayCatCanh}
+          className="nb-plane absolute"
+          style={{ left: u(1176), top: u(96), width: u(300), zIndex: 6 }}
+        >
           <Image
             src="/kit/banner/may-bay.png"
             alt=""
