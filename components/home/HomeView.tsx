@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
-import { SiteHeader } from "@/components/SiteHeader";
 import { LegalStrip } from "@/components/LegalStrip";
 import { MobileTabBar } from "@/components/nav/MobileTabBar";
 import { StageDesktop } from "@/components/home/stage/StageDesktop";
@@ -59,7 +58,7 @@ export function HomeView({ locale }: { locale: Locale }) {
 
   return (
     <>
-      <SiteHeader locale={locale} page="home" variant="stage" />
+      {/* Trang chủ không có thanh header trên đầu: menu chính nằm ở đáy banner. */}
 
       <main id="inhalt">
         {/* ---------------- BANNER: SÂN KHẤU ĐƠN HÀNG ---------------- */}

@@ -507,3 +507,34 @@ html.nb-lock body {
   height: 100svh;
 }
 
+
+/* ---------- Thanh menu ở đáy banner trang chủ ----------
+   Bo tròn hai đầu, nền vàng là màu chủ đạo. Mục đang mở đảo ngược màu: nền
+   đen, chữ vàng — nổi hẳn trên nền vàng của thanh. */
+.nb-menu-bar {
+  background: linear-gradient(180deg, #f6e0a3, #e2b75c 58%, #cf9f45);
+  border: 1px solid rgba(255, 244, 210, 0.65);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.nb-menu-off {
+  color: #2a1e05;
+}
+.nb-menu-off:hover {
+  background: rgba(255, 250, 235, 0.55);
+}
+.nb-menu-on {
+  background: #14100a;
+  color: var(--nb-gold-soft);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+.nb-menu-cta {
+  background: #14100a;
+  color: var(--nb-gold-soft);
+  border: 1px solid rgba(232, 194, 102, 0.55);
+}
+.nb-menu-cta:hover {
+  background: #221a0c;
+}

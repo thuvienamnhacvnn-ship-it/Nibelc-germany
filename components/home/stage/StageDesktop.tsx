@@ -8,7 +8,8 @@ import { Fact, Flag } from "@/components/home/stage/StageBits";
 import { Icon } from "@/components/ui/Icon";
 import { STAGE } from "@/content/home-stage";
 import { stageCards } from "@/content/jobs-stage";
-import { ROUTES, type Locale } from "@/content/locales";
+import { LOCALES, ROUTES, type Locale, type PageKey } from "@/content/locales";
+import { mainMenu, requestLabel } from "@/content/nav-menu";
 
 /**
  * BANNER TRANG CHỦ — BẢN DESKTOP.
@@ -54,11 +55,23 @@ const SLOT: Record<number, { cx: number; cy: number; s: number; rot: number; z: 
 
 const EUR = (n: number) => n.toLocaleString("de-DE");
 
+/** Icon của từng mục trên thanh menu đáy banner */
+const MENU_ICON: Partial<Record<PageKey, string>> = {
+  home: "home",
+  employers: "building",
+  candidates: "users",
+  industries: "grid",
+  process: "doc",
+  knowledge: "book",
+  about: "handshake",
+};
+
 export function StageDesktop({ locale }: { locale: Locale }) {
   const t = STAGE[locale];
   const cards = useMemo(() => stageCards(locale), [locale]);
+  const menu = useMemo(() => mainMenu(locale), [locale]);
   const n = cards.length;
-  const titleSize = locale === "vi" ? 76 : locale === "en" ? 64 : 56;
+  const titleSize = locale === "vi" ? 68 : locale === "en" ? 58 : 50;
 
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -148,12 +161,23 @@ export function StageDesktop({ locale }: { locale: Locale }) {
           một khung hình kể cả màn hình thấp. */}
       <div className="absolute inset-y-0 left-1/2 -translate-x-1/2" style={{ width: u(1672) }}>
         {/* ---------------- CHỮ LỚN ---------------- */}
-        <div className="absolute" style={{ left: u(110), top: u(84), width: u(560) }}>
+        <div className="absolute" style={{ left: u(110), top: u(36), width: u(560) }}>
+          {/* Logo nay đứng ngay trên tiêu đề chính, không còn trên thanh header */}
+          <Link href={ROUTES.home[locale] as Route} aria-label="NIBELC" className="mb-[calc(10*var(--us))] block">
+            <Image
+              src="/nibelc-logo-dark.svg"
+              alt="NIBELC GmbH"
+              width={1201}
+              height={376}
+              priority
+              style={{ height: u(40), width: "auto" }}
+            />
+          </Link>
           <p className="font-semibold text-white/85 uppercase" style={{ fontSize: u(15), letterSpacing: u(6) }}>
             {t.eyebrow}
           </p>
           <h1 className="font-[family-name:var(--font-serif)] font-bold" style={{ marginTop: u(6) }}>
-            <span className="nb-gold-text block" style={{ fontSize: u(titleSize), lineHeight: u(titleSize * 1.08) }}>
+            <span className="nb-gold-text block" style={{ fontSize: u(titleSize), lineHeight: u(titleSize * 1.04) }}>
               {t.title[0]}
             </span>
             <span className="nb-gold-text block" style={{ fontSize: u(titleSize), lineHeight: u(titleSize * 1.08) }}>
@@ -162,7 +186,7 @@ export function StageDesktop({ locale }: { locale: Locale }) {
           </h1>
           {/* Dòng phụ hẹp hơn tiêu đề: thẻ bên trái bắt đầu ở x=396, câu tiếng
               Đức dài sẽ chui xuống dưới thẻ nếu để rộng bằng tiêu đề. */}
-          <p className="text-white/85" style={{ marginTop: u(12), fontSize: u(21), lineHeight: u(30), maxWidth: u(286) }}>
+          <p className="text-white/85" style={{ marginTop: u(8), fontSize: u(19), lineHeight: u(27), maxWidth: u(286) }}>
             {t.sub[0]}
             <br />
             {t.sub[1]}
@@ -170,12 +194,12 @@ export function StageDesktop({ locale }: { locale: Locale }) {
           <Link
             href={ROUTES.jobs[locale] as Route}
             className="nb-gold-pill group inline-flex items-center justify-between"
-            style={{ marginTop: u(18), height: u(52), width: u(288), paddingLeft: u(22), paddingRight: u(6), fontSize: u(17) }}
+            style={{ marginTop: u(10), height: u(50), width: u(280), paddingLeft: u(22), paddingRight: u(6), fontSize: u(16) }}
           >
             {t.cta}
             <span
               className="flex items-center justify-center rounded-full bg-[#1b1405] text-[var(--nb-gold)] transition group-hover:translate-x-[2px]"
-              style={{ width: u(40), height: u(40) }}
+              style={{ width: u(38), height: u(38) }}
             >
               <Icon name="arrowRight" style={{ width: u(18), height: u(18) }} strokeWidth={2} />
             </span>
@@ -402,48 +426,85 @@ export function StageDesktop({ locale }: { locale: Locale }) {
           </button>
         </div>
 
-        {/* ---------------- DẢI NĂM Ô ---------------- */}
-        <ul
-          className="absolute flex items-center"
-          style={{
-            left: u(74),
-            right: u(74),
-            top: u(824),
-            height: u(102),
-            zIndex: 45,
-            borderRadius: u(16),
-            background: "rgba(8,18,35,.72)",
-            border: "1px solid rgba(232,194,102,.22)",
-            backdropFilter: "blur(6px)",
-          }}
+        {/* ---------------- THANH MENU Ở ĐÁY BANNER ----------------
+            Trước đây chỗ này là dải năm ô giới thiệu, còn menu nằm trên đầu
+            trang. Nay đổi chỗ: dải giới thiệu bỏ đi, menu chính xuống đây,
+            bo tròn hai đầu, nền vàng, mỗi mục một icon kèm tên. */}
+        <nav
+          aria-label="Menu chính"
+          className="absolute flex items-center justify-center"
+          style={{ left: u(74), right: u(74), top: u(830), height: u(94), zIndex: 45 }}
         >
-          {t.strip.map(([title, sub], i) => (
-            <li
-              key={title}
-              className="flex flex-1 items-center"
-              style={{
-                gap: u(14),
-                paddingInline: u(22),
-                borderLeft: i > 0 ? "1px solid rgba(255,255,255,.12)" : undefined,
-              }}
-            >
-              <Icon
-                name={["box", "globe", "shield", "pin", "users"][i]!}
-                className="shrink-0 text-[var(--nb-gold)]"
-                style={{ width: u(34), height: u(34) }}
-                strokeWidth={1.6}
-              />
-              <span className="min-w-0">
-                <b className="block truncate font-bold text-white" style={{ fontSize: u(16) }}>
-                  {title}
-                </b>
-                <span className="block truncate text-white/60" style={{ fontSize: u(13) }}>
-                  {sub}
-                </span>
-              </span>
+          <ul
+            className="nb-menu-bar flex items-stretch"
+            style={{ height: u(94), borderRadius: u(47), padding: u(8), gap: u(4) }}
+          >
+            {menu.map((m) => {
+              const on = m.page === "home";
+              return (
+                <li key={m.label} className="flex">
+                  <Link
+                    href={m.href as Route}
+                    aria-current={on ? "page" : undefined}
+                    className={`flex items-center whitespace-nowrap transition${
+                      on ? " nb-menu-on" : " nb-menu-off"
+                    }`}
+                    style={{
+                      gap: u(10),
+                      paddingInline: u(22),
+                      borderRadius: u(39),
+                      fontSize: u(17),
+                      fontWeight: 700,
+                    }}
+                  >
+                    <Icon name={MENU_ICON[m.page] ?? "grid"} style={{ width: u(22), height: u(22) }} strokeWidth={1.9} />
+                    {m.label}
+                  </Link>
+                </li>
+              );
+            })}
+
+            <li className="flex">
+              <details className="nb-menu-lang relative flex">
+                <summary
+                  className="nb-menu-off flex cursor-pointer list-none items-center [&::-webkit-details-marker]:hidden"
+                  style={{ gap: u(8), paddingInline: u(18), borderRadius: u(39), fontSize: u(17), fontWeight: 700 }}
+                >
+                  <Icon name="globe" style={{ width: u(20), height: u(20) }} strokeWidth={1.9} />
+                  {locale.toUpperCase()}
+                </summary>
+                <ul
+                  className="absolute bottom-full left-1/2 -translate-x-1/2 overflow-hidden bg-white text-[var(--nb-ink)] shadow-xl"
+                  style={{ marginBottom: u(12), minWidth: u(150), borderRadius: u(12), fontSize: u(15) }}
+                >
+                  {LOCALES.map((l) => (
+                    <li key={l}>
+                      <Link
+                        href={ROUTES.home[l] as Route}
+                        hrefLang={l}
+                        className={`block hover:bg-[var(--nb-strip)] ${l === locale ? "font-bold" : ""}`}
+                        style={{ paddingInline: u(16), paddingBlock: u(10) }}
+                      >
+                        {l === "de" ? "Deutsch" : l === "en" ? "English" : "Tiếng Việt"}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </details>
             </li>
-          ))}
-        </ul>
+
+            <li className="flex">
+              <Link
+                href={ROUTES.request[locale] as Route}
+                className="nb-menu-cta flex items-center whitespace-nowrap"
+                style={{ gap: u(10), paddingInline: u(24), borderRadius: u(39), fontSize: u(17), fontWeight: 800 }}
+              >
+                {requestLabel(locale)}
+                <Icon name="arrowRight" style={{ width: u(20), height: u(20) }} strokeWidth={2.2} />
+              </Link>
+            </li>
+          </ul>
+        </nav>
       </div>
     </section>
   );
