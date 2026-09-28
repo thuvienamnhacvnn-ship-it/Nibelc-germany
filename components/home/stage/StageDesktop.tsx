@@ -95,16 +95,18 @@ export function StageDesktop({ locale }: { locale: Locale }) {
     dangBay.current = true;
 
     const ra = el.animate(
-      [{ transform: "translate3d(0,0,0)" }, { transform: "translate3d(240%, -400%, 0)" }],
-      { duration: 1250, easing: "cubic-bezier(.5,0,.85,.45)", fill: "forwards" },
+      [{ transform: "translate3d(0,0,0)" }, { transform: "translate3d(-580%, -95%, 0)" }],
+      { duration: 1500, easing: "cubic-bezier(.5,0,.85,.45)", fill: "forwards" },
     );
     ra.onfinish = () => {
       // Lúc này máy bay đã ở ngoài màn hình nên đổi chỗ đứng không ai thấy:
       // đưa nó ra ngoài MÉP PHẢI, ngang tầm bay cũ, rồi cho bay vào.
       const vao = el.animate(
         [{ transform: "translate3d(300%, -40%, 0)" }, { transform: "translate3d(0,0,0)" }],
-        { duration: 1750, easing: "cubic-bezier(.18,.72,.28,1)" },
+        { duration: 1750, delay: 320, easing: "cubic-bezier(.18,.72,.28,1)", fill: "backwards" },
       );
+      // Giữ ngoài khung một nhịp cho người xem kịp thấy nó đã bay mất hẳn,
+      // rồi mới cho vào lại từ mép phải.
       ra.cancel();
       vao.onfinish = () => {
         dangBay.current = false;
