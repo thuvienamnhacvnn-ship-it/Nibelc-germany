@@ -96,7 +96,7 @@ export function StageMobile({ locale }: { locale: Locale }) {
         className="absolute inset-0 -z-10"
         style={{
           background:
-            "linear-gradient(180deg, rgba(4,11,24,.5) 0, rgba(4,11,24,.06) 18%, rgba(4,11,24,.2) 42%, rgba(4,11,24,.6) 70%, rgba(4,11,24,.88) 100%)",
+            "linear-gradient(180deg, rgba(3,8,18,.72) 0, rgba(3,8,18,.26) 18%, rgba(3,8,18,.42) 44%, rgba(3,8,18,.78) 70%, rgba(3,8,18,.94) 100%)",
         }}
         aria-hidden="true"
       />

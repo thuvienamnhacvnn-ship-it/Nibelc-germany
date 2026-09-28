@@ -82,7 +82,7 @@ export function StageDesktop({ locale }: { locale: Locale }) {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      {/* khung 1672u, kéo ra sát hai mép màn hình bất kể lề trang */}
+      {/* Nền phủ kín hai mép màn hình, bất kể lề trang */}
       <div className="absolute inset-y-0 right-[calc(-1*var(--nb-gutter))] left-[calc(-1*var(--nb-gutter))]">
         <Image
           src="/kit/banner/stage-desktop.jpg"
@@ -97,11 +97,15 @@ export function StageDesktop({ locale }: { locale: Locale }) {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(90deg, rgba(4,11,24,.7) 0, rgba(4,11,24,.22) 22%, rgba(4,11,24,0) 40%), linear-gradient(180deg, rgba(4,11,24,.5) 0, rgba(4,11,24,0) 10%, rgba(4,11,24,0) 66%, rgba(4,11,24,.42) 82%, rgba(4,11,24,.86) 100%)",
+              "linear-gradient(90deg, rgba(3,8,18,.9) 0, rgba(3,8,18,.55) 22%, rgba(3,8,18,.3) 42%, rgba(3,8,18,.5) 72%, rgba(3,8,18,.88) 100%), linear-gradient(180deg, rgba(3,8,18,.8) 0, rgba(3,8,18,.28) 14%, rgba(3,8,18,.26) 58%, rgba(3,8,18,.72) 84%, rgba(3,8,18,.95) 100%)",
           }}
           aria-hidden="true"
         />
+      </div>
 
+      {/* Khung nội dung đúng 1672u, căn giữa — thu nhỏ theo --us nên luôn vừa
+          một khung hình kể cả màn hình thấp. */}
+      <div className="absolute inset-y-0 left-1/2 -translate-x-1/2" style={{ width: u(1672) }}>
         {/* ---------------- CHỮ LỚN ---------------- */}
         <div className="absolute" style={{ left: u(110), top: u(84), width: u(560) }}>
           <p className="font-semibold text-white/85 uppercase" style={{ fontSize: u(15), letterSpacing: u(6) }}>

@@ -226,9 +226,11 @@
   /* Đơn vị của banner: tính trên toàn bề ngang, không trừ lề — ảnh banner
      phải phủ hết mép và giữ đúng tỷ lệ như bản gốc, chỉ chữ mới thụt lề. */
   --ub: calc(min(100vw, 1672px) / 1672);
-  /* Đơn vị riêng của banner trang chủ: KHÔNG chặn ở 1672px. Banner phải giãn
-     hết bề ngang màn hình và giữ đúng 16:9, không để dải tối thừa bên trái. */
-  --us: calc(100vw / 1672);
+  /* Đơn vị riêng của banner trang chủ. Lấy cái NHỎ HƠN giữa "vừa bề ngang"
+     và "vừa chiều cao màn hình": nền vẫn phủ kín hai mép, còn cả cụm chữ —
+     thẻ đơn hàng — hàng tiến trình — dải nhãn luôn nằm gọn trong một khung
+     hình, không phải cuộn mới thấy dải nhãn dưới cùng. */
+  --us: min(calc(100vw / 1672), calc(100svh / 941));
   /* Đơn vị của banner điện thoại: 1px của ảnh mẫu 941 rộng. Cắt ở 480px để
      máy tính bảng không nhận một banner cao gần hai nghìn pixel. */
   --um: calc(min(100vw - 2 * var(--nb-gutter), 480px) / 941);
