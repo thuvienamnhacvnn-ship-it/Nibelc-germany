@@ -79,20 +79,21 @@ export function StageMobile({ locale }: { locale: Locale }) {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) setPaused(true);
   }, []);
 
-  /* Ảnh trên thẻ lật trọn một vòng mỗi lần đổi đơn — xem ghi chú bản desktop. */
+  /* Hai board hai bên quay trọn một vòng khi đổi đơn — xem ghi chú bản desktop. */
   useEffect(() => {
     if (firstRun.current) {
       firstRun.current = false;
       return;
     }
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    stageRef.current?.querySelectorAll<HTMLElement>(".nb-card-media").forEach((el, k) => {
-      el.animate([{ transform: "rotateY(0deg)" }, { transform: "rotateY(360deg)" }], {
-        duration: 900,
-        delay: k * 45,
-        easing: "cubic-bezier(.45,0,.2,1)",
+    stageRef.current
+      ?.querySelectorAll<HTMLElement>('[data-slot="-1"] .nb-stage-card, [data-slot="1"] .nb-stage-card')
+      .forEach((el) => {
+        el.animate([{ transform: "rotateY(0deg)" }, { transform: "rotateY(360deg)" }], {
+          duration: 850,
+          easing: "cubic-bezier(.32,.72,0,1)",
+        });
       });
-    });
   }, [active]);
 
   /** Vuốt ngang để đổi thẻ */
@@ -307,8 +308,8 @@ export function StageMobile({ locale }: { locale: Locale }) {
                   setActive(i);
                 }
               }}
-              data-center={center}
-              className="nb-stage-card absolute top-0 block overflow-hidden"
+              data-slot={d}
+              className="nb-stage-frame absolute top-0 block"
               style={{
                 left: u(BASE.x),
                 width: u(BASE.w),
@@ -316,14 +317,21 @@ export function StageMobile({ locale }: { locale: Locale }) {
                 zIndex: SLOT[d]!.z,
                 opacity: SLOT[d]!.op,
                 pointerEvents: SLOT[d]!.op === 0 ? "none" : undefined,
-                borderRadius: u(26),
+                perspective: u(1100),
                 transform: `translate3d(calc(${SLOT[d]!.cx - CX} * var(--um)), calc(${SLOT[d]!.cy - CY} * var(--um)), 0) rotateY(${SLOT[d]!.rot}deg) scale(${SLOT[d]!.s})`,
-                boxShadow: center
-                  ? `0 ${u(34)} ${u(64)} rgba(0,0,0,.62), 0 ${u(10)} ${u(22)} rgba(0,0,0,.45)`
-                  : `0 ${u(30)} ${u(56)} rgba(0,0,0,.5)`,
               }}
             >
-              <span className="nb-card-media relative block overflow-hidden" style={{ height: u(300) }}>
+              <span
+                data-center={center}
+                className="nb-stage-card absolute inset-0 block overflow-hidden"
+                style={{
+                  borderRadius: u(26),
+                  boxShadow: center
+                    ? `0 ${u(34)} ${u(64)} rgba(0,0,0,.62), 0 ${u(10)} ${u(22)} rgba(0,0,0,.45)`
+                    : `0 ${u(30)} ${u(56)} rgba(0,0,0,.5)`,
+                }}
+              >
+              <span className="relative block overflow-hidden" style={{ height: u(300) }}>
                 <Image src={img} alt="" fill sizes="60vw" className="object-cover" style={{ objectPosition: j.focus }} />
                 <span
                   className="absolute inset-0"
@@ -388,6 +396,7 @@ export function StageMobile({ locale }: { locale: Locale }) {
                   {t.detail}
                   <Icon name="arrowRight" style={{ width: u(28), height: u(28) }} strokeWidth={2.2} />
                 </span>
+              </span>
               </span>
             </Link>
           );

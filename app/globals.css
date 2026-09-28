@@ -402,18 +402,23 @@ html {
 }
 
 /* Thẻ đơn hàng trên sân khấu: kính tối, viền vàng, xoay 3D */
+/* Khung định vị: lo việc trượt giữa các ô trên sân khấu. */
+.nb-stage-frame {
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition:
+    transform 0.85s cubic-bezier(0.32, 0.72, 0, 1),
+    opacity 0.55s ease;
+}
+
+/* Tấm board: lo phần nhìn, và là thứ quay trọn vòng khi đổi đơn. */
 .nb-stage-card {
   /* Thân thẻ theo đúng bản mẫu: gần như đen, hơi ám ấm — không phải navy. */
   background: linear-gradient(180deg, rgba(16, 15, 14, 0.94), rgba(8, 8, 9, 0.985));
   border: 1.5px solid rgba(232, 194, 102, 0.5);
   transform-style: preserve-3d;
   will-change: transform;
-  backface-visibility: hidden;
-  transition:
-    transform 0.85s cubic-bezier(0.32, 0.72, 0, 1),
-    box-shadow 0.85s cubic-bezier(0.32, 0.72, 0, 1),
-    border-color 0.6s ease,
-    opacity 0.55s ease;
+  transition: box-shadow 0.85s cubic-bezier(0.32, 0.72, 0, 1), border-color 0.6s ease;
 }
 
 .nb-stage-arrow {
@@ -432,6 +437,7 @@ html {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .nb-stage-frame,
   .nb-stage-card {
     transition: none;
   }
@@ -501,7 +507,3 @@ html.nb-lock body {
   height: 100svh;
 }
 
-/* ---------- Ảnh thẻ lật một vòng khi đổi đơn ---------- */
-.nb-card-media {
-  transform-style: preserve-3d;
-}

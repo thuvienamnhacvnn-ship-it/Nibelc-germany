@@ -92,22 +92,27 @@ export function StageDesktop({ locale }: { locale: Locale }) {
     };
   }, []);
 
-  /* Mỗi lần đổi đơn, ảnh trên thẻ lật trọn một vòng 360°. Dùng Web Animations
-     API thay vì class CSS: không phải dựng lại phần tử nên ảnh không nháy, và
-     mỗi thẻ lật lệch nhau một nhịp nhỏ cho thành đợt sóng. */
+  /* Mỗi lần đổi đơn, HAI board hai bên board chính quay trọn một vòng 360°
+     trong lúc trượt sang ô mới. Board giữa đứng yên cho người đọc kịp nhìn.
+
+     Phép quay đặt lên tấm board bên trong, còn phép trượt giữa các ô đặt lên
+     cái khung bọc ngoài: hai transform ở hai phần tử khác nhau thì mới cộng
+     được với nhau. Để chung một phần tử thì animation sẽ đè mất transform của
+     ô, board nhảy về gốc rồi mới quay. */
   useEffect(() => {
     if (firstRun.current) {
       firstRun.current = false;
       return;
     }
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    stageRef.current?.querySelectorAll<HTMLElement>(".nb-card-media").forEach((el, k) => {
-      el.animate([{ transform: "rotateY(0deg)" }, { transform: "rotateY(360deg)" }], {
-        duration: 900,
-        delay: k * 45,
-        easing: "cubic-bezier(.45,0,.2,1)",
+    stageRef.current
+      ?.querySelectorAll<HTMLElement>('[data-slot="-1"] .nb-stage-card, [data-slot="1"] .nb-stage-card')
+      .forEach((el) => {
+        el.animate([{ transform: "rotateY(0deg)" }, { transform: "rotateY(360deg)" }], {
+          duration: 850,
+          easing: "cubic-bezier(.32,.72,0,1)",
+        });
       });
-    });
   }, [active]);
 
   return (
@@ -201,8 +206,8 @@ export function StageDesktop({ locale }: { locale: Locale }) {
                     setActive(i);
                   }
                 }}
-                data-center={center}
-                className="nb-stage-card absolute block overflow-hidden"
+                data-slot={d}
+                className="nb-stage-frame absolute block"
                 style={{
                   left: u(BASE.x),
                   top: u(BASE.y),
@@ -211,14 +216,21 @@ export function StageDesktop({ locale }: { locale: Locale }) {
                   zIndex: s.z,
                   opacity: s.op,
                   pointerEvents: s.op === 0 ? "none" : undefined,
-                  borderRadius: u(26),
+                  perspective: u(1100),
                   transform: `translate3d(calc(${s.cx - CX} * var(--us)), calc(${s.cy - CY} * var(--us)), 0) rotateY(${s.rot}deg) scale(${s.s})`,
-                  boxShadow: center
-                    ? `0 ${u(34)} ${u(70)} rgba(0,0,0,.62), 0 ${u(8)} ${u(20)} rgba(0,0,0,.45)`
-                    : `0 ${u(30)} ${u(60)} rgba(0,0,0,.5)`,
                 }}
               >
-                <span className="nb-card-media relative block overflow-hidden" style={{ height: u(BASE.h - 336) }}>
+                <span
+                  data-center={center}
+                  className="nb-stage-card absolute inset-0 block overflow-hidden"
+                  style={{
+                    borderRadius: u(26),
+                    boxShadow: center
+                      ? `0 ${u(34)} ${u(70)} rgba(0,0,0,.62), 0 ${u(8)} ${u(20)} rgba(0,0,0,.45)`
+                      : `0 ${u(30)} ${u(60)} rgba(0,0,0,.5)`,
+                  }}
+                >
+                <span className="relative block overflow-hidden" style={{ height: u(BASE.h - 336) }}>
                   <Image
                     src={card.image}
                     alt=""
@@ -319,6 +331,7 @@ export function StageDesktop({ locale }: { locale: Locale }) {
                 {s.dim > 0 && (
                   <span className="absolute inset-0" style={{ background: `rgba(5,12,25,${s.dim})` }} aria-hidden="true" />
                 )}
+                </span>
               </Link>
             );
           })}
