@@ -72,6 +72,24 @@ export function StageMobile({ locale }: { locale: Locale }) {
 
   const go = useCallback((d: number) => setActive((i) => (i + d + n) % n), [n]);
 
+  /* Loé một lần ngay khi mở trang, để tấm đầu tiên cũng có hiệu ứng. */
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = window.setTimeout(() => {
+      stageRef.current
+        ?.querySelector<HTMLElement>('[data-slot="0"] .nb-loe')
+        ?.animate(
+          [
+            { opacity: 0, transform: "translateX(-50%) scale(0.5, 0.55)" },
+            { opacity: 1, transform: "translateX(-50%) scale(1.06, 1)", offset: 0.3 },
+            { opacity: 0, transform: "translateX(-50%) scale(1.3, 1.18)" },
+          ],
+          { duration: 1400, delay: 620, easing: "cubic-bezier(.2,.7,.3,1)" },
+        );
+    }, 420);
+    return () => window.clearTimeout(id);
+  }, []);
+
   useEffect(() => {
     if (paused || n < 2) return;
     const id = window.setInterval(() => setActive((i) => (i + 1) % n), 6500);
@@ -137,6 +155,18 @@ export function StageMobile({ locale }: { locale: Locale }) {
     // Cả hai bắt đầu cùng một lúc: tấm phụ nhảy lên giữa, tấm chính lùi ra.
     quay(jobs[active]?.id, true);
     quay(jobs[truoc]?.id, false);
+
+    /* Vệt sáng vàng loé dưới chân tấm vừa vào giữa. */
+    const loe = stageRef.current?.querySelector<HTMLElement>('[data-slot="0"] .nb-loe');
+    loe?.animate(
+      [
+        { opacity: 0, transform: "translateX(-50%) scale(0.5, 0.55)" },
+        { opacity: 1, transform: "translateX(-50%) scale(1.06, 1)", offset: 0.3 },
+        { opacity: 0, transform: "translateX(-50%) scale(1.3, 1.18)" },
+      ],
+      { duration: 1400, delay: 620, easing: "cubic-bezier(.2,.7,.3,1)" },
+    );
+
   }, [active, jobs]);
 
   /** Vuốt ngang để đổi thẻ */
@@ -337,7 +367,6 @@ export function StageMobile({ locale }: { locale: Locale }) {
           const j = jobs[i]!;
           const img = j.image;
           const center = d === 0;
-          const pos = d === 0 ? 0 : d < 0 ? 1 : 2;
           return (
             <Link
               /* Khoá theo đơn hàng, không theo ô — xem ghi chú ở bản desktop. */
@@ -385,13 +414,6 @@ export function StageMobile({ locale }: { locale: Locale }) {
               <span className="nb-mat nb-mat-truoc">
               <span className="relative block overflow-hidden" style={{ height: u(300) }}>
                 <Image src={img} alt="" fill sizes="60vw" className="object-cover" style={{ objectPosition: j.focus }} />
-                <span
-                  className="absolute font-[family-name:var(--font-serif)] font-bold text-white/30"
-                  style={{ right: u(20), top: u(8), fontSize: u(86), lineHeight: 1.1 }}
-                  aria-hidden="true"
-                >
-                  {String(pos + 1).padStart(2, "0")}
-                </span>
               </span>
 
               <span className="relative block" style={{ padding: u(26), paddingTop: u(4) }}>
@@ -448,13 +470,6 @@ export function StageMobile({ locale }: { locale: Locale }) {
               <span className="nb-mat nb-mat-sau" aria-hidden="true">
               <span className="relative block overflow-hidden" style={{ height: u(300) }}>
                 <Image src={img} alt="" fill sizes="60vw" className="object-cover" style={{ objectPosition: j.focus }} />
-                <span
-                  className="absolute font-[family-name:var(--font-serif)] font-bold text-white/30"
-                  style={{ right: u(20), top: u(8), fontSize: u(86), lineHeight: 1.1 }}
-                  aria-hidden="true"
-                >
-                  {String(pos + 1).padStart(2, "0")}
-                </span>
               </span>
 
               <span className="relative block" style={{ padding: u(26), paddingTop: u(4) }}>
@@ -508,6 +523,9 @@ export function StageMobile({ locale }: { locale: Locale }) {
                 </span>
               </span>
               </span>
+              {/* Vệt sáng vàng hắt dưới chân tấm; loé lên mỗi lần đổi đơn.
+                  Đặt ngoài hai mặt để nó không lật theo tấm. */}
+              <span className="nb-loe" aria-hidden="true" style={{ height: u(110) }} />
               </span>
             </Link>
           );

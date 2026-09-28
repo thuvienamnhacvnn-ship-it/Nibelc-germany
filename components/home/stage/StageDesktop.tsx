@@ -30,9 +30,6 @@ import { mainMenu, requestLabel } from "@/content/nav-menu";
 
 const u = (n: number) => `calc(${n} * var(--us))`;
 
-/** Ô nào ứng với số mấy trên ảnh mẫu: giữa là 01, rồi lan dần ra hai bên. */
-const POS: Record<number, number> = { 0: 1, [-1]: 2, 1: 3, [-2]: 4, 2: 5 };
-
 /** Các khoảng cách được dựng ra DOM. ±3 nằm ngoài sân khấu, để thẻ có chỗ
  *  bay vào và bay ra thay vì hiện ra đột ngột ở rìa. */
 const RANGE = [-3, -2, -1, 0, 1, 2, 3];
@@ -83,6 +80,24 @@ export function StageDesktop({ locale }: { locale: Locale }) {
   const gocQuay = useRef<Record<string, number>>({});
 
   const go = useCallback((d: number) => setActive((i) => (i + d + n) % n), [n]);
+
+  /* Loé một lần ngay khi mở trang, để tấm đầu tiên cũng có hiệu ứng. */
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = window.setTimeout(() => {
+      stageRef.current
+        ?.querySelector<HTMLElement>('[data-slot="0"] .nb-loe')
+        ?.animate(
+          [
+            { opacity: 0, transform: "translateX(-50%) scale(0.5, 0.55)" },
+            { opacity: 1, transform: "translateX(-50%) scale(1.06, 1)", offset: 0.3 },
+            { opacity: 0, transform: "translateX(-50%) scale(1.3, 1.18)" },
+          ],
+          { duration: 1400, delay: 620, easing: "cubic-bezier(.2,.7,.3,1)" },
+        );
+    }, 420);
+    return () => window.clearTimeout(id);
+  }, []);
 
   useEffect(() => {
     if (paused || n < 2) return;
@@ -164,6 +179,18 @@ export function StageDesktop({ locale }: { locale: Locale }) {
     // Cả hai bắt đầu cùng một lúc: tấm phụ nhảy lên giữa, tấm chính lùi ra.
     quay(cards[active]?.id, true);
     quay(cards[truoc]?.id, false);
+
+    /* Vệt sáng vàng loé dưới chân tấm vừa vào giữa. */
+    const loe = stageRef.current?.querySelector<HTMLElement>('[data-slot="0"] .nb-loe');
+    loe?.animate(
+      [
+        { opacity: 0, transform: "translateX(-50%) scale(0.5, 0.55)" },
+        { opacity: 1, transform: "translateX(-50%) scale(1.06, 1)", offset: 0.3 },
+        { opacity: 0, transform: "translateX(-50%) scale(1.3, 1.18)" },
+      ],
+      { duration: 1400, delay: 620, easing: "cubic-bezier(.2,.7,.3,1)" },
+    );
+
   }, [active, cards]);
 
   return (
@@ -285,7 +312,6 @@ export function StageDesktop({ locale }: { locale: Locale }) {
             const i = (((active + d) % n) + n) % n;
             const card = cards[i]!;
             const center = d === 0;
-            const pos = (POS[d] ?? 6) - 1;
 
             return (
               <Link
@@ -344,13 +370,6 @@ export function StageDesktop({ locale }: { locale: Locale }) {
                     className="object-cover"
                     style={{ objectPosition: card.focus }}
                   />
-                  <span
-                    className="absolute font-[family-name:var(--font-serif)] font-bold text-white/30"
-                    style={{ right: u(26), top: u(8), fontSize: u(86), lineHeight: 1.1 }}
-                    aria-hidden="true"
-                  >
-                    {String(pos + 1).padStart(2, "0")}
-                  </span>
                   <span
                     className="absolute font-semibold tracking-[0.3em] text-white/45 uppercase transition-opacity duration-500"
                     style={{ right: u(14), top: u(120), fontSize: u(12), writingMode: "vertical-rl", opacity: center ? 1 : 0 }}
@@ -439,13 +458,6 @@ export function StageDesktop({ locale }: { locale: Locale }) {
                     style={{ objectPosition: card.focus }}
                   />
                   <span
-                    className="absolute font-[family-name:var(--font-serif)] font-bold text-white/30"
-                    style={{ right: u(26), top: u(8), fontSize: u(86), lineHeight: 1.1 }}
-                    aria-hidden="true"
-                  >
-                    {String(pos + 1).padStart(2, "0")}
-                  </span>
-                  <span
                     className="absolute font-semibold tracking-[0.3em] text-white/45 uppercase transition-opacity duration-500"
                     style={{ right: u(14), top: u(120), fontSize: u(12), writingMode: "vertical-rl", opacity: center ? 1 : 0 }}
                     aria-hidden="true"
@@ -526,6 +538,9 @@ export function StageDesktop({ locale }: { locale: Locale }) {
                 {s.dim > 0 && (
                   <span className="absolute inset-0" style={{ background: `rgba(5,12,25,${s.dim})` }} aria-hidden="true" />
                 )}
+                {/* Vệt sáng vàng hắt dưới chân tấm; loé lên mỗi lần đổi đơn.
+                    Đặt ngoài hai mặt để nó không lật theo tấm. */}
+                <span className="nb-loe" aria-hidden="true" style={{ height: u(96) }} />
                 </span>
               </Link>
             );
