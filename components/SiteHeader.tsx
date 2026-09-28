@@ -63,7 +63,11 @@ export function SiteHeader({
         </Link>
       )}
 
-      <div className="mx-auto hidden items-center px-4 lg:flex lg:h-[calc(78*var(--u))] lg:justify-start lg:px-[calc(34*var(--u))]">
+      <div
+        className={`mx-auto hidden items-center px-4 lg:flex lg:justify-start ${
+          stage ? "lg:h-[calc(74*var(--us))] lg:px-[calc(96*var(--us))]" : "lg:h-[calc(78*var(--u))] lg:px-[calc(34*var(--u))]"
+        }`}
+      >
         <Link href={ROUTES.home[locale] as Route} className="flex shrink-0 items-center max-lg:mx-auto" aria-label="NIBELC">
           <Image
             src={navy ? "/nibelc-logo-dark.svg" : "/nibelc-logo.svg"}
@@ -71,13 +75,13 @@ export function SiteHeader({
             width={1201}
             height={376}
             priority
-            className="h-9 w-auto lg:h-[calc(52*var(--u))]"
+            className={`h-9 w-auto ${stage ? "lg:h-[calc(44*var(--us))]" : "lg:h-[calc(52*var(--u))]"}`}
           />
           <span
-            className={`mx-[calc(18*var(--u))] hidden h-[calc(42*var(--u))] w-px lg:block ${navy ? "bg-white/30" : "bg-[var(--nb-line)]"}`}
+            className={`mx-[calc(18*var(--u))] hidden h-[calc(42*var(--u))] w-px lg:block ${navy ? "bg-white/30" : "bg-[var(--nb-line)]"} ${stage ? "lg:hidden" : ""}`}
             aria-hidden="true"
           />
-          <span className="hidden leading-tight lg:block">
+          <span className={`hidden leading-tight lg:block ${stage ? "lg:hidden" : ""}`}>
             <span className="block text-[calc(18*var(--u))] leading-[calc(22*var(--u))] font-bold whitespace-nowrap">
               TalentBridge <span className={navy ? "font-normal text-white/85" : "font-normal text-[#3a4a5e]"}>Deutschland</span>
             </span>
@@ -91,7 +95,7 @@ export function SiteHeader({
           aria-label="Hauptnavigation"
           /* ml cố định (không phải mx-auto) để chữ đậm của mục đang mở không
              làm thanh menu xê dịch vài px khi đổi trang */
-          className="ml-[calc(56*var(--u))] hidden h-full items-center gap-[calc(26*var(--u))] lg:flex"
+          className={`hidden h-full items-center lg:flex ${stage ? "ml-[calc(46*var(--us))] gap-[calc(30*var(--us))]" : "ml-[calc(56*var(--u))] gap-[calc(26*var(--u))]"}`}
         >
           {nav.map((item) => {
             const sub = submenuFor(locale, item.href);
@@ -133,7 +137,7 @@ export function SiteHeader({
           })}
         </nav>
 
-        <div className="ml-auto flex items-center gap-[calc(22*var(--u))] max-lg:hidden">
+        <div className={`ml-auto flex items-center max-lg:hidden ${stage ? "gap-[calc(20*var(--us))]" : "gap-[calc(22*var(--u))]"}`}>
           <details className="relative max-lg:hidden">
             <summary className="flex cursor-pointer list-none items-center gap-[calc(7*var(--u))] text-[calc(14*var(--u))] [&::-webkit-details-marker]:hidden">
               <Icon name="globe" className="h-[calc(19*var(--u))] w-[calc(19*var(--u))]" strokeWidth={1.8} />

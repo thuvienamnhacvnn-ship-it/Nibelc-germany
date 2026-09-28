@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Fact, Flag, FlagVN } from "@/components/home/stage/StageBits";
 import { Icon } from "@/components/ui/Icon";
 import { activeIndustries, industryName } from "@/content/industries";
@@ -63,6 +63,8 @@ export function StageMobile({ locale }: { locale: Locale }) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [lang, setLang] = useState(false);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const firstRun = useRef(true);
   const [menu, setMenu] = useState(false);
 
   const go = useCallback((d: number) => setActive((i) => (i + d + n) % n), [n]);
@@ -76,6 +78,22 @@ export function StageMobile({ locale }: { locale: Locale }) {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) setPaused(true);
   }, []);
+
+  /* Ảnh trên thẻ lật trọn một vòng mỗi lần đổi đơn — xem ghi chú bản desktop. */
+  useEffect(() => {
+    if (firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    stageRef.current?.querySelectorAll<HTMLElement>(".nb-card-media").forEach((el, k) => {
+      el.animate([{ transform: "rotateY(0deg)" }, { transform: "rotateY(360deg)" }], {
+        duration: 900,
+        delay: k * 45,
+        easing: "cubic-bezier(.45,0,.2,1)",
+      });
+    });
+  }, [active]);
 
   /** Vuốt ngang để đổi thẻ */
   const [x0, setX0] = useState<number | null>(null);
@@ -258,6 +276,7 @@ export function StageMobile({ locale }: { locale: Locale }) {
 
       {/* ---------------- BA THẺ ĐƠN HÀNG ---------------- */}
       <div
+        ref={stageRef}
         className="relative"
         style={{ height: u(752), marginTop: u(22), perspective: u(1400) }}
         onPointerDown={(e) => {
@@ -304,7 +323,7 @@ export function StageMobile({ locale }: { locale: Locale }) {
                   : `0 ${u(30)} ${u(56)} rgba(0,0,0,.5)`,
               }}
             >
-              <span className="relative block overflow-hidden" style={{ height: u(300) }}>
+              <span className="nb-card-media relative block overflow-hidden" style={{ height: u(300) }}>
                 <Image src={img} alt="" fill sizes="60vw" className="object-cover" style={{ objectPosition: j.focus }} />
                 <span
                   className="absolute inset-0"

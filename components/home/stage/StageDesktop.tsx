@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Fact, Flag } from "@/components/home/stage/StageBits";
 import { Icon } from "@/components/ui/Icon";
 import { STAGE } from "@/content/home-stage";
@@ -62,6 +62,8 @@ export function StageDesktop({ locale }: { locale: Locale }) {
 
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const firstRun = useRef(true);
 
   const go = useCallback((d: number) => setActive((i) => (i + d + n) % n), [n]);
 
@@ -75,8 +77,42 @@ export function StageDesktop({ locale }: { locale: Locale }) {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) setPaused(true);
   }, []);
 
+  /* Trang chủ đứng yên: cả banner đã vừa một khung hình nên không cho cuộn.
+     Chỉ khoá từ 1024px trở lên; điện thoại nội dung dài hơn màn hình nên vẫn
+     phải cuộn được. Khoá bằng class chứ không bằng :has — :has phụ thuộc vào
+     cây DOM, đổi bố cục một chút là hết ăn. */
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const apply = () => document.documentElement.classList.toggle("nb-lock", mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => {
+      mq.removeEventListener("change", apply);
+      document.documentElement.classList.remove("nb-lock");
+    };
+  }, []);
+
+  /* Mỗi lần đổi đơn, ảnh trên thẻ lật trọn một vòng 360°. Dùng Web Animations
+     API thay vì class CSS: không phải dựng lại phần tử nên ảnh không nháy, và
+     mỗi thẻ lật lệch nhau một nhịp nhỏ cho thành đợt sóng. */
+  useEffect(() => {
+    if (firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    stageRef.current?.querySelectorAll<HTMLElement>(".nb-card-media").forEach((el, k) => {
+      el.animate([{ transform: "rotateY(0deg)" }, { transform: "rotateY(360deg)" }], {
+        duration: 900,
+        delay: k * 45,
+        easing: "cubic-bezier(.45,0,.2,1)",
+      });
+    });
+  }, [active]);
+
   return (
     <section
+      data-stage
       className="relative hidden bg-[#050e1d] text-white lg:block"
       style={{ height: u(941) }}
       onMouseEnter={() => setPaused(true)}
@@ -142,7 +178,7 @@ export function StageDesktop({ locale }: { locale: Locale }) {
         </div>
 
         {/* ---------------- SÂN KHẤU THẺ ---------------- */}
-        <div className="absolute inset-0" style={{ perspective: u(1600) }}>
+        <div ref={stageRef} className="absolute inset-0" style={{ perspective: u(1600) }}>
           {RANGE.map((d) => {
             const s = SLOT[d]!;
             const i = (((active + d) % n) + n) % n;
@@ -182,7 +218,7 @@ export function StageDesktop({ locale }: { locale: Locale }) {
                     : `0 ${u(30)} ${u(60)} rgba(0,0,0,.5)`,
                 }}
               >
-                <span className="relative block overflow-hidden" style={{ height: u(BASE.h - 336) }}>
+                <span className="nb-card-media relative block overflow-hidden" style={{ height: u(BASE.h - 336) }}>
                   <Image
                     src={card.image}
                     alt=""

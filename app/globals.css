@@ -490,3 +490,18 @@ html {
     animation: none;
   }
 }
+
+/* ---------- Trang chủ đứng yên một khung hình ----------
+   Cả banner đã vừa đúng một màn hình nên trang chủ không cần cuộn: khoá luôn
+   để không ai kéo lệch mất bố cục. Chỉ khoá ở máy tính; điện thoại nội dung
+   dài hơn màn hình nên vẫn cuộn bình thường. */
+html.nb-lock,
+html.nb-lock body {
+  overflow: hidden;
+  height: 100svh;
+}
+
+/* ---------- Ảnh thẻ lật một vòng khi đổi đơn ---------- */
+.nb-card-media {
+  transform-style: preserve-3d;
+}
