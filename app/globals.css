@@ -540,3 +540,30 @@ html.nb-lock body {
 .nb-menu-cta:hover {
   background: #221a0c;
 }
+
+/* ---------- Máy bay trên banner trang chủ ----------
+   Đứng yên ở chỗ cũ; rê chuột vào thì lao chếch lên phía trước, to dần rồi
+   mất hút. Rời chuột ra bay ngược về chỗ cũ, chậm hơn lúc đi cho êm. */
+.nb-plane {
+  transform-origin: 30% 60%;
+  transition:
+    transform 1.6s cubic-bezier(0.16, 0.7, 0.3, 1),
+    opacity 1.4s ease;
+  will-change: transform;
+}
+.nb-plane:hover {
+  transform: translate3d(58%, -46%, 0) scale(2.6) rotate(-3deg);
+  opacity: 0;
+  transition:
+    transform 1.15s cubic-bezier(0.55, 0, 0.9, 0.5),
+    opacity 1s cubic-bezier(0.7, 0, 1, 0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nb-plane,
+  .nb-plane:hover {
+    transition: none;
+    transform: none;
+    opacity: 1;
+  }
+}

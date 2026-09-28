@@ -196,6 +196,21 @@ export function StageDesktop({ locale }: { locale: Locale }) {
           }}
           aria-hidden="true"
         />
+        {/* ---------------- MÁY BAY ----------------
+            Nền mới không còn in sẵn máy bay; máy bay là ảnh PNG rời, đặt đúng
+            chỗ cũ trên nền trời. Rê chuột vào thì nó lao vút về phía trước rồi
+            mất hút, rời chuột ra lại bay về chỗ cũ. */}
+        <span className="nb-plane absolute" style={{ left: u(1176), top: u(96), width: u(300), zIndex: 6 }}>
+          <Image
+            src="/kit/banner/may-bay.png"
+            alt=""
+            width={900}
+            height={327}
+            sizes="30vw"
+            className="h-auto w-full"
+          />
+        </span>
+
         {/* ---------------- CHỮ LỚN ---------------- */}
         <div className="absolute" style={{ left: "3cm", top: u(58), width: u(520), zIndex: 10 }}>
           {/* Logo nay đứng ngay trên tiêu đề chính, không còn trên thanh header */}
