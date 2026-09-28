@@ -71,7 +71,8 @@ export function StageDesktop({ locale }: { locale: Locale }) {
   const cards = useMemo(() => stageCards(locale), [locale]);
   const menu = useMemo(() => mainMenu(locale), [locale]);
   const n = cards.length;
-  const titleSize = locale === "vi" ? 60 : locale === "en" ? 52 : 44;
+  // Tiêu đề gói gọn MỘT dòng và nhỏ hơn 20% so với lúc để hai dòng.
+  const titleSize = Math.round((locale === "vi" ? 60 : locale === "en" ? 52 : 44) * 0.8);
 
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -158,10 +159,6 @@ export function StageDesktop({ locale }: { locale: Locale }) {
       );
       chay.id = "lat";
 
-      const mat = el.querySelector<HTMLElement>(".nb-card-face");
-      window.setTimeout(() => {
-        if (mat) mat.style.transform = (moi / 180) % 2 === 0 ? "" : "scaleX(-1)";
-      }, NHIP / 2);
     };
 
     // Cả hai bắt đầu cùng một lúc: tấm phụ nhảy lên giữa, tấm chính lùi ra.
@@ -212,7 +209,7 @@ export function StageDesktop({ locale }: { locale: Locale }) {
         </span>
 
         {/* ---------------- CHỮ LỚN ---------------- */}
-        <div className="absolute" style={{ left: "3cm", top: u(58), width: u(520), zIndex: 10 }}>
+        <div className="absolute" style={{ left: "3cm", top: u(74), width: u(640), zIndex: 10 }}>
           {/* Logo nay đứng ngay trên tiêu đề chính, không còn trên thanh header */}
           <Link href={ROUTES.home[locale] as Route} aria-label="NIBELC" className="mb-[calc(8*var(--us))] block">
             <Image
@@ -228,11 +225,11 @@ export function StageDesktop({ locale }: { locale: Locale }) {
             {t.eyebrow}
           </p>
           <h1 className="font-[family-name:var(--font-serif)] font-bold" style={{ marginTop: u(6) }}>
-            <span className="nb-gold-text block" style={{ fontSize: u(titleSize), lineHeight: u(titleSize * 1.04) }}>
-              {t.title[0]}
-            </span>
-            <span className="nb-gold-text block" style={{ fontSize: u(titleSize), lineHeight: u(titleSize * 1.08) }}>
-              {t.title[1]}
+            <span
+              className="nb-gold-text block whitespace-nowrap"
+              style={{ fontSize: u(titleSize), lineHeight: u(titleSize * 1.16) }}
+            >
+              {t.title[0]} {t.title[1]}
             </span>
           </h1>
           {/* Dòng phụ hẹp hơn tiêu đề: thẻ bên trái bắt đầu ở x=396, câu tiếng
@@ -310,7 +307,11 @@ export function StageDesktop({ locale }: { locale: Locale }) {
                       : `0 ${u(30)} ${u(60)} rgba(0,0,0,.5)`,
                   }}
                 >
-                <span className="nb-card-face block h-full w-full">
+
+                {/* Hai mặt thật: mặt sau đã xoay sẵn 180°, cả hai cùng ẩn lưng nên
+                    lật nửa vòng là thấy mặt sau đọc xuôi ngay, không có bước đổi nào
+                    lộ ra ở điểm dừng. */}
+                <span className="nb-mat nb-mat-truoc">
                 <span className="relative block overflow-hidden" style={{ height: u(BASE.h - 336) }}>
                   <Image
                     src={card.image}
@@ -408,11 +409,110 @@ export function StageDesktop({ locale }: { locale: Locale }) {
                     <Icon name="arrowRight" style={{ width: u(18), height: u(18) }} strokeWidth={2.2} />
                   </span>
                 </span>
+                </span>
+                <span className="nb-mat nb-mat-sau" aria-hidden="true">
+                <span className="relative block overflow-hidden" style={{ height: u(BASE.h - 336) }}>
+                  <Image
+                    src={card.image}
+                    alt=""
+                    fill
+                    sizes="50vw"
+                    className="object-cover"
+                    style={{ objectPosition: card.focus }}
+                  />
+                  <span
+                    className="absolute inset-0"
+                    style={{ background: "linear-gradient(180deg, rgba(5,14,29,.12) 0, rgba(5,14,29,.32) 52%, rgba(5,14,29,.95) 100%)" }}
+                    aria-hidden="true"
+                  />
+                  <span
+                    className="absolute font-[family-name:var(--font-serif)] font-bold text-white/30"
+                    style={{ right: u(26), top: u(8), fontSize: u(86), lineHeight: 1.1 }}
+                    aria-hidden="true"
+                  >
+                    {String(pos + 1).padStart(2, "0")}
+                  </span>
+                  <span
+                    className="absolute font-semibold tracking-[0.3em] text-white/45 uppercase transition-opacity duration-500"
+                    style={{ right: u(14), top: u(120), fontSize: u(12), writingMode: "vertical-rl", opacity: center ? 1 : 0 }}
+                    aria-hidden="true"
+                  >
+                    {card.countryName}
+                  </span>
+                </span>
+
+                <span className="relative block" style={{ padding: u(24), paddingTop: u(4) }}>
+                  <span className="flex items-center" style={{ gap: u(10) }}>
+                    <Flag colors={card.flag} size={u(22)} />
+                    <span className="font-semibold text-white/80" style={{ fontSize: u(15) }}>
+                      {card.countryName}
+                    </span>
+                  </span>
+                  <b
+                    className="block overflow-hidden font-bold text-white"
+                    style={{
+                      fontSize: u(27),
+                      lineHeight: u(34),
+                      marginTop: u(10),
+                      display: "-webkit-box",
+                      WebkitBoxOrient: "vertical",
+                      WebkitLineClamp: 2,
+                    }}
+                  >
+                    {card.title}
+                  </b>
+
+                  <span className="flex items-baseline" style={{ gap: u(8), marginTop: u(12) }}>
+                    <span
+                      className="flex shrink-0 items-center justify-center rounded-full border border-[var(--nb-gold-line)] text-[var(--nb-gold)]"
+                      style={{ width: u(26), height: u(26), fontSize: u(14) }}
+                    >
+                      €
+                    </span>
+                    <b
+                      className="font-bold whitespace-nowrap text-[var(--nb-gold)]"
+                      style={{ fontSize: u(25) }}
+                    >
+                      {card.salary.from === card.salary.to
+                        ? `${EUR(card.salary.from)} €`
+                        : `${EUR(card.salary.from)} – ${EUR(card.salary.to)} €`}
+                    </b>
+                    <span className="text-white/60" style={{ fontSize: u(16) }}>
+                      {t.perMonth}
+                    </span>
+                  </span>
+
+                  {card.facts.length > 0 && (
+                    <>
+                      <span
+                        className="block bg-white/15"
+                        style={{ height: 1, marginTop: u(16), marginBottom: u(14) }}
+                        aria-hidden="true"
+                      />
+                      <span className="flex items-center justify-between" style={{ gap: u(10) }}>
+                        {card.facts.map((f) => (
+                          <Fact key={f.label} icon={f.icon} value={f.value} label={f.label} u={u} />
+                        ))}
+                      </span>
+                    </>
+                  )}
+
+                  {/* Nút chỉ sáng ở thẻ giữa nhưng vẫn chiếm chỗ ở thẻ bên, để
+                      mọi thẻ chung một bố cục — có vậy mới chuyển cảnh được
+                      bằng mỗi transform, không phải dựng lại bố cục mỗi khung. */}
+                  <span
+                    className="nb-gold-btn flex items-center justify-center transition-opacity duration-500"
+                    style={{ marginTop: u(20), height: u(56), gap: u(10), fontSize: u(18), opacity: center ? 1 : 0 }}
+                  >
+                    {t.detail}
+                    <Icon name="arrowRight" style={{ width: u(18), height: u(18) }} strokeWidth={2.2} />
+                  </span>
+                </span>
+                </span>
 
                 {s.dim > 0 && (
                   <span className="absolute inset-0" style={{ background: `rgba(5,12,25,${s.dim})` }} aria-hidden="true" />
                 )}
-                </span>
                 </span>
               </Link>
             );

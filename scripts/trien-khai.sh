@@ -27,6 +27,11 @@ git log --oneline -1
 echo "==> cài gói"
 npm ci --no-audit --no-fund
 
+# Next lưu ảnh đã tối ưu theo TÊN FILE. Thay ảnh mà giữ nguyên tên thì nó vẫn
+# trả bản cũ — đã dính một lần: đổi ảnh nền banner mà ngoài trang vẫn là ảnh cũ.
+echo "==> xoá cache ảnh đã tối ưu"
+rm -rf .next/cache/images
+
 echo "==> build"
 NODE_ENV=production NEXT_PUBLIC_SITE_URL="$SITE_URL" npm run build
 

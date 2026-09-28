@@ -567,3 +567,19 @@ html.nb-lock body {
     opacity: 1;
   }
 }
+
+/* ---------- Hai mặt của tấm board ----------
+   Mặt sau xoay sẵn 180°, cả hai mặt đều ẩn lưng. Lật nửa vòng là mặt sau quay
+   ra, chữ đọc xuôi ngay; không còn bước soi gương nội dung nào để lộ. */
+.nb-mat {
+  position: absolute;
+  inset: 0;
+  display: block;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+  border-radius: inherit;
+}
+.nb-mat-sau {
+  transform: rotateY(180deg);
+}

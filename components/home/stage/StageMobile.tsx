@@ -132,10 +132,6 @@ export function StageMobile({ locale }: { locale: Locale }) {
       );
       chay.id = "lat";
 
-      const mat = el.querySelector<HTMLElement>(".nb-card-face");
-      window.setTimeout(() => {
-        if (mat) mat.style.transform = (moi / 180) % 2 === 0 ? "" : "scaleX(-1)";
-      }, NHIP / 2);
     };
 
     // Cả hai bắt đầu cùng một lúc: tấm phụ nhảy lên giữa, tấm chính lùi ra.
@@ -379,7 +375,79 @@ export function StageMobile({ locale }: { locale: Locale }) {
                     : `0 ${u(30)} ${u(56)} rgba(0,0,0,.5)`,
                 }}
               >
-              <span className="nb-card-face block h-full w-full">
+
+              {/* Hai mặt thật: mặt sau đã xoay sẵn 180°, cả hai cùng ẩn lưng nên
+                  lật nửa vòng là thấy mặt sau đọc xuôi ngay, không có bước đổi nào
+                  lộ ra ở điểm dừng. */}
+              <span className="nb-mat nb-mat-truoc">
+              <span className="relative block overflow-hidden" style={{ height: u(300) }}>
+                <Image src={img} alt="" fill sizes="60vw" className="object-cover" style={{ objectPosition: j.focus }} />
+                <span
+                  className="absolute inset-0"
+                  style={{ background: "linear-gradient(180deg, rgba(5,14,29,.1) 0, rgba(5,14,29,.35) 58%, rgba(5,14,29,.96) 100%)" }}
+                  aria-hidden="true"
+                />
+                <span
+                  className="absolute font-[family-name:var(--font-serif)] font-bold text-white/30"
+                  style={{ right: u(20), top: u(8), fontSize: u(86), lineHeight: 1.1 }}
+                  aria-hidden="true"
+                >
+                  {String(pos + 1).padStart(2, "0")}
+                </span>
+              </span>
+
+              <span className="relative block" style={{ padding: u(26), paddingTop: u(4) }}>
+                <span className="flex items-center" style={{ gap: u(10) }}>
+                  <Flag colors={j.flag} size={u(32)} />
+                  <span className="font-semibold text-white/85" style={{ fontSize: u(26) }}>
+                    {j.countryName}
+                  </span>
+                </span>
+                <b
+                  className="block overflow-hidden font-bold text-white"
+                  style={{
+                    fontSize: u(36),
+                    lineHeight: u(44),
+                    marginTop: u(12),
+                    display: "-webkit-box",
+                    WebkitBoxOrient: "vertical",
+                    WebkitLineClamp: 2,
+                  }}
+                >
+                  {j.title}
+                </b>
+                <span className="flex items-baseline" style={{ gap: u(10), marginTop: u(14) }}>
+                  <span
+                    className="flex shrink-0 items-center justify-center rounded-full border border-[var(--nb-gold-line)] text-[var(--nb-gold)]"
+                    style={{ width: u(34), height: u(34), fontSize: u(20) }}
+                  >
+                    €
+                  </span>
+                  <b className="font-bold whitespace-nowrap text-[var(--nb-gold)]" style={{ fontSize: u(36) }}>
+                    {j.salary.from === j.salary.to
+                      ? `${EUR(j.salary.from)} €`
+                      : `${EUR(j.salary.from)} – ${EUR(j.salary.to)} €`}
+                  </b>
+                </span>
+
+                <span className="block bg-white/15" style={{ height: 1, marginBlock: u(18) }} aria-hidden="true" />
+                <span className="flex items-center justify-between" style={{ gap: u(8) }}>
+                  {j.facts.map((ft) => (
+                    <Fact key={ft.label} icon={ft.icon} value={ft.value} label={ft.label} u={u} />
+                  ))}
+                </span>
+                {/* Nút chỉ sáng ở thẻ giữa nhưng vẫn chiếm chỗ ở thẻ bên, để mọi
+                    thẻ chung một bố cục — chuyển cảnh khi đó chỉ là transform. */}
+                <span
+                  className="nb-gold-btn flex items-center justify-center transition-opacity duration-500"
+                  style={{ marginTop: u(22), height: u(84), gap: u(12), fontSize: u(30), borderRadius: u(18), opacity: center ? 1 : 0 }}
+                >
+                  {t.detail}
+                  <Icon name="arrowRight" style={{ width: u(28), height: u(28) }} strokeWidth={2.2} />
+                </span>
+              </span>
+              </span>
+              <span className="nb-mat nb-mat-sau" aria-hidden="true">
               <span className="relative block overflow-hidden" style={{ height: u(300) }}>
                 <Image src={img} alt="" fill sizes="60vw" className="object-cover" style={{ objectPosition: j.focus }} />
                 <span
