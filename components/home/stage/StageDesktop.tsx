@@ -76,7 +76,8 @@ export function StageDesktop({ locale }: { locale: Locale }) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const stageRef = useRef<HTMLDivElement>(null);
-  const firstRun = useRef(true);
+  /** Đơn đang đứng giữa ở lần vẽ trước, để biết tấm nào vừa rời khỏi giữa */
+  const truocDo = useRef(0);
 
   const go = useCallback((d: number) => setActive((i) => (i + d + n) % n), [n]);
 
@@ -105,28 +106,33 @@ export function StageDesktop({ locale }: { locale: Locale }) {
     };
   }, []);
 
-  /* Mỗi lần đổi đơn, HAI board hai bên board chính quay trọn một vòng 360°
-     trong lúc trượt sang ô mới. Board giữa đứng yên cho người đọc kịp nhìn.
+  /* Ai quay khi đổi đơn:
+       - tấm đang ở ô phụ mà được đưa LÊN làm tấm chính
+       - và đúng lúc đó, tấm chính cũ quay để lùi ra ô phụ
+     Hai tấm đó quay trọn 360° trong lúc trượt; các tấm còn lại chỉ trượt.
 
-     Phép quay đặt lên tấm board bên trong, còn phép trượt giữa các ô đặt lên
-     cái khung bọc ngoài: hai transform ở hai phần tử khác nhau thì mới cộng
-     được với nhau. Để chung một phần tử thì animation sẽ đè mất transform của
-     ô, board nhảy về gốc rồi mới quay. */
+     Phép quay đặt lên tấm board bên trong, phép trượt đặt lên khung bọc ngoài:
+     hai transform ở hai phần tử khác nhau thì mới cộng được với nhau. Để chung
+     một phần tử thì animation đè mất transform của ô, tấm nhảy về gốc rồi mới
+     quay. */
   useEffect(() => {
-    if (firstRun.current) {
-      firstRun.current = false;
-      return;
-    }
+    const truoc = truocDo.current;
+    truocDo.current = active;
+    if (truoc === active) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    stageRef.current
-      ?.querySelectorAll<HTMLElement>('[data-slot="-1"] .nb-stage-card, [data-slot="1"] .nb-stage-card')
-      .forEach((el) => {
-        el.animate([{ transform: "rotateY(0deg)" }, { transform: "rotateY(360deg)" }], {
-          duration: 850,
-          easing: "cubic-bezier(.32,.72,0,1)",
-        });
+
+    const quay = (id: string | undefined) => {
+      if (!id) return;
+      const el = stageRef.current?.querySelector<HTMLElement>('[data-card="' + id + '"] .nb-stage-card');
+      el?.animate([{ transform: "rotateY(0deg)" }, { transform: "rotateY(360deg)" }], {
+        duration: 850,
+        easing: "cubic-bezier(.32,.72,0,1)",
       });
-  }, [active]);
+    };
+
+    quay(cards[active]?.id);
+    quay(cards[truoc]?.id);
+  }, [active, cards]);
 
   return (
     <section
@@ -231,6 +237,7 @@ export function StageDesktop({ locale }: { locale: Locale }) {
                   }
                 }}
                 data-slot={d}
+                data-card={card.id}
                 className="nb-stage-frame absolute block"
                 style={{
                   left: u(BASE.x),
