@@ -44,13 +44,13 @@ const CY = BASE.y + BASE.h / 2;
 
 /** Tâm thẻ ở từng ô, đo trên ảnh mẫu, kèm cỡ thu nhỏ và góc xoay. */
 const SLOT: Record<number, { cx: number; cy: number; s: number; rot: number; z: number; dim: number; op: number }> = {
-  0: { cx: 876, cy: 462, s: 1, rot: 0, z: 40, dim: 0, op: 1 },
-  [-1]: { cx: 470, cy: 548, s: 0.58, rot: -15, z: 30, dim: 0.18, op: 1 },
-  1: { cx: 1292, cy: 562, s: 0.58, rot: 15, z: 30, dim: 0.18, op: 1 },
-  [-2]: { cx: 196, cy: 618, s: 0.42, rot: -22, z: 20, dim: 0.36, op: 1 },
-  2: { cx: 1576, cy: 606, s: 0.42, rot: 22, z: 20, dim: 0.36, op: 1 },
-  [-3]: { cx: -60, cy: 652, s: 0.3, rot: -28, z: 10, dim: 0.5, op: 0 },
-  3: { cx: 1800, cy: 644, s: 0.3, rot: 28, z: 10, dim: 0.5, op: 0 },
+  0: { cx: 836, cy: 462, s: 1, rot: 0, z: 40, dim: 0, op: 1 },
+  [-1]: { cx: 430, cy: 556, s: 0.58, rot: -15, z: 30, dim: 0.18, op: 1 },
+  1: { cx: 1242, cy: 556, s: 0.58, rot: 15, z: 30, dim: 0.18, op: 1 },
+  [-2]: { cx: 156, cy: 612, s: 0.42, rot: -22, z: 20, dim: 0.36, op: 1 },
+  2: { cx: 1516, cy: 612, s: 0.42, rot: 22, z: 20, dim: 0.36, op: 1 },
+  [-3]: { cx: -100, cy: 648, s: 0.3, rot: -28, z: 10, dim: 0.5, op: 0 },
+  3: { cx: 1772, cy: 648, s: 0.3, rot: 28, z: 10, dim: 0.5, op: 0 },
 };
 
 const EUR = (n: number) => n.toLocaleString("de-DE");
@@ -189,7 +189,7 @@ export function StageDesktop({ locale }: { locale: Locale }) {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(90deg, rgba(3,8,18,.72) 0, rgba(3,8,18,.26) 18%, rgba(3,8,18,0) 34%, rgba(3,8,18,0) 72%, rgba(3,8,18,.3) 100%), linear-gradient(180deg, rgba(3,8,18,.34) 0, rgba(3,8,18,0) 10%, rgba(3,8,18,0) 64%, rgba(3,8,18,.3) 84%, rgba(3,8,18,.66) 100%)",
+              "linear-gradient(90deg, rgba(3,8,18,.8) 0, rgba(3,8,18,.4) 18%, rgba(3,8,18,.2) 38%, rgba(3,8,18,.2) 66%, rgba(3,8,18,.5) 100%), linear-gradient(180deg, rgba(3,8,18,.5) 0, rgba(3,8,18,.18) 12%, rgba(3,8,18,.2) 60%, rgba(3,8,18,.5) 84%, rgba(3,8,18,.8) 100%)",
           }}
           aria-hidden="true"
         />
@@ -207,6 +207,26 @@ export function StageDesktop({ locale }: { locale: Locale }) {
             className="h-auto w-full"
           />
         </span>
+
+        {/* Hai nút điều hướng bám sát mép ảnh, ngang đúng tâm cụm bảng. */}
+        <button
+          type="button"
+          onClick={() => go(-1)}
+          aria-label={t.prev}
+          className="nb-stage-arrow absolute -translate-y-1/2"
+          style={{ left: "1.6cm", top: u(462), width: u(62), height: u(62), zIndex: 45 }}
+        >
+          <Icon name="chevronRight" style={{ width: u(24), height: u(24), transform: "rotate(180deg)" }} strokeWidth={2} />
+        </button>
+        <button
+          type="button"
+          onClick={() => go(1)}
+          aria-label={t.next}
+          className="nb-stage-arrow absolute -translate-y-1/2"
+          style={{ right: "1.6cm", top: u(462), width: u(62), height: u(62), zIndex: 45 }}
+        >
+          <Icon name="chevronRight" style={{ width: u(24), height: u(24) }} strokeWidth={2} />
+        </button>
 
         {/* ---------------- CHỮ LỚN ---------------- */}
         <div className="absolute" style={{ left: "3cm", top: u(74), width: u(640), zIndex: 10 }}>
@@ -513,31 +533,22 @@ export function StageDesktop({ locale }: { locale: Locale }) {
         </div>
 
         {/* ---------------- HAI MŨI TÊN ---------------- */}
-        <button
-          type="button"
-          onClick={() => go(-1)}
-          aria-label={t.prev}
-          className="nb-stage-arrow absolute"
-          style={{ left: u(74), top: u(572), width: u(62), height: u(62), zIndex: 45 }}
-        >
-          <Icon name="chevronRight" style={{ width: u(24), height: u(24), transform: "rotate(180deg)" }} strokeWidth={2} />
-        </button>
-        <button
-          type="button"
-          onClick={() => go(1)}
-          aria-label={t.next}
-          className="nb-stage-arrow absolute"
-          style={{ right: u(74), top: u(572), width: u(62), height: u(62), zIndex: 45 }}
-        >
-          <Icon name="chevronRight" style={{ width: u(24), height: u(24) }} strokeWidth={2} />
-        </button>
-
         {/* ---------------- HÀNG TIẾN TRÌNH ---------------- */}
         <div className="absolute flex items-center" style={{ left: u(500), right: u(60), top: u(772), height: u(40), zIndex: 45 }}>
           <span className="shrink-0 font-semibold" style={{ fontSize: u(25) }}>
             <b className="text-white">{String(active + 1).padStart(2, "0")}</b>
             <span className="text-white/45" style={{ fontSize: u(17) }}> / {n}</span>
           </span>
+
+          <button
+            type="button"
+            onClick={() => setPaused((p) => !p)}
+            aria-label={paused ? t.play : t.pause}
+            className="ml-[calc(14*var(--us))] shrink-0 text-white/55 hover:text-white"
+            style={{ width: u(26), height: u(26) }}
+          >
+            <Icon name={paused ? "play" : "pause"} style={{ width: u(16), height: u(16) }} strokeWidth={2} />
+          </button>
 
           <Link
             href={ROUTES.jobs[locale] as Route}
@@ -546,15 +557,6 @@ export function StageDesktop({ locale }: { locale: Locale }) {
           >
             {t.allJobs}
           </Link>
-          <button
-            type="button"
-            onClick={() => setPaused((p) => !p)}
-            aria-label={paused ? t.play : t.pause}
-            className="nb-stage-arrow ml-[calc(22*var(--us))] shrink-0"
-            style={{ width: u(40), height: u(40) }}
-          >
-            <Icon name={paused ? "play" : "pause"} style={{ width: u(16), height: u(16) }} strokeWidth={2} />
-          </button>
         </div>
 
         {/* ---------------- THANH MENU Ở ĐÁY BANNER ----------------
