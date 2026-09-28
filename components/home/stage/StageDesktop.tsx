@@ -299,7 +299,10 @@ export function StageDesktop({ locale }: { locale: Locale }) {
               >
                 <span
                   data-center={center}
-                  className="nb-stage-card absolute inset-0 block overflow-hidden"
+                  /* KHÔNG để overflow-hidden ở đây: nó làm phẳng không gian 3D, khiến
+                     backface-visibility của hai mặt mất tác dụng và mặt sau lộ ra
+                     thành chữ ngược. Việc cắt góc bo để cho từng mặt lo. */
+                  className="nb-stage-card absolute inset-0 block"
                   style={{
                     borderRadius: u(26),
                     boxShadow: center
