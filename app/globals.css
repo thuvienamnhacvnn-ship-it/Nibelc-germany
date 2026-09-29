@@ -602,3 +602,133 @@ html.nb-lock body {
   );
   filter: blur(14px);
 }
+
+/* ============================================================
+   BỘ KIT NAVY–VÀNG CHO CÁC TRANG PHỤ
+   Chỉ áp dụng bên trong `.nb-sub` (khung SubShell). Trang chủ nằm ngoài
+   phạm vi này nên không bị ảnh hưởng dù chỉ một pixel.
+   ============================================================ */
+:root {
+  --nb-sub-navy: #06172b;
+  --nb-sub-navy-2: #0b2540;
+  --nb-sub-ivory: #fff4dc;
+}
+
+.nb-sub {
+  background: var(--nb-sub-navy);
+  color: #fff;
+}
+.nb-sub h1,
+.nb-sub h2,
+.nb-sub h3,
+.nb-sub h4 {
+  color: #fff;
+}
+
+/* Tiêu đề mạ vàng của trang phụ */
+.nb-sub-gold {
+  background: linear-gradient(180deg, #fffaf0 0%, #f7dd9f 38%, #e6bb66 68%, #cfa055 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-block: 0.16em;
+  margin-block: -0.16em;
+}
+
+.nb-sub-header {
+  background: rgba(6, 23, 43, 0.92);
+  border-bottom: 1px solid rgba(214, 172, 98, 0.22);
+  backdrop-filter: blur(10px);
+}
+
+/* Nút vàng bo tròn */
+.nb-sub-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, #f6e0a3, #e2b75c 58%, #cf9f45);
+  color: #231a05;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 10px 26px -12px rgba(226, 183, 92, 0.8);
+  transition: filter 0.25s ease, transform 0.25s ease;
+}
+.nb-sub-cta:hover {
+  filter: brightness(1.07);
+  transform: translateY(-1px);
+}
+
+/* Nút viền vàng, nền trong */
+.nb-sub-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(214, 172, 98, 0.55);
+  color: var(--nb-sub-ivory);
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+.nb-sub-ghost:hover {
+  background: rgba(214, 172, 98, 0.12);
+  border-color: var(--nb-gold);
+}
+
+/* Tấm thông tin nền tối */
+.nb-sub-panel {
+  border-radius: 18px;
+  border: 1px solid rgba(214, 172, 98, 0.22);
+  background: linear-gradient(180deg, rgba(13, 32, 56, 0.82), rgba(8, 21, 38, 0.9));
+  box-shadow: 0 22px 48px -28px rgba(0, 0, 0, 0.9);
+}
+.nb-sub-panel-hover {
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+.nb-sub-panel-hover:hover {
+  border-color: rgba(214, 172, 98, 0.65);
+  transform: translateY(-3px);
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.95);
+}
+
+/* Ô nhập liệu trên nền tối */
+.nb-sub-field {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  padding: 0.85rem 1rem;
+  font-size: 15px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.nb-sub-field::placeholder {
+  color: rgba(255, 255, 255, 0.38);
+}
+.nb-sub-field:focus {
+  outline: none;
+  border-color: var(--nb-gold);
+  background: rgba(255, 255, 255, 0.08);
+}
+.nb-sub-label {
+  display: block;
+  margin-bottom: 0.45rem;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nb-sub-cta,
+  .nb-sub-ghost,
+  .nb-sub-panel-hover {
+    transition: none;
+  }
+  .nb-sub-cta:hover,
+  .nb-sub-panel-hover:hover {
+    transform: none;
+  }
+}

@@ -62,6 +62,11 @@ export const LEGAL_ROUTES = {
   datenschutz: "/datenschutz",
 } as const;
 
+/** Đường dẫn trang chi tiết một đơn hàng */
+export function jobPath(locale: Locale, id: string): string {
+  return `${ROUTES.jobs[locale]}/${id}`;
+}
+
 export function industryPath(locale: Locale, slug: string): string {
   return `${ROUTES.industries[locale]}/${slug}`;
 }
