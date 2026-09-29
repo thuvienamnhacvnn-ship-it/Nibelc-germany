@@ -1,0 +1,107 @@
+# 77 FILE ẢNH CẦN TẠO — LƯU ĐÚNG ĐƯỜNG DẪN NÀY
+# Gốc: C:\Users\admin\nibelcgroup\public\anh\
+# Định dạng: JPG chất lượng 92, trừ nhóm "nen" là PNG nền trong suốt.
+# Prompt đầy đủ: docs\V2-FORM-VA-DANH-SACH-ANH.md
+
+## BANNER (12) — banner\
+banner\trang-chu-desktop.jpg        2560x1440   16:9
+banner\trang-chu-mobile.jpg         1440x2560   9:16
+banner\don-hang.jpg                 2560x1100   21:9
+banner\du-hoc-nghe.jpg              2560x1100   21:9
+banner\nganh-nghe.jpg               2560x1100   21:9
+banner\lo-trinh.jpg                 2560x1100   21:9
+banner\dieu-kien.jpg                2560x1100   21:9
+banner\cam-nang.jpg                 2560x1100   21:9
+banner\ve-chung-toi.jpg             2560x1100   21:9
+banner\doanh-nghiep.jpg             2560x1100   21:9
+banner\lien-he.jpg                  2560x1100   21:9
+banner\ung-tuyen.jpg                2560x1100   21:9
+
+## NGÀNH NGHỀ (24) — nganh\<nhom>\  · mỗi nhóm 3 file
+nganh\01-khach-san-nha-hang\hero.jpg        1920x1080   16:9
+nganh\01-khach-san-nha-hang\doc.jpg         1200x1600   3:4
+nganh\01-khach-san-nha-hang\chi-tiet.jpg    1600x1200   4:3
+nganh\02-sieu-thi-ban-le\hero.jpg           1920x1080   16:9
+nganh\02-sieu-thi-ban-le\doc.jpg            1200x1600   3:4
+nganh\02-sieu-thi-ban-le\chi-tiet.jpg       1600x1200   4:3
+nganh\03-lam-banh\hero.jpg                  1920x1080   16:9
+nganh\03-lam-banh\doc.jpg                   1200x1600   3:4
+nganh\03-lam-banh\chi-tiet.jpg              1600x1200   4:3
+nganh\04-che-bien-thit\hero.jpg             1920x1080   16:9
+nganh\04-che-bien-thit\doc.jpg              1200x1600   3:4
+nganh\04-che-bien-thit\chi-tiet.jpg         1600x1200   4:3
+nganh\05-xay-dung-dien-co-khi\hero.jpg      1920x1080   16:9
+nganh\05-xay-dung-dien-co-khi\doc.jpg       1200x1600   3:4
+nganh\05-xay-dung-dien-co-khi\chi-tiet.jpg  1600x1200   4:3
+nganh\06-logistics-kho-van\hero.jpg         1920x1080   16:9
+nganh\06-logistics-kho-van\doc.jpg          1200x1600   3:4
+nganh\06-logistics-kho-van\chi-tiet.jpg     1600x1200   4:3
+nganh\07-chuyen-gia-dai-hoc\hero.jpg        1920x1080   16:9
+nganh\07-chuyen-gia-dai-hoc\doc.jpg         1200x1600   3:4
+nganh\07-chuyen-gia-dai-hoc\chi-tiet.jpg    1600x1200   4:3
+nganh\08-nong-nghiep-nha-kinh\hero.jpg      1920x1080   16:9
+nganh\08-nong-nghiep-nha-kinh\doc.jpg       1200x1600   3:4
+nganh\08-nong-nghiep-nha-kinh\chi-tiet.jpg  1600x1200   4:3
+
+## ĐƠN HÀNG (15) — don-hang\<ma-don>\  · mỗi đơn 1 ảnh chính + 4 ảnh việc
+don-hang\quan-ly-nha-kinh\chinh.jpg         1920x1080   16:9
+don-hang\quan-ly-nha-kinh\viec-1.jpg        1200x900    4:3   giám sát, điều hành sản xuất
+don-hang\quan-ly-nha-kinh\viec-2.jpg        1200x900    4:3   lập kế hoạch trồng trọt, quản lý nhân sự
+don-hang\quan-ly-nha-kinh\viec-3.jpg        1200x900    4:3   theo dõi chất lượng cây trồng
+don-hang\quan-ly-nha-kinh\viec-4.jpg        1200x900    4:3   đảm bảo hiệu quả sản xuất bền vững
+don-hang\tho-bao-tri-nha-kinh\chinh.jpg     1920x1080   16:9
+don-hang\tho-bao-tri-nha-kinh\viec-1.jpg    1200x900    4:3   kiểm tra, bảo trì hệ thống điện
+don-hang\tho-bao-tri-nha-kinh\viec-2.jpg    1200x900    4:3   sửa chữa hệ thống tưới tiêu, bơm nước
+don-hang\tho-bao-tri-nha-kinh\viec-3.jpg    1200x900    4:3   bảo trì thông gió, làm mát, sưởi ấm
+don-hang\tho-bao-tri-nha-kinh\viec-4.jpg    1200x900    4:3   thiết bị vận hành ổn định
+don-hang\cong-nhan-trong-rau\chinh.jpg      1920x1080   16:9
+don-hang\cong-nhan-trong-rau\viec-1.jpg     1200x900    4:3   chăm sóc, tưới nước, theo dõi cây
+don-hang\cong-nhan-trong-rau\viec-2.jpg     1200x900    4:3   thu hoạch theo quy trình
+don-hang\cong-nhan-trong-rau\viec-3.jpg     1200x900    4:3   phân loại, đóng gói nông sản
+don-hang\cong-nhan-trong-rau\viec-4.jpg     1200x900    4:3   môi trường nhà kính hiện đại, an toàn
+
+## LỘ TRÌNH (13) — lo-trinh\  · 16:10 · 1600x1000
+lo-trinh\lam-viec-1.jpg     tư vấn và định hướng
+lo-trinh\lam-viec-2.jpg     chuẩn bị hồ sơ
+lo-trinh\lam-viec-3.jpg     đào tạo tiếng và phỏng vấn
+lo-trinh\lam-viec-4.jpg     làm thủ tục visa
+lo-trinh\lam-viec-5.jpg     xuất cảnh
+lo-trinh\lam-viec-6.jpg     hỗ trợ tại Đức
+lo-trinh\hoc-nghe-1.jpg     chọn ngành học nghề
+lo-trinh\hoc-nghe-2.jpg     học tiếng Đức B1
+lo-trinh\hoc-nghe-3.jpg     thi chứng chỉ
+lo-trinh\hoc-nghe-4.jpg     ký hợp đồng đào tạo
+lo-trinh\hoc-nghe-5.jpg     xin visa học nghề
+lo-trinh\hoc-nghe-6.jpg     nhập học tại Đức
+lo-trinh\hoc-nghe-7.jpg     tốt nghiệp và đi làm
+
+## CON NGƯỜI (8) — nguoi\
+nguoi\ung-vien-nam.jpg      1200x1600   3:4
+nguoi\ung-vien-nu.jpg       1200x1600   3:4
+nguoi\hoc-vien.jpg          1200x1600   3:4
+nguoi\tu-van-vien.jpg       1200x1600   3:4
+nguoi\doanh-nghiep-duc.jpg  1920x1080   16:9
+nguoi\lop-tieng-duc.jpg     1920x1080   16:9
+nguoi\ky-tuc-xa.jpg         1920x1080   16:9
+nguoi\doi-song-duc.jpg      1920x1080   16:9
+
+## NỀN & HOA VĂN (5) — nen\  · PNG nền trong suốt
+nen\ribbon-co-duc.png           2400x900    dải ruy-băng cờ Đức uốn lượn
+nen\ve-quet-co-duc.png          1600x900    vệt quét sơn ba màu cờ Đức
+nen\may-trang.png               2400x800    cụm mây trắng mềm
+nen\duong-chan-troi-berlin.png  2400x400    skyline Berlin một nét mảnh trắng
+nen\song-vang.png               2400x400    dải sóng gradient vàng đồng
+
+# ==========================================================
+# HAI ĐOẠN DÁN VÀO CUỐI MỌI PROMPT
+# ==========================================================
+# [PHONG CÁCH]
+# Photorealistic, bright natural daylight, clean modern German setting,
+# warm golden sunlight, clear blue sky, high detail, professional commercial
+# photography, subtle German flag colour accents (black, red, gold),
+# optimistic and trustworthy mood, no text, no watermark, no logo.
+#
+# [NGƯỜI]  — chỉ dán khi ảnh có người
+# Young Vietnamese adults aged 22-35, friendly and confident, natural smiles,
+# working alongside German colleagues, realistic skin texture, professional
+# workwear appropriate to the trade.

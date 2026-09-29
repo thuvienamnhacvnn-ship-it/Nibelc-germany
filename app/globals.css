@@ -828,3 +828,172 @@ html.nb-lock body {
     padding-bottom: 0;
   }
 }
+
+/* ============================================================
+   BỘ NHẬN DIỆN V2 — theo poster A2 (nền sáng, cờ Đức, vàng đồng)
+   Mọi thứ nằm trong phạm vi `.nb2`, không đụng bản cũ.
+   ============================================================ */
+:root {
+  --v2-troi: #8ec9f0;
+  --v2-troi-nhat: #e8f4fd;
+  --v2-xanh: #0b3c8c;
+  --v2-xanh-nhat: #1a5bb8;
+  --v2-vang: #c9962c;
+  --v2-vang-sang: #f0c86a;
+  --v2-do: #dd0000;
+  --v2-den: #111111;
+  --v2-co-vang: #ffce00;
+  --v2-nen: #f2f7fd;
+  --v2-vien: #d9e6f5;
+  --v2-chu: #1b2b45;
+  --v2-chu-nhat: #5b6b80;
+}
+
+.nb2 {
+  background: #fff;
+  color: var(--v2-chu);
+}
+.nb2 h1,
+.nb2 h2,
+.nb2 h3,
+.nb2 h4 {
+  color: var(--v2-xanh);
+  letter-spacing: -0.02em;
+}
+
+/* Chữ mạ vàng đồng — dùng cho từ khoá trong tiêu đề */
+.v2-vang {
+  background: linear-gradient(180deg, #fbe7ab 0%, var(--v2-vang-sang) 34%, var(--v2-vang) 72%, #a87a1c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-block: 0.14em;
+  margin-block: -0.14em;
+}
+
+/* Nút chính: đỏ cờ Đức, bo tròn — như nút "LIÊN HỆ NGAY" trên poster */
+.v2-nut {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, #e8342c, var(--v2-do));
+  color: #fff;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 12px 26px -12px rgba(221, 0, 0, 0.7);
+  transition: filter 0.22s ease, transform 0.22s ease;
+}
+.v2-nut:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+/* Nút vàng đồng — hành động phụ quan trọng */
+.v2-nut-vang {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, var(--v2-vang-sang), var(--v2-vang));
+  color: #3a2a06;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 12px 26px -14px rgba(201, 150, 44, 0.85);
+  transition: filter 0.22s ease, transform 0.22s ease;
+}
+.v2-nut-vang:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+/* Nút viền xanh, nền trắng */
+.v2-nut-vien {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-radius: 9999px;
+  border: 1.5px solid var(--v2-vien);
+  background: #fff;
+  color: var(--v2-xanh);
+  font-weight: 600;
+  white-space: nowrap;
+  transition: border-color 0.22s ease, background 0.22s ease;
+}
+.v2-nut-vien:hover {
+  border-color: var(--v2-xanh-nhat);
+  background: var(--v2-nen);
+}
+
+/* Thẻ nền sáng */
+.v2-the {
+  border-radius: 18px;
+  border: 1px solid var(--v2-vien);
+  background: #fff;
+  box-shadow: 0 14px 34px -22px rgba(11, 60, 140, 0.4);
+}
+.v2-the-hover {
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+.v2-the-hover:hover {
+  border-color: rgba(201, 150, 44, 0.7);
+  transform: translateY(-3px);
+  box-shadow: 0 26px 48px -26px rgba(11, 60, 140, 0.45);
+}
+
+/* Ô icon tròn viền vàng đồng — đúng kiểu trên poster */
+.v2-icon-tron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 2px solid var(--v2-vang);
+  background: #fff;
+  color: var(--v2-vang);
+  box-shadow: 0 6px 16px -10px rgba(201, 150, 44, 0.9);
+}
+
+/* Dải ba màu cờ Đức */
+.v2-co-duc {
+  background: linear-gradient(90deg, var(--v2-den) 0 33.33%, var(--v2-do) 33.33% 66.66%, var(--v2-co-vang) 66.66% 100%);
+}
+
+/* Ô nhập trên nền sáng */
+.v2-o {
+  width: 100%;
+  border-radius: 12px;
+  border: 1.5px solid var(--v2-vien);
+  background: #fff;
+  color: var(--v2-chu);
+  padding: 0.8rem 1rem;
+  font-size: 15px;
+  transition: border-color 0.2s ease;
+}
+.v2-o:focus {
+  outline: none;
+  border-color: var(--v2-xanh-nhat);
+}
+
+/* Trang V2 không dùng lề 2cm của trang chủ cũ */
+.nb2 main > section,
+.nb2 main > div,
+.nb2 header,
+.nb2 footer {
+  border-inline: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-nut,
+  .v2-nut-vang,
+  .v2-the-hover {
+    transition: none;
+  }
+  .v2-nut:hover,
+  .v2-nut-vang:hover,
+  .v2-the-hover:hover {
+    transform: none;
+  }
+}

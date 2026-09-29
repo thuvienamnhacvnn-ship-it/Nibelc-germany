@@ -1,0 +1,940 @@
+[
+  {
+    "id": "al-260703-oto",
+    "ma": "AL-260703-OTO",
+    "nuoc": "Albania",
+    "tieuDe": "Lau dọn vệ sinh và hút bụi xe ô tô tại Tirana",
+    "soLuong": "11 người",
+    "noiLamViec": "Tirana, Albania",
+    "gioLam": 40,
+    "luong": {
+      "tu": 1050,
+      "den": 1050
+    },
+    "viTri": [
+      {
+        "ten": "Công nhân lau dọn vệ sinh và hút bụi xe ô tô (yêu cầu to khỏe, chăm chỉ cẩn thận, nếu biết cơ khí/ điện ô tô sẽ có phụ cấp)",
+        "soNguoi": 10,
+        "thuNhap": "950 Euro",
+        "tu": null,
+        "den": null
+      },
+      {
+        "ten": "Trưởng nhóm (Biết Tiếng Anh)",
+        "soNguoi": 1,
+        "thuNhap": "1050 Euro",
+        "tu": 1050,
+        "den": 1050
+      }
+    ],
+    "congViec": [],
+    "quyenLoi": [
+      "Thời hạn hợp đồng: Hợp đồng dài hạn: 02 (hai) năm có gia hạn.",
+      "Lương làm thêm và các chế độ khác theo luật Albania."
+    ],
+    "dieuKien": [
+      "Nam, cao: 1m65 trở lên, nặng: 55 kg trở lên, tuổi từ 18 đến 50. Đủ điều kiện đi làm việc ở nước ngoài theo quy định.",
+      "Sức khoẻ tốt, thị lực tốt, không mắc các bệnh: Viêm gan A, B, C, HIV, lao phổi, giang mai, hoa liễu, tiền sử bệnh não, tim, bệnh mãn tính, các bệnh về xương, khớp.",
+      "📄 Nhận hồ sơ từ 03.07.2026"
+    ],
+    "anh": [],
+    "toDon": [
+      "/anh/don-hang/al-260703-oto/to-don-1.jpg"
+    ],
+    "soAnhGoc": 0
+  },
+  {
+    "id": "al-260901-ks",
+    "ma": "AL-260901-KS",
+    "nuoc": "Albania",
+    "tieuDe": "Khách sạn, nhà hàng, spa tại Albania",
+    "soLuong": "157 người",
+    "noiLamViec": "Albania",
+    "gioLam": 48,
+    "luong": {
+      "tu": 600,
+      "den": 1400
+    },
+    "viTri": [
+      {
+        "ten": "Nhân viên pha chế rượu (Bartender)",
+        "soNguoi": 15,
+        "thuNhap": "750 Euro | 950 -1100 Euro",
+        "tu": 950,
+        "den": 1100
+      },
+      {
+        "ten": "Nhân viên phục vụ bàn",
+        "soNguoi": 15,
+        "thuNhap": "600-650 Euro | 800-900 Euro",
+        "tu": 600,
+        "den": 900
+      },
+      {
+        "ten": "Nhân viên pha chế cà phê, các đồ uống không cồn",
+        "soNguoi": 15,
+        "thuNhap": "600-650 Euro | 800-900 Euro",
+        "tu": 600,
+        "den": 900
+      },
+      {
+        "ten": "Bếp trưởng (Tiếng Anh tốt)",
+        "soNguoi": 10,
+        "thuNhap": "1000-1100 Euro | 1100-1300 Euro",
+        "tu": 1000,
+        "den": 1300
+      },
+      {
+        "ten": "Quản lý spa (Tiếng Anh tốt)",
+        "soNguoi": 10,
+        "thuNhap": "1200 Euro + thưởng hiệu suất | 1300 - 1400 + thưởng hiệu suất",
+        "tu": 1200,
+        "den": 1400
+      },
+      {
+        "ten": "Nhân viên spa",
+        "soNguoi": 20,
+        "thuNhap": "900-1000 Euro | 1100-1200 Euro",
+        "tu": 900,
+        "den": 1200
+      },
+      {
+        "ten": "Nhân viên vật lý trị liệu",
+        "soNguoi": 20,
+        "thuNhap": "1000-1200 Euro | 1200-1300 Euro",
+        "tu": 1000,
+        "den": 1300
+      },
+      {
+        "ten": "Nhân viên dọn phòng (không yêu cầu Tiếng Anh)",
+        "soNguoi": 25,
+        "thuNhap": "600-700 Euro | 700-800 Euro",
+        "tu": 600,
+        "den": 800
+      },
+      {
+        "ten": "Thợ sửa ống nước/ Bảo trì công viên nước và hồ bơi",
+        "soNguoi": 6,
+        "thuNhap": "650 Euro | 800-900 Euro",
+        "tu": 800,
+        "den": 900
+      },
+      {
+        "ten": "Thợ cơ khí/ Kỹ thuật viên bảo trì",
+        "soNguoi": 6,
+        "thuNhap": "650 Euro | 800-900 Euro",
+        "tu": 800,
+        "den": 900
+      },
+      {
+        "ten": "Nhân viên làm bánh ngọt",
+        "soNguoi": 15,
+        "thuNhap": "750-800 Euro | 800-950 Euro",
+        "tu": 750,
+        "den": 950
+      }
+    ],
+    "congViec": [],
+    "quyenLoi": [
+      "Thời hạn hợp đồng: Hợp đồng dài hạn: 02 (hai) năm có gia hạn.",
+      "Có cơ hội nhận tiền tip (tiền boa) từ khách hàng theo tính chất công việc.",
+      "Lương làm thêm và các chế độ khác theo luật Albania."
+    ],
+    "dieuKien": [
+      "Đủ điều kiện đi làm việc ở nước ngoài theo quy định. Có tối thiểu 1-2 năm kinh nghiệm trong lĩnh vực đăng ký.",
+      "Sức khoẻ tốt, thị lực tốt, không mắc các bệnh: Viêm gan A, B, C, HIV, lao phổi, giang mai, hoa liễu, tiền sử bệnh não, tim, bệnh mãn tính, các bệnh về xương, khớp.",
+      "Tiếng Anh giao tiếp cơ bản với tất cả các vị trí, ngoại trừ Nhân viên dọn phòng.",
+      "📄 Nhận hồ sơ từ 01.09.2026"
+    ],
+    "anh": [],
+    "toDon": [
+      "/anh/don-hang/al-260901-ks/to-don-1.jpg",
+      "/anh/don-hang/al-260901-ks/to-don-2.jpg"
+    ],
+    "soAnhGoc": 0
+  },
+  {
+    "id": "at-210426-dau",
+    "ma": "AT-210426-DAU",
+    "nuoc": "Áo",
+    "tieuDe": "Nữ thu hoạch mâm xôi, dâu tây tại Graz",
+    "soLuong": "15 người",
+    "noiLamViec": "Graz, Áo",
+    "gioLam": 40,
+    "luong": {
+      "tu": 1874,
+      "den": 2500
+    },
+    "viTri": [
+      {
+        "ten": "Công nhân thu hoạch và đóng gói quả Mâm xôi, dâu tây trong trang trại nông nghiệp",
+        "soNguoi": null,
+        "thuNhap": "13 nữ người — 1874 Euro (trước thuế) | 2100 - 2200 Euro",
+        "tu": 1874,
+        "den": 2200
+      },
+      {
+        "ten": "Quản lý ( Biết Tiếng Anh)",
+        "soNguoi": null,
+        "thuNhap": "2 nữ người — 2174 Euro ( 8 triệu VND/ 1 tháng ( trả vào tài khoảng VN )) (trước thuế) | 2400-2500 Euro",
+        "tu": 2174,
+        "den": 2500
+      }
+    ],
+    "congViec": [],
+    "quyenLoi": [
+      "Thời hạn hợp đồng: 06 tháng, thưởng thêm 01 tháng lương sau khi kết thúc hợp đồng và mỗi tháng có nhiều giờ làm thêm",
+      "Lao động tự chi trả tiền vé máy bay lượt đi và về"
+    ],
+    "dieuKien": [
+      "Sức khoẻ tốt, thị lực tốt, không mắc các bệnh: Viêm gan A, B, C, HIV, lao phổi, giang mai, hoa liễu, tiền sử bệnh não, tim, bệnh mãn tính, các bệnh về xương, khớp; Không xăm trổ, không tiền án - tiền sự ; Không bị cấm xuất cảnh; Không chỉnh sửa thẩm mỹ khuôn mặt.",
+      "📄 Nhận hồ sơ từ 21.04.2026"
+    ],
+    "anh": [
+      "/anh/don-hang/at-210426-dau/01.jpg",
+      "/anh/don-hang/at-210426-dau/02.jpg",
+      "/anh/don-hang/at-210426-dau/03.jpg",
+      "/anh/don-hang/at-210426-dau/04.jpg",
+      "/anh/don-hang/at-210426-dau/05.jpg",
+      "/anh/don-hang/at-210426-dau/06.jpg",
+      "/anh/don-hang/at-210426-dau/07.jpg",
+      "/anh/don-hang/at-210426-dau/08.jpg"
+    ],
+    "toDon": [
+      "/anh/don-hang/at-210426-dau/to-don-1.jpg"
+    ],
+    "soAnhGoc": 40
+  },
+  {
+    "id": "at-nk",
+    "ma": "AT-NK",
+    "nuoc": "Áo",
+    "tieuDe": "Nông nghiệp nhà kính thời vụ tại Áo",
+    "soLuong": null,
+    "noiLamViec": "Áo",
+    "gioLam": null,
+    "luong": null,
+    "viTri": [
+      {
+        "ten": "Lao động phổ thông (Nam/Nữ, 20 – 40 tuổi)",
+        "soNguoi": null,
+        "thuNhap": "1.874 Euro/tháng | 2.100 – 2.200 Euro/tháng (Bao gồm làm thêm theo quy định)",
+        "tu": null,
+        "den": null
+      },
+      {
+        "ten": "Quản lý (yêu cầu Tiếng Anh tốt, có kinh nghiệm quản lý là một lợi thế)",
+        "soNguoi": null,
+        "thuNhap": "2.061 Euro/tháng | 2.300 – 2.400 Euro/tháng",
+        "tu": null,
+        "den": null
+      }
+    ],
+    "congViec": [],
+    "quyenLoi": [
+      "Hợp đồng 6 tháng – Có thể gia hạn 2 - 3 tháng",
+      "Có cơ hội quay lại làm việc nhiều năm"
+    ],
+    "dieuKien": [
+      "Nam/Nữ từ 20 – 40 tuổi",
+      "Sức khỏe tốt",
+      "Chăm chỉ, có trách nhiệm",
+      "Không có tiền án, tiền sự"
+    ],
+    "anh": [
+      "/anh/don-hang/at-nk/01.jpg",
+      "/anh/don-hang/at-nk/02.jpg",
+      "/anh/don-hang/at-nk/03.jpg",
+      "/anh/don-hang/at-nk/04.jpg",
+      "/anh/don-hang/at-nk/05.jpg",
+      "/anh/don-hang/at-nk/06.jpg",
+      "/anh/don-hang/at-nk/07.jpg",
+      "/anh/don-hang/at-nk/08.jpg"
+    ],
+    "toDon": [
+      "/anh/don-hang/at-nk/to-don-1.jpg"
+    ],
+    "soAnhGoc": 40
+  },
+  {
+    "id": "de-pb",
+    "ma": "DE-PB",
+    "nuoc": "Đức",
+    "tieuDe": "Phụ bếp nhà hàng tại Đức (diện 18B và thời vụ 8 tháng)",
+    "soLuong": "35 người",
+    "noiLamViec": "Berlin và các vùng lân cận",
+    "gioLam": 40,
+    "luong": {
+      "tu": 1700,
+      "den": 2900
+    },
+    "viTri": [
+      {
+        "ten": "Phụ bếp nhà hàng (diện 18B có bằng Đại học, hệ chính quy 4 năm)",
+        "soNguoi": 15,
+        "thuNhap": "2600 Euro (trước thuế) / 1800 Euro (sau thuế) | 2800-2900 Euro (trước thuế) / 1900-2000 Euro (sau thuế)",
+        "tu": 1800,
+        "den": 2900
+      },
+      {
+        "ten": "Phụ bếp nhà hàng (thời vụ 8 tháng)",
+        "soNguoi": 20,
+        "thuNhap": "2350 – 2530 (trước thuế, tùy từng bang) / 1700 Euro (sau thuế) | 2700-2800 Euro (trước thuế) / 1800-1900 Euro (sau thuế)",
+        "tu": 1700,
+        "den": 2800
+      }
+    ],
+    "congViec": [],
+    "quyenLoi": [
+      "Diện 18B — Thời hạn hợp đồng: 01 năm, có được gia hạn dài hạn. 3 tháng đầu học việc nhận mức lương 1300 Euro (sau thuế).",
+      "Diện 18B — Nhà ở: Công ty hỗ trợ tìm chỗ ở ghép 2-3 người/1 phòng, lao động tự chi trả tiền nhà ở khoảng 150 Euro/1 tháng. Ăn uống: được hỗ trợ trong các ngày đi làm. Tiếng Đức: tối thiểu A1, ưu tiên A2.",
+      "Được hưởng bảo hiểm xã hội, bảo hiểm hưu trí, chăm sóc y tế và các quyền lợi khác như công nhân nước Đức.",
+      "Công ty hỗ trợ xử lý các vấn đề phát sinh trong suốt thời gian làm việc."
+    ],
+    "dieuKien": [
+      "Có nhận cả các lao động Việt Nam đang ở Đông Âu.",
+      "Không nhận người lao động từng đi thị thực bị từ chối hoặc bị trục xuất khỏi các nước châu Âu.",
+      "Nếu tay nghề, kinh nghiệm làm việc không đảm bảo thì lao động phải tập trung học nâng cao tay nghề.",
+      "Ưu tiên lao động biết tiếng Anh / tiếng Trung/ tiếng Đức A2 và có kinh nghiệm làm bếp.",
+      "Lao động diện 18B - yêu cầu: tối thiểu tiếng Đức A1, ưu tiên A2, có bằng Đại học và bảng điểm theo hệ chính quy đào tạo 4 năm."
+    ],
+    "anh": [
+      "/anh/don-hang/de-pb/01.jpg",
+      "/anh/don-hang/de-pb/02.jpg",
+      "/anh/don-hang/de-pb/03.jpg",
+      "/anh/don-hang/de-pb/04.jpg",
+      "/anh/don-hang/de-pb/05.jpg",
+      "/anh/don-hang/de-pb/06.jpg",
+      "/anh/don-hang/de-pb/07.jpg",
+      "/anh/don-hang/de-pb/08.jpg"
+    ],
+    "toDon": [
+      "/anh/don-hang/de-pb/to-don-1.jpg",
+      "/anh/don-hang/de-pb/to-don-2.jpg"
+    ],
+    "soAnhGoc": 17
+  },
+  {
+    "id": "g250925-mercedes",
+    "ma": "G250925-MERCEDES",
+    "nuoc": "Hy Lạp",
+    "tieuDe": "Thợ cơ khí, sơn, điện ô tô tại Athens",
+    "soLuong": "30 người",
+    "noiLamViec": "Athens, Hy Lạp",
+    "gioLam": 40,
+    "luong": {
+      "tu": 1000,
+      "den": 1300
+    },
+    "viTri": [
+      {
+        "ten": "Thợ cơ khí làm vỏ, hàn, gò, gầm, thay lốp, thay phanh",
+        "soNguoi": 4,
+        "thuNhap": "880 Euro | 1100-1200 Euro",
+        "tu": 1100,
+        "den": 1200
+      },
+      {
+        "ten": "Thợ sơn",
+        "soNguoi": 5,
+        "thuNhap": "880 Euro | 1100-1200 Euro",
+        "tu": 1100,
+        "den": 1200
+      },
+      {
+        "ten": "Thợ điện ô tô",
+        "soNguoi": 4,
+        "thuNhap": "880 Euro | 1100-1200 Euro",
+        "tu": 1100,
+        "den": 1200
+      },
+      {
+        "ten": "Quản lý (Biết TA cơ bản)",
+        "soNguoi": 1,
+        "thuNhap": "1000 Euro | 1200-1300 Euro",
+        "tu": 1000,
+        "den": 1300
+      }
+    ],
+    "congViec": [],
+    "quyenLoi": [
+      "Thời hạn hợp đồng: 01 (một) năm, gia hạn đến 05 (năm) năm.",
+      "Chủ sử dụng cung cấp vé máy bay một chiều đi;",
+      "Người lao động được hưởng phụ cấp 100 Euro/ tháng (đi lại, hỗ trợ tiền ăn)",
+      "Mỗi năm được thưởng thêm 02 tháng lương khi làm đủ 12 tháng/ năm (tổng thực lĩnh: 14 tháng lương/ năm)"
+    ],
+    "dieuKien": [
+      "Nam, cao: 1m65 trở lên, nặng: 55 kg trở lên, tuổi từ 25 đến 45. Bắt buộc có 03 năm kinh nghiệm làm việc, ưu tiên lao động có bằng Trung cấp nghề liên quan đến nghề đăng ký;",
+      "Cần video 05 phút tay nghề và phỏng vấn online với Chủ sử dụng lao động;",
+      "Sức khoẻ tốt, thị lực tốt, không mắc các bệnh: Viêm gan A, B, C, HIV, lao phổi, giang mai, hoa liễu, tiền sử bệnh não, tim, bệnh mãn tính, các bệnh về xương, khớp; Không xăm trổ, không tiền án - tiền sự; Không chỉnh sửa thẩm mỹ khuôn mặt.",
+      "📄 Nhận hồ sơ từ 25.09.2025"
+    ],
+    "anh": [
+      "/anh/don-hang/g250925-mercedes/01.jpg",
+      "/anh/don-hang/g250925-mercedes/02.jpg",
+      "/anh/don-hang/g250925-mercedes/03.jpg",
+      "/anh/don-hang/g250925-mercedes/04.jpg",
+      "/anh/don-hang/g250925-mercedes/05.jpg",
+      "/anh/don-hang/g250925-mercedes/06.jpg"
+    ],
+    "toDon": [
+      "/anh/don-hang/g250925-mercedes/to-don-1.jpg"
+    ],
+    "soAnhGoc": 6
+  },
+  {
+    "id": "gr010426-pindos",
+    "ma": "GR010426-PINDOS",
+    "nuoc": "Hy Lạp",
+    "tieuDe": "Dây chuyền chế biến gà Pindos tại Ioannina",
+    "soLuong": "218 người",
+    "noiLamViec": "Ioannina, Hy Lạp",
+    "gioLam": 40,
+    "luong": {
+      "tu": 1000,
+      "den": 1400
+    },
+    "viTri": [
+      {
+        "ten": "Công nhân dây chuyền chế biến các sản phẩm từ gà",
+        "soNguoi": null,
+        "thuNhap": "215 công nhân Nam/ Nữ/ Cặp vợ chồng người — 920 Euro | 1000-1100 Euro",
+        "tu": 1000,
+        "den": 1100
+      },
+      {
+        "ten": "Quản lý (Biết Tiếng Anh)",
+        "soNguoi": 3,
+        "thuNhap": "1000 Euro | 1300-1400 Euro",
+        "tu": 1000,
+        "den": 1400
+      }
+    ],
+    "congViec": [],
+    "quyenLoi": [
+      "Thời hạn hợp đồng: Hợp đồng dài hạn: 01 (một) năm, gia hạn đến 05 (năm) năm.",
+      "Chủ sử dụng cung cấp vé máy bay một chiều.",
+      "Mỗi năm được thưởng thêm 02 tháng lương khi làm đủ 12 tháng/ năm (tổng thực lĩnh: 14 tháng lương/ năm)"
+    ],
+    "dieuKien": [
+      "Sức khoẻ tốt, thị lực tốt, không mắc các bệnh: Viêm gan A, B, C, HIV, lao phổi, giang mai, hoa liễu, tiền sử bệnh não, tim, bệnh mãn tính, các bệnh về xương, khớp; Không xăm trổ, không tiền án - tiền sự; Không chỉnh sửa thẩm mỹ khuôn mặt.",
+      "📄 Nhận hồ sơ từ 01.04.2026"
+    ],
+    "anh": [
+      "/anh/don-hang/gr010426-pindos/01.jpg",
+      "/anh/don-hang/gr010426-pindos/02.jpg",
+      "/anh/don-hang/gr010426-pindos/03.jpg",
+      "/anh/don-hang/gr010426-pindos/04.jpg",
+      "/anh/don-hang/gr010426-pindos/05.jpg",
+      "/anh/don-hang/gr010426-pindos/06.jpg",
+      "/anh/don-hang/gr010426-pindos/07.jpg",
+      "/anh/don-hang/gr010426-pindos/08.jpg"
+    ],
+    "toDon": [
+      "/anh/don-hang/gr010426-pindos/to-don-1.jpg"
+    ],
+    "soAnhGoc": 26
+  },
+  {
+    "id": "gr010726",
+    "ma": "GR010726",
+    "nuoc": "Hy Lạp",
+    "tieuDe": "Nhà máy sản xuất gia vị tại Sindos",
+    "soLuong": "20 người",
+    "noiLamViec": "Sindos (Thessaloniki), Hy Lạp",
+    "gioLam": 40,
+    "luong": {
+      "tu": 1000,
+      "den": 1400
+    },
+    "viTri": [
+      {
+        "ten": "Công nhân nhà máy sản xuất gia vị",
+        "soNguoi": 14,
+        "thuNhap": "920 Euro | 1000-1100 Euro",
+        "tu": 1000,
+        "den": 1100
+      },
+      {
+        "ten": "Thợ vận hành máy",
+        "soNguoi": 5,
+        "thuNhap": "920 Euro | 1000-1100 Euro",
+        "tu": 1000,
+        "den": 1100
+      },
+      {
+        "ten": "Quản lý (Biết Tiếng Anh)",
+        "soNguoi": 1,
+        "thuNhap": "1000 Euro | 1300-1400 Euro",
+        "tu": 1000,
+        "den": 1400
+      }
+    ],
+    "congViec": [],
+    "quyenLoi": [
+      "Thời hạn hợp đồng: Hợp đồng dài hạn: 01 (một) năm, gia hạn đến 05 (năm) năm.",
+      "Chủ sử dụng cung cấp vé máy bay một chiều.",
+      "Mỗi năm được thưởng thêm 02 tháng lương khi làm đủ 12 tháng/ năm (tổng thực lĩnh: 14 tháng lương/ năm)"
+    ],
+    "dieuKien": [
+      "Nam, cao: 1m65 trở lên, nặng: 55 kg trở lên, tuổi từ 20 đến 45. Có 01 năm kinh nghiệm làm việc liên quan đến nghề đăng ký.",
+      "Sức khoẻ tốt, thị lực tốt, không mắc các bệnh: Viêm gan A, B, C, HIV, lao phổi, giang mai, hoa liễu, tiền sử bệnh não, tim, bệnh mãn tính, các bệnh về xương, khớp; Không xăm trổ, không tiền án - tiền sự; Không chỉnh sửa thẩm mỹ khuôn mặt.",
+      "📄 Nhận hồ sơ từ 01.07.2026"
+    ],
+    "anh": [],
+    "toDon": [
+      "/anh/don-hang/gr010726/to-don-1.jpg"
+    ],
+    "soAnhGoc": 0
+  },
+  {
+    "id": "gr011225-mandrekas",
+    "ma": "GR011225-MANDREKAS",
+    "nuoc": "Hy Lạp",
+    "tieuDe": "Nhà máy chế biến sữa Mandrekas tại Korinthos",
+    "soLuong": "15 người",
+    "noiLamViec": "Korinthos, Hy Lạp",
+    "gioLam": 40,
+    "luong": {
+      "tu": 1100,
+      "den": 1400
+    },
+    "viTri": [
+      {
+        "ten": "Công nhân nhà máy chế biến sữa",
+        "soNguoi": 10,
+        "thuNhap": "880 Euro (trước thuế) | 1100-1200 Euro",
+        "tu": 1100,
+        "den": 1200
+      },
+      {
+        "ten": "Thợ kỹ thuật bảo hành, bảo trì dây chuyền",
+        "soNguoi": 4,
+        "thuNhap": "950 Euro (trước thuế) | 1300-1400 Euro",
+        "tu": 1300,
+        "den": 1400
+      },
+      {
+        "ten": "Quản lý (Biết Tiếng Anh, có kinh nghiệm quản lý)",
+        "soNguoi": 1,
+        "thuNhap": "950 Euro (trước thuế) | 1300-1400 Euro",
+        "tu": 1300,
+        "den": 1400
+      }
+    ],
+    "congViec": [],
+    "quyenLoi": [
+      "Thời hạn hợp đồng: 01 (một) năm, gia hạn tối đa đến 05 (năm) năm.",
+      "Chủ sử dụng cung cấp vé máy bay một chiều đi;",
+      "Mỗi năm được thưởng thêm 02 tháng lương khi làm đủ 12 tháng/ năm (tổng thực lĩnh: 14 tháng lương/ năm)"
+    ],
+    "dieuKien": [
+      "Sức khoẻ tốt, thị lực tốt, không mắc các bệnh: Viêm gan A, B, C, HIV, lao phổi, giang mai, hoa liễu, tiền sử bệnh não, tim, bệnh mãn tính, các bệnh về xương, khớp; Không xăm trổ, không tiền án - tiền sự; Không chỉnh sửa thẩm mỹ khuôn mặt.",
+      "📄 Nhận hồ sơ từ 01.12.2025"
+    ],
+    "anh": [
+      "/anh/don-hang/gr011225-mandrekas/01.jpg",
+      "/anh/don-hang/gr011225-mandrekas/02.jpg",
+      "/anh/don-hang/gr011225-mandrekas/03.jpg",
+      "/anh/don-hang/gr011225-mandrekas/04.jpg",
+      "/anh/don-hang/gr011225-mandrekas/05.jpg",
+      "/anh/don-hang/gr011225-mandrekas/06.jpg",
+      "/anh/don-hang/gr011225-mandrekas/07.jpg",
+      "/anh/don-hang/gr011225-mandrekas/08.jpg"
+    ],
+    "toDon": [
+      "/anh/don-hang/gr011225-mandrekas/to-don-1.jpg"
+    ],
+    "soAnhGoc": 55
+  },
+  {
+    "id": "gr040726",
+    "ma": "GR040726",
+    "nuoc": "Hy Lạp",
+    "tieuDe": "Dây chuyền sản xuất bánh mì tại Athens",
+    "soLuong": "23 người",
+    "noiLamViec": "Athens, Hy Lạp",
+    "gioLam": 40,
+    "luong": {
+      "tu": 1000,
+      "den": 1300
+    },
+    "viTri": [
+      {
+        "ten": "Công nhân dây chuyền sản xuất bánh mì",
+        "soNguoi": null,
+        "thuNhap": "20 (Nam/ Nữ) người — 920 Euro | 1100-1200 Euro",
+        "tu": 1100,
+        "den": 1200
+      },
+      {
+        "ten": "Quản lý (Biết Tiếng Anh)",
+        "soNguoi": 3,
+        "thuNhap": "1000 Euro | 1200-1300 Euro",
+        "tu": 1000,
+        "den": 1300
+      }
+    ],
+    "congViec": [],
+    "quyenLoi": [
+      "Thời hạn hợp đồng: Hợp đồng dài hạn: 01 (một) năm, có gia hạn đến 05 (năm) năm.",
+      "Chủ sử dụng cung cấp vé máy bay một chiều.",
+      "Mỗi năm được thưởng thêm 02 tháng lương khi làm đủ 12 tháng/ năm (tổng thực lĩnh: 14 tháng lương/ năm)"
+    ],
+    "dieuKien": [
+      "Sức khoẻ tốt, thị lực tốt, không mắc các bệnh: Viêm gan A, B, C, HIV, lao phổi, giang mai, hoa liễu, tiền sử bệnh não, tim, bệnh mãn tính, các bệnh về xương, khớp; Không xăm trổ, không tiền án - tiền sự; Không chỉnh sửa thẩm mỹ khuôn mặt.",
+      "📄 Nhận hồ sơ từ 03.07.2026"
+    ],
+    "anh": [
+      "/anh/don-hang/gr040726/01.jpg",
+      "/anh/don-hang/gr040726/02.jpg",
+      "/anh/don-hang/gr040726/03.jpg",
+      "/anh/don-hang/gr040726/04.jpg",
+      "/anh/don-hang/gr040726/05.jpg",
+      "/anh/don-hang/gr040726/06.jpg",
+      "/anh/don-hang/gr040726/07.jpg",
+      "/anh/don-hang/gr040726/08.jpg"
+    ],
+    "toDon": [
+      "/anh/don-hang/gr040726/to-don-1.jpg"
+    ],
+    "soAnhGoc": 42
+  },
+  {
+    "id": "gr050526-mavridopoulos",
+    "ma": "GR050526-MAVRIDOPOULOS",
+    "nuoc": "Hy Lạp",
+    "tieuDe": "Lọc thịt lợn, bò, cừu ngoại ô Athens",
+    "soLuong": "16 người",
+    "noiLamViec": "Ngoại ô Athens, Hy Lạp",
+    "gioLam": 40,
+    "luong": {
+      "tu": 1000,
+      "den": 1400
+    },
+    "viTri": [
+      {
+        "ten": "Công nhân lọc thịt lợn, bò cừu trong dây chuyền, sức khỏe tốt (Nam)",
+        "soNguoi": 25,
+        "thuNhap": "920 Euro (trước thuế) | 1100-1200 Euro",
+        "tu": 1100,
+        "den": 1200
+      },
+      {
+        "ten": "Quản lý (Biết Tiếng Anh)",
+        "soNguoi": 1,
+        "thuNhap": "1000 Euro (trước thuế) | 1300-1400 Euro",
+        "tu": 1000,
+        "den": 1400
+      }
+    ],
+    "congViec": [],
+    "quyenLoi": [
+      "Thời hạn hợp đồng: 01 (một) năm, gia hạn tối đa đến 05 (năm) năm.",
+      "Chủ sử dụng cung cấp vé máy bay một chiều đi;",
+      "Mỗi năm được thưởng thêm 02 tháng lương khi làm đủ 12 tháng/ năm (tổng thực lĩnh: 14 tháng lương/ năm)"
+    ],
+    "dieuKien": [
+      "Nam, cao: 1m65 trở lên, nặng: 55 kg trở lên, tuổi từ 25 đến 45. Ưu tiên kinh nghiệm làm việc, bằng cấp chứng chỉ liên quan đến nghề đăng ký;",
+      "Sức khoẻ tốt, thị lực tốt, không mắc các bệnh: Viêm gan A, B, C, HIV, lao phổi, giang mai, hoa liễu, tiền sử bệnh não, tim, bệnh mãn tính, các bệnh về xương, khớp; Không xăm trổ, không tiền án - tiền sự; Không chỉnh sửa thẩm mỹ khuôn mặt.",
+      "📄 Nhận hồ sơ từ 05.05.2026"
+    ],
+    "anh": [
+      "/anh/don-hang/gr050526-mavridopoulos/01.jpg",
+      "/anh/don-hang/gr050526-mavridopoulos/02.jpg",
+      "/anh/don-hang/gr050526-mavridopoulos/03.jpg",
+      "/anh/don-hang/gr050526-mavridopoulos/04.jpg"
+    ],
+    "toDon": [
+      "/anh/don-hang/gr050526-mavridopoulos/to-don-1.jpg"
+    ],
+    "soAnhGoc": 4
+  },
+  {
+    "id": "gr070826-cq",
+    "ma": "GR070826-CQ",
+    "nuoc": "Hy Lạp",
+    "tieuDe": "Công nhân lắp cáp quang tại Thessaloniki",
+    "soLuong": "19 người",
+    "noiLamViec": "Thessaloniki, Hy Lạp",
+    "gioLam": 40,
+    "luong": {
+      "tu": 1100,
+      "den": 1450
+    },
+    "viTri": [
+      {
+        "ten": "Công nhân lắp cáp quang (Nam)",
+        "soNguoi": 18,
+        "thuNhap": "920 Euro | 1200-1300 Euro",
+        "tu": 1200,
+        "den": 1300
+      },
+      {
+        "ten": "Quản lý (Thành thạo tiếng Anh)",
+        "soNguoi": 1,
+        "thuNhap": "1100 Euro | 1350-1450 Euro",
+        "tu": 1100,
+        "den": 1450
+      }
+    ],
+    "congViec": [],
+    "quyenLoi": [
+      "Thời hạn hợp đồng: 01 (một) năm, có gia hạn đến 05 (năm) năm.",
+      "Chủ sử dụng cung cấp vé máy bay một chiều.",
+      "Mỗi năm được thưởng thêm 02 tháng lương khi làm đủ 12 tháng/ năm (tổng thực lĩnh: 14 tháng lương/ năm)"
+    ],
+    "dieuKien": [
+      "Nam, cao: 1m65 trở lên, nặng: 55 kg trở lên, tuổi từ 20 đến 45. Có ít nhất 01 năm kinh nghiệm liên quan đến nghề cáp quang;",
+      "Sức khoẻ tốt, thị lực tốt, không mắc các bệnh: Viêm gan A, B, C, HIV, lao phổi, giang mai, hoa liễu, tiền sử bệnh não, tim, bệnh mãn tính, các bệnh về xương, khớp; Không xăm trổ, không tiền án - tiền sự; Không chỉnh sửa thẩm mỹ khuôn mặt.",
+      "📄 Nhận hồ sơ từ 07.08.2026"
+    ],
+    "anh": [
+      "/anh/don-hang/gr070826-cq/01.jpg",
+      "/anh/don-hang/gr070826-cq/02.jpg",
+      "/anh/don-hang/gr070826-cq/03.jpg",
+      "/anh/don-hang/gr070826-cq/04.jpg",
+      "/anh/don-hang/gr070826-cq/05.jpg",
+      "/anh/don-hang/gr070826-cq/06.jpg",
+      "/anh/don-hang/gr070826-cq/07.jpg",
+      "/anh/don-hang/gr070826-cq/08.jpg"
+    ],
+    "toDon": [
+      "/anh/don-hang/gr070826-cq/to-don-1.jpg"
+    ],
+    "soAnhGoc": 34
+  },
+  {
+    "id": "gr070826-kinh",
+    "ma": "GR070826-KINH",
+    "nuoc": "Hy Lạp",
+    "tieuDe": "Công nhân nhà máy sản xuất kính tại Hy Lạp",
+    "soLuong": "19 người",
+    "noiLamViec": "Hy Lạp",
+    "gioLam": null,
+    "luong": {
+      "tu": 1100,
+      "den": 1450
+    },
+    "viTri": [
+      {
+        "ten": "Công nhân nhà máy sản xuất kính (Nam)",
+        "soNguoi": 18,
+        "thuNhap": "925 Euro | 1200-1300 Euro",
+        "tu": 1200,
+        "den": 1300
+      },
+      {
+        "ten": "Quản lý (Thành thạo tiếng Anh)",
+        "soNguoi": 1,
+        "thuNhap": "1100 Euro | 1350-1450 Euro",
+        "tu": 1100,
+        "den": 1450
+      }
+    ],
+    "congViec": [],
+    "quyenLoi": [
+      "Thời hạn hợp đồng: 01 (một) năm, có gia hạn đến 05 (năm) năm.",
+      "Chủ sử dụng cung cấp vé máy bay một chiều.",
+      "Mỗi năm được thưởng thêm 02 tháng lương khi làm đủ 12 tháng/ năm (tổng thực lĩnh: 14 tháng lương/ năm)"
+    ],
+    "dieuKien": [
+      "Nam, cao: 1m65 trở lên, nặng: 55 kg trở lên, tuổi từ 20 đến 45. Có ít nhất 01 năm kinh nghiệm liên quan đến nghề cáp quang;",
+      "Sức khoẻ tốt, thị lực tốt, không mắc các bệnh: Viêm gan A, B, C, HIV, lao phổi, giang mai, hoa liễu, tiền sử bệnh não, tim, bệnh mãn tính, các bệnh về xương, khớp; Không xăm trổ, không tiền án - tiền sự; Không chỉnh sửa thẩm mỹ khuôn mặt.",
+      "📄 Nhận hồ sơ từ 07.08.2026"
+    ],
+    "anh": [
+      "/anh/don-hang/gr070826-kinh/01.jpg",
+      "/anh/don-hang/gr070826-kinh/02.jpg",
+      "/anh/don-hang/gr070826-kinh/03.jpg",
+      "/anh/don-hang/gr070826-kinh/04.jpg",
+      "/anh/don-hang/gr070826-kinh/05.jpg",
+      "/anh/don-hang/gr070826-kinh/06.jpg",
+      "/anh/don-hang/gr070826-kinh/07.jpg",
+      "/anh/don-hang/gr070826-kinh/08.jpg"
+    ],
+    "toDon": [
+      "/anh/don-hang/gr070826-kinh/to-don-1.jpg"
+    ],
+    "soAnhGoc": 20
+  },
+  {
+    "id": "gr180326",
+    "ma": "GR180326",
+    "nuoc": "Hy Lạp",
+    "tieuDe": "Nữ trồng và thu hoạch rau củ tại Thessaloniki",
+    "soLuong": "8 người",
+    "noiLamViec": "Thessaloniki, Hy Lạp",
+    "gioLam": 40,
+    "luong": {
+      "tu": 1000,
+      "den": 1300
+    },
+    "viTri": [
+      {
+        "ten": "Công nhân nông nghiệp: trồng và thu hoạch các loại rau củ",
+        "soNguoi": null,
+        "thuNhap": "07 Nữ người — 880 Euro | 1000-1100 Euro",
+        "tu": 1000,
+        "den": 1100
+      },
+      {
+        "ten": "Quản lý (Biết Tiếng Anh)",
+        "soNguoi": 1,
+        "thuNhap": "1000 Euro | 1200-1300 Euro",
+        "tu": 1000,
+        "den": 1300
+      }
+    ],
+    "congViec": [],
+    "quyenLoi": [
+      "Thời hạn hợp đồng: Hợp đồng dài hạn: 01 (một) năm, gia hạn đến 05 (năm) năm.",
+      "Chủ sử dụng cung cấp vé máy bay lượt về khi NLĐ kết thúc hợp đồng về nước.",
+      "Mỗi năm được thưởng thêm 02 tháng lương khi làm đủ 12 tháng/ năm (tổng thực lĩnh: 14 tháng lương/ năm)"
+    ],
+    "dieuKien": [
+      "Sức khoẻ tốt, thị lực tốt, không mắc các bệnh: Viêm gan A, B, C, HIV, lao phổi, giang mai, hoa liễu, tiền sử bệnh não, tim, bệnh mãn tính, các bệnh về xương, khớp; Không xăm trổ, không tiền án - tiền sự; Không chỉnh sửa thẩm mỹ khuôn mặt.",
+      "📄 Nhận hồ sơ từ 18.03.2026"
+    ],
+    "anh": [
+      "/anh/don-hang/gr180326/01.jpg",
+      "/anh/don-hang/gr180326/02.jpg",
+      "/anh/don-hang/gr180326/03.jpg",
+      "/anh/don-hang/gr180326/04.jpg",
+      "/anh/don-hang/gr180326/05.jpg",
+      "/anh/don-hang/gr180326/06.jpg",
+      "/anh/don-hang/gr180326/07.jpg",
+      "/anh/don-hang/gr180326/08.jpg"
+    ],
+    "toDon": [
+      "/anh/don-hang/gr180326/to-don-1.jpg"
+    ],
+    "soAnhGoc": 9
+  },
+  {
+    "id": "gr270426-mitsopoulos",
+    "ma": "GR270426-MITSOPOULOS",
+    "nuoc": "Hy Lạp",
+    "tieuDe": "Đóng gói nhà máy chế biến thịt tại Acharnes",
+    "soLuong": "25 người",
+    "noiLamViec": "Acharnes, Hy Lạp",
+    "gioLam": 40,
+    "luong": {
+      "tu": 1000,
+      "den": 1400
+    },
+    "viTri": [
+      {
+        "ten": "Công nhân đóng gói trong nhà máy chế biến Thịt (Nam/Nữ/ Cặp VC)",
+        "soNguoi": 24,
+        "thuNhap": "920 Euro (trước thuế) | 1100-1200 Euro",
+        "tu": 1100,
+        "den": 1200
+      },
+      {
+        "ten": "Quản lý (Biết Tiếng Anh)",
+        "soNguoi": 1,
+        "thuNhap": "1000 Euro (trước thuế) | 1300-1400 Euro",
+        "tu": 1000,
+        "den": 1400
+      }
+    ],
+    "congViec": [],
+    "quyenLoi": [
+      "Thời hạn hợp đồng: 01 (một) năm, gia hạn tối đa đến 05 (năm) năm.",
+      "Chủ sử dụng cung cấp vé máy bay một chiều;",
+      "Mỗi năm được thưởng thêm 02 tháng lương khi làm đủ 12 tháng/ năm (tổng thực lĩnh: 14 tháng lương/ năm)"
+    ],
+    "dieuKien": [
+      "Sức khoẻ tốt, thị lực tốt, không mắc các bệnh: Viêm gan A, B, C, HIV, lao phổi, giang mai, hoa liễu, tiền sử bệnh não, tim, bệnh mãn tính, các bệnh về xương, khớp; Không xăm trổ, không tiền án - tiền sự; Không chỉnh sửa thẩm mỹ khuôn mặt.",
+      "📄 Nhận hồ sơ từ 27.04.2026"
+    ],
+    "anh": [
+      "/anh/don-hang/gr270426-mitsopoulos/01.jpg",
+      "/anh/don-hang/gr270426-mitsopoulos/02.jpg",
+      "/anh/don-hang/gr270426-mitsopoulos/03.jpg",
+      "/anh/don-hang/gr270426-mitsopoulos/04.jpg",
+      "/anh/don-hang/gr270426-mitsopoulos/05.jpg"
+    ],
+    "toDon": [
+      "/anh/don-hang/gr270426-mitsopoulos/to-don-1.jpg"
+    ],
+    "soAnhGoc": 5
+  },
+  {
+    "id": "lt-260714",
+    "ma": "LT-260714",
+    "nuoc": "Litva",
+    "tieuDe": "Thợ may, vệ sinh công nghiệp, pha lóc thịt tại Litva",
+    "soLuong": "105 người",
+    "noiLamViec": "Litva (Lithuania) — Vilnius, Kaunas, Klaipėda",
+    "gioLam": 48,
+    "luong": {
+      "tu": 1153,
+      "den": 1500
+    },
+    "viTri": [
+      {
+        "ten": "Thợ may công nghiệp chuyên may da, nệm, nỉ, bọc nội thất (Nữ)",
+        "soNguoi": 15,
+        "thuNhap": "1200 – 1500 Euro",
+        "tu": 1200,
+        "den": 1500
+      },
+      {
+        "ten": "Trưởng nhóm (Biết Tiếng Anh)",
+        "soNguoi": 1,
+        "thuNhap": "1400 Euro",
+        "tu": 1400,
+        "den": 1400
+      },
+      {
+        "ten": "Nhân viên vệ sinh công nghiệp: tòa nhà, văn phòng, khách sạn…(Nam/ Nữ/ Cặp VC)",
+        "soNguoi": 15,
+        "thuNhap": "1153 Euro",
+        "tu": 1153,
+        "den": 1153
+      },
+      {
+        "ten": "Trưởng nhóm (Biết Tiếng Anh)",
+        "soNguoi": 1,
+        "thuNhap": "1300 Euro",
+        "tu": 1300,
+        "den": 1300
+      },
+      {
+        "ten": "Công nhân lọc thịt (Nam)",
+        "soNguoi": 15,
+        "thuNhap": "1300-1400 Euro",
+        "tu": 1300,
+        "den": 1400
+      },
+      {
+        "ten": "Trưởng nhóm (Biết Tiếng Anh)",
+        "soNguoi": 1,
+        "thuNhap": "1500 Euro",
+        "tu": 1500,
+        "den": 1500
+      }
+    ],
+    "congViec": [],
+    "quyenLoi": [
+      "Thời hạn hợp đồng: Hợp đồng dài hạn: 02 (hai) năm có gia hạn.",
+      "Chủ chi trả vé máy bay chiều về.",
+      "Lương làm thêm và các chế độ khác theo pháp luật Litva."
+    ],
+    "dieuKien": [
+      "Sức khoẻ tốt, thị lực tốt, không mắc các bệnh: Viêm gan A, B, C, HIV, lao phổi, giang mai, hoa liễu, tiền sử bệnh não, tim, bệnh mãn tính, các bệnh về xương, khớp.",
+      "Yêu cầu ứng viên có tay nghề, kinh nghiệm thực tế: lao động gửi kèm video tay nghề 10 phút, quay quá trình làm việc và CV nêu kinh nghiệm làm việc để được sắp xếp lịch thi tuyển.",
+      "📄 Nhận hồ sơ từ 14.07.2026"
+    ],
+    "anh": [],
+    "toDon": [
+      "/anh/don-hang/lt-260714/to-don-1.jpg",
+      "/anh/don-hang/lt-260714/to-don-2.jpg",
+      "/anh/don-hang/lt-260714/to-don-3.jpg",
+      "/anh/don-hang/lt-260714/to-don-4.jpg"
+    ],
+    "soAnhGoc": 0
+  }
+]
