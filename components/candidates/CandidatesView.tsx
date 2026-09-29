@@ -108,73 +108,76 @@ export function CandidatesView({ locale }: { locale: Locale }) {
         </ul>
 
         {/* ==================================================================
-            BANNER — BẢN MÁY TÍNH: ảnh tràn phải, chữ lệch trái, tấm nổi đè mép
+            BANNER — BẢN MÁY TÍNH, ĐÚNG KIT MÀN 06
+            Cột trái: logo · nhãn · tiêu đề hai dòng · câu phụ · BỐN dòng icon ·
+            MỘT nút vàng.  Cột phải: ảnh lớn chiếm trọn chiều cao.
             ================================================================== */}
         <section className="relative hidden lg:block">
-          <div className="relative min-h-[660px]">
-            <span className="absolute inset-y-0 right-0 w-[64%]">
-              <Image src={anhChinh.portraitTeam} alt="" fill priority quality={90} sizes="64vw" className="object-cover object-[48%_24%]" />
-            </span>
-            <span
-              className="absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(90deg, rgba(6,23,43,1) 0, rgba(6,23,43,1) 34%, rgba(6,23,43,.72) 48%, rgba(6,23,43,.1) 74%, rgba(6,23,43,.45) 100%), linear-gradient(180deg, rgba(6,23,43,.4) 0, rgba(6,23,43,0) 24%, rgba(6,23,43,0) 62%, rgba(6,23,43,.92) 100%)",
-              }}
-              aria-hidden="true"
-            />
-            {/* vệt sáng vàng chạy dọc mép dưới banner */}
-            <span
-              className="absolute inset-x-0 bottom-0 h-px"
-              style={{ background: "linear-gradient(90deg, transparent, rgba(214,172,98,.75) 38%, rgba(214,172,98,.25) 72%, transparent)" }}
-              aria-hidden="true"
-            />
+          <div className="mx-auto grid max-w-[1560px] items-stretch px-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.06fr)] lg:gap-14">
+            <div className="flex flex-col justify-center py-20">
+              <Link href={ROUTES.home[locale] as Route} aria-label="NIBELC" className="mb-9 block">
+                <Image src="/nibelc-logo-dark.svg" alt="NIBELC GmbH" width={1201} height={376} priority className="h-11 w-auto" />
+              </Link>
 
-            <div className="relative mx-auto flex min-h-[660px] max-w-[1560px] items-center px-12">
-              <div className="max-w-[640px] py-24">
-                <Link href={ROUTES.home[locale] as Route} aria-label="NIBELC" className="mb-8 block">
-                  <Image src="/nibelc-logo-dark.svg" alt="NIBELC GmbH" width={1201} height={376} priority className="h-11 w-auto" />
+              <p className="flex items-center gap-3 text-[11px] font-bold tracking-[0.28em] text-[var(--nb-gold)] uppercase">
+                <span className="h-px w-10 bg-[var(--nb-gold)]/70" aria-hidden="true" />
+                {t.eyebrow}
+              </p>
+
+              <h1 className="mt-6 text-[46px] leading-[1.1] font-bold tracking-[-0.03em] text-white xl:text-[54px]">
+                {t.h1a}
+                <br />
+                <span className="nb-sub-gold">{t.h1accent}</span>
+                {t.h1rest}
+              </h1>
+
+              <p className="mt-5 max-w-[46ch] text-[17px] leading-[1.65] text-white/70">{t.sub.split("\n")[0]}</p>
+
+              {/* Bốn dòng icon — đúng nhịp của KIT */}
+              <ul className="mt-9 space-y-[18px]">
+                {[0, 2, 3, 6].map((k) => {
+                  const x = t.topics[k]!;
+                  return (
+                    <li key={x.title} className="flex items-center gap-4">
+                      <span className="flex h-[48px] w-[48px] shrink-0 items-center justify-center rounded-xl border border-[var(--nb-gold-line)] bg-[var(--nb-gold)]/8 text-[var(--nb-gold)]">
+                        <Icon name={x.icon} className="h-[22px] w-[22px]" strokeWidth={1.7} />
+                      </span>
+                      <span className="min-w-0">
+                        <b className="block text-[17px] leading-tight font-bold text-white">{x.title}</b>
+                        <span className="mt-0.5 block text-[14px] text-white/55">{x.text}</span>
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+
+              <div className="mt-10">
+                <Link href={ROUTES.process[locale] as Route} className="nb-sub-cta h-[54px] px-8 text-[16px]">
+                  {t.secondary[0]}
+                  <Icon name="arrowRight" className="h-[18px] w-[18px]" strokeWidth={2.2} />
                 </Link>
-                <p className="flex items-center gap-3 text-[11px] font-bold tracking-[0.28em] text-[var(--nb-gold)] uppercase">
-                  <span className="h-px w-10 bg-[var(--nb-gold)]/70" aria-hidden="true" />
-                  {t.eyebrow}
-                </p>
-                <h1 className="mt-6 text-[56px] leading-[1.05] font-bold tracking-[-0.03em] text-white xl:text-[64px]">
-                  {t.h1a}
-                  <br />
-                  <span className="nb-sub-gold">{t.h1accent}</span>
-                  {t.h1rest}
-                </h1>
-                <p className="mt-6 max-w-[50ch] text-[18px] leading-[1.7] whitespace-pre-line text-white/72">{t.sub}</p>
-                <div className="mt-9 flex flex-wrap gap-4">
-                  <Link href={ROUTES.jobs[locale] as Route} className="nb-sub-cta h-[54px] px-8 text-[16px]">
-                    {c.tickerCta}
-                    <Icon name="arrowRight" className="h-[18px] w-[18px]" strokeWidth={2.2} />
-                  </Link>
-                  <Link href={ROUTES.process[locale] as Route} className="nb-sub-ghost h-[54px] px-8 text-[16px]">
-                    {t.secondary[0]}
-                  </Link>
-                </div>
               </div>
+            </div>
+
+            <div className="relative my-10 min-h-[640px] overflow-hidden rounded-[28px] ring-1 ring-white/10">
+              <Image src={anhChinh.portraitTeam} alt="" fill priority quality={90} sizes="52vw" className="object-cover object-[48%_24%]" />
+              <span
+                className="absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(90deg, rgba(6,23,43,.6) 0, rgba(6,23,43,0) 28%), linear-gradient(180deg, rgba(6,23,43,.25) 0, rgba(6,23,43,0) 30%, rgba(6,23,43,.45) 100%)",
+                }}
+                aria-hidden="true"
+              />
             </div>
           </div>
 
-          {/* tấm thông tin NỔI, đè lên mép dưới banner */}
-          <div className="mx-auto -mt-[62px] max-w-[1560px] px-12">
-            <ul className="nb-sub-panel relative z-10 grid grid-cols-3 divide-x divide-white/10 !border-[var(--nb-gold-line)] shadow-[0_34px_70px_-30px_rgba(0,0,0,.95)]">
-              {t.trust.map(([a, b], i) => (
-                <li key={a} className="flex items-center gap-4 px-8 py-7">
-                  <span className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-xl border border-[var(--nb-gold-line)] bg-[var(--nb-gold)]/8 text-[var(--nb-gold)]">
-                    <Icon name={["briefcase", "shield", "handshake"][i]!} className="h-6 w-6" strokeWidth={1.7} />
-                  </span>
-                  <span className="min-w-0">
-                    <b className="block text-[16.5px] font-bold text-white">{a}</b>
-                    <span className="mt-0.5 block text-[14px] text-white/55">{b}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* vệt sáng vàng khép chân banner */}
+          <span
+            className="absolute inset-x-0 bottom-0 h-px"
+            style={{ background: "linear-gradient(90deg, transparent, rgba(214,172,98,.6) 40%, rgba(214,172,98,.2) 74%, transparent)" }}
+            aria-hidden="true"
+          />
         </section>
 
         {/* ==================================================================

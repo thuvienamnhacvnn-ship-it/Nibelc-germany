@@ -806,3 +806,25 @@ html.nb-lock body {
 .nb-sub-form .bg-\[\#fdecec\] {
   background: rgba(220, 60, 60, 0.12) !important;
 }
+
+/* ---------- Trang phụ KHÔNG dùng lề 2cm của trang chủ ----------
+   Luật `border-inline: var(--nb-gutter)` ở trên áp cho mọi `main > section`,
+   vốn dựng cho bố cục bám ảnh mẫu của trang chủ. Trang phụ tự lo lề bằng
+   `px-6 / lg:px-12` nên phải gỡ, nếu không banner bị thụt vào 76px hai bên và
+   hở dải navy ở mép — nhìn như vỡ khung. */
+.nb-sub main > section,
+.nb-sub main > div,
+.nb-sub footer,
+.nb-sub header {
+  border-inline: 0;
+}
+
+/* Chừa chỗ cho thanh menu vàng ghim ở đáy, kẻo nó che mất nội dung cuối trang. */
+@media (min-width: 1024px) {
+  .nb-sub main {
+    padding-bottom: 104px;
+  }
+  .nb-sub footer {
+    padding-bottom: 0;
+  }
+}

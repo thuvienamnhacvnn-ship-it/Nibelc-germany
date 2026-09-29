@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
-import { SubShell } from "@/components/sub/SubShell";
+import { SubFooter } from "@/components/sub/SubFooter";
+import { SubMenuBar } from "@/components/sub/SubMenuBar";
+import { MobileTabBar } from "@/components/nav/MobileTabBar";
 import { Eyebrow, GhostBtn, GoldBtn, H2, IconBox, Panel, Stat, Tick } from "@/components/sub/bits";
 import { Icon } from "@/components/ui/Icon";
 import { activeIndustries, industryName } from "@/content/industries";
@@ -26,29 +28,118 @@ export function EmployersView({ locale }: { locale: Locale }) {
   const c = JOBS_COPY[locale];
   const jobs = allJobs(locale);
   const tel = LEGAL.phone.replace(/\s/g, "");
+  const anhChinh = INDUSTRY_ASSETS["akademische-fachkraefte"]!.hero;
 
   return (
-    <SubShell
-      locale={locale}
-      page="employers"
-      heroSplit
-      hero={INDUSTRY_ASSETS["akademische-fachkraefte"]!.hero}
-      heroFocus="58% 34%"
-      heroPoints={t.services.slice(0, 4).map((s, i2) => ({ icon: ["search", "doc", "plane", "home"][i2]!, label: s.title }))}
-      eyebrow={t.eyebrow}
-      title={t.h1a}
-      titleGold={t.h1b}
-      lead={t.sub}
-      breadcrumb={[
-        { label: locale === "vi" ? "Trang chủ" : locale === "en" ? "Home" : "Startseite", href: ROUTES.home[locale] },
-        { label: t.eyebrow },
-      ]}
-      heroExtra={
-        <GoldBtn href={ROUTES.request[locale]} size="lg">
-          {t.cta}
-        </GoldBtn>
-      }
-    >
+    <div className="nb-sub">
+      {/* Không có menu trên đầu — menu vàng nằm ở đáy như trang chủ. */}
+      <div className="flex h-14 items-center justify-center border-b border-white/10 bg-[var(--nb-sub-navy)] lg:hidden">
+        <Link href={ROUTES.home[locale] as Route} aria-label="NIBELC">
+          <Image src="/nibelc-logo-dark.svg" alt="NIBELC GmbH" width={1201} height={376} priority className="h-7 w-auto" />
+        </Link>
+      </div>
+
+      <main id="inhalt">
+        {/* ==================================================================
+            BANNER — ĐÚNG KIT MÀN 07
+            Cột trái: logo · nhãn · tiêu đề hai dòng · câu phụ · BỐN dòng icon ·
+            MỘT nút vàng.  Cột phải: ảnh lớn.
+            ================================================================== */}
+        {/* bản điện thoại: ảnh chiếm màn, chữ nằm trên ảnh */}
+        <section className="relative isolate lg:hidden">
+          <span className="relative block h-[70vh] min-h-[460px] w-full">
+            <Image src={anhChinh} alt="" fill priority quality={88} sizes="100vw" className="object-cover object-[58%_30%]" />
+            <span
+              className="absolute inset-0"
+              style={{ background: "linear-gradient(180deg, rgba(6,23,43,.5) 0, rgba(6,23,43,.1) 26%, rgba(6,23,43,.8) 64%, rgba(6,23,43,1) 100%)" }}
+              aria-hidden="true"
+            />
+          </span>
+          <div className="absolute inset-x-0 bottom-0 px-6 pb-9">
+            <p className="flex items-center gap-2.5 text-[10.5px] font-bold tracking-[0.24em] text-[var(--nb-gold)] uppercase">
+              <span className="h-px w-7 bg-[var(--nb-gold)]/70" aria-hidden="true" />
+              {t.eyebrow}
+            </p>
+            <h1 className="mt-4 text-[32px] leading-[1.14] font-bold tracking-[-0.025em] text-white">
+              {t.h1a}
+              <br />
+              <span className="nb-sub-gold">{t.h1b}</span>
+            </h1>
+            <p className="mt-4 text-[15px] leading-[1.65] text-white/75">{t.sub}</p>
+            <Link href={ROUTES.request[locale] as Route} className="nb-sub-cta mt-6 h-12 w-full text-[15px]">
+              {t.cta}
+              <Icon name="arrowRight" className="h-[18px] w-[18px]" strokeWidth={2.2} />
+            </Link>
+          </div>
+        </section>
+
+        {/* bốn dịch vụ dạng dải cuộn ngang — chỉ điện thoại */}
+        <ul className="flex gap-3 overflow-x-auto px-6 py-6 [-ms-overflow-style:none] [scrollbar-width:none] lg:hidden [&::-webkit-scrollbar]:hidden">
+          {t.services.map((s2, i2) => (
+            <li key={s2.title} className="nb-sub-panel w-[240px] shrink-0 p-4">
+              <Icon name={["search", "doc", "plane", "home"][i2]!} className="h-7 w-7 text-[var(--nb-gold)]" strokeWidth={1.7} />
+              <b className="mt-3 block text-[15px] font-bold text-white">{s2.title}</b>
+              <span className="mt-1 block text-[13px] leading-[1.6] text-white/55">{s2.text}</span>
+            </li>
+          ))}
+        </ul>
+
+        {/* bản máy tính */}
+        <section className="relative hidden lg:block">
+          <div className="mx-auto grid max-w-[1560px] items-stretch px-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.06fr)] lg:gap-14">
+            <div className="flex flex-col justify-center py-20">
+              <Link href={ROUTES.home[locale] as Route} aria-label="NIBELC" className="mb-9 block">
+                <Image src="/nibelc-logo-dark.svg" alt="NIBELC GmbH" width={1201} height={376} priority className="h-11 w-auto" />
+              </Link>
+              <p className="flex items-center gap-3 text-[11px] font-bold tracking-[0.28em] text-[var(--nb-gold)] uppercase">
+                <span className="h-px w-10 bg-[var(--nb-gold)]/70" aria-hidden="true" />
+                {t.eyebrow}
+              </p>
+              <h1 className="mt-6 text-[46px] leading-[1.1] font-bold tracking-[-0.03em] text-white xl:text-[54px]">
+                {t.h1a}
+                <br />
+                <span className="nb-sub-gold">{t.h1b}</span>
+              </h1>
+              <p className="mt-5 max-w-[46ch] text-[17px] leading-[1.65] text-white/70">{t.sub}</p>
+
+              <ul className="mt-9 space-y-[18px]">
+                {t.services.map((s2, i2) => (
+                  <li key={s2.title} className="flex items-center gap-4">
+                    <span className="flex h-[48px] w-[48px] shrink-0 items-center justify-center rounded-xl border border-[var(--nb-gold-line)] bg-[var(--nb-gold)]/8 text-[var(--nb-gold)]">
+                      <Icon name={["search", "doc", "plane", "home"][i2]!} className="h-[22px] w-[22px]" strokeWidth={1.7} />
+                    </span>
+                    <span className="min-w-0">
+                      <b className="block text-[17px] leading-tight font-bold text-white">{s2.title}</b>
+                      <span className="mt-0.5 block text-[14px] text-white/55">{s2.text}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-10">
+                <Link href={ROUTES.request[locale] as Route} className="nb-sub-cta h-[54px] px-8 text-[16px]">
+                  {t.cta}
+                  <Icon name="arrowRight" className="h-[18px] w-[18px]" strokeWidth={2.2} />
+                </Link>
+              </div>
+            </div>
+
+            <div className="relative my-10 min-h-[640px] overflow-hidden rounded-[28px] ring-1 ring-white/10">
+              <Image src={anhChinh} alt="" fill priority quality={90} sizes="52vw" className="object-cover object-[56%_30%]" />
+              <span
+                className="absolute inset-0"
+                style={{ background: "linear-gradient(90deg, rgba(6,23,43,.6) 0, rgba(6,23,43,0) 28%), linear-gradient(180deg, rgba(6,23,43,.25) 0, rgba(6,23,43,0) 30%, rgba(6,23,43,.45) 100%)" }}
+                aria-hidden="true"
+              />
+            </div>
+          </div>
+          <span
+            className="absolute inset-x-0 bottom-0 h-px"
+            style={{ background: "linear-gradient(90deg, transparent, rgba(214,172,98,.6) 40%, rgba(214,172,98,.2) 74%, transparent)" }}
+            aria-hidden="true"
+          />
+        </section>
+
       {/* ---------------- BỐN DỊCH VỤ ---------------- */}
       <section className="mx-auto max-w-[1560px] px-6 py-14 lg:px-12 lg:py-20">
         <Eyebrow>{t.servicesLabel}</Eyebrow>
@@ -154,6 +245,11 @@ export function EmployersView({ locale }: { locale: Locale }) {
           </div>
         </div>
       </section>
-    </SubShell>
+      </main>
+
+      <SubFooter locale={locale} />
+      <SubMenuBar locale={locale} page="employers" />
+      <MobileTabBar locale={locale} page="employers" />
+    </div>
   );
 }
