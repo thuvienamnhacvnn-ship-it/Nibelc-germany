@@ -31,9 +31,10 @@ export function EmployersView({ locale }: { locale: Locale }) {
     <SubShell
       locale={locale}
       page="employers"
-      heroTall
-      hero={INDUSTRY_ASSETS["produktion-maschinen-anlagen"]!.portraitTeam}
-      heroFocus="62% 34%"
+      heroSplit
+      hero={INDUSTRY_ASSETS["akademische-fachkraefte"]!.hero}
+      heroFocus="58% 34%"
+      heroPoints={t.services.slice(0, 4).map((s, i2) => ({ icon: ["search", "doc", "plane", "home"][i2]!, label: s.title }))}
       eyebrow={t.eyebrow}
       title={t.h1a}
       titleGold={t.h1b}
@@ -43,20 +44,9 @@ export function EmployersView({ locale }: { locale: Locale }) {
         { label: t.eyebrow },
       ]}
       heroExtra={
-        <div>
-          <div className="flex flex-wrap gap-3">
-            <GoldBtn href={ROUTES.request[locale]}>{t.cta}</GoldBtn>
-            <a href={`tel:${tel}`} className="nb-sub-ghost h-12 px-6 text-[15px]">
-              <Icon name="phone" className="h-[18px] w-[18px]" strokeWidth={1.9} />
-              {LEGAL.phone}
-            </a>
-          </div>
-          <div className="mt-9 flex flex-wrap gap-x-14 gap-y-6 border-t border-white/12 pt-7">
-            <Stat value={String(jobs.length)} label={c.eyebrow} />
-            <Stat value={String(new Set(jobs.map((j) => j.country)).size)} label={t.industriesLabel} />
-            <Stat value={String(activeIndustries().length)} label={t.industriesLabel} />
-          </div>
-        </div>
+        <GoldBtn href={ROUTES.request[locale]} size="lg">
+          {t.cta}
+        </GoldBtn>
       }
     >
       {/* ---------------- BỐN DỊCH VỤ ---------------- */}

@@ -32,8 +32,8 @@ export function ProcessView({ locale }: { locale: Locale }) {
     <SubShell
       locale={locale}
       page="process"
-      hero={INDUSTRY_ASSETS["akademische-fachkraefte"]!.hero}
-      heroFocus="66% 44%"
+      hero={INDUSTRY_ASSETS["produktion-maschinen-anlagen"]!.portraitTeam}
+      heroFocus="60% 34%"
       eyebrow={t.eyebrow}
       title={t.h1[0]!}
       titleGold={t.h1[1]}
