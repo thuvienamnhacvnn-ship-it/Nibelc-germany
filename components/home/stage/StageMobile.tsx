@@ -80,9 +80,13 @@ export function StageMobile({ locale }: { locale: Locale }) {
         ?.querySelector<HTMLElement>('[data-slot="0"] .nb-loe')
         ?.animate(
           [
-            { opacity: 0, transform: "translateX(-50%) scale(0.5, 0.55)" },
-            { opacity: 1, transform: "translateX(-50%) scale(1.06, 1)", offset: 0.3 },
-            { opacity: 0, transform: "translateX(-50%) scale(1.3, 1.18)" },
+            // Toả rộng và mờ trước, rồi TỤ lại sát đáy bảng — khoảnh khắc tụ mới là
+            // lúc sáng nhất, giống vệt sáng trong bản mẫu.
+            { opacity: 0, transform: "translateX(-50%) scale(1.75, 1.6)" },
+            { opacity: 0.45, transform: "translateX(-50%) scale(1.38, 1.28)", offset: 0.3 },
+            { opacity: 1, transform: "translateX(-50%) scale(0.86, 0.46)", offset: 0.62 },
+            { opacity: 0.92, transform: "translateX(-50%) scale(0.9, 0.48)", offset: 0.76 },
+            { opacity: 0, transform: "translateX(-50%) scale(0.96, 0.5)" },
           ],
           { duration: 1400, delay: 620, easing: "cubic-bezier(.2,.7,.3,1)" },
         );
@@ -160,9 +164,13 @@ export function StageMobile({ locale }: { locale: Locale }) {
     const loe = stageRef.current?.querySelector<HTMLElement>('[data-slot="0"] .nb-loe');
     loe?.animate(
       [
-        { opacity: 0, transform: "translateX(-50%) scale(0.5, 0.55)" },
-        { opacity: 1, transform: "translateX(-50%) scale(1.06, 1)", offset: 0.3 },
-        { opacity: 0, transform: "translateX(-50%) scale(1.3, 1.18)" },
+        // Toả rộng và mờ trước, rồi TỤ lại sát đáy bảng — khoảnh khắc tụ mới là
+        // lúc sáng nhất, giống vệt sáng trong bản mẫu.
+        { opacity: 0, transform: "translateX(-50%) scale(1.75, 1.6)" },
+        { opacity: 0.45, transform: "translateX(-50%) scale(1.38, 1.28)", offset: 0.3 },
+        { opacity: 1, transform: "translateX(-50%) scale(0.86, 0.46)", offset: 0.62 },
+        { opacity: 0.92, transform: "translateX(-50%) scale(0.9, 0.48)", offset: 0.76 },
+        { opacity: 0, transform: "translateX(-50%) scale(0.96, 0.5)" },
       ],
       { duration: 1400, delay: 620, easing: "cubic-bezier(.2,.7,.3,1)" },
     );

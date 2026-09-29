@@ -585,6 +585,8 @@ html.nb-lock body {
   left: 50%;
   width: 140%;
   transform: translateX(-50%);
+  /* Thu nhỏ về phía ĐÁY tấm, nên lúc tụ lại nó ép sát chân bảng. */
+  transform-origin: 50% 88%;
   opacity: 0;
   pointer-events: none;
   z-index: 5;
