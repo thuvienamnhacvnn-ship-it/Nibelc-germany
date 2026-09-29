@@ -732,3 +732,77 @@ html.nb-lock body {
     transform: none;
   }
 }
+
+/* ---------- Hai biểu mẫu trên nền tối ----------
+   `RequestForm` và `ContactForm` giữ NGUYÊN logic, trường, kiểm tra dữ liệu và
+   điểm gửi. Chỉ đổi lớp áo: bên trong `.nb-sub-form` các màu sáng của bản cũ
+   được viết đè cho hợp nền navy. Không đụng tới file component nên không có
+   rủi ro làm hỏng phần chạy. */
+.nb-sub-form input,
+.nb-sub-form select,
+.nb-sub-form textarea {
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+.nb-sub-form input::placeholder,
+.nb-sub-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.36);
+}
+.nb-sub-form input:focus,
+.nb-sub-form select:focus,
+.nb-sub-form textarea:focus {
+  outline: none;
+  border-color: var(--nb-gold);
+  background: rgba(255, 255, 255, 0.08);
+}
+.nb-sub-form select option {
+  background: #0b2540;
+  color: #fff;
+}
+.nb-sub-form label,
+.nb-sub-form h2,
+.nb-sub-form h3,
+.nb-sub-form b,
+.nb-sub-form strong {
+  color: #fff !important;
+}
+.nb-sub-form p,
+.nb-sub-form li,
+.nb-sub-form span,
+.nb-sub-form dd,
+.nb-sub-form dt {
+  color: rgba(255, 255, 255, 0.72);
+}
+/* khối tóm tắt trước khi gửi */
+.nb-sub-form .bg-\[\#f7f9fc\] {
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+.nb-sub-form [class*="ring-\[\#e3e9f1\]"] {
+  --tw-ring-color: rgba(255, 255, 255, 0.12) !important;
+}
+.nb-sub-form [class*="divide-\[\#e3e9f1\]"] > * + * {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+/* nút chính đổi sang vàng cho khớp bộ KIT */
+.nb-sub-form .bg-\[var\(--nb-orange\)\] {
+  background: linear-gradient(180deg, #f6e0a3, #e2b75c 58%, #cf9f45) !important;
+  color: #231a05 !important;
+  border-radius: 9999px !important;
+}
+.nb-sub-form .text-\[var\(--nb-orange\)\] {
+  color: var(--nb-gold) !important;
+}
+.nb-sub-form .border-\[\#cdd8e6\] {
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: #fff !important;
+  border-radius: 9999px !important;
+}
+/* báo thành công / báo lỗi vẫn giữ nguyên ý nghĩa màu, chỉ hạ nền cho hợp */
+.nb-sub-form .bg-\[\#effaf1\] {
+  background: rgba(22, 163, 74, 0.1) !important;
+}
+.nb-sub-form .bg-\[\#fdecec\] {
+  background: rgba(220, 60, 60, 0.12) !important;
+}

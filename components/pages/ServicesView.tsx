@@ -1,111 +1,124 @@
-import Link from "next/link";
-import type { Route } from "next";
-import { PageShell } from "@/components/PageShell";
+import Image from "next/image";
+import { SubShell } from "@/components/sub/SubShell";
+import { Eyebrow, GhostBtn, GoldBtn, H2, IconBox, Panel, Tick } from "@/components/sub/bits";
 import { Icon } from "@/components/ui/Icon";
 import { INDUSTRY_ASSETS } from "@/content/industry-assets";
-import { ROUTES, type Locale } from "@/content/locales";
 import { PROCESS } from "@/content/page-process";
 import { SIMPLE } from "@/content/page-simple";
-import { shouldShowPlaceholder } from "@/lib/field-gate";
+import { ROUTES, type Locale } from "@/content/locales";
 
-const STEP_ICON = ["users", "search", "doc", "shield", "plane", "home"];
-
+/**
+ * TRANG DỊCH VỤ, dựng lại theo bộ KIT navy–vàng.
+ *
+ * Giữ nguyên toàn bộ chữ: phạm vi bao gồm / không bao gồm, phần chi phí và
+ * các bước. Bố cục cũ nền trắng đã bỏ; nay là hai cột đối chiếu rõ "việc
+ * chúng tôi làm" và "việc không thuộc phạm vi".
+ */
 export function ServicesView({ locale }: { locale: Locale }) {
   const t = SIMPLE[locale].services;
-  const steps = PROCESS[locale].steps;
+  const p = PROCESS[locale];
 
   return (
-    <PageShell
+    <SubShell
       locale={locale}
       page="services"
+      hero={INDUSTRY_ASSETS["produktion-maschinen-anlagen"]!.detail}
+      heroFocus="50% 45%"
       eyebrow={t.eyebrow}
       title={t.title}
       lead={t.lead}
-      hero={INDUSTRY_ASSETS["produktion-maschinen-anlagen"]!.portraitTeam}
-      heroFocus="50% 22%"
+      breadcrumb={[
+        { label: locale === "vi" ? "Trang chủ" : locale === "en" ? "Home" : "Startseite", href: ROUTES.home[locale] },
+        { label: t.title },
+      ]}
+      heroExtra={
+        <div className="flex flex-wrap gap-3">
+          <GoldBtn href={ROUTES.request[locale]}>{p.cta}</GoldBtn>
+          <GhostBtn href={ROUTES.process[locale]}>{p.tagline}</GhostBtn>
+        </div>
+      }
     >
-      <section className="mx-auto max-w-[1400px] px-6 py-14 lg:px-10">
-        <h2 className="text-2xl font-bold text-[#10284d]">{t.stepsTitle}</h2>
-        <ol className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {steps.map((s, i) => (
-            <li key={s.title} className="rounded-xl bg-white p-6 ring-1 ring-[#e3e9f1]">
-              <div className="flex items-center gap-3">
-                <span className={`flex h-9 w-9 items-center justify-center rounded-full font-bold text-white ${i === 0 ? "bg-[var(--nb-orange)]" : "bg-[#0b4ea2]"}`}>
-                  {i + 1}
-                </span>
-                <Icon name={STEP_ICON[i]!} className="h-7 w-7 text-[#1f4f9f]" strokeWidth={1.6} />
-              </div>
-              <h3 className="mt-4 text-lg font-bold text-[#10284d]">{s.title}</h3>
-              <p className="mt-1 text-sm text-[#5b6b80]">
-                {s.sub[0]} {s.sub[1]}
-              </p>
-              <ul className="mt-4 space-y-2 text-sm text-[#2a3d58]">
-                {s.company.bullets.map((b) => (
-                  <li key={b} className="flex gap-2">
-                    <Icon name="checkCircle" className="mt-0.5 h-4 w-4 shrink-0 text-[#1f4f9f]" />
-                    {b}
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ol>
-
-        <p className="mt-8">
-          <Link href={ROUTES.process[locale] as Route} className="inline-flex items-center gap-2 font-semibold text-[#1647a8] hover:underline">
-            {PROCESS[locale].h1.join(" ")}
-            <Icon name="arrowRight" className="h-4 w-4" strokeWidth={2} />
-          </Link>
-        </p>
-      </section>
-
-      <section className="bg-[#f3f6fb] py-14">
-        <div className="mx-auto grid max-w-[1400px] gap-8 px-6 lg:grid-cols-2 lg:px-10">
-          <div className="rounded-xl bg-white p-7 ring-1 ring-[#e3e9f1]">
-            <h2 className="text-xl font-bold text-[#10284d]">{t.scope.inTitle}</h2>
-            <ul className="mt-4 space-y-3 text-[#2a3d58]">
+      {/* ---------------- HAI CỘT ĐỐI CHIẾU ---------------- */}
+      <section className="mx-auto max-w-[1560px] px-6 py-14 lg:px-12 lg:py-20">
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Panel className="p-7 lg:p-9">
+            <b className="flex items-center gap-3 text-[19px] font-bold text-white">
+              <Icon name="checkCircle" className="h-6 w-6 text-[var(--nb-gold)]" strokeWidth={1.9} />
+              {t.scope.inTitle}
+            </b>
+            <ul className="mt-6 space-y-3.5">
               {t.scope.in.map((x) => (
-                <li key={x} className="flex gap-3">
-                  <Icon name="checkCircle" className="mt-0.5 h-5 w-5 shrink-0 text-[#16a34a]" />
-                  {x}
-                </li>
+                <Tick key={x}>{x}</Tick>
               ))}
             </ul>
-          </div>
-          <div className="rounded-xl bg-white p-7 ring-1 ring-[#e3e9f1]">
-            <h2 className="text-xl font-bold text-[#10284d]">{t.scope.outTitle}</h2>
-            <ul className="mt-4 space-y-3 text-[#2a3d58]">
+          </Panel>
+
+          <Panel className="p-7 lg:p-9">
+            <b className="flex items-center gap-3 text-[19px] font-bold text-white">
+              <Icon name="circleOpen" className="h-6 w-6 text-white/45" strokeWidth={1.9} />
+              {t.scope.outTitle}
+            </b>
+            <ul className="mt-6 space-y-3.5">
               {t.scope.out.map((x) => (
-                <li key={x} className="flex gap-3">
-                  <Icon name="close" className="mt-0.5 h-5 w-5 shrink-0 text-[#b23c3c]" strokeWidth={2} />
-                  {x}
+                <li key={x} className="flex gap-3 text-[15px] leading-[1.6] text-white/60">
+                  <Icon name="circleOpen" className="mt-[5px] h-4 w-4 shrink-0 text-white/35" strokeWidth={2} />
+                  <span>{x}</span>
                 </li>
               ))}
             </ul>
-          </div>
+          </Panel>
         </div>
 
-        <div className="mx-auto mt-8 max-w-[1400px] px-6 lg:px-10">
-          <div className="rounded-xl border border-[#dbe4f0] bg-white p-7">
-            <h2 className="text-xl font-bold text-[#10284d]">{t.costTitle}</h2>
-            <p className="mt-3 max-w-[80ch] text-[#2a3d58]">{t.costText}</p>
-            {shouldShowPlaceholder("07") && (
-              <p data-field-gate="07" className="mt-4 rounded border border-dashed border-amber-500 bg-amber-50 px-3 py-2 text-sm text-amber-800">
-                CẦN ĐIỀN 07: bảng phí và phạm vi dịch vụ chi tiết — chỉ hiện ở dev.
-              </p>
-            )}
-            <p className="mt-6">
-              <Link
-                href={ROUTES.request[locale] as Route}
-                className="inline-flex items-center gap-3 rounded-md bg-[var(--nb-orange)] px-6 py-3 font-semibold text-white hover:bg-[var(--nb-orange-dark)]"
-              >
-                {SIMPLE[locale].contact.title}
-                <Icon name="arrowRight" className="h-4 w-4" strokeWidth={2} />
-              </Link>
-            </p>
+        {/* ---------------- CHI PHÍ ---------------- */}
+        <div className="mt-6 grid gap-6 lg:grid-cols-[1.2fr_1fr] lg:items-stretch">
+          <Panel className="p-7 lg:p-9">
+            <Eyebrow>{t.costTitle}</Eyebrow>
+            <p className="mt-5 max-w-[70ch] text-[16px] leading-[1.85] text-white/72">{t.costText}</p>
+          </Panel>
+          <span className="relative block min-h-[220px] overflow-hidden rounded-[18px] ring-1 ring-white/10">
+            <Image
+              src={INDUSTRY_ASSETS["akademische-fachkraefte"]!.portraitWork}
+              alt=""
+              fill
+              sizes="(min-width:1024px) 40vw, 100vw"
+              className="object-cover object-[50%_30%]"
+            />
+            <span
+              className="absolute inset-0"
+              style={{ background: "linear-gradient(180deg, rgba(6,23,43,.1), rgba(6,23,43,.75))" }}
+              aria-hidden="true"
+            />
+          </span>
+        </div>
+      </section>
+
+      {/* ---------------- SÁU BƯỚC ---------------- */}
+      <section className="border-t border-white/10 bg-[var(--nb-sub-navy-2)]">
+        <div className="mx-auto max-w-[1560px] px-6 py-14 lg:px-12 lg:py-18">
+          <Eyebrow>{t.stepsTitle}</Eyebrow>
+          <H2 className="!text-[26px] lg:!text-[34px]">{t.stepsTitle}</H2>
+
+          <ol className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {p.steps.map((s, i) => (
+              <li key={s.title} className="nb-sub-panel flex gap-4 p-5">
+                <IconBox name={["users", "search", "doc", "shield", "plane", "home"][i]!} size={44} />
+                <span className="min-w-0">
+                  <b className="block text-[13px] font-extrabold text-[var(--nb-gold)]">{String(i + 1).padStart(2, "0")}</b>
+                  <b className="mt-1 block text-[16px] font-bold text-white">{s.title}</b>
+                  <span className="mt-1.5 block text-[13.5px] leading-[1.6] text-white/60">{s.sub.join(" ")}</span>
+                </span>
+              </li>
+            ))}
+          </ol>
+
+          <div className="mt-10 flex flex-wrap gap-3">
+            <GoldBtn href={ROUTES.request[locale]} size="lg">
+              {p.closingCta}
+            </GoldBtn>
+            <GhostBtn href={ROUTES.contact[locale]}>{SIMPLE[locale].contact.title}</GhostBtn>
           </div>
         </div>
       </section>
-    </PageShell>
+    </SubShell>
   );
 }

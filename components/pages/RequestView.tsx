@@ -1,140 +1,105 @@
 import Image from "next/image";
-import Link from "next/link";
-import type { Route } from "next";
-import { SiteHeader } from "@/components/SiteHeader";
-import { MobileBanner } from "@/components/MobileBanner";
-import { LegalStrip } from "@/components/LegalStrip";
-import { MobileTabBar } from "@/components/nav/MobileTabBar";
+import { SubShell } from "@/components/sub/SubShell";
+import { Eyebrow, H2, IconBox, Panel } from "@/components/sub/bits";
 import { RequestForm, type Option } from "@/components/forms/RequestForm";
 import { Icon } from "@/components/ui/Icon";
-import { INDUSTRY_ASSETS } from "@/content/industry-assets";
 import { activeIndustries, industryName, industryRoles } from "@/content/industries";
+import { INDUSTRY_ASSETS } from "@/content/industry-assets";
 import { LEGAL } from "@/content/legal";
-import { LEGAL_ROUTES, ROUTES, type Locale } from "@/content/locales";
-import { navFor, requestLabel } from "@/content/nav-menu";
 import { REQUEST } from "@/content/page-request";
+import { ROUTES, type Locale } from "@/content/locales";
 
 /**
- * Trang 08 — screens/08-personalbedarf-formular.png.
- * Bố cục: hero sáng + ảnh phải, form bốn bước bên trái, cột phải là hộp
- * tư vấn, hộp bảo mật dữ liệu và ba bước tiếp theo.
+ * TRANG 09 — GỬI NHU CẦU NHÂN SỰ, dựng lại theo bộ KIT navy–vàng.
+ *
+ * Bố cục cũ đã bỏ; nay là màn hình chia đôi kiểu báo chí: bên trái là ảnh
+ * doanh nghiệp cùng cam kết và đầu mối liên hệ, bên phải là biểu mẫu.
+ *
+ * BIỂU MẪU GIỮ NGUYÊN: `RequestForm` không bị sửa một dòng nào — vẫn đủ bốn
+ * bước, các trường bắt buộc, phần kiểm tra dữ liệu, điểm gửi `/api/anfrage`
+ * và cách báo thành công / báo lỗi. Chỉ lớp áo đổi màu qua `.nb-sub-form`.
  */
 export function RequestView({ locale }: { locale: Locale }) {
   const t = REQUEST[locale];
+  const tel = LEGAL.phone.replace(/\s/g, "");
+  // Danh sách ngành và nghề cho hai ô chọn — dựng đúng như bản cũ, không đổi.
   const branchen: Option[] = activeIndustries().map((i) => ({ value: i.slug, label: industryName(i, locale) }));
   const berufe: Option[] = activeIndustries().flatMap((i) =>
     [...new Set([i.berufDe, ...industryRoles(i, locale)])].map((r) => ({ value: `${i.slug}:${r}`, label: r, group: i.slug })),
   );
 
   return (
-    <>
-      <SiteHeader locale={locale} page="request" variant="light" />
-
-      <main id="inhalt" className="bg-[#f3f6fb]">
-        <MobileBanner src={INDUSTRY_ASSETS["produktion-maschinen-anlagen"]!.portraitTeam} focus={"55% 35%"} priority />
-        <section className="relative overflow-hidden bg-[#eef3f9]">
-          <div className="nb-photo-right absolute inset-y-0 hidden w-[52%] lg:block">
+    <SubShell
+      locale={locale}
+      page="request"
+      hero={INDUSTRY_ASSETS["produktion-maschinen-anlagen"]!.hero}
+      heroFocus="60% 40%"
+      eyebrow={t.eyebrow}
+      title={t.h1[0]!}
+      titleGold={t.h1[1]}
+      lead={t.lead}
+      breadcrumb={[
+        { label: locale === "vi" ? "Trang chủ" : locale === "en" ? "Home" : "Startseite", href: ROUTES.home[locale] },
+        { label: t.h1.join(" ") },
+      ]}
+    >
+      <section className="mx-auto grid max-w-[1560px] gap-10 px-6 py-14 lg:grid-cols-[420px_1fr] lg:gap-14 lg:px-12 lg:py-20">
+        {/* ---------------- CỘT TRÁI: ẢNH + CAM KẾT ---------------- */}
+        <aside className="lg:sticky lg:top-[100px] lg:self-start">
+          <span className="relative block h-[230px] overflow-hidden rounded-2xl ring-1 ring-white/10 lg:h-[300px]">
             <Image
-              src={INDUSTRY_ASSETS["produktion-maschinen-anlagen"]!.portraitTeam}
+              src={INDUSTRY_ASSETS["akademische-fachkraefte"]!.portraitTeam}
               alt=""
               fill
-              priority
-              sizes="55vw"
-              className="object-cover"
-              style={{ objectPosition: "60% 35%" }}
+              sizes="(min-width:1024px) 420px, 100vw"
+              className="object-cover object-[50%_30%]"
             />
             <span
               className="absolute inset-0"
-              style={{ background: "linear-gradient(90deg,#eef3f9 0,rgba(238,243,249,.75) 12%,rgba(238,243,249,0) 35%)" }}
+              style={{ background: "linear-gradient(180deg, rgba(6,23,43,.1), rgba(6,23,43,.8))" }}
               aria-hidden="true"
             />
-          </div>
+          </span>
 
-          <div className="relative mx-auto max-w-[1400px] px-6 py-12 lg:px-10 lg:py-16">
-            <p className="text-xs font-semibold tracking-[0.24em] text-[#1f3a60] uppercase">{t.eyebrow}</p>
-            <h1 className="mt-3 max-w-[16ch] text-4xl font-extrabold tracking-[-0.02em] text-[#10284d] lg:text-5xl lg:leading-[1.08]">
-              {t.h1[0]}
-              <br />
-              {t.h1[1]}
-            </h1>
-            <p className="mt-4 max-w-[52ch] text-lg text-[#2a3d58]">{t.lead}</p>
-            <ul className="mt-6 flex flex-wrap gap-x-10 gap-y-4">
-              {t.trust.map(([a, b], i) => (
-                <li key={a} className="flex items-center gap-3">
-                  <Icon name={["users", "shield", "chart"][i]!} className="h-8 w-8 shrink-0 text-[#1f4f9f]" strokeWidth={1.6} />
-                  <span className="text-sm text-[#2a3d58]">
-                    <b className="block font-semibold text-[#10284d]">{a}</b>
-                    {b}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
+          <ul className="mt-7 space-y-5">
+            {t.trust.map(([a2, b2], i) => (
+              <li key={a2} className="flex items-center gap-4">
+                <IconBox name={["shield", "clock", "handshake"][i] ?? "check"} size={44} />
+                <span>
+                  <b className="block text-[15.5px] font-bold text-white">{a2}</b>
+                  <span className="block text-[13.5px] text-white/55">{b2}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
 
-        <section className="mx-auto grid max-w-[1400px] gap-8 px-6 py-12 lg:grid-cols-[1.55fr_1fr] lg:px-10">
-          <div className="rounded-2xl bg-white p-7 ring-1 ring-[#e3e9f1] lg:p-9">
+          <Panel className="mt-7 p-6">
+            <Eyebrow>{t.advice.title}</Eyebrow>
+            <p className="mt-3.5 text-[14.5px] leading-[1.7] text-white/70">{t.advice.text}</p>
+            <div className="mt-5 space-y-3 border-t border-white/10 pt-5">
+              <a href={`tel:${tel}`} className="flex items-center gap-3 text-[15px] font-semibold text-white/85 transition hover:text-[var(--nb-gold)]">
+                <Icon name="phone" className="h-[18px] w-[18px] text-[var(--nb-gold)]" strokeWidth={1.9} />
+                {LEGAL.phone}
+              </a>
+              <a href={`mailto:${LEGAL.email}`} className="flex items-center gap-3 text-[15px] text-white/70 transition hover:text-[var(--nb-gold)]">
+                <Icon name="mail" className="h-[18px] w-[18px] text-[var(--nb-gold)]" strokeWidth={1.9} />
+                {LEGAL.email}
+              </a>
+            </div>
+          </Panel>
+        </aside>
+
+        {/* ---------------- CỘT PHẢI: BIỂU MẪU (giữ nguyên) ---------------- */}
+        <div className="min-w-0">
+          <Eyebrow>{t.eyebrow}</Eyebrow>
+          <H2 className="!text-[26px] lg:!text-[32px]">{t.h1.join(" ")}</H2>
+          <p className="mt-4 max-w-[64ch] text-[15.5px] leading-[1.75] text-white/65">{t.intro}</p>
+
+          <div className="nb-sub-form nb-sub-panel mt-8 p-6 lg:p-9">
             <RequestForm locale={locale} branchen={branchen} berufe={berufe} />
           </div>
-
-          <aside className="space-y-6">
-            <div className="rounded-2xl bg-[#eaf1fa] p-6 ring-1 ring-[#dbe4f0]">
-              <h2 className="text-lg font-bold text-[#10284d]">{t.advice.title}</h2>
-              <p className="mt-2 text-sm text-[#2a3d58]">{t.advice.text}</p>
-              <address className="mt-4 space-y-2 text-sm text-[#2a3d58] not-italic">
-                <p className="font-semibold text-[#10284d]">{LEGAL.name}</p>
-                <p className="flex items-center gap-2">
-                  <Icon name="phone" className="h-4 w-4 shrink-0 text-[#1f4f9f]" strokeWidth={1.7} />
-                  <a href={`tel:${LEGAL.phone.replace(/\s/g, "")}`} className="underline hover:text-[#10284d]">
-                    {LEGAL.phone}
-                  </a>
-                </p>
-                <p className="flex items-center gap-2">
-                  <Icon name="mail" className="h-4 w-4 shrink-0 text-[#1f4f9f]" strokeWidth={1.7} />
-                  <a href={`mailto:${LEGAL.email}`} className="underline hover:text-[#10284d]">
-                    {LEGAL.email}
-                  </a>
-                </p>
-              </address>
-            </div>
-
-            <div className="flex gap-4 rounded-2xl bg-white p-6 ring-1 ring-[#e3e9f1]">
-              <Icon name="shield" className="h-9 w-9 shrink-0 text-[#1f4f9f]" strokeWidth={1.6} />
-              <div>
-                <h2 className="text-base font-bold text-[#10284d]">{t.safety.title}</h2>
-                <p className="mt-1 text-sm text-[#2a3d58]">
-                  {t.safety.text}{" "}
-                  <Link href={LEGAL_ROUTES.datenschutz as Route} className="underline hover:text-[#10284d]">
-                    {t.safety.link}
-                  </Link>
-                  .
-                </p>
-              </div>
-            </div>
-
-            <div className="rounded-2xl bg-white p-6 ring-1 ring-[#e3e9f1]">
-              <h2 className="text-lg font-bold text-[#10284d]">{t.nextSteps.title}</h2>
-              <ol className="mt-4 space-y-4">
-                {t.nextSteps.items.map(([title, text], i) => (
-                  <li key={title} className="flex gap-3">
-                    <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white ${i === 0 ? "bg-[#1450b0]" : "bg-[#8ea6c8]"}`}>
-                      {i + 1}
-                    </span>
-                    <span className="text-sm text-[#2a3d58]">
-                      <b className="block font-semibold text-[#10284d]">{title}</b>
-                      {text}
-                    </span>
-                  </li>
-                ))}
-              </ol>
-              <p className="mt-5 border-t border-[#e3e9f1] pt-4 text-sm font-semibold text-[var(--nb-orange)] italic">{t.claim}</p>
-            </div>
-          </aside>
-        </section>
-      </main>
-
-      <LegalStrip locale={locale} />
-      <MobileTabBar locale={locale} page={"request"} />
-    </>
+        </div>
+      </section>
+    </SubShell>
   );
 }
