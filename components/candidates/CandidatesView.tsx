@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
 import { SubFooter } from "@/components/sub/SubFooter";
-import { SubHeader } from "@/components/sub/SubHeader";
+import { SubMenuBar } from "@/components/sub/SubMenuBar";
 import { MobileTabBar } from "@/components/nav/MobileTabBar";
 import { Gated } from "@/components/Gated";
 import { Icon } from "@/components/ui/Icon";
@@ -49,7 +49,7 @@ export function CandidatesView({ locale }: { locale: Locale }) {
 
   return (
     <div className="nb-sub">
-      <SubHeader locale={locale} page="candidates" />
+      {/* Không có menu trên đầu — menu vàng nằm ở đáy như trang chủ. */}
 
       {/* thanh trên cho điện thoại */}
       <div className="flex h-14 items-center justify-center border-b border-white/10 bg-[var(--nb-sub-navy)] lg:hidden">
@@ -132,6 +132,9 @@ export function CandidatesView({ locale }: { locale: Locale }) {
 
             <div className="relative mx-auto flex min-h-[660px] max-w-[1560px] items-center px-12">
               <div className="max-w-[640px] py-24">
+                <Link href={ROUTES.home[locale] as Route} aria-label="NIBELC" className="mb-8 block">
+                  <Image src="/nibelc-logo-dark.svg" alt="NIBELC GmbH" width={1201} height={376} priority className="h-11 w-auto" />
+                </Link>
                 <p className="flex items-center gap-3 text-[11px] font-bold tracking-[0.28em] text-[var(--nb-gold)] uppercase">
                   <span className="h-px w-10 bg-[var(--nb-gold)]/70" aria-hidden="true" />
                   {t.eyebrow}
@@ -434,6 +437,7 @@ export function CandidatesView({ locale }: { locale: Locale }) {
       </main>
 
       <SubFooter locale={locale} />
+      <SubMenuBar locale={locale} page="candidates" />
       <MobileTabBar locale={locale} page="candidates" />
     </div>
   );

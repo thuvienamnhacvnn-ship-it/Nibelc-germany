@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { Route } from "next";
 import type { ReactNode } from "react";
 import { SubFooter } from "@/components/sub/SubFooter";
-import { SubHeader } from "@/components/sub/SubHeader";
+import { SubMenuBar } from "@/components/sub/SubMenuBar";
 import { Breadcrumb, Eyebrow } from "@/components/sub/bits";
 import { MobileTabBar } from "@/components/nav/MobileTabBar";
 import { Icon } from "@/components/ui/Icon";
@@ -63,9 +63,10 @@ export function SubShell({
 
   return (
     <div className="nb-sub">
-      <SubHeader locale={locale} page={page} />
+      {/* Không có thanh menu trên đầu: cả web dùng thanh menu vàng ở đáy, đúng
+          như trang chủ. Logo đứng ngay trên tiêu đề của banner. */}
 
-      {/* Thanh trên cho điện thoại: chỉ logo, gọn gàng — menu đã có ở thanh đáy */}
+      {/* Thanh trên cho điện thoại: chỉ logo */}
       <div className="flex h-14 items-center justify-center border-b border-white/10 bg-[var(--nb-sub-navy)] lg:hidden">
         <Link href={ROUTES.home[locale] as Route} aria-label="NIBELC">
           <Image src="/nibelc-logo-dark.svg" alt="NIBELC GmbH" width={1201} height={376} priority className="h-7 w-auto" />
@@ -80,6 +81,9 @@ export function SubShell({
           <section className="relative bg-[var(--nb-sub-navy)]">
             <div className="mx-auto grid max-w-[1560px] items-stretch lg:grid-cols-[minmax(0,1fr)_minmax(0,0.92fr)]">
               <div className="order-2 px-6 py-12 lg:order-1 lg:py-20 lg:pr-12 lg:pl-12">
+                <Link href={ROUTES.home[locale] as Route} aria-label="NIBELC" className="mb-7 hidden lg:block">
+                  <Image src="/nibelc-logo-dark.svg" alt="NIBELC GmbH" width={1201} height={376} priority className="h-10 w-auto" />
+                </Link>
                 {breadcrumb && <div className="mb-6">{<Breadcrumb items={breadcrumb} />}</div>}
                 <Eyebrow>{eyebrow}</Eyebrow>
                 <h1 className="mt-5 max-w-[17ch] text-[32px] leading-[1.1] font-bold tracking-[-0.025em] text-white lg:text-[50px]">
@@ -154,6 +158,9 @@ export function SubShell({
             />
 
             <div className="mx-auto flex max-w-[1560px] flex-col justify-center px-6 py-14 lg:px-12 lg:py-20" style={{ minHeight: "inherit" }}>
+              <Link href={ROUTES.home[locale] as Route} aria-label="NIBELC" className="mb-7 hidden lg:block">
+                <Image src="/nibelc-logo-dark.svg" alt="NIBELC GmbH" width={1201} height={376} priority className="h-10 w-auto" />
+              </Link>
               {breadcrumb && <div className="mb-6">{<Breadcrumb items={breadcrumb} />}</div>}
               <Eyebrow>{eyebrow}</Eyebrow>
               <h1 className="mt-5 max-w-[19ch] text-[34px] leading-[1.08] font-bold tracking-[-0.025em] text-white lg:text-[58px]">
@@ -175,6 +182,7 @@ export function SubShell({
       </main>
 
       <SubFooter locale={locale} />
+      <SubMenuBar locale={locale} page={page} />
 
       <MobileTabBar locale={locale} page={page} />
     </div>
