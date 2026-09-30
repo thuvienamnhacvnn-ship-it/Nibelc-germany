@@ -34,15 +34,17 @@ export function useChuyenTrang(): Ham {
 
 // Sếp chốt: màn chuyển trang phải NHANH và phải thấy được trang phía sau.
 // Tấm che để 60% đục, và cả chu kỳ rút từ ~1,3 giây xuống dưới 0,7 giây.
-const DONG = 0.26; // giây, hai tấm chạy vào
-const MO = 0.3; // giây, nội dung trang mới hiện ra
+const DONG = 0.2; // giây, hai tấm chạy vào
+const MO = 0.24; // giây, nội dung trang mới hiện ra
 const DUC = 0.6; // độ đục của tấm che
 
 export function PageTransition({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const [dangChe, setDangChe] = useState(false);
-  const dichRef = useRef<string | null>(null);
+  // Đường dẫn lúc bắt đầu che. Chỉ mở tấm ra khi đường dẫn đã KHÁC cái này,
+  // tức trang mới thật sự đã vào.
+  const tuRef = useRef<string | null>(null);
   const giamChuyenDong = useRef(false);
 
   useEffect(() => {
@@ -64,32 +66,36 @@ export function PageTransition({ children }: { children: ReactNode }) {
         router.push(href as Route);
         return;
       }
-      dichRef.current = href;
+      tuRef.current = pathname;
       setDangChe(true);
+      // Đẩy route NGAY, không đợi tấm khép. Trước đây phải đợi hết hoạt ảnh
+      // rồi mới push, nên thời gian tải trang nối tiếp sau thời gian hoạt
+      // ảnh — cộng lại thành cái "delay khá nặng". Giờ hai việc chạy song
+      // song: tấm đang khép thì Next đã tải trang rồi.
+      router.push(href as Route);
     },
     [pathname, router]
   );
 
-  // Tấm đã khép kín thì mới đẩy route — trang mới dựng phía sau tấm che
-  function khiDaKhep() {
-    if (dichRef.current) {
-      router.push(dichRef.current as Route);
-      dichRef.current = null;
-    }
-  }
-
-  // Route đã đổi thì mở tấm ra
+  // Route đã đổi thì mở tấm ra.
+  //
+  // Phải so với đường dẫn lúc bắt đầu che, KHÔNG được chỉ nhìn `dangChe`:
+  // hiệu ứng này cũng chạy ngay lúc `dangChe` vừa bật (đường dẫn chưa đổi),
+  // nên nếu hẹn giờ ngắn hơn thời gian tấm chạy vào thì tấm quay ngược ra khi
+  // mới đi được một phần ba — đúng lỗi "hai tấm không chập vào nhau".
   useEffect(() => {
-    if (!dangChe) return;
-    const t = setTimeout(() => setDangChe(false), 90);
+    if (!dangChe || pathname === tuRef.current) return;
+    const t = setTimeout(() => setDangChe(false), 30);
     return () => clearTimeout(t);
   }, [pathname, dangChe]);
 
-  // Chốt an toàn: route tải lâu bất thường (mạng chậm, trang nặng) thì vẫn mở
-  // tấm che ra thay vì để người xem nhìn một màn navy đứng yên.
+  // Trần thời gian che. Next không báo được lúc nào trang mới vẽ xong, nên
+  // nếu cứ đợi `pathname` đổi thì gặp trang nặng là màn navy đứng im cả giây
+  // — đúng chỗ Sếp thấy "delay khá nặng". Quá mức này thì mở tấm ra luôn;
+  // trang mới chậm vài khung hình thì cũng chỉ thoáng thấy trang cũ.
   useEffect(() => {
     if (!dangChe) return;
-    const t = setTimeout(() => setDangChe(false), 1100);
+    const t = setTimeout(() => setDangChe(false), DONG * 1000 + 260);
     return () => clearTimeout(t);
   }, [dangChe]);
 
@@ -107,7 +113,6 @@ export function PageTransition({ children }: { children: ReactNode }) {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ duration: DONG, ease: [0.76, 0, 0.24, 1] }}
-              onAnimationComplete={khiDaKhep}
               style={{ opacity: DUC, boxShadow: "8px 0 28px rgba(0,0,0,.45)" }}
             />
             {/* tấm phải */}
