@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type { Route } from "next";
 import type { ReactNode, MouseEvent } from "react";
 import { useChuyenTrang } from "@/components/layout/PageTransition";
@@ -27,6 +28,7 @@ export function NavLink({
   "aria-current"?: "page" | undefined;
 }) {
   const chuyenTrang = useChuyenTrang();
+  const router = useRouter();
 
   function bam(e: MouseEvent<HTMLAnchorElement>) {
     if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
@@ -36,7 +38,17 @@ export function NavLink({
   }
 
   return (
-    <Link href={href as Route} className={className} onClick={bam} {...rest}>
+    <Link
+      href={href as Route}
+      className={className}
+      onClick={bam}
+      prefetch
+      // Rê chuột là nạp trước: tới lúc bấm thì route đã sẵn trong bộ nhớ nên
+      // tấm che không phải đứng đợi Next tải trang.
+      onMouseEnter={() => router.prefetch(href as Route)}
+      onFocus={() => router.prefetch(href as Route)}
+      {...rest}
+    >
       {children}
     </Link>
   );

@@ -32,8 +32,11 @@ export function useChuyenTrang(): Ham {
   return f ?? ((href: string) => router.push(href as Route));
 }
 
-const DONG = 0.42; // giây, hai tấm chạy vào
-const MO = 0.5; // giây, hai tấm mở ra
+// Sếp chốt: màn chuyển trang phải NHANH và phải thấy được trang phía sau.
+// Tấm che để 60% đục, và cả chu kỳ rút từ ~1,3 giây xuống dưới 0,7 giây.
+const DONG = 0.26; // giây, hai tấm chạy vào
+const MO = 0.3; // giây, nội dung trang mới hiện ra
+const DUC = 0.6; // độ đục của tấm che
 
 export function PageTransition({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -78,9 +81,17 @@ export function PageTransition({ children }: { children: ReactNode }) {
   // Route đã đổi thì mở tấm ra
   useEffect(() => {
     if (!dangChe) return;
-    const t = setTimeout(() => setDangChe(false), 420);
+    const t = setTimeout(() => setDangChe(false), 90);
     return () => clearTimeout(t);
   }, [pathname, dangChe]);
+
+  // Chốt an toàn: route tải lâu bất thường (mạng chậm, trang nặng) thì vẫn mở
+  // tấm che ra thay vì để người xem nhìn một màn navy đứng yên.
+  useEffect(() => {
+    if (!dangChe) return;
+    const t = setTimeout(() => setDangChe(false), 1100);
+    return () => clearTimeout(t);
+  }, [dangChe]);
 
   return (
     <Ctx.Provider value={chuyenTrang}>
@@ -97,7 +108,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
               exit={{ x: "-100%" }}
               transition={{ duration: DONG, ease: [0.76, 0, 0.24, 1] }}
               onAnimationComplete={khiDaKhep}
-              style={{ boxShadow: "8px 0 40px rgba(0,0,0,.6)" }}
+              style={{ opacity: DUC, boxShadow: "8px 0 28px rgba(0,0,0,.45)" }}
             />
             {/* tấm phải */}
             <motion.div
@@ -106,7 +117,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ duration: DONG, ease: [0.76, 0, 0.24, 1] }}
-              style={{ boxShadow: "-8px 0 40px rgba(0,0,0,.6)" }}
+              style={{ opacity: DUC, boxShadow: "-8px 0 28px rgba(0,0,0,.45)" }}
             />
             {/* vạch sáng champagne ở đường nối */}
             <motion.span
@@ -114,7 +125,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
               initial={{ opacity: 0, scaleY: 0.2 }}
               animate={{ opacity: 1, scaleY: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.3, delay: DONG * 0.72 }}
+              transition={{ duration: 0.2, delay: DONG * 0.7 }}
               style={{
                 background:
                   "linear-gradient(180deg, transparent, var(--nb-gold-soft) 18%, var(--nb-gold-strong) 50%, var(--nb-gold-soft) 82%, transparent)",
@@ -134,9 +145,9 @@ export function PageFade({ children }: { children: ReactNode }) {
   return (
     <motion.div
       key={pathname}
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: MO, ease: [0.22, 0.61, 0.36, 1], delay: 0.06 }}
+      transition={{ duration: MO, ease: [0.22, 0.61, 0.36, 1] }}
     >
       {children}
     </motion.div>
