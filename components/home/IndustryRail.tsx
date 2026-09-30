@@ -130,7 +130,7 @@ export function IndustryRail({
         onPointerMove={keoDiChuyen}
         onPointerUp={keoKetThuc}
         onPointerCancel={keoKetThuc}
-        className={`nb-no-scrollbar relative flex items-end gap-5 overflow-x-auto overflow-y-visible px-14 pt-5 pb-3 ${
+        className={`nb-no-scrollbar relative flex items-end gap-3.5 overflow-x-auto overflow-y-visible px-14 pt-4 pb-3 ${
           keo ? "cursor-grabbing" : "cursor-grab"
         }`}
         role="group"

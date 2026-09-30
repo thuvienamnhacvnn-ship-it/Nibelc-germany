@@ -306,3 +306,16 @@
 .nb-duoi-header {
   padding-top: var(--nb-header);
 }
+
+/* Cờ Đức nhỏ trên thẻ đơn hàng — mô-típ có trên mọi thẻ trong ảnh mẫu */
+.nb-co-duc {
+  display: inline-flex;
+  overflow: hidden;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+.nb-co-duc > span {
+  display: block;
+  height: 100%;
+  flex: 1;
+}

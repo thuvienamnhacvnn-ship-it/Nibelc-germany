@@ -2,9 +2,10 @@
 
 import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { LayoutGrid, List, SlidersHorizontal, X } from "lucide-react";
+import { Briefcase, Coins, FileText, GraduationCap, Languages, LayoutGrid, List, MapPin, SlidersHorizontal, X } from "lucide-react";
 import { JobCard } from "@/components/jobs/JobCard";
 import { JobRow } from "@/components/jobs/JobRow";
+import { SearchCommandBar, type BoLoc } from "@/components/jobs/SearchCommandBar";
 import { INDUSTRIES } from "@/data/industries";
 import { JOBS, allCities, allStates, type JobFull } from "@/data/jobs";
 
@@ -96,7 +97,30 @@ export function JobMarketplace() {
     setTuKhoa("");
   }
 
+  /** Thanh lệnh 5 ô dùng CHUNG state với bộ lọc bên trái, không có bộ lọc thứ hai. */
+  const lenh: BoLoc = {
+    nganh: nganh[0] ?? "",
+    thanhPho: thanhPho === "Tất cả" ? "" : thanhPho,
+    luongMin,
+    chuongTrinh: ct === "Tất cả" ? "" : ct,
+    tieng: tieng === "Tất cả" ? "" : tieng,
+  };
+
+  function datLenh(v: Partial<BoLoc>) {
+    if (v.nganh !== undefined) setNganh(v.nganh ? [v.nganh] : []);
+    if (v.thanhPho !== undefined) setThanhPho(v.thanhPho || "Tất cả");
+    if (v.luongMin !== undefined) setLuongMin(v.luongMin);
+    if (v.chuongTrinh !== undefined) setCt(v.chuongTrinh || "Tất cả");
+    if (v.tieng !== undefined) setTieng(v.tieng || "Tất cả");
+    setHien(9);
+  }
+
   return (
+    <>
+      <div className="nb-wrap -mt-10 pb-2">
+        <SearchCommandBar gt={lenh} dat={datLenh} onTim={() => setHien(9)} />
+      </div>
+
     <div className="nb-wrap grid gap-8 py-12 lg:grid-cols-[286px_minmax(0,1fr)]">
       {/* ---------------- BỘ LỌC ---------------- */}
       <aside className="nb-panel h-fit p-6 lg:sticky lg:top-[calc(var(--nb-header)+20px)]">
@@ -117,7 +141,7 @@ export function JobMarketplace() {
           )}
         </div>
 
-        <Nhom nhan="Ngành nghề">
+        <Nhom nhan="Ngành nghề" Icon={Briefcase}>
           <ul className="max-h-[240px] space-y-1 overflow-y-auto pr-1">
             {INDUSTRIES.map((i) => {
               const on = nganh.includes(i.id);
@@ -148,14 +172,14 @@ export function JobMarketplace() {
           </ul>
         </Nhom>
 
-        <Nhom nhan="Thành phố">
+        <Nhom nhan="Thành phố" Icon={MapPin}>
           <Chon gt={thanhPho} dat={setThanhPho} ds={["Tất cả", ...allCities()]} />
         </Nhom>
-        <Nhom nhan="Quốc gia / Bang">
+        <Nhom nhan="Quốc gia / Bang" Icon={MapPin}>
           <Chon gt={bang} dat={setBang} ds={["Tất cả", ...allStates()]} />
         </Nhom>
 
-        <Nhom nhan="Mức lương tối thiểu">
+        <Nhom nhan="Mức lương tối thiểu" Icon={Coins}>
           <div className="flex flex-wrap gap-1.5">
             {MUC_LUONG.map((m) => (
               <button
@@ -175,13 +199,13 @@ export function JobMarketplace() {
           </div>
         </Nhom>
 
-        <Nhom nhan="Trình độ tiếng Đức">
+        <Nhom nhan="Trình độ tiếng Đức" Icon={Languages}>
           <Chon gt={tieng} dat={setTieng} ds={TIENG} />
         </Nhom>
-        <Nhom nhan="Kinh nghiệm">
+        <Nhom nhan="Kinh nghiệm" Icon={GraduationCap}>
           <Chon gt={kn} dat={setKn} ds={KINH_NGHIEM} />
         </Nhom>
-        <Nhom nhan="Chương trình">
+        <Nhom nhan="Chương trình" Icon={FileText}>
           <Chon gt={ct} dat={setCt} ds={CHUONG_TRINH} />
         </Nhom>
       </aside>
@@ -265,13 +289,17 @@ export function JobMarketplace() {
         )}
       </div>
     </div>
+    </>
   );
 }
 
-function Nhom({ nhan, children }: { nhan: string; children: React.ReactNode }) {
+function Nhom({ nhan, Icon, children }: { nhan: string; Icon?: React.ComponentType<{ size?: number; className?: string }>; children: React.ReactNode }) {
   return (
     <div className="mt-6 border-t border-[var(--nb-line-soft)] pt-5 first-of-type:border-0">
-      <p className="mb-2.5 text-[12px] font-semibold tracking-[0.12em] text-[var(--nb-text-mute)] uppercase">{nhan}</p>
+      <p className="mb-2.5 flex items-center gap-2 text-[12px] font-semibold tracking-[0.12em] text-[var(--nb-text-mute)] uppercase">
+        {Icon && <Icon size={14} className="text-[var(--nb-gold)]" />}
+        {nhan}
+      </p>
       {children}
     </div>
   );

@@ -33,13 +33,23 @@ export function JobCard({ job, lon = false }: { job: JobFull; lon?: boolean }) {
             {nganh.titleVi}
           </span>
         )}
+        {/* cờ Đức + thành phố, góc phải trên ảnh — mô-típ của ảnh mẫu */}
+        <span className="absolute top-3 right-3 flex items-center gap-1.5 rounded-full bg-[var(--nb-navy-900)]/78 px-2.5 py-1 text-[11.5px] font-semibold text-white">
+          <span className="nb-co-duc h-[9px] w-[14px]" aria-hidden="true">
+            <span style={{ background: "#111" }} />
+            <span style={{ background: "#d00" }} />
+            <span style={{ background: "#fc0" }} />
+          </span>
+          {job.city}
+        </span>
+
         {job.isSample ? (
-          <span className="absolute top-3 right-3 rounded-full bg-[var(--nb-cyan)]/85 px-2.5 py-1 text-[10.5px] font-bold text-white">
+          <span className="absolute top-11 right-3 rounded-full bg-[var(--nb-cyan)]/85 px-2.5 py-1 text-[10.5px] font-bold text-white">
             MẪU
           </span>
         ) : (
           job.featured && (
-            <span className="absolute top-3 right-3 rounded-full bg-[var(--nb-gold)] px-2.5 py-1 text-[10.5px] font-bold text-[var(--nb-navy-900)]">
+            <span className="absolute top-11 right-3 rounded-full bg-[var(--nb-gold)] px-2.5 py-1 text-[10.5px] font-bold text-[var(--nb-navy-900)]">
               NỔI BẬT
             </span>
           )

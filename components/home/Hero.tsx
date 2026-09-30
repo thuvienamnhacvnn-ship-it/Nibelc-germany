@@ -80,7 +80,7 @@ export function Hero() {
         aria-hidden="true"
         animate={{ opacity: hero.dangHienJob ? 0.3 : 1, x: hero.dangHienJob ? -24 : 0 }}
         transition={{ duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
-        className="pointer-events-none absolute bottom-[16%] left-0 z-10 w-[clamp(300px,27vw,470px)] origin-bottom-left"
+        className="pointer-events-none absolute bottom-0 left-0 z-10 w-[clamp(260px,23vw,400px)] origin-bottom-left"
       >
         <Image
           src="/assets/home/people/group-left.png"
@@ -98,7 +98,7 @@ export function Hero() {
         aria-hidden="true"
         animate={{ opacity: hero.dangHienJob ? 0.3 : 1, x: hero.dangHienJob ? 24 : 0 }}
         transition={{ duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
-        className="pointer-events-none absolute right-0 bottom-[16%] z-10 w-[clamp(280px,25vw,430px)] origin-bottom-right"
+        className="pointer-events-none absolute right-0 bottom-0 z-10 w-[clamp(240px,21vw,365px)] origin-bottom-right"
       >
         <Image
           src="/assets/home/people/group-right.png"
