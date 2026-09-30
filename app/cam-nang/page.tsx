@@ -13,7 +13,7 @@ export default function Page() {
   return (
     <div className="nb-duoi-header">
       <PageHero
-        anh="/assets/jobs/handel/01-hero-16x9.jpg"
+        anh="/assets/banners/cam-nang.jpg"
         nhan="Cẩm nang kiến thức"
         tieuDe="Cẩm nang Đức"
         mo="Kiến thức cần thiết trước và sau khi sang Đức: thủ tục, tiếng, bảng lương, nhà ở và văn hoá làm việc."

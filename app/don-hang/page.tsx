@@ -14,7 +14,7 @@ export default function Page() {
   return (
     <div className="nb-duoi-header">
       <PageHero
-        anh="/assets/jobs/logistik/01-hero-16x9.jpg"
+        anh="/assets/banners/don-hang.jpg"
         nhan="Sàn đơn hàng"
         tieuDe="Cơ hội nghề nghiệp tại Đức"
         mo="Tìm kiếm đơn hàng phù hợp với ngành nghề, khu vực và kinh nghiệm của bạn."

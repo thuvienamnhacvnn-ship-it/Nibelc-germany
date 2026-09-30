@@ -14,14 +14,16 @@ export const metadata: Metadata = {
 
 /** Ảnh minh hoạ cho từng ngành đào tạo, lấy trong kho ảnh nghề đã có */
 const ANH: Record<string, string> = {
-  "dieu-duong": "/assets/jobs/soziales/02-portrait-work-3x4.jpg",
-  "nha-hang-khach-san": "/assets/jobs/gastronomie/02-portrait-work-3x4.jpg",
-  "co-khi": "/assets/jobs/mechanik/02-portrait-work-3x4.jpg",
-  dien: "/assets/jobs/elektro/02-portrait-work-3x4.jpg",
+  // Dùng bản 16:9 của từng nghề. Bản portrait 3:4 khi ép vào ô ngang sẽ cắt
+  // ngang mặt người, nhìn rất xấu.
+  "dieu-duong": "/assets/jobs/soziales/01-hero-16x9.jpg",
+  "nha-hang-khach-san": "/assets/jobs/gastronomie/01-hero-16x9.jpg",
+  "co-khi": "/assets/jobs/mechanik/01-hero-16x9.jpg",
+  dien: "/assets/jobs/elektro/01-hero-16x9.jpg",
   "xay-dung": "/assets/jobs/mechanik/04-detail-closeup.jpg",
-  logistics: "/assets/jobs/logistik/02-portrait-work-3x4.jpg",
-  "thuc-pham": "/assets/jobs/handel/02-portrait-work-3x4.jpg",
-  cntt: "/assets/jobs/it/02-portrait-work-3x4.jpg",
+  logistics: "/assets/jobs/logistik/01-hero-16x9.jpg",
+  "thuc-pham": "/assets/jobs/handel/01-hero-16x9.jpg",
+  cntt: "/assets/jobs/it/01-hero-16x9.jpg",
 };
 
 const BUOC = [
@@ -42,7 +44,7 @@ export default function Page() {
   return (
     <div className="nb-duoi-header">
       <PageHero
-        anh="/assets/jobs/elektro/01-hero-16x9.jpg"
+        anh="/assets/banners/du-hoc-nghe.jpg"
         nhan="Ausbildung — đào tạo kép"
         tieuDe={
           <>

@@ -17,7 +17,7 @@ export default function Page() {
   return (
     <div className="nb-duoi-header">
       <PageHero
-        anh="/assets/home/hero/germany-panorama.png"
+        anh="/assets/banners/lien-he.jpg"
         nhan="Rechtliches"
         tieuDe="Impressum"
         mo="Angaben gemäß § 5 TMG."

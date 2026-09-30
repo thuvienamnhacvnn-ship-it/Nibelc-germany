@@ -13,7 +13,7 @@ export default function Page() {
   return (
     <div className="nb-duoi-header">
       <PageHero
-        anh="/assets/home/hero/germany-panorama.png"
+        anh="/assets/banners/lo-trinh.jpg"
         nhan="Hành trình kiến tạo tương lai"
         tieuDe="Lộ trình từ Việt Nam đến Đức"
         mo="Đồng hành cùng bạn trên từng bước, an toàn, minh bạch và hiệu quả."

@@ -71,7 +71,7 @@ export default function Page() {
   return (
     <div className="nb-duoi-header">
       <PageHero
-        anh="/assets/home/hero/germany-panorama.png"
+        anh="/assets/banners/lien-he.jpg"
         nhan="Rechtliches"
         tieuDe="Datenschutzerklärung"
         mo="Informationen nach Art. 13 DSGVO."

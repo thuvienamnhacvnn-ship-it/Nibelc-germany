@@ -26,9 +26,9 @@ export default function Page() {
           <ConsultationWizard />
 
           <aside className="space-y-5">
-            <span className="relative block aspect-[4/3] overflow-hidden rounded-[16px] border border-[var(--nb-line-soft)]">
+            <span className="relative block aspect-[16/9] overflow-hidden rounded-[16px] border border-[var(--nb-line-soft)]">
               <Image
-                src="/assets/jobs/it/03-portrait-team-3x4.jpg"
+                src="/assets/banners/lien-he.jpg"
                 alt="Văn phòng NIBELC tại Berlin"
                 fill
                 sizes="(min-width:1024px) 520px, 100vw"

@@ -26,7 +26,7 @@ export default function Page() {
   return (
     <div className="nb-duoi-header">
       <PageHero
-        anh="/assets/home/hero/germany-panorama.png"
+        anh="/assets/banners/ve-chung-toi.jpg"
         nhan="NIBELC GROUP GERMANY"
         tieuDe="Kết nối con người – Kiến tạo cơ hội"
         mo="Đồng hành cùng người Việt trên hành trình học tập và làm việc tại Đức, châu Âu."
