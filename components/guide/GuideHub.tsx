@@ -1,0 +1,228 @@
+"use client";
+
+import Image from "next/image";
+import { useMemo, useState } from "react";
+import { ArrowRight, Clock, Flame, Search } from "lucide-react";
+import { NavLink } from "@/components/layout/NavLink";
+import { CAM_NANG, type Bai } from "@/data/articles";
+
+/**
+ * TRUNG TÂM CẨM NANG
+ *
+ * Bố cục tạp chí: điều hướng chuyên mục bên trái, thẻ bài ở giữa, cột "Được
+ * đọc nhiều nhất" bên phải. Lọc và tìm chạy ngay trên dữ liệu có sẵn.
+ */
+
+/** Mười chuyên mục theo KIT, ánh xạ sang nhóm bài đang có */
+const CHUYEN_MUC = [
+  "Tất cả bài viết",
+  "Visa & hồ sơ",
+  "Học tiếng Đức",
+  "Du học nghề",
+  "Việc làm tại Đức",
+  "Cuộc sống tại Đức",
+  "Nhà ở",
+  "Bảo hiểm",
+  "Thuế & lương",
+  "Văn hóa Đức",
+  "Kinh nghiệm phỏng vấn",
+];
+
+/** Bài nào thuộc chuyên mục nào — suy từ nội dung, không gán tay từng bài */
+function mucCuaBai(b: Bai): string[] {
+  const t = `${b.tieuDe} ${b.tomTat}`.toLowerCase();
+  const ra: string[] = [];
+  if (/visa|hồ sơ|giấy tờ|lãnh sự/.test(t)) ra.push("Visa & hồ sơ");
+  if (/tiếng đức|a1|b1|b2/.test(t)) ra.push("Học tiếng Đức");
+  if (/học nghề|ausbildung/.test(t)) ra.push("Du học nghề");
+  if (/việc làm|công việc|nghề/.test(t)) ra.push("Việc làm tại Đức");
+  if (/cuộc sống|sinh hoạt|tháng đầu|hành lý/.test(t)) ra.push("Cuộc sống tại Đức");
+  if (/nhà ở|thuê nhà|anmeldung/.test(t)) ra.push("Nhà ở");
+  if (/bảo hiểm/.test(t)) ra.push("Bảo hiểm");
+  if (/lương|thuế|tiền|thu nhập/.test(t)) ra.push("Thuế & lương");
+  if (/văn hoá|văn hóa|đúng giờ/.test(t)) ra.push("Văn hóa Đức");
+  if (/phỏng vấn/.test(t)) ra.push("Kinh nghiệm phỏng vấn");
+  return ra.length ? ra : ["Cuộc sống tại Đức"];
+}
+
+/** Ảnh minh hoạ cho bài, xoay vòng trong kho ảnh nghề đã có */
+const ANH = [
+  "/assets/jobs/handel/01-hero-16x9.jpg",
+  "/assets/jobs/gastronomie/04-detail-closeup.jpg",
+  "/assets/jobs/it/01-hero-16x9.jpg",
+  "/assets/jobs/logistik/01-hero-16x9.jpg",
+  "/assets/jobs/elektro/04-detail-closeup.jpg",
+  "/assets/jobs/soziales/01-hero-16x9.jpg",
+  "/assets/jobs/mechanik/01-hero-16x9.jpg",
+  "/assets/jobs/landwirtschaft/01-hero-16x9.jpg",
+];
+
+function bo(s: string) {
+  return s
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/đ/g, "d")
+    .toLowerCase();
+}
+
+export function GuideHub() {
+  const [muc, setMuc] = useState(CHUYEN_MUC[0]!);
+  const [tu, setTu] = useState("");
+
+  const ds = useMemo(() => {
+    const q = bo(tu.trim());
+    return CAM_NANG.filter((b) => {
+      if (muc !== CHUYEN_MUC[0] && !mucCuaBai(b).includes(muc)) return false;
+      if (q && !bo(`${b.tieuDe} ${b.tomTat}`).includes(q)) return false;
+      return true;
+    });
+  }, [muc, tu]);
+
+  const noiBat = ds[0];
+  const conLai = ds.slice(1);
+  const docNhieu = CAM_NANG.slice(0, 5);
+
+  return (
+    <div className="nb-wrap grid gap-8 py-14 lg:grid-cols-[236px_minmax(0,1fr)_280px]">
+      {/* ---------- CHUYÊN MỤC ---------- */}
+      <aside className="h-fit lg:sticky lg:top-[calc(var(--nb-header)+20px)]">
+        <b className="block text-[15px] font-semibold text-white">Danh mục chủ đề</b>
+        <ul className="mt-4 space-y-1">
+          {CHUYEN_MUC.map((m) => {
+            const so = m === CHUYEN_MUC[0] ? CAM_NANG.length : CAM_NANG.filter((b) => mucCuaBai(b).includes(m)).length;
+            const on = muc === m;
+            return (
+              <li key={m}>
+                <button
+                  type="button"
+                  onClick={() => setMuc(m)}
+                  aria-pressed={on}
+                  className={`flex w-full items-center justify-between gap-2 rounded-lg px-3 py-2.5 text-left text-[13.5px] transition ${
+                    on ? "bg-[var(--nb-gold)]/12 text-[var(--nb-gold-soft)]" : "text-[var(--nb-text-dim)] hover:bg-white/5"
+                  }`}
+                >
+                  <span className="min-w-0 truncate">{m}</span>
+                  <span className="text-[11.5px] text-[var(--nb-text-mute)]">{so}</span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </aside>
+
+      {/* ---------- BÀI VIẾT ---------- */}
+      <div>
+        <div className="flex items-center gap-3 rounded-full border border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)]/70 px-5 py-2.5 focus-within:border-[var(--nb-gold)]">
+          <Search size={17} className="shrink-0 text-[var(--nb-gold)]" />
+          <input
+            value={tu}
+            onChange={(e) => setTu(e.target.value)}
+            placeholder="Tìm kiếm trong cẩm nang..."
+            aria-label="Tìm kiếm trong cẩm nang"
+            className="h-8 min-w-0 flex-1 bg-transparent text-[14.5px] text-white outline-none placeholder:text-[var(--nb-text-mute)]"
+          />
+        </div>
+
+        {ds.length === 0 ? (
+          <p className="nb-panel mt-6 p-12 text-center text-[14.5px] text-[var(--nb-text-dim)]">
+            Không có bài viết nào khớp. Thử từ khoá khác hoặc chọn “Tất cả bài viết”.
+          </p>
+        ) : (
+          <>
+            {noiBat && (
+              <NavLink href={`/cam-nang/${noiBat.id}`} className="nb-card group mt-6 block overflow-hidden">
+                <span className="relative block h-[300px] overflow-hidden">
+                  <Image
+                    src={ANH[0]!}
+                    alt=""
+                    fill
+                    sizes="(min-width:1024px) 720px, 100vw"
+                    className="object-cover transition-transform duration-[700ms] group-hover:scale-105"
+                  />
+                  <span
+                    className="absolute inset-0"
+                    style={{ background: "linear-gradient(180deg, rgba(7,21,37,.15) 35%, rgba(7,21,37,.95))" }}
+                    aria-hidden="true"
+                  />
+                  <span className="absolute inset-x-0 bottom-0 p-7">
+                    <span className="rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/70 px-3 py-1 text-[11.5px] font-semibold text-[var(--nb-gold-soft)]">
+                      {mucCuaBai(noiBat)[0]}
+                    </span>
+                    <b className="nb-display mt-3 block max-w-[34ch] text-[26px] leading-tight text-white">
+                      {noiBat.tieuDe}
+                    </b>
+                    <span className="mt-2 block max-w-[62ch] text-[14px] text-[var(--nb-text-dim)]">{noiBat.tomTat}</span>
+                    <span className="mt-3 flex items-center gap-2 text-[12.5px] text-[var(--nb-text-mute)]">
+                      <Clock size={12} />
+                      {noiBat.phut} phút đọc
+                    </span>
+                  </span>
+                </span>
+              </NavLink>
+            )}
+
+            <ul className="mt-6 grid gap-5 md:grid-cols-2">
+              {conLai.map((b, i) => (
+                <li key={b.id}>
+                  <NavLink href={`/cam-nang/${b.id}`} className="nb-card group flex h-full flex-col overflow-hidden">
+                    <span className="relative block h-[150px] overflow-hidden">
+                      <Image
+                        src={ANH[(i + 1) % ANH.length]!}
+                        alt=""
+                        fill
+                        sizes="(min-width:768px) 360px, 100vw"
+                        className="object-cover transition-transform duration-[600ms] group-hover:scale-105"
+                      />
+                    </span>
+                    <span className="flex flex-1 flex-col p-5">
+                      <span className="text-[11.5px] font-semibold tracking-wide text-[var(--nb-gold)] uppercase">
+                        {mucCuaBai(b)[0]}
+                      </span>
+                      <b className="mt-2 block text-[16.5px] leading-snug font-semibold text-white">{b.tieuDe}</b>
+                      <span className="mt-2 block text-[13.5px] leading-[1.6] text-[var(--nb-text-dim)]">
+                        {b.tomTat.slice(0, 110)}…
+                      </span>
+                      <span className="mt-auto flex items-center gap-2 pt-4 text-[12.5px] text-[var(--nb-text-mute)]">
+                        <Clock size={12} />
+                        {b.phut} phút đọc
+                        <ArrowRight
+                          size={13}
+                          className="ml-auto text-[var(--nb-gold)] transition-transform duration-300 group-hover:translate-x-1"
+                        />
+                      </span>
+                    </span>
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+      </div>
+
+      {/* ---------- ĐƯỢC ĐỌC NHIỀU NHẤT ---------- */}
+      <aside className="nb-panel h-fit p-5 lg:sticky lg:top-[calc(var(--nb-header)+20px)]">
+        <b className="flex items-center gap-2 text-[15px] font-semibold text-white">
+          <Flame size={16} className="text-[var(--nb-gold)]" />
+          Được đọc nhiều nhất
+        </b>
+        <ol className="mt-4 space-y-3">
+          {docNhieu.map((b, i) => (
+            <li key={b.id}>
+              <NavLink href={`/cam-nang/${b.id}`} className="group flex gap-3">
+                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-[var(--nb-line-soft)] text-[11.5px] font-bold text-[var(--nb-gold)]">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-[13px] leading-snug font-medium text-[var(--nb-text)] transition group-hover:text-[var(--nb-gold-soft)]">
+                    {b.tieuDe}
+                  </span>
+                  <span className="mt-0.5 block text-[11.5px] text-[var(--nb-text-mute)]">{b.phut} phút đọc</span>
+                </span>
+              </NavLink>
+            </li>
+          ))}
+        </ol>
+      </aside>
+    </div>
+  );
+}

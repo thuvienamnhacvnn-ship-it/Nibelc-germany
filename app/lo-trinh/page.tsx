@@ -1,0 +1,27 @@
+import type { Metadata } from "next";
+import { PageHero } from "@/components/ui/PageHero";
+import { JourneyTimeline } from "@/components/journey/JourneyTimeline";
+import { CHANG } from "@/data/journey";
+
+export const metadata: Metadata = {
+  title: "Lộ trình từ Việt Nam đến Đức",
+  description:
+    "Chín chặng từ lúc tư vấn tới khi ổn định tại Đức: hồ sơ, tiếng Đức, phỏng vấn, hợp đồng, visa, xuất cảnh và onboarding.",
+};
+
+export default function Page() {
+  return (
+    <div className="nb-duoi-header">
+      <PageHero
+        anh="/assets/home/hero/germany-panorama.png"
+        nhan="Hành trình kiến tạo tương lai"
+        tieuDe="Lộ trình từ Việt Nam đến Đức"
+        mo="Đồng hành cùng bạn trên từng bước, an toàn, minh bạch và hiệu quả."
+        soLieu={[{ so: String(CHANG.length), nhan: "chặng" }]}
+      />
+      <section className="nb-wrap py-14">
+        <JourneyTimeline />
+      </section>
+    </div>
+  );
+}

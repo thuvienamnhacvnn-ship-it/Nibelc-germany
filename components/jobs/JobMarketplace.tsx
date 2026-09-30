@@ -1,0 +1,290 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { LayoutGrid, List, SlidersHorizontal, X } from "lucide-react";
+import { JobCard } from "@/components/jobs/JobCard";
+import { JobRow } from "@/components/jobs/JobRow";
+import { INDUSTRIES } from "@/data/industries";
+import { JOBS, allCities, allStates, type JobFull } from "@/data/jobs";
+
+/**
+ * SÀN ĐƠN HÀNG
+ *
+ * Lọc hoàn toàn phía trình duyệt trên dữ liệu có sẵn — chưa cần máy chủ.
+ * Trạng thái ban đầu đọc từ query (?industry=, ?city=, ?q=) nên link từ trang
+ * chủ và từ ô tìm kiếm mở đúng bộ lọc.
+ */
+
+const MUC_LUONG = [
+  { nhan: "Tất cả", min: 0 },
+  { nhan: "Từ 1.000 €", min: 1000 },
+  { nhan: "Từ 1.500 €", min: 1500 },
+  { nhan: "Từ 2.000 €", min: 2000 },
+  { nhan: "Từ 2.500 €", min: 2500 },
+];
+
+const TIENG = ["Tất cả", "A2 – B1", "B1", "B1 – B2", "B2"];
+const KINH_NGHIEM = ["Tất cả", "Không yêu cầu", "Có kinh nghiệm"];
+const CHUONG_TRINH = ["Tất cả", "Lao động", "Du học nghề"];
+
+function bo(s: string) {
+  return s
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/đ/g, "d")
+    .toLowerCase();
+}
+
+export function JobMarketplace() {
+  const sp = useSearchParams();
+
+  const [nganh, setNganh] = useState<string[]>(() => {
+    const v = sp.get("industry");
+    return v ? [v] : [];
+  });
+  const [thanhPho, setThanhPho] = useState(sp.get("city") ?? "Tất cả");
+  const [bang, setBang] = useState("Tất cả");
+  const [luongMin, setLuongMin] = useState(0);
+  const [tieng, setTieng] = useState("Tất cả");
+  const [kn, setKn] = useState("Tất cả");
+  const [ct, setCt] = useState("Tất cả");
+  const [tuKhoa, setTuKhoa] = useState(sp.get("q") ?? "");
+  const [sapXep, setSapXep] = useState<"moi" | "luong-cao" | "suat-nhieu">("moi");
+  const [dangLuoi, setDangLuoi] = useState(true);
+  const [hien, setHien] = useState(9);
+
+  const ketQua = useMemo(() => {
+    const q = bo(tuKhoa.trim());
+    let ds = JOBS.filter((j) => {
+      if (nganh.length && !nganh.includes(j.industryId)) return false;
+      if (thanhPho !== "Tất cả" && j.city !== thanhPho) return false;
+      if (bang !== "Tất cả" && j.state !== bang) return false;
+      if (j.salary.max < luongMin) return false;
+      if (tieng !== "Tất cả" && j.languageLevel !== tieng) return false;
+      if (kn !== "Tất cả" && j.experience !== kn) return false;
+      if (ct !== "Tất cả" && j.programType !== ct) return false;
+      if (q && !bo(`${j.title} ${j.city} ${j.state}`).includes(q)) return false;
+      return true;
+    });
+
+    ds = [...ds].sort((a, b) => {
+      if (sapXep === "luong-cao") return b.salary.max - a.salary.max;
+      if (sapXep === "suat-nhieu") return b.vacancies - a.vacancies;
+      return b.createdAt.localeCompare(a.createdAt) || b.gallery.length - a.gallery.length;
+    });
+    return ds;
+  }, [nganh, thanhPho, bang, luongMin, tieng, kn, ct, tuKhoa, sapXep]);
+
+  const soLoc =
+    nganh.length +
+    (thanhPho !== "Tất cả" ? 1 : 0) +
+    (bang !== "Tất cả" ? 1 : 0) +
+    (luongMin > 0 ? 1 : 0) +
+    (tieng !== "Tất cả" ? 1 : 0) +
+    (kn !== "Tất cả" ? 1 : 0) +
+    (ct !== "Tất cả" ? 1 : 0);
+
+  function xoaHet() {
+    setNganh([]);
+    setThanhPho("Tất cả");
+    setBang("Tất cả");
+    setLuongMin(0);
+    setTieng("Tất cả");
+    setKn("Tất cả");
+    setCt("Tất cả");
+    setTuKhoa("");
+  }
+
+  return (
+    <div className="nb-wrap grid gap-8 py-12 lg:grid-cols-[286px_minmax(0,1fr)]">
+      {/* ---------------- BỘ LỌC ---------------- */}
+      <aside className="nb-panel h-fit p-6 lg:sticky lg:top-[calc(var(--nb-header)+20px)]">
+        <div className="flex items-center justify-between">
+          <b className="flex items-center gap-2 text-[15.5px] font-semibold text-white">
+            <SlidersHorizontal size={17} className="text-[var(--nb-gold)]" />
+            Bộ lọc tìm kiếm
+          </b>
+          {soLoc > 0 && (
+            <button
+              type="button"
+              onClick={xoaHet}
+              className="flex items-center gap-1 text-[12.5px] text-[var(--nb-text-mute)] transition hover:text-[var(--nb-gold-soft)]"
+            >
+              <X size={13} />
+              Xoá ({soLoc})
+            </button>
+          )}
+        </div>
+
+        <Nhom nhan="Ngành nghề">
+          <ul className="max-h-[240px] space-y-1 overflow-y-auto pr-1">
+            {INDUSTRIES.map((i) => {
+              const on = nganh.includes(i.id);
+              const so = JOBS.filter((j) => j.industryId === i.id).length;
+              return (
+                <li key={i.id}>
+                  <button
+                    type="button"
+                    onClick={() => setNganh((c) => (on ? c.filter((x) => x !== i.id) : [...c, i.id]))}
+                    aria-pressed={on}
+                    className={`flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-[13.5px] transition ${
+                      on ? "bg-[var(--nb-gold)]/12 text-[var(--nb-gold-soft)]" : "text-[var(--nb-text-dim)] hover:bg-white/5"
+                    }`}
+                  >
+                    <span
+                      className={`grid h-[15px] w-[15px] shrink-0 place-items-center rounded-[4px] border ${
+                        on ? "border-[var(--nb-gold)] bg-[var(--nb-gold)]" : "border-[var(--nb-line-soft)]"
+                      }`}
+                    >
+                      {on && <span className="h-[7px] w-[7px] rounded-[1px] bg-[var(--nb-navy-900)]" />}
+                    </span>
+                    <span className="min-w-0 flex-1 truncate">{i.titleVi}</span>
+                    <span className="text-[11.5px] text-[var(--nb-text-mute)]">{so}</span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </Nhom>
+
+        <Nhom nhan="Thành phố">
+          <Chon gt={thanhPho} dat={setThanhPho} ds={["Tất cả", ...allCities()]} />
+        </Nhom>
+        <Nhom nhan="Quốc gia / Bang">
+          <Chon gt={bang} dat={setBang} ds={["Tất cả", ...allStates()]} />
+        </Nhom>
+
+        <Nhom nhan="Mức lương tối thiểu">
+          <div className="flex flex-wrap gap-1.5">
+            {MUC_LUONG.map((m) => (
+              <button
+                key={m.nhan}
+                type="button"
+                onClick={() => setLuongMin(m.min)}
+                aria-pressed={luongMin === m.min}
+                className={`rounded-full border px-3 py-1.5 text-[12.5px] transition ${
+                  luongMin === m.min
+                    ? "border-[var(--nb-gold)] bg-[var(--nb-gold)]/12 text-[var(--nb-gold-soft)]"
+                    : "border-[var(--nb-line-soft)] text-[var(--nb-text-dim)] hover:border-[var(--nb-line)]"
+                }`}
+              >
+                {m.nhan}
+              </button>
+            ))}
+          </div>
+        </Nhom>
+
+        <Nhom nhan="Trình độ tiếng Đức">
+          <Chon gt={tieng} dat={setTieng} ds={TIENG} />
+        </Nhom>
+        <Nhom nhan="Kinh nghiệm">
+          <Chon gt={kn} dat={setKn} ds={KINH_NGHIEM} />
+        </Nhom>
+        <Nhom nhan="Chương trình">
+          <Chon gt={ct} dat={setCt} ds={CHUONG_TRINH} />
+        </Nhom>
+      </aside>
+
+      {/* ---------------- KẾT QUẢ ---------------- */}
+      <div>
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h2 className="nb-display text-[26px] text-white">Đơn hàng mới nhất</h2>
+            <p className="mt-1 text-[13.5px] text-[var(--nb-text-dim)]">
+              Hiển thị {Math.min(hien, ketQua.length)} trong {ketQua.length} đơn hàng
+            </p>
+          </div>
+
+          <div className="flex shrink-0 flex-wrap items-center gap-2.5">
+            <div className="flex overflow-hidden rounded-full border border-[var(--nb-line-soft)]">
+              {[
+                { on: dangLuoi, dat: () => setDangLuoi(true), Icon: LayoutGrid, nhan: "Lưới" },
+                { on: !dangLuoi, dat: () => setDangLuoi(false), Icon: List, nhan: "Danh sách" },
+              ].map(({ on, dat, Icon, nhan }) => (
+                <button
+                  key={nhan}
+                  type="button"
+                  onClick={dat}
+                  aria-pressed={on}
+                  className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap px-3.5 py-2 text-[12.5px] transition ${
+                    on ? "bg-[var(--nb-gold)] text-[var(--nb-navy-900)]" : "text-[var(--nb-text-dim)]"
+                  }`}
+                >
+                  <Icon size={14} />
+                  {nhan}
+                </button>
+              ))}
+            </div>
+
+            <select
+              value={sapXep}
+              onChange={(e) => setSapXep(e.target.value as typeof sapXep)}
+              aria-label="Sắp xếp"
+              className="nb-input h-9 w-[152px] py-0 text-[13px]"
+            >
+              <option value="moi">Mới nhất</option>
+              <option value="luong-cao">Lương cao nhất</option>
+              <option value="suat-nhieu">Nhiều suất nhất</option>
+            </select>
+          </div>
+        </div>
+
+        {ketQua.length === 0 ? (
+          <div className="nb-panel mt-8 p-14 text-center">
+            <b className="block text-[17px] text-white">Không có đơn hàng nào khớp bộ lọc</b>
+            <p className="mt-2 text-[14px] text-[var(--nb-text-dim)]">Thử bỏ bớt điều kiện hoặc mở rộng mức lương.</p>
+            <button type="button" onClick={xoaHet} className="nb-btn-ghost mt-6 h-10 px-5 text-[13.5px]">
+              Xoá bộ lọc
+            </button>
+          </div>
+        ) : dangLuoi ? (
+          <ul className="mt-7 grid gap-6 md:grid-cols-2 2xl:grid-cols-3">
+            {ketQua.slice(0, hien).map((j, i) => (
+              <li key={j.id} className={i === 0 && ketQua.length > 2 ? "md:col-span-2 2xl:col-span-1" : ""}>
+                <JobCard job={j} lon={i === 0 && ketQua.length > 2} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <ul className="mt-7 space-y-4">
+            {ketQua.slice(0, hien).map((j) => (
+              <li key={j.id}>
+                <JobRow job={j} />
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {hien < ketQua.length && (
+          <div className="mt-10 text-center">
+            <button type="button" onClick={() => setHien((h) => h + 9)} className="nb-btn-ghost h-12 px-8 text-[14.5px]">
+              Xem thêm {Math.min(9, ketQua.length - hien)} đơn hàng
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function Nhom({ nhan, children }: { nhan: string; children: React.ReactNode }) {
+  return (
+    <div className="mt-6 border-t border-[var(--nb-line-soft)] pt-5 first-of-type:border-0">
+      <p className="mb-2.5 text-[12px] font-semibold tracking-[0.12em] text-[var(--nb-text-mute)] uppercase">{nhan}</p>
+      {children}
+    </div>
+  );
+}
+
+function Chon({ gt, dat, ds }: { gt: string; dat: (v: string) => void; ds: string[] }) {
+  return (
+    <select value={gt} onChange={(e) => dat(e.target.value)} className="nb-input h-10 py-0 text-[13.5px]">
+      {ds.map((x) => (
+        <option key={x} value={x}>
+          {x}
+        </option>
+      ))}
+    </select>
+  );
+}

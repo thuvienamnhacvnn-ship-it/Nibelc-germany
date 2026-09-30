@@ -1,0 +1,308 @@
+@import "tailwindcss";
+
+/* Thư mục người dùng (C:\Users\admin) là một git repo riêng. Nếu để Tailwind v4
+   tự dò nguồn, nó quét ngược ra ngoài dự án và làm `next dev` treo. Khai báo
+   nguồn tường minh để chặn việc đó. */
+@source "./";
+@source "../components";
+@source "../data";
+@source "../hooks";
+@source "../lib";
+
+/* ============================================================
+   NIBELC GROUP GERMANY — DESIGN SYSTEM
+   Màu lấy đúng theo MASTER BUILD PROMPT mục 02. Không thêm màu
+   nào ngoài bảng này.
+   ============================================================ */
+:root {
+  /* navy */
+  --nb-navy-900: #050b16; /* nền tối nhất */
+  --nb-navy-800: #071525; /* primary dark navy */
+  --nb-navy-700: #0b1c36; /* navy nhạt hơn, dùng cho card */
+  --nb-navy-600: #122745;
+  --nb-navy-500: #1b3459;
+
+  /* vàng champagne */
+  --nb-gold: #d9b878;
+  --nb-gold-strong: #e0ac3d;
+  --nb-gold-soft: #f0dcb4;
+  --nb-gold-deep: #9b7a35;
+
+  /* phụ trợ */
+  --nb-white: #ffffff;
+  --nb-cyan: #2f8fe0;
+
+  /* chữ */
+  --nb-text: #eef3fa;
+  --nb-text-dim: #9fb0c8;
+  --nb-text-mute: #6c7f9a;
+
+  /* viền */
+  --nb-line: rgba(217, 184, 120, 0.22);
+  --nb-line-soft: rgba(255, 255, 255, 0.08);
+
+  /* chiều cao header, dùng lại ở nhiều chỗ */
+  --nb-header: 72px;
+}
+
+@theme {
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-display), Georgia, serif;
+
+  --color-navy-900: var(--nb-navy-900);
+  --color-navy-800: var(--nb-navy-800);
+  --color-navy-700: var(--nb-navy-700);
+  --color-navy-600: var(--nb-navy-600);
+  --color-navy-500: var(--nb-navy-500);
+  --color-gold: var(--nb-gold);
+  --color-gold-strong: var(--nb-gold-strong);
+  --color-gold-soft: var(--nb-gold-soft);
+  --color-cyan-tech: var(--nb-cyan);
+}
+
+@layer base {
+  html {
+    overflow-x: clip;
+    scroll-behavior: smooth;
+    background: var(--nb-navy-900);
+  }
+  body {
+    background: var(--nb-navy-900);
+    color: var(--nb-text);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--nb-white);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    overflow-wrap: break-word;
+  }
+  ::selection {
+    background: var(--nb-gold);
+    color: var(--nb-navy-900);
+  }
+  :focus-visible {
+    outline: 2px solid var(--nb-gold-strong);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  /* thanh cuộn hợp tông navy */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--nb-navy-900);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--nb-navy-600);
+    border-radius: 99px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--nb-navy-500);
+  }
+}
+
+/* ============================================================
+   CHỮ
+   ============================================================ */
+
+/* Tiêu đề hero dùng serif cao cấp */
+.nb-display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+/* Chữ mạ vàng champagne */
+.nb-gold-text {
+  background: linear-gradient(180deg, var(--nb-gold-soft) 0%, var(--nb-gold) 45%, var(--nb-gold-deep) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* nới ô dòng, nếu không background-clip cắt mất dấu tiếng Việt */
+  padding-block: 0.12em;
+  margin-block: -0.12em;
+}
+
+/* Nhãn nhỏ giãn cách rộng */
+.nb-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--nb-gold);
+}
+
+/* ============================================================
+   NÚT
+   ============================================================ */
+.nb-btn,
+.nb-btn-ghost,
+.nb-btn-solid {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  border-radius: 999px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition:
+    transform 0.25s cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+/* nút vàng chính */
+.nb-btn {
+  background: linear-gradient(135deg, var(--nb-gold-soft), var(--nb-gold) 45%, var(--nb-gold-strong));
+  color: var(--nb-navy-900);
+  box-shadow: 0 10px 30px -14px rgba(224, 172, 61, 0.8);
+}
+.nb-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 38px -14px rgba(224, 172, 61, 0.95);
+}
+
+/* nút viền vàng, nền trong */
+.nb-btn-ghost {
+  border: 1px solid var(--nb-line);
+  background: rgba(11, 28, 54, 0.55);
+  color: var(--nb-gold-soft);
+  backdrop-filter: blur(8px);
+}
+.nb-btn-ghost:hover {
+  border-color: var(--nb-gold);
+  background: rgba(11, 28, 54, 0.85);
+  transform: translateY(-2px);
+}
+
+/* nút navy đặc */
+.nb-btn-solid {
+  background: var(--nb-navy-700);
+  color: var(--nb-text);
+  border: 1px solid var(--nb-line-soft);
+}
+.nb-btn-solid:hover {
+  background: var(--nb-navy-600);
+  border-color: var(--nb-line);
+}
+
+/* ============================================================
+   BỀ MẶT
+   ============================================================ */
+.nb-panel {
+  background: linear-gradient(180deg, rgba(11, 28, 54, 0.92), rgba(7, 21, 37, 0.92));
+  border: 1px solid var(--nb-line-soft);
+  border-radius: 16px;
+}
+
+.nb-card {
+  background: linear-gradient(180deg, rgba(18, 39, 69, 0.85), rgba(7, 21, 37, 0.95));
+  border: 1px solid var(--nb-line-soft);
+  border-radius: 14px;
+  transition:
+    transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.nb-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--nb-line);
+  box-shadow: 0 22px 48px -28px rgba(0, 0, 0, 0.9);
+}
+
+/* đường kẻ vàng mảnh — dải nền của rail phong bì */
+.nb-gold-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--nb-gold) 18%, var(--nb-gold-strong) 50%, var(--nb-gold) 82%, transparent);
+}
+
+/* ô nhập */
+.nb-input {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--nb-line-soft);
+  background: rgba(7, 21, 37, 0.7);
+  color: var(--nb-text);
+  padding: 0.7rem 0.95rem;
+  font-size: 14.5px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.nb-input::placeholder {
+  color: var(--nb-text-mute);
+}
+.nb-input:focus {
+  outline: none;
+  border-color: var(--nb-gold);
+  background: rgba(11, 28, 54, 0.9);
+}
+
+/* ============================================================
+   RAIL PHONG BÌ — nền phải THẲNG, không bệ cong, không sân khấu
+   ============================================================ */
+.nb-rail-floor {
+  background: linear-gradient(180deg, rgba(5, 11, 22, 0) 0%, rgba(5, 11, 22, 0.72) 42%, var(--nb-navy-900) 100%);
+}
+
+/* che hai mép rail để phong bì trôi ra ngoài không bị cắt cứng */
+.nb-rail-fade-l {
+  background: linear-gradient(90deg, var(--nb-navy-900) 8%, transparent 100%);
+}
+.nb-rail-fade-r {
+  background: linear-gradient(270deg, var(--nb-navy-900) 8%, transparent 100%);
+}
+
+/* ============================================================
+   TIỆN ÍCH
+   ============================================================ */
+.nb-wrap {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1600px;
+  padding-inline: 40px;
+}
+@media (max-width: 1440px) {
+  .nb-wrap {
+    max-width: 1400px;
+    padding-inline: 32px;
+  }
+}
+
+.nb-no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.nb-no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .nb-btn,
+  .nb-btn-ghost,
+  .nb-btn-solid,
+  .nb-card {
+    transition: none;
+  }
+  .nb-btn:hover,
+  .nb-btn-ghost:hover,
+  .nb-card:hover {
+    transform: none;
+  }
+}
+
+/* Trang phụ chừa chỗ cho header cố định; trang chủ thì không dùng lớp này
+   vì hero chạy full viewport và header đè lên trên. */
+.nb-duoi-header {
+  padding-top: var(--nb-header);
+}

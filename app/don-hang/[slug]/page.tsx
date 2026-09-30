@@ -1,0 +1,241 @@
+import Image from "next/image";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { ArrowRight, Briefcase, CalendarClock, Check, Clock, GraduationCap, MapPin, Users } from "lucide-react";
+import { NavLink } from "@/components/layout/NavLink";
+import { JobCard } from "@/components/jobs/JobCard";
+import { JobGallery } from "@/components/jobs/JobGallery";
+import { JOBS, jobBySlug, jobsByIndustry } from "@/data/jobs";
+import { industryById } from "@/data/industries";
+import { chuoiLuong, noiLamViec, tenNhaTuyenDung } from "@/types/job";
+import { LEGAL } from "@/data/company";
+
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return JOBS.map((j) => ({ slug: j.slug }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const j = jobBySlug(slug);
+  if (!j) return {};
+  return {
+    title: `${j.title} — ${j.city}`,
+    description: `${j.title} tại ${j.city}, ${j.state}. ${chuoiLuong(j)}, ${j.vacancies} suất, tiếng Đức ${j.languageLevel}.`,
+  };
+}
+
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const job = jobBySlug(slug);
+  if (!job) notFound();
+
+  const nganh = industryById(job.industryId);
+  const lienQuan = jobsByIndustry(job.industryId)
+    .filter((j) => j.id !== job.id)
+    .slice(0, 3);
+
+  const THONG_TIN = [
+    { Icon: MapPin, nhan: "Nơi làm việc", gt: noiLamViec(job) },
+    { Icon: Users, nhan: "Số lượng", gt: `${job.vacancies} suất` },
+    { Icon: GraduationCap, nhan: "Tiếng Đức", gt: job.languageLevel },
+    { Icon: Briefcase, nhan: "Chương trình", gt: job.programType },
+    { Icon: Clock, nhan: "Giờ làm", gt: job.hours ? `${job.hours} giờ / tuần` : "Theo hợp đồng" },
+    { Icon: CalendarClock, nhan: "Hình thức", gt: job.employmentType },
+  ];
+
+  return (
+    <div className="nb-duoi-header">
+      <div className="nb-wrap grid gap-10 py-12 lg:grid-cols-[minmax(0,65fr)_minmax(0,35fr)]">
+        {/* ---------------- TRÁI ---------------- */}
+        <article>
+          <nav aria-label="Đường dẫn" className="flex items-center gap-2 text-[13px] text-[var(--nb-text-mute)]">
+            <NavLink href="/don-hang" className="transition hover:text-[var(--nb-gold-soft)]">
+              Đơn hàng
+            </NavLink>
+            <span>/</span>
+            <span className="truncate text-[var(--nb-text-dim)]">{job.title}</span>
+          </nav>
+
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            {nganh && (
+              <span className="rounded-full border border-[var(--nb-line)] px-3 py-1 text-[12px] text-[var(--nb-gold-soft)]">
+                {nganh.titleVi} · {nganh.titleDe}
+              </span>
+            )}
+            {job.isSample && (
+              <span className="rounded-full bg-[var(--nb-cyan)]/85 px-2.5 py-1 text-[11px] font-bold text-white">
+                DỮ LIỆU MẪU
+              </span>
+            )}
+          </div>
+
+          <h1 className="nb-display mt-3 text-[clamp(26px,2.6vw,38px)] text-white">{job.title}</h1>
+          <p className="mt-2 text-[14.5px] text-[var(--nb-text-mute)]">{tenNhaTuyenDung(job)}</p>
+
+          <div className="mt-7">
+            <JobGallery anh={job.gallery.length ? job.gallery : [job.image]} ten={job.title} />
+          </div>
+
+          <ul className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {THONG_TIN.map(({ Icon, nhan, gt }) => (
+              <li key={nhan} className="nb-panel flex items-center gap-3 p-4">
+                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-[var(--nb-line)] text-[var(--nb-gold)]">
+                  <Icon size={16} />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-[11.5px] text-[var(--nb-text-mute)]">{nhan}</span>
+                  <b className="mt-0.5 block truncate text-[14.5px] font-semibold text-white">{gt}</b>
+                </span>
+              </li>
+            ))}
+          </ul>
+
+          {job.description && (
+            <Khoi tieuDe="Mô tả công việc">
+              <p className="text-[15px] leading-[1.8] text-[var(--nb-text-dim)]">{job.description}</p>
+            </Khoi>
+          )}
+
+          {job.positions.length > 0 && (
+            <Khoi tieuDe="Vị trí tuyển dụng">
+              <ul className="overflow-hidden rounded-xl border border-[var(--nb-line-soft)]">
+                {job.positions.map((v, i) => (
+                  <li
+                    key={`${v.name}-${i}`}
+                    className={`flex flex-wrap items-center justify-between gap-3 px-5 py-3.5 ${
+                      i % 2 ? "bg-white/[.02]" : ""
+                    }`}
+                  >
+                    <span className="min-w-0 flex-1 text-[14.5px] text-[var(--nb-text)]">{v.name}</span>
+                    <span className="flex shrink-0 items-center gap-4 text-[13.5px]">
+                      {v.count !== null && <span className="text-[var(--nb-text-dim)]">{v.count} suất</span>}
+                      {v.salaryFrom !== null && (
+                        <b className="nb-gold-text font-semibold">
+                          {v.salaryFrom.toLocaleString("de-DE")}
+                          {v.salaryTo && v.salaryTo !== v.salaryFrom ? ` – ${v.salaryTo.toLocaleString("de-DE")}` : ""} €
+                        </b>
+                      )}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </Khoi>
+          )}
+
+          {job.requirements.length > 0 && (
+            <Khoi tieuDe="Yêu cầu">
+              <DanhSach ds={job.requirements} />
+            </Khoi>
+          )}
+
+          {job.benefits.length > 0 && (
+            <Khoi tieuDe="Quyền lợi">
+              <DanhSach ds={job.benefits} />
+            </Khoi>
+          )}
+
+          <Khoi tieuDe="Quy trình tham gia">
+            <ol className="grid gap-3 sm:grid-cols-2">
+              {[
+                "Gửi hồ sơ và được chuyên viên đánh giá",
+                "Học tiếng Đức tới trình độ đơn hàng yêu cầu",
+                "Phỏng vấn với chủ sử dụng lao động",
+                "Ký hợp đồng, nộp hồ sơ visa và xuất cảnh",
+              ].map((b, i) => (
+                <li key={b} className="nb-panel flex gap-3 p-4">
+                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[var(--nb-gold)] text-[12px] font-bold text-[var(--nb-navy-900)]">
+                    {i + 1}
+                  </span>
+                  <span className="text-[14px] leading-[1.6] text-[var(--nb-text-dim)]">{b}</span>
+                </li>
+              ))}
+            </ol>
+          </Khoi>
+        </article>
+
+        {/* ---------------- PHẢI ---------------- */}
+        <aside className="lg:sticky lg:top-[calc(var(--nb-header)+20px)] lg:h-fit">
+          <div className="nb-panel overflow-hidden">
+            <div className="nb-gold-rule" aria-hidden="true" />
+            <div className="p-6">
+              <p className="text-[12.5px] text-[var(--nb-text-mute)]">Thu nhập</p>
+              <b className="nb-gold-text nb-display mt-1 block text-[30px]">{chuoiLuong(job)}</b>
+
+              <dl className="mt-5 space-y-3 border-t border-[var(--nb-line-soft)] pt-5 text-[14px]">
+                {[
+                  ["Nơi làm việc", noiLamViec(job)],
+                  ["Số suất", `${job.vacancies}`],
+                  ["Tiếng Đức", job.languageLevel],
+                  ["Kinh nghiệm", job.experience],
+                  ["Chương trình", job.programType],
+                ].map(([k, v]) => (
+                  <div key={k} className="flex justify-between gap-4">
+                    <dt className="text-[var(--nb-text-mute)]">{k}</dt>
+                    <dd className="text-right font-medium text-white">{v}</dd>
+                  </div>
+                ))}
+              </dl>
+
+              <NavLink href="/lien-he" className="nb-btn mt-6 h-12 w-full px-6 text-[15px]">
+                ỨNG TUYỂN NGAY
+                <ArrowRight size={16} />
+              </NavLink>
+
+              <a
+                href={`tel:${LEGAL.phone.replace(/\s/g, "")}`}
+                className="nb-btn-ghost mt-2.5 h-11 w-full px-5 text-[13.5px]"
+              >
+                Gọi {LEGAL.phone}
+              </a>
+
+              <p className="mt-4 text-[12px] leading-[1.6] text-[var(--nb-text-mute)]">
+                Thông tin trong trang lấy theo thông báo tuyển dụng của đơn hàng. Điều kiện cuối cùng nằm trong hợp đồng
+                lao động bạn ký với chủ sử dụng.
+              </p>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      {lienQuan.length > 0 && (
+        <section className="border-t border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] py-16">
+          <div className="nb-wrap">
+            <h2 className="nb-display text-[26px] text-white">Đơn hàng cùng ngành</h2>
+            <ul className="mt-7 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+              {lienQuan.map((j) => (
+                <li key={j.id}>
+                  <JobCard job={j} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+    </div>
+  );
+}
+
+function Khoi({ tieuDe, children }: { tieuDe: string; children: React.ReactNode }) {
+  return (
+    <section className="mt-10">
+      <h2 className="nb-display text-[21px] text-white">{tieuDe}</h2>
+      <span className="mt-3 mb-5 block h-px w-16 bg-[var(--nb-gold)]" aria-hidden="true" />
+      {children}
+    </section>
+  );
+}
+
+function DanhSach({ ds }: { ds: string[] }) {
+  return (
+    <ul className="space-y-2.5">
+      {ds.map((x) => (
+        <li key={x} className="flex gap-3 text-[15px] leading-[1.7] text-[var(--nb-text-dim)]">
+          <Check size={17} className="mt-[3px] shrink-0 text-[var(--nb-gold)]" />
+          {x}
+        </li>
+      ))}
+    </ul>
+  );
+}
