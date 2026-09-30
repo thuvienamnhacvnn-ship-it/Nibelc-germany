@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { INDUSTRIES } from "@/data/industries";
 import { IndustryEnvelope } from "@/components/home/IndustryEnvelope";
+import { featuredJobOf } from "@/data/jobs";
 
 /**
  * DẢI PHONG BÌ NGÀNH NGHỀ
@@ -23,10 +24,13 @@ export function IndustryRail({
   dangChon,
   onChon,
   onHover,
+  dangHienJob,
 }: {
   dangChon: string | null;
   onChon: (id: string) => void;
   onHover: (v: boolean) => void;
+  /** true khi banner đơn hàng đang chiếm hero — tờ hồ sơ khi đó nằm ở trên đó */
+  dangHienJob: boolean;
 }) {
   const boc = useRef<HTMLDivElement>(null);
   const [keo, setKeo] = useState(false);
@@ -148,6 +152,8 @@ export function IndustryRail({
             index={i}
             dangChon={dangChon === ind.id}
             moNhat={dangChon !== null && dangChon !== ind.id}
+            anhDon={featuredJobOf(ind.id)?.image ?? null}
+            dangMoTrenHero={dangHienJob && dangChon === ind.id}
             onChon={() => {
               // kéo rê thì không tính là bấm chọn
               if (keoRef.current.daDiChuyen > 6) return;

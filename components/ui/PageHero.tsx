@@ -25,21 +25,20 @@ export function PageHero({
       <div className="absolute inset-0 -z-10">
         <Image src={anh} alt="" fill priority quality={85} sizes="100vw" className="object-cover object-center" />
       </div>
-      {/* Chữ trắng nằm trên ảnh nên cần nền tối; đây là dải đầu trang nhỏ,
-          không phải ảnh nội dung. */}
+      {/* KHÔNG phủ lớp màu lên ảnh banner. Ảnh đã được tạo với phần trái
+          tối sẵn, và chữ tự mang bóng riêng (.nb-bong-chu). */}
+
+      {/* Dải chuyển tiếp mỏng ở đáy để banner nối liền vào nền trang */}
       <div
-        className="absolute inset-0 -z-10"
-        style={{
-          background:
-            "linear-gradient(90deg, rgba(5,11,22,.96) 0%, rgba(5,11,22,.82) 42%, rgba(5,11,22,.45) 100%)",
-        }}
+        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[22%]"
+        style={{ background: "linear-gradient(180deg, rgba(5,11,22,0) 0%, var(--nb-navy-900) 94%)" }}
         aria-hidden="true"
       />
 
-      <div className="nb-wrap py-16">
+      <div className="nb-wrap nb-bong-chu py-16">
         <p className="nb-eyebrow">{nhan}</p>
         <h1 className="nb-display mt-3 max-w-[22ch] text-[clamp(30px,3.2vw,46px)] text-white">{tieuDe}</h1>
-        {mo && <p className="mt-4 max-w-[62ch] text-[16px] leading-[1.7] text-[var(--nb-text-dim)]">{mo}</p>}
+        {mo && <p className="mt-4 max-w-[62ch] text-[16px] leading-[1.7] text-[#d7e2f2]">{mo}</p>}
 
         {soLieu && soLieu.length > 0 && (
           <ul className="mt-7 flex flex-wrap gap-x-10 gap-y-4">
