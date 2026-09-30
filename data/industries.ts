@@ -16,7 +16,7 @@ export const INDUSTRIES: Industry[] = [
     titleDe: "Pflege & Gesundheit",
     icon: "Stethoscope",
     envelope: "/assets/industries/pflege-envelope.png",
-    cover: "/assets/jobs/soziales/01-hero-16x9.jpg",
+    cover: "/assets/nghe/pflege.jpg",
     accent: "#2F8FE0",
   },
   {
@@ -27,7 +27,7 @@ export const INDUSTRIES: Industry[] = [
     titleDe: "Gastronomie & Hotellerie",
     icon: "UtensilsCrossed",
     envelope: "/assets/industries/gastronomie-envelope.png",
-    cover: "/assets/jobs/gastronomie/01-hero-16x9.jpg",
+    cover: "/assets/nghe/gastronomie.jpg",
     accent: "#D9B878",
   },
   {
@@ -38,7 +38,7 @@ export const INDUSTRIES: Industry[] = [
     titleDe: "Elektrotechnik",
     icon: "Plug",
     envelope: "/assets/industries/elektro-envelope.png",
-    cover: "/assets/jobs/elektro/01-hero-16x9.jpg",
+    cover: "/assets/nghe/elektro.jpg",
     accent: "#2F8FE0",
   },
   {
@@ -49,7 +49,7 @@ export const INDUSTRIES: Industry[] = [
     titleDe: "Metall & Schweißen",
     icon: "Cog",
     envelope: "/assets/industries/mechanik-envelope.png",
-    cover: "/assets/jobs/mechanik/01-hero-16x9.jpg",
+    cover: "/assets/nghe/mechanik.jpg",
     accent: "#E0AC3D",
   },
   {
@@ -60,7 +60,7 @@ export const INDUSTRIES: Industry[] = [
     titleDe: "Logistik",
     icon: "Package",
     envelope: "/assets/industries/logistik-envelope.png",
-    cover: "/assets/jobs/logistik/01-hero-16x9.jpg",
+    cover: "/assets/nghe/logistik.jpg",
     accent: "#D9B878",
   },
   {
@@ -71,7 +71,7 @@ export const INDUSTRIES: Industry[] = [
     titleDe: "Beauty & Kosmetik",
     icon: "Flower2",
     envelope: "/assets/industries/kosmetik-envelope.png",
-    cover: null,
+    cover: "/assets/nghe/kosmetik.jpg",
     accent: "#D9B878",
   },
   {
@@ -82,7 +82,7 @@ export const INDUSTRIES: Industry[] = [
     titleDe: "Bau & Innenausbau",
     icon: "HardHat",
     envelope: "/assets/industries/bau-envelope.png",
-    cover: null,
+    cover: "/assets/nghe/bau.jpg",
     accent: "#E0AC3D",
   },
   {
@@ -93,7 +93,7 @@ export const INDUSTRIES: Industry[] = [
     titleDe: "Automotive & Technik",
     icon: "Car",
     envelope: "/assets/industries/automotive-envelope.png",
-    cover: null,
+    cover: "/assets/nghe/automotive.jpg",
     accent: "#2F8FE0",
   },
   {
@@ -104,7 +104,7 @@ export const INDUSTRIES: Industry[] = [
     titleDe: "IT",
     icon: "MonitorSmartphone",
     envelope: null,
-    cover: "/assets/jobs/it/01-hero-16x9.jpg",
+    cover: "/assets/nghe/it.jpg",
     accent: "#2F8FE0",
   },
   {
@@ -115,7 +115,7 @@ export const INDUSTRIES: Industry[] = [
     titleDe: "Handel & Verkauf",
     icon: "ShoppingCart",
     envelope: null,
-    cover: "/assets/jobs/handel/01-hero-16x9.jpg",
+    cover: "/assets/nghe/handel.jpg",
     accent: "#D9B878",
   },
   {
@@ -126,7 +126,7 @@ export const INDUSTRIES: Industry[] = [
     titleDe: "Landwirtschaft & Gartenbau",
     icon: "Sprout",
     envelope: null,
-    cover: "/assets/jobs/landwirtschaft/01-hero-16x9.jpg",
+    cover: "/assets/nghe/landwirtschaft.jpg",
     accent: "#D9B878",
   },
   {
@@ -137,7 +137,7 @@ export const INDUSTRIES: Industry[] = [
     titleDe: "Betreuung & Soziales",
     icon: "HeartHandshake",
     envelope: null,
-    cover: "/assets/jobs/soziales/01-hero-16x9.jpg",
+    cover: "/assets/nghe/soziales.jpg",
     accent: "#2F8FE0",
   },
 ];

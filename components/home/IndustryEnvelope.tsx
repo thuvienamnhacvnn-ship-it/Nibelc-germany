@@ -39,7 +39,7 @@ export function IndustryEnvelope({
       onClick={onChon}
       aria-pressed={dangChon}
       aria-label={`Ngành ${industry.titleVi}`}
-      className="group relative block w-[118px] shrink-0 cursor-pointer text-left focus-visible:outline-none 2xl:w-[132px]"
+      className="group relative block w-[96px] shrink-0 cursor-pointer text-left focus-visible:outline-none 2xl:w-[104px]"
       animate={{
         opacity: moNhat ? 0.62 : 1,
         y: dangChon ? -14 : 0,

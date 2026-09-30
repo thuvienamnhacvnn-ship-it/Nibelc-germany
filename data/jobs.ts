@@ -49,18 +49,21 @@ interface Tho {
 
 /** Ảnh thay thế khi một đơn chưa có ảnh nơi làm việc, lấy theo nhóm ngành */
 const ANH_NGANH: Record<string, string> = {
-  gastronomie: "/assets/jobs/gastronomie/01-hero-16x9.jpg",
-  elektro: "/assets/jobs/elektro/01-hero-16x9.jpg",
-  mechanik: "/assets/jobs/mechanik/01-hero-16x9.jpg",
-  logistik: "/assets/jobs/logistik/01-hero-16x9.jpg",
-  landwirtschaft: "/assets/jobs/landwirtschaft/01-hero-16x9.jpg",
-  it: "/assets/jobs/it/01-hero-16x9.jpg",
-  handel: "/assets/jobs/handel/01-hero-16x9.jpg",
-  soziales: "/assets/jobs/soziales/01-hero-16x9.jpg",
-  pflege: "/assets/jobs/soziales/02-portrait-work-3x4.jpg",
-  bau: "/assets/jobs/mechanik/04-detail-closeup.jpg",
-  automotive: "/assets/jobs/mechanik/02-portrait-work-3x4.jpg",
-  kosmetik: "/assets/jobs/handel/03-portrait-team-3x4.jpg",
+  // Ảnh 16:9 tạo riêng cho từng nhóm ngành bằng Gemini
+  // (scripts/tao-anh-nghe.mjs). Thẻ đơn hàng bay lên hero dùng chính bộ này,
+  // nên cả 12 nhóm nhìn cùng một phong cách.
+  pflege: "/assets/nghe/pflege.jpg",
+  gastronomie: "/assets/nghe/gastronomie.jpg",
+  elektro: "/assets/nghe/elektro.jpg",
+  mechanik: "/assets/nghe/mechanik.jpg",
+  logistik: "/assets/nghe/logistik.jpg",
+  kosmetik: "/assets/nghe/kosmetik.jpg",
+  bau: "/assets/nghe/bau.jpg",
+  automotive: "/assets/nghe/automotive.jpg",
+  it: "/assets/nghe/it.jpg",
+  handel: "/assets/nghe/handel.jpg",
+  landwirtschaft: "/assets/nghe/landwirtschaft.jpg",
+  soziales: "/assets/nghe/soziales.jpg",
 };
 
 function anhCua(j: Tho, thu: "image" | "thumbnail"): string {

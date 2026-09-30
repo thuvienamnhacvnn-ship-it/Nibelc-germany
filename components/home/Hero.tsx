@@ -6,6 +6,7 @@ import { useHeroJobRotation } from "@/hooks/useHeroJobRotation";
 import { IndustryRail } from "@/components/home/IndustryRail";
 import { FeaturedJob } from "@/components/home/FeaturedJob";
 import { SearchBar } from "@/components/home/SearchBar";
+import { HeroVideo } from "@/components/home/HeroVideo";
 import { industryById } from "@/data/industries";
 
 /**
@@ -25,16 +26,8 @@ export function Hero() {
 
   return (
     <section className="relative isolate min-h-[calc(100vh-40px)] overflow-hidden">
-      {/* ---------- NỀN ---------- */}
-      <Image
-        src="/assets/home/hero/germany-panorama.png"
-        alt="Toàn cảnh nước Đức lúc hoàng hôn"
-        fill
-        priority
-        quality={92}
-        sizes="100vw"
-        className="-z-20 object-cover object-center"
-      />
+      {/* ---------- NỀN: video, bản ngang cho desktop và bản dọc cho điện thoại ---------- */}
+      <HeroVideo />
 
       {/* nền đổi sang môi trường nghề khi hero chuyển chế độ giới thiệu đơn */}
       <AnimatePresence>
@@ -80,7 +73,7 @@ export function Hero() {
         aria-hidden="true"
         animate={{ opacity: hero.dangHienJob ? 0.3 : 1, x: hero.dangHienJob ? -24 : 0 }}
         transition={{ duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
-        className="pointer-events-none absolute bottom-0 left-0 z-10 w-[clamp(260px,23vw,400px)] origin-bottom-left"
+        className="pointer-events-none absolute bottom-[86px] left-0 z-10 w-[clamp(320px,29vw,520px)] origin-bottom-left"
       >
         <Image
           src="/assets/home/people/group-left.png"
@@ -98,7 +91,7 @@ export function Hero() {
         aria-hidden="true"
         animate={{ opacity: hero.dangHienJob ? 0.3 : 1, x: hero.dangHienJob ? 24 : 0 }}
         transition={{ duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
-        className="pointer-events-none absolute right-0 bottom-0 z-10 w-[clamp(240px,21vw,365px)] origin-bottom-right"
+        className="pointer-events-none absolute right-0 bottom-[86px] z-10 w-[clamp(300px,27vw,480px)] origin-bottom-right"
       >
         <Image
           src="/assets/home/people/group-right.png"

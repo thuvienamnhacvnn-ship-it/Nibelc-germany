@@ -33,23 +33,14 @@ export function IndustryRail({
   const keoRef = useRef({ dang: false, batDauX: 0, batDauScroll: 0, daDiChuyen: 0 });
   const treo = useRef(false);
 
-  // ba lượt để cuộn vòng không thấy mép
-  const ds = [...INDUSTRIES, ...INDUSTRIES, ...INDUSTRIES];
+  // Chỉ một lượt: Sếp muốn cụm phong bì gọn ở giữa chân banner, không trải
+  // kín hai bên. Vẫn cuộn ngang được bên trong khung hẹp.
+  const ds = INDUSTRIES;
 
-  /** Giữ thanh cuộn luôn ở lượt giữa */
-  const veGiua = useCallback(() => {
-    const el = boc.current;
-    if (!el) return;
-    const mot = el.scrollWidth / 3;
-    if (el.scrollLeft < mot * 0.5) el.scrollLeft += mot;
-    else if (el.scrollLeft > mot * 1.5) el.scrollLeft -= mot;
-  }, []);
+  /** Danh sách chỉ còn một lượt nên không phải kéo về giữa nữa */
+  const veGiua = useCallback(() => {}, []);
 
-  useEffect(() => {
-    const el = boc.current;
-    if (!el) return;
-    el.scrollLeft = el.scrollWidth / 3;
-  }, []);
+
 
   // tự trôi rất chậm khi không ai đụng vào
   useEffect(() => {
@@ -76,12 +67,14 @@ export function IndustryRail({
     veGiua();
   }
 
+  const NGUONG_KEO = 6; // px, dưới mức này coi là bấm chứ không phải kéo
+
   function keoBatDau(e: React.PointerEvent) {
     const el = boc.current;
     if (!el) return;
     keoRef.current = { dang: true, batDauX: e.clientX, batDauScroll: el.scrollLeft, daDiChuyen: 0 };
-    setKeo(true);
-    el.setPointerCapture(e.pointerId);
+    // KHÔNG gọi setPointerCapture ở đây: bắt pointer ngay lúc nhấn sẽ chuyển
+    // hết sự kiện về div rail và nút phong bì bên trong không nhận được click.
   }
 
   function keoDiChuyen(e: React.PointerEvent) {
@@ -90,6 +83,11 @@ export function IndustryRail({
     if (!el || !k.dang) return;
     const dx = e.clientX - k.batDauX;
     k.daDiChuyen = Math.max(k.daDiChuyen, Math.abs(dx));
+    if (k.daDiChuyen <= NGUONG_KEO) return; // vẫn còn là một cú bấm
+    if (!keo) {
+      setKeo(true);
+      el.setPointerCapture(e.pointerId); // giờ mới thật sự là kéo
+    }
     el.scrollLeft = k.batDauScroll - dx;
     veGiua();
   }
@@ -98,7 +96,7 @@ export function IndustryRail({
     const el = boc.current;
     keoRef.current.dang = false;
     setKeo(false);
-    el?.releasePointerCapture?.(e.pointerId);
+    if (el?.hasPointerCapture?.(e.pointerId)) el.releasePointerCapture(e.pointerId);
   }
 
   function nhay(huong: -1 | 1) {
@@ -120,8 +118,15 @@ export function IndustryRail({
       }}
     >
       {/* nền THẲNG: dải navy + một vạch vàng mảnh */}
-      <div className="nb-rail-floor absolute inset-x-0 bottom-0 top-[28%]" aria-hidden="true" />
-      <div className="nb-gold-rule absolute inset-x-0 bottom-[10px] opacity-60" aria-hidden="true" />
+      <div
+        className="pointer-events-none absolute top-[24%] bottom-0 left-1/2 w-[1140px] max-w-[96vw] -translate-x-1/2 rounded-t-[28px]"
+        style={{
+          background:
+            "radial-gradient(120% 100% at 50% 100%, rgba(5,11,22,.88) 0%, rgba(5,11,22,.6) 55%, transparent 100%)",
+        }}
+        aria-hidden="true"
+      />
+      <div className="nb-gold-rule absolute bottom-[10px] left-1/2 w-[1080px] max-w-[92vw] -translate-x-1/2 opacity-60" aria-hidden="true" />
 
       <div
         ref={boc}
@@ -130,7 +135,7 @@ export function IndustryRail({
         onPointerMove={keoDiChuyen}
         onPointerUp={keoKetThuc}
         onPointerCancel={keoKetThuc}
-        className={`nb-no-scrollbar relative flex items-end gap-3.5 overflow-x-auto overflow-y-visible px-14 pt-4 pb-3 ${
+        className={`nb-no-scrollbar relative mx-auto flex max-w-[1080px] items-end gap-2.5 overflow-x-auto overflow-y-visible px-4 pt-4 pb-3 ${
           keo ? "cursor-grabbing" : "cursor-grab"
         }`}
         role="group"
@@ -153,12 +158,12 @@ export function IndustryRail({
       </div>
 
       {/* mờ hai mép để phong bì trôi ra ngoài không bị cắt cứng */}
-      <div className="nb-rail-fade-l pointer-events-none absolute inset-y-0 left-0 w-24" aria-hidden="true" />
-      <div className="nb-rail-fade-r pointer-events-none absolute inset-y-0 right-0 w-24" aria-hidden="true" />
+      <div className="nb-rail-fade-l pointer-events-none absolute inset-y-0 left-1/2 w-16 -translate-x-[560px]" aria-hidden="true" />
+      <div className="nb-rail-fade-r pointer-events-none absolute inset-y-0 left-1/2 w-16 translate-x-[480px]" aria-hidden="true" />
 
       {[
-        { huong: -1 as const, Icon: ChevronLeft, lop: "left-2", nhan: "Xem ngành phía trước" },
-        { huong: 1 as const, Icon: ChevronRight, lop: "right-2", nhan: "Xem ngành tiếp theo" },
+        { huong: -1 as const, Icon: ChevronLeft, lop: "left-[max(6px,calc(50%-568px))]", nhan: "Xem ngành phía trước" },
+        { huong: 1 as const, Icon: ChevronRight, lop: "right-[max(6px,calc(50%-568px))]", nhan: "Xem ngành tiếp theo" },
       ].map(({ huong, Icon, lop, nhan }) => (
         <button
           key={huong}
