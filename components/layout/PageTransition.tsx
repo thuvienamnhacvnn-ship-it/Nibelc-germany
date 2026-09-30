@@ -35,6 +35,7 @@ export function useChuyenTrang(): Ham {
 // Sếp chốt: màn chuyển trang phải NHANH và phải thấy được trang phía sau.
 // Tấm che để 60% đục, và cả chu kỳ rút từ ~1,3 giây xuống dưới 0,7 giây.
 const DONG = 0.2; // giây, hai tấm chạy vào
+const GIU = 0.16; // giây, giữ màn khép kín trước khi mở ra
 const MO = 0.24; // giây, nội dung trang mới hiện ra
 const DUC = 0.8; // độ đục của tấm che — Sếp chốt 80%
 
@@ -42,9 +43,6 @@ export function PageTransition({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const [dangChe, setDangChe] = useState(false);
-  // Đường dẫn lúc bắt đầu che. Chỉ mở tấm ra khi đường dẫn đã KHÁC cái này,
-  // tức trang mới thật sự đã vào.
-  const tuRef = useRef<string | null>(null);
   const giamChuyenDong = useRef(false);
 
   useEffect(() => {
@@ -66,7 +64,6 @@ export function PageTransition({ children }: { children: ReactNode }) {
         router.push(href as Route);
         return;
       }
-      tuRef.current = pathname;
       setDangChe(true);
       // Đẩy route NGAY, không đợi tấm khép. Trước đây phải đợi hết hoạt ảnh
       // rồi mới push, nên thời gian tải trang nối tiếp sau thời gian hoạt
@@ -77,25 +74,19 @@ export function PageTransition({ children }: { children: ReactNode }) {
     [pathname, router]
   );
 
-  // Route đã đổi thì mở tấm ra.
+  // NHỊP CHE CỐ ĐỊNH, không phụ thuộc route.
   //
-  // Phải so với đường dẫn lúc bắt đầu che, KHÔNG được chỉ nhìn `dangChe`:
-  // hiệu ứng này cũng chạy ngay lúc `dangChe` vừa bật (đường dẫn chưa đổi),
-  // nên nếu hẹn giờ ngắn hơn thời gian tấm chạy vào thì tấm quay ngược ra khi
-  // mới đi được một phần ba — đúng lỗi "hai tấm không chập vào nhau".
-  useEffect(() => {
-    if (!dangChe || pathname === tuRef.current) return;
-    const t = setTimeout(() => setDangChe(false), 30);
-    return () => clearTimeout(t);
-  }, [pathname, dangChe]);
-
-  // Trần thời gian che. Next không báo được lúc nào trang mới vẽ xong, nên
-  // nếu cứ đợi `pathname` đổi thì gặp trang nặng là màn navy đứng im cả giây
-  // — đúng chỗ Sếp thấy "delay khá nặng". Quá mức này thì mở tấm ra luôn;
-  // trang mới chậm vài khung hình thì cũng chỉ thoáng thấy trang cũ.
+  // Bản trước mở tấm ngay khi `pathname` đổi. Trên máy trạm route chậm nên
+  // nhìn có vẻ ổn, nhưng trên tên miền thật trang tĩnh đổi gần như tức thì:
+  // đo được tấm chỉ khép kín 80ms rồi mở — chớp một cái là xong. Trang nào
+  // tải chậm thì nó lại đứng chờ tới trần, thành ra lúc nhanh quá lúc kẹt.
+  //
+  // Giờ thời gian che luôn là DONG + GIU, dù route về sau bao lâu. Route
+  // thường đã xong trước đó nhờ prefetch; nếu chưa thì người xem thoáng thấy
+  // trang cũ vài khung hình, đổi lại nhịp lúc nào cũng đều.
   useEffect(() => {
     if (!dangChe) return;
-    const t = setTimeout(() => setDangChe(false), DONG * 1000 + 260);
+    const t = setTimeout(() => setDangChe(false), (DONG + GIU) * 1000);
     return () => clearTimeout(t);
   }, [dangChe]);
 
