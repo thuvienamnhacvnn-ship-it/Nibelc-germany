@@ -34,9 +34,9 @@ export function useChuyenTrang(): Ham {
 
 // Sếp chốt: màn chuyển trang phải NHANH và phải thấy được trang phía sau.
 // Tấm che để 60% đục, và cả chu kỳ rút từ ~1,3 giây xuống dưới 0,7 giây.
-const DONG = 0.2; // giây, hai tấm chạy vào
-const GIU = 0.16; // giây, giữ màn khép kín trước khi mở ra
-const MO = 0.24; // giây, nội dung trang mới hiện ra
+const DONG = 0.34; // giây, hai tấm chạy vào
+const GIU = 0.22; // giây, giữ màn khép kín trước khi mở ra
+const MO = 0.34; // giây, nội dung trang mới hiện ra
 const DUC = 0.8; // độ đục của tấm che — Sếp chốt 80%
 
 export function PageTransition({ children }: { children: ReactNode }) {
@@ -121,7 +121,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
               initial={{ opacity: 0, scaleY: 0.2 }}
               animate={{ opacity: 1, scaleY: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2, delay: DONG * 0.7 }}
+              transition={{ duration: 0.3, delay: DONG * 0.7 }}
               style={{
                 background:
                   "linear-gradient(180deg, transparent, var(--nb-gold-soft) 18%, var(--nb-gold-strong) 50%, var(--nb-gold-soft) 82%, transparent)",
