@@ -56,7 +56,7 @@ export function Hero() {
         src="/assets/home/people/group-left.png"
         ben="trai"
         rong="w-[clamp(360px,34vw,610px)]"
-        mo={hero.dangHienJob ? 0.85 : 1}
+        mo={1}
         dich={0}
         w={1005}
         h={822}
@@ -66,7 +66,7 @@ export function Hero() {
         src="/assets/home/people/group-right.png"
         ben="phai"
         rong="w-[clamp(340px,32vw,565px)]"
-        mo={hero.dangHienJob ? 0.85 : 1}
+        mo={1}
         dich={0}
         w={909}
         h={822}
@@ -78,14 +78,14 @@ export function Hero() {
         style={{ paddingTop: "calc(var(--nb-header) + 3vh)" }}
       >
         <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" custom={{ doiTiep: hero.doiTiep, huong: hero.huong }}>
             {hero.dangHienJob && hero.job ? (
               <motion.div
                 key={`job-${hero.job.id}`}
                 className="flex flex-col items-center"
                 style={{ perspective: 1200 }}
               >
-                <FeaturedJob job={hero.job} oTep={hero.oTep} doiTiep={hero.doiTiep} />
+                <FeaturedJob job={hero.job} oTep={hero.oTep} doiTiep={hero.doiTiep} huong={hero.huong} />
                 <button
                   type="button"
                   onClick={hero.boChon}

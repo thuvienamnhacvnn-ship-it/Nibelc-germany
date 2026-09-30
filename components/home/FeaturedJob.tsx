@@ -30,18 +30,22 @@ export function FeaturedJob({
   job,
   oTep,
   doiTiep,
+  huong,
 }: {
   job: JobFull;
   oTep: ViTriTep | null;
   doiTiep: boolean;
+  huong: 1 | -1;
 }) {
   const nganh = industryById(job.industryId);
 
   // Giữ đúng cái tệp đã mở RA thẻ này. Khi bấm sang ngành khác, `oTep` ở hook
   // đã đổi sang tệp mới ngay; đọc thẳng thì thẻ cũ bay về tệp của đơn MỚI.
   const tepCuaToi = useRef<ViTriTep | null>(oTep);
-  // Kiểu chuyển cảnh cũng chốt ở lần dựng đầu, không đổi giữa chừng.
+  // Kiểu chuyển cảnh và hướng trượt cũng chốt ở lần dựng đầu, không đổi giữa
+  // chừng.
   const lat = useRef(doiTiep);
+  const ben = useRef(huong);
 
   const t = tepCuaToi.current;
   const lech =
@@ -52,21 +56,38 @@ export function FeaturedJob({
         }
       : { x: 0, y: 320 };
 
-  // Lật tại chỗ: giữ nguyên vị trí và cỡ, chỉ xoay nửa vòng.
-  const moc = lat.current
-    ? { opacity: 0, scale: 0.94, rotateY: 180, x: 0, y: 0 }
-    : { opacity: 0, scale: 0.12, rotateY: 180, x: lech.x, y: lech.y };
+  // ĐỔI ĐƠN: thẻ trượt ngang đúng phía tệp vừa bấm — bấm tệp bên phải thì đơn
+  // mới lướt vào từ phải, đơn cũ lùi sang trái. Kèm nghiêng nhẹ và nhấc lên
+  // một chút cho ra dáng rút tờ hồ sơ kế tiếp trong tập, không phải lật thẻ.
+  const truot = (b: 1 | -1) => ({
+    opacity: 0,
+    scale: 0.965,
+    rotateY: 0,
+    rotate: 2.5 * b,
+    x: 132 * b,
+    y: -14,
+  });
+  const bayVeTep = { opacity: 0, scale: 0.12, rotateY: 180, rotate: 0, x: lech.x, y: lech.y };
+  const moc = lat.current ? truot(ben.current) : bayVeTep;
 
   return (
     <motion.article
       initial={moc}
-      animate={{ opacity: 1, scale: 1, rotateY: 0, x: 0, y: 0 }}
-      exit={moc}
+      animate={{ opacity: 1, scale: 1, rotateY: 0, rotate: 0, x: 0, y: 0 }}
+      // Lúc THOÁT mới biết người xem bấm đóng hay bấm sang đơn khác, nên kiểu
+      // thoát phải đọc từ `custom` của AnimatePresence chứ không chốt được ở
+      // lần dựng như `initial`. Không có chỗ này thì thẻ đầu tiên vẫn lật và
+      // bay về tệp dù Sếp đang đổi sang đơn kế bên.
+      exit="ra"
+      variants={{
+        ra: (c: { doiTiep: boolean; huong: 1 | -1 } | undefined) =>
+          c?.doiTiep ? truot((c.huong * -1) as 1 | -1) : bayVeTep,
+      }}
       transition={{
-        duration: lat.current ? 0.42 : 0.85,
-        ease: [0.22, 0.68, 0.32, 1],
-        rotateY: { duration: lat.current ? 0.42 : 0.7, ease: [0.34, 0.9, 0.3, 1] },
-        opacity: { duration: lat.current ? 0.18 : 0.28 },
+        duration: lat.current ? 0.34 : 0.85,
+        ease: lat.current ? [0.32, 0.9, 0.28, 1] : [0.22, 0.68, 0.32, 1],
+        rotateY: { duration: lat.current ? 0 : 0.7, ease: [0.34, 0.9, 0.3, 1] },
+        opacity: { duration: lat.current ? 0.16 : 0.28 },
       }}
       style={{ transformStyle: "preserve-3d", perspective: 1400 }}
       className="w-[min(680px,86vw)] overflow-hidden rounded-[20px] border border-[var(--nb-gold)]/70 bg-[var(--nb-navy-900)] text-left shadow-[0_30px_80px_-14px_rgba(0,0,0,.9),0_0_0_1px_rgba(217,184,120,.22),0_0_44px_-12px_rgba(224,172,61,.5)]"
