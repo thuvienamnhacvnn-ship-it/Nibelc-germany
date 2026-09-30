@@ -23,18 +23,13 @@ export function IndustryEnvelope({
   moNhat,
   onChon,
   index,
-  anhDon,
-  dangMoTrenHero,
 }: {
   industry: Industry;
   dangChon: boolean;
   moNhat: boolean;
-  onChon: () => void;
+  /** báo kèm vị trí tệp trên màn hình để thẻ đơn biết bay ra từ đâu */
+  onChon: (tep: DOMRect) => void;
   index: number;
-  /** ảnh đơn hàng tiêu biểu của ngành, dùng cho tờ hồ sơ bay ra */
-  anhDon: string | null;
-  /** true khi banner đơn hàng của ngành này đang chiếm hero */
-  dangMoTrenHero: boolean;
 }) {
   const Icon = (Icons[industry.icon as keyof typeof Icons] ?? Icons.Briefcase) as Icons.LucideIcon;
   const navyChan = index % 2 === 0; // xen kẽ navy / kem đúng như dải Sếp gửi
@@ -42,7 +37,7 @@ export function IndustryEnvelope({
   return (
     <motion.button
       type="button"
-      onClick={onChon}
+      onClick={(e) => onChon(e.currentTarget.getBoundingClientRect())}
       aria-pressed={dangChon}
       aria-label={`Ngành ${industry.titleVi}`}
       className="group relative block w-[96px] shrink-0 cursor-pointer text-left focus-visible:outline-none 2xl:w-[104px]"
@@ -63,20 +58,6 @@ export function IndustryEnvelope({
           background: "radial-gradient(60% 50% at 50% 65%, rgba(224,172,61,.32), transparent 72%)",
         }}
       />
-
-      {/* TỜ HỒ SƠ MANG layoutId — đầu kia của hiệu ứng bay ra.
-          Khi banner đơn hàng của ngành này đang chiếm hero thì KHÔNG render ở
-          đây nữa; Framer Motion thấy cùng một layoutId đổi chỗ nên nối hai vị
-          trí lại thành một chuyển động rút tờ đơn ra khỏi tệp. */}
-      {anhDon && !dangMoTrenHero && (
-        <motion.span
-          layoutId={`job-${industry.id}`}
-          transition={{ type: "spring", stiffness: 190, damping: 26, mass: 0.9 }}
-          className="pointer-events-none absolute top-[6%] left-1/2 z-20 block h-[34%] w-[62%] -translate-x-1/2 overflow-hidden rounded-[4px] border border-white/60 shadow-[0_4px_10px_rgba(0,0,0,.5)]"
-        >
-          <Image src={anhDon} alt="" fill sizes="104px" className="object-cover" />
-        </motion.span>
-      )}
 
       {industry.envelope ? (
         <span className="relative block">

@@ -41,7 +41,7 @@ export function NhomNhanVat({
       aria-hidden="true"
       animate={{ opacity: mo, x: dich }}
       transition={{ duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
-      className={`pointer-events-none absolute bottom-[86px] z-30 ${
+      className={`pointer-events-none absolute bottom-[58px] z-30 ${
         ben === "trai" ? "left-0 origin-bottom-left" : "right-0 origin-bottom-right"
       } ${rong}`}
     >
@@ -88,7 +88,7 @@ export function NhomNhanVat({
           height={h}
           priority
           quality={92}
-          sizes="520px"
+          sizes="610px"
           className="h-auto w-full drop-shadow-[0_30px_46px_rgba(0,0,0,.55)]"
         />
       </span>

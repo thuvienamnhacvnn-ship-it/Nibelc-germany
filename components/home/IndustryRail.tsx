@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { INDUSTRIES } from "@/data/industries";
 import { IndustryEnvelope } from "@/components/home/IndustryEnvelope";
-import { featuredJobOf } from "@/data/jobs";
+import type { ViTriTep } from "@/hooks/useHeroJobRotation";
 
 /**
  * DẢI PHONG BÌ NGÀNH NGHỀ
@@ -24,13 +24,10 @@ export function IndustryRail({
   dangChon,
   onChon,
   onHover,
-  dangHienJob,
 }: {
   dangChon: string | null;
-  onChon: (id: string) => void;
+  onChon: (id: string, tep: ViTriTep) => void;
   onHover: (v: boolean) => void;
-  /** true khi banner đơn hàng đang chiếm hero — tờ hồ sơ khi đó nằm ở trên đó */
-  dangHienJob: boolean;
 }) {
   const boc = useRef<HTMLDivElement>(null);
   const [keo, setKeo] = useState(false);
@@ -152,12 +149,11 @@ export function IndustryRail({
             index={i}
             dangChon={dangChon === ind.id}
             moNhat={dangChon !== null && dangChon !== ind.id}
-            anhDon={featuredJobOf(ind.id)?.image ?? null}
-            dangMoTrenHero={dangHienJob && dangChon === ind.id}
-            onChon={() => {
+            onChon={(tep) => {
               // kéo rê thì không tính là bấm chọn
               if (keoRef.current.daDiChuyen > 6) return;
-              onChon(ind.id);
+              // DOMRect -> ViTriTep: chỉ giữ 4 số thẻ đơn cần để biết bay ra từ đâu
+              onChon(ind.id, { x: tep.left, y: tep.top, w: tep.width, h: tep.height });
             }}
           />
         ))}

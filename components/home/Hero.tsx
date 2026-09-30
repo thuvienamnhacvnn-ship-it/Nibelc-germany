@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import { useHeroJobRotation } from "@/hooks/useHeroJobRotation";
@@ -24,6 +25,14 @@ import { NhomNhanVat } from "@/components/home/NhomNhanVat";
 export function Hero() {
   const hero = useHeroJobRotation();
 
+  // Bấm 'Trang chủ' trong khi banner đơn hàng đang mở thì đóng banner lại,
+  // vì điều hướng tới chính trang đang xem sẽ không làm gì cả.
+  useEffect(() => {
+    const f = () => hero.boChon();
+    window.addEventListener('nibelc:ve-trang-hien-tai', f);
+    return () => window.removeEventListener('nibelc:ve-trang-hien-tai', f);
+  }, [hero]);
+
   return (
     <section className="relative isolate min-h-[calc(100vh-40px)] overflow-hidden">
       {/* ---------- NỀN: video, bản ngang cho desktop và bản dọc cho điện thoại ---------- */}
@@ -46,9 +55,9 @@ export function Hero() {
       <NhomNhanVat
         src="/assets/home/people/group-left.png"
         ben="trai"
-        rong="w-[clamp(320px,29vw,520px)]"
-        mo={hero.dangHienJob ? 0 : 1}
-        dich={hero.dangHienJob ? -60 : 0}
+        rong="w-[clamp(360px,34vw,610px)]"
+        mo={hero.dangHienJob ? 0.85 : 1}
+        dich={0}
         w={1005}
         h={822}
       />
@@ -56,38 +65,12 @@ export function Hero() {
       <NhomNhanVat
         src="/assets/home/people/group-right.png"
         ben="phai"
-        rong="w-[clamp(300px,27vw,480px)]"
-        mo={hero.dangHienJob ? 0 : 1}
-        dich={hero.dangHienJob ? 60 : 0}
+        rong="w-[clamp(340px,32vw,565px)]"
+        mo={hero.dangHienJob ? 0.85 : 1}
+        dich={0}
         w={909}
         h={822}
       />
-
-      {/* ---------- BANNER ĐƠN HÀNG ----------
-          Chiếm toàn bộ hero, thay chỗ video và hai nhóm nhân vật. Dải tệp
-          ngành nằm ở lớp trên nên vẫn thấy nguyên dưới chân banner. */}
-      <AnimatePresence>
-        {hero.dangHienJob && hero.job && (
-          <motion.div
-            key={hero.job.id}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.35 }}
-            className="absolute inset-0 z-[15]"
-          >
-            <FeaturedJob job={hero.job} />
-            <button
-              type="button"
-              onClick={hero.boChon}
-              className="nb-btn-ghost absolute top-[calc(var(--nb-header)+20px)] right-8 z-10 h-10 px-5 text-[13.5px]"
-            >
-              <X size={15} />
-              Quay lại
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* ---------- KHỐI GIỮA ---------- */}
       <div
@@ -96,7 +79,19 @@ export function Hero() {
       >
         <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
           <AnimatePresence mode="wait">
-            {hero.dangHienJob && hero.job ? null : (
+            {hero.dangHienJob && hero.job ? (
+              <motion.div key="job" className="flex flex-col items-center" style={{ perspective: 1200 }}>
+                <FeaturedJob job={hero.job} oTep={hero.oTep} />
+                <button
+                  type="button"
+                  onClick={hero.boChon}
+                  className="nb-btn-ghost mt-4 h-10 px-5 text-[13.5px]"
+                >
+                  <X size={15} />
+                  Quay lại trang chủ
+                </button>
+              </motion.div>
+            ) : (
               <motion.div
                 key="brand"
                 initial={{ opacity: 0, y: 14 }}
@@ -124,22 +119,24 @@ export function Hero() {
                   CHO VIỆC LÀM VÀ HỌC NGHỀ TẠI ĐỨC, CHÂU ÂU
                 </p>
 
-                <div className="mt-8 w-[min(620px,80vw)]">
-                  <SearchBar />
-                </div>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
 
+        {/* Thanh tìm kiếm đứng riêng, luôn ở dưới cùng phần chữ và ngay trên
+            dải tệp — không bị thẻ đơn hàng đẩy đi đâu cả. */}
+        <div className="w-[min(620px,80vw)] px-6 pb-6">
+          <SearchBar />
+        </div>
+
         {/* ---------- DẢI PHONG BÌ ---------- */}
         {/* translateY âm để phong bì tràn qua biên hero xuống phần dưới */}
-        <div className="relative w-full" style={{ transform: "translateY(10px)" }}>
+        <div className="pointer-events-auto relative w-full" style={{ transform: "translateY(10px)" }}>
           <IndustryRail
             dangChon={hero.industryId}
             onChon={hero.chonNganh}
             onHover={hero.tamDung}
-            dangHienJob={hero.dangHienJob}
           />
         </div>
       </div>

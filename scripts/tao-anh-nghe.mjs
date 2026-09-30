@@ -26,11 +26,15 @@ const RA = "public/assets/nghe";
 
 /** Khối phong cách dùng chung — giữ cho 12 ảnh nhìn cùng một bộ */
 const STYLE = [
-  "Photorealistic cinematic photograph, 16:9 wide landscape framing.",
-  "Colour grade: deep navy blue shadows, warm champagne gold highlights, golden-hour light.",
-  "Premium modern European corporate documentary style, believable and dignified, shallow depth of field.",
-  "The person is a young Vietnamese worker in Germany, competent and focused, treated with respect.",
-  "ABSOLUTELY NO TEXT of any kind: no letters, no words, no signage, no logos, no watermarks, no user interface.",
+  // Chuẩn ẢNH QUẢNG CÁO, không phải ảnh tư liệu: một chủ thể rõ, bố cục mạnh,
+  // tương phản cao, bắt mắt ngay ở kích thước nhỏ trên thẻ đơn hàng.
+  "High-end advertising campaign photograph, 16:9 wide landscape, shot on a 50mm lens at f/2.",
+  "Bold poster-like composition: ONE clear hero subject filling the frame confidently, strong separation from the background, dramatic directional key light with a warm rim light.",
+  "Colour grade: deep navy blue shadows, rich champagne gold highlights, high contrast, glossy commercial finish that stays punchy and readable when the image is shown small.",
+  "The lower third of the frame is noticeably darker and calmer than the rest, so a caption can sit over it.",
+  "The person is a young Vietnamese worker in Germany, confident, competent and dignified, looking purposeful.",
+  "Premium modern European employer-branding style, aspirational but believable.",
+  "ABSOLUTELY NO TEXT of any kind: no letters, no words, no numbers, no signage, no logos, no watermarks, no user interface, no buttons.",
 ].join(" ");
 
 const NGANH = [

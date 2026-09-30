@@ -48,7 +48,15 @@ export function PageTransition({ children }: { children: ReactNode }) {
 
   const chuyenTrang = useCallback(
     (href: string) => {
-      if (href === pathname) return;
+      // Bấm đúng trang đang mở: không điều hướng, nhưng phải báo cho trang
+      // biết để nó tự đóng những lớp đang che nội dung chính (ví dụ banner
+      // đơn hàng trên trang chủ). Không có chỗ này thì người dùng bấm
+      // "Trang chủ" mà màn hình không đổi gì — tưởng web hỏng.
+      if (href === pathname) {
+        window.dispatchEvent(new CustomEvent("nibelc:ve-trang-hien-tai"));
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
       if (giamChuyenDong.current) {
         router.push(href as Route);
         return;

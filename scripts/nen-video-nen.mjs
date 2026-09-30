@@ -22,8 +22,8 @@ const NGUON = "E:/Works/itw/Nibelc DE/NIBELC_Webapp_Desktop_UI/01-trang-chu";
 const RA = "public/assets/home/video";
 
 const VIEC = [
-  { nguon: "4k desktop.mp4", ten: "hero-desktop", w: 1920, h: 1080, crf: 26, bv: "2600k" },
-  { nguon: "4k mobile.mp4", ten: "hero-mobile", w: 720, h: 1280, crf: 28, bv: "1400k" },
+  { nguon: "4k desktop.mp4", ten: "hero-desktop", w: 1920, h: 1080, crf: 20, bv: "7000k" },
+  { nguon: "4k mobile.mp4", ten: "hero-mobile", w: 720, h: 1280, crf: 23, bv: "3200k" },
 ];
 
 fs.mkdirSync(RA, { recursive: true });
@@ -50,7 +50,7 @@ for (const v of VIEC) {
     "-profile:v", "high",
     "-crf", String(v.crf),
     "-maxrate", v.bv,
-    "-bufsize", "4M",
+    "-bufsize", "12M",
     "-pix_fmt", "yuv420p",
     "-movflags", "+faststart", // bắt đầu phát trước khi tải xong
     mp4,
@@ -63,11 +63,11 @@ for (const v of VIEC) {
     "-an",
     "-vf", loc,
     "-c:v", "libvpx-vp9",
-    "-crf", String(v.crf + 6),
+    "-crf", String(v.crf + 4),
     "-b:v", "0",
     "-row-mt", "1",
     "-deadline", "good",
-    "-cpu-used", "3",
+    "-cpu-used", "2",
     webm,
   ]);
 

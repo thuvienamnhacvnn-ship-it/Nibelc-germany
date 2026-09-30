@@ -2,107 +2,111 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowRight, Briefcase, GraduationCap, MapPin, Send, Users } from "lucide-react";
+import { ArrowRight, MapPin, Send, Users } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
 import { chuoiLuong, noiLamViec } from "@/types/job";
 import type { JobFull } from "@/data/jobs";
+import type { ViTriTep } from "@/hooks/useHeroJobRotation";
 import { industryById } from "@/data/industries";
 
 /**
- * BANNER ĐƠN HÀNG TRÊN HERO
+ * THẺ ĐƠN HÀNG TRÊN HERO
  *
- * Khi bấm một tệp ngành, video nền và hai nhóm nhân vật nhường chỗ cho banner
- * này: ảnh đơn hàng phủ kín khung, tiêu đề lớn, bốn thông tin chính và hai
- * nút hành động. Dải tệp ngành vẫn nằm nguyên dưới chân banner.
+ * Kích thước vừa phải, đứng đúng chỗ tiêu đề banner và ngay trên thanh tìm
+ * kiếm. Video nền và hai nhóm nhân vật GIỮ NGUYÊN — chỉ phần tiêu đề nhường
+ * chỗ cho thẻ này.
  *
- * `layoutId` trùng với thẻ hồ sơ nhỏ nằm trong tệp, nên Framer Motion nối hai
- * vị trí lại: nhìn ra là tờ đơn được RÚT RA khỏi tệp rồi mở rộng thành banner,
- * chứ không phải một khối mới hiện ra.
+ * Hiệu ứng: thẻ xuất phát từ đúng vị trí tệp vừa bấm, ở kích thước rất nhỏ và
+ * lật úp (rotateY 180°), rồi vừa bay lên vừa xoay lại vừa to dần — nhìn ra là
+ * tờ đơn được rút khỏi tệp, lật mặt lên và phóng to.
+ *
+ * Toạ độ xuất phát tính bằng tay chứ không dùng layoutId: layoutId đòi phải có
+ * một phần tử thật nằm sẵn trong tệp, mà phần tử đó lại hiện ra trên miệng tệp
+ * mỗi khi đóng thẻ, nhìn rất xấu.
  */
-export function FeaturedJob({ job }: { job: JobFull }) {
+export function FeaturedJob({ job, oTep }: { job: JobFull; oTep: ViTriTep | null }) {
   const nganh = industryById(job.industryId);
 
-  const TIN = [
-    { Icon: MapPin, nhan: "Nơi làm việc", gt: noiLamViec(job) },
-    { Icon: Users, nhan: "Số lượng", gt: `${job.vacancies} suất` },
-    { Icon: GraduationCap, nhan: "Tiếng Đức", gt: job.languageLevel },
-    { Icon: Briefcase, nhan: "Hình thức", gt: job.employmentType },
-  ];
+  // Độ lệch từ tâm thẻ (giữa màn, ngang tầm tiêu đề) tới tâm tệp vừa bấm
+  const lech =
+    typeof window !== "undefined" && oTep
+      ? {
+          x: oTep.x + oTep.w / 2 - window.innerWidth / 2,
+          y: oTep.y + oTep.h / 2 - window.innerHeight * 0.42,
+        }
+      : { x: 0, y: 320 };
 
   return (
     <motion.article
-      layoutId={`job-${job.industryId}`}
-      transition={{ type: "spring", stiffness: 190, damping: 26, mass: 0.9 }}
-      className="absolute inset-0 overflow-hidden"
+      initial={{ opacity: 0, scale: 0.12, rotateY: 180, x: lech.x, y: lech.y }}
+      animate={{ opacity: 1, scale: 1, rotateY: 0, x: 0, y: 0 }}
+      exit={{ opacity: 0, scale: 0.12, rotateY: 180, x: lech.x, y: lech.y }}
+      transition={{
+        duration: 0.85,
+        ease: [0.22, 0.68, 0.32, 1],
+        rotateY: { duration: 0.7, ease: [0.34, 0.9, 0.3, 1] },
+        opacity: { duration: 0.28 },
+      }}
+      style={{ transformStyle: "preserve-3d", perspective: 1200 }}
+      className="w-[min(560px,80vw)] overflow-hidden rounded-[18px] border border-[var(--nb-line)] bg-[var(--nb-navy-800)]/90 text-left backdrop-blur-md"
     >
-      {/* ---- ảnh đơn hàng phủ kín ---- */}
-      <Image src={job.image} alt={job.title} fill priority sizes="100vw" className="object-cover object-center" />
+      {/* KHUNG ẢNH 16:9 — đúng tỉ lệ ảnh quảng cáo. Tiêu đề lớn và mức lương
+          nằm ĐÈ lên phần ba dưới của ảnh (chỗ ảnh được tạo tối hơn hẳn), nên
+          thẻ đọc ra là một banner hoàn chỉnh mà chữ vẫn là chữ thật. */}
+      <div className="relative aspect-video">
+        <Image src={job.image} alt={job.title} fill priority sizes="560px" className="object-cover" />
 
-      {/* Dải tối chỉ ở nửa trái, nơi đặt chữ — phần ảnh bên phải giữ nguyên */}
-      <span
-        className="absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(90deg, rgba(5,11,22,.92) 0%, rgba(5,11,22,.72) 38%, rgba(5,11,22,.15) 68%, transparent 100%)",
-        }}
-        aria-hidden="true"
-      />
-
-      <motion.div
-        initial={{ opacity: 0, y: 22 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45, delay: 0.22, ease: [0.22, 0.61, 0.36, 1] }}
-        className="nb-wrap relative flex h-full flex-col justify-center pb-[210px]"
-      >
-        <div className="max-w-[720px]">
-          <span className="flex flex-wrap items-center gap-2.5">
-            {nganh && (
-              <span className="rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/70 px-3.5 py-1.5 text-[12.5px] font-semibold text-[var(--nb-gold-soft)]">
-                {nganh.titleVi}
-              </span>
-            )}
-            <span className="rounded-full bg-[var(--nb-gold)] px-3 py-1.5 text-[12px] font-bold text-[var(--nb-navy-900)]">
-              ĐANG TUYỂN
-            </span>
-            {job.isSample && (
-              <span className="rounded-full bg-[var(--nb-cyan)]/85 px-2.5 py-1.5 text-[11px] font-bold text-white">
-                DỮ LIỆU MẪU
-              </span>
-            )}
+        {nganh && (
+          <span className="absolute top-3 left-3 rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/78 px-3 py-1 text-[11.5px] font-semibold text-[var(--nb-gold-soft)] backdrop-blur-sm">
+            {nganh.titleVi}
           </span>
+        )}
+        <span className="absolute top-3 right-3 rounded-full bg-[var(--nb-gold)] px-2.5 py-1 text-[11px] font-bold text-[var(--nb-navy-900)]">
+          ĐANG TUYỂN
+        </span>
 
-          <h2 className="nb-display nb-bong-chu mt-4 text-[clamp(30px,3.4vw,50px)] leading-[1.08] text-white">
+        {/* chỉ một dải chuyển tiếp ở đáy để chữ tách khỏi ảnh — không phủ màu
+            lên toàn khung hình */}
+        <span
+          className="absolute inset-x-0 bottom-0 h-[72%]"
+          style={{ background: "linear-gradient(180deg, transparent 0%, rgba(5,11,22,.55) 34%, rgba(5,11,22,.88) 62%, rgba(5,11,22,.97) 100%)" }}
+          aria-hidden="true"
+        />
+
+        <div className="nb-bong-chu absolute inset-x-0 bottom-0 px-5 pb-4">
+          <h2 className="nb-display text-[clamp(19px,1.6vw,25px)] leading-[1.14] font-semibold text-white">
             {job.title}
           </h2>
-
-          <p className="nb-gold-text nb-display mt-3 text-[clamp(26px,2.6vw,40px)]">{chuoiLuong(job)}</p>
-
-          <ul className="mt-7 flex flex-wrap gap-x-9 gap-y-4">
-            {TIN.map(({ Icon, nhan, gt }) => (
-              <li key={nhan} className="flex items-center gap-3">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/55 text-[var(--nb-gold)]">
-                  <Icon size={17} />
-                </span>
-                <span>
-                  <span className="block text-[11.5px] tracking-wide text-[#a8b8cc] uppercase">{nhan}</span>
-                  <b className="mt-0.5 block text-[15px] font-semibold text-white">{gt}</b>
-                </span>
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-9 flex flex-wrap gap-3.5">
-            <NavLink href={`/don-hang/${job.slug}`} className="nb-btn h-[52px] px-8 text-[15.5px]">
-              Xem đơn hàng
-              <ArrowRight size={17} />
-            </NavLink>
-            <NavLink href="/lien-he" className="nb-btn-ghost h-[52px] px-8 text-[15.5px]">
-              <Send size={16} />
-              Ứng tuyển ngay
-            </NavLink>
-          </div>
+          <p className="nb-display mt-1 text-[clamp(22px,1.9vw,30px)] leading-none font-semibold text-[var(--nb-gold-strong)]">
+            {chuoiLuong(job)}
+          </p>
         </div>
-      </motion.div>
+      </div>
+
+      <div className="px-5 pt-3.5 pb-4">
+        <ul className="flex flex-wrap gap-x-5 gap-y-1.5 text-[13px] text-[#c3d1e2]">
+          <li className="flex items-center gap-1.5">
+            <MapPin size={14} className="text-[var(--nb-gold)]" />
+            {noiLamViec(job)}
+          </li>
+          <li className="flex items-center gap-1.5">
+            <Users size={14} className="text-[var(--nb-gold)]" />
+            {job.vacancies} suất
+          </li>
+          <li>Tiếng {job.languageLevel}</li>
+        </ul>
+
+        <div className="mt-3.5 flex gap-2.5">
+          <NavLink href={`/don-hang/${job.slug}`} className="nb-btn h-11 flex-1 px-5 text-[14px]">
+            Xem đơn hàng
+            <ArrowRight size={15} />
+          </NavLink>
+          <NavLink href="/lien-he" className="nb-btn-ghost h-11 px-5 text-[14px]">
+            <Send size={14} />
+            Ứng tuyển
+          </NavLink>
+        </div>
+      </div>
     </motion.article>
   );
 }
