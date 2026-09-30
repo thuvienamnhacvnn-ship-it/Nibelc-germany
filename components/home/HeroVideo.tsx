@@ -3,15 +3,20 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * VIDEO NỀN HERO
+ * NỀN HERO
  *
  * Hai bản: ngang cho desktop, dọc cho điện thoại. Chọn bằng matchMedia rồi
- * mới gắn thẻ <video>, nên máy nào cũng chỉ tải đúng một bản — không nạp cả
- * hai như cách dùng hai thẻ rồi ẩn bằng CSS.
+ * mới gắn thẻ, nên máy nào cũng chỉ tải đúng một bản — không nạp cả hai như
+ * cách dùng hai thẻ rồi ẩn bằng CSS.
+ *
+ * `DUNG_ANH` đổi qua lại giữa ẢNH TĨNH và VIDEO. Sếp đang thử ảnh tĩnh; đổi
+ * về `false` là quay lại video ngay, không phải sửa gì thêm.
  *
  * Ảnh poster hiện ngay trong lúc video còn tải, và cũng là thứ duy nhất hiện
  * khi người dùng bật "giảm chuyển động": lúc đó không phát video nữa.
  */
+const DUNG_ANH = true;
+
 export function HeroVideo() {
   const [dien, setDien] = useState<null | boolean>(null);
   const [imLang, setImLang] = useState(false);
@@ -34,6 +39,20 @@ export function HeroVideo() {
 
   const ten = dien ? "hero-mobile" : "hero-desktop";
   const poster = `/assets/home/video/${ten}-poster.jpg`;
+  const anhTinh = dien ? "/assets/home/hero-anh-mobile.jpg" : "/assets/home/hero-anh.jpg";
+
+  if (DUNG_ANH) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={anhTinh}
+        alt=""
+        aria-hidden="true"
+        fetchPriority="high"
+        className="absolute inset-0 -z-20 h-full w-full object-cover"
+      />
+    );
+  }
 
   if (imLang) {
     return (

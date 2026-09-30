@@ -327,11 +327,15 @@
    bóng tối mềm ôm sát nét, nền phía sau giữ nguyên.
    ============================================================ */
 .nb-bong-chu {
+  /* Nền hero là ảnh ban ngày trời xanh, có cả mảng núi tuyết trắng, nên chữ
+     trắng cần bóng ôm sát nét dày hơn. Vẫn là bóng theo từng chữ — KHÔNG phủ
+     lớp màu nào lên ảnh. */
   text-shadow:
-    0 1px 2px rgba(5, 11, 22, 0.95),
-    0 2px 8px rgba(5, 11, 22, 0.9),
-    0 6px 22px rgba(5, 11, 22, 0.8),
-    0 10px 48px rgba(5, 11, 22, 0.6);
+    0 0 3px rgba(5, 11, 22, 0.85),
+    0 1px 2px rgba(5, 11, 22, 0.98),
+    0 2px 8px rgba(5, 11, 22, 0.95),
+    0 6px 22px rgba(5, 11, 22, 0.88),
+    0 10px 48px rgba(5, 11, 22, 0.7);
 }
 /* TUYỆT ĐỐI không đặt filter: drop-shadow lên chữ mạ vàng. Chữ mạ vàng là
    một mảng nền cắt theo hình chữ (background-clip: text, color: transparent);
