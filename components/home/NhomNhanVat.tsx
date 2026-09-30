@@ -41,7 +41,7 @@ export function NhomNhanVat({
       aria-hidden="true"
       animate={{ opacity: mo, x: dich }}
       transition={{ duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
-      className={`pointer-events-none absolute bottom-[58px] z-30 ${
+      className={`pointer-events-none absolute bottom-[58px] z-0 ${
         ben === "trai" ? "left-0 origin-bottom-left" : "right-0 origin-bottom-right"
       } ${rong}`}
     >
