@@ -164,11 +164,18 @@
 .nb-btn {
   background: linear-gradient(135deg, var(--nb-gold-soft), var(--nb-gold) 45%, var(--nb-gold-strong));
   color: var(--nb-navy-900);
-  box-shadow: 0 10px 30px -14px rgba(224, 172, 61, 0.8);
+  /* KHÔNG quầng vàng, KHÔNG bóng chữ. Nút vàng hay nằm trong khối có
+     .nb-bong-chu, mà bóng đó là bóng tối bốn lớp — chữ đen ăn vào thành nhoè
+     bệt. Quầng sáng quanh nút thì Sếp đã bác từ đầu. */
+  text-shadow: none;
 }
 .nb-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 16px 38px -14px rgba(224, 172, 61, 0.95);
+  box-shadow: 0 8px 20px -12px rgba(5, 11, 22, 0.8);
+}
+/* mọi chữ và biểu tượng bên trong nút vàng đều bỏ bóng */
+.nb-btn * {
+  text-shadow: none;
 }
 
 /* nút viền vàng, nền trong */

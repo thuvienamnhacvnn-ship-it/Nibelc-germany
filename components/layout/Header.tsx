@@ -36,7 +36,11 @@ export function Header() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        daCuon ? "bg-[var(--nb-navy-800)]/92 backdrop-blur-md" : "bg-[var(--nb-navy-800)]/70"
+        daCuon
+          ? "bg-[var(--nb-navy-800)]/92 backdrop-blur-md"
+          : // Điện thoại: để trống hẳn cho logo nổi thẳng trên banner, không
+            // có dải mờ cắt ngang ảnh. Màn rộng vẫn cần nền vì có cả hàng menu.
+            "bg-transparent lg:bg-[var(--nb-navy-800)]/70"
       }`}
       style={{ height: "var(--nb-header)" }}
     >
@@ -55,7 +59,7 @@ export function Header() {
             width={200}
             height={44}
             priority
-            className="h-8 w-auto"
+            className="h-9 w-auto lg:h-8"
           />
         </NavLink>
 

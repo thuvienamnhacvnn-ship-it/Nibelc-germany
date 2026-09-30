@@ -75,7 +75,7 @@ export function Hero() {
       {/* ---------- KHỐI GIỮA ---------- */}
       <div
         className="relative z-20 flex min-h-[calc(100svh-var(--nb-header))] flex-col items-center lg:min-h-[calc(100vh-40px)]"
-        style={{ paddingTop: "calc(var(--nb-header) + 3vh)" }}
+        style={{ paddingTop: "calc(var(--nb-header) + 4vh)" }}
       >
         <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
           <AnimatePresence mode="wait" custom={{ doiTiep: hero.doiTiep, huong: hero.huong }}>
@@ -102,24 +102,24 @@ export function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.45, ease: [0.22, 0.61, 0.36, 1] }}
-                className="nb-bong-chu max-w-[min(760px,74vw)]"
+                className="nb-bong-chu max-w-[min(760px,82vw)] lg:max-w-[min(760px,74vw)]"
               >
-                <h1 className="nb-display text-[clamp(34px,3.6vw,58px)] leading-[1.06] text-white">
+                <h1 className="nb-display text-[clamp(26px,3.6vw,58px)] leading-[1.12] text-white">
                   Arbeiten in <span className="nb-gold-text">Deutschland</span>
                 </h1>
-                <p className="mt-2 text-[clamp(16px,1.35vw,23px)] font-medium text-[#cfdcec]">
+                <p className="mt-2.5 text-[clamp(15px,1.35vw,23px)] font-medium text-[#dbe6f4]">
                   mit Nibelc Germany GmbH
                 </p>
 
-                <div className="mx-auto mt-6 h-px w-40 bg-gradient-to-r from-transparent via-[var(--nb-gold)] to-transparent" />
+                <div className="mx-auto mt-7 h-px w-32 bg-gradient-to-r from-transparent via-[var(--nb-gold)] to-transparent lg:w-40" />
 
-                <p className="nb-display mt-6 text-[clamp(26px,2.9vw,46px)] tracking-[0.02em] text-white">
+                <p className="nb-display mt-7 text-[clamp(23px,2.9vw,46px)] leading-[1.14] tracking-[0.02em] text-white">
                   ĐỐI TÁC UY TÍN
                 </p>
-                <p className="mt-2.5 text-[clamp(14px,1.15vw,19px)] font-semibold tracking-[0.08em] text-[var(--nb-gold-soft)]">
+                <p className="mt-3 text-[clamp(12px,1.15vw,19px)] font-semibold tracking-[0.08em] text-[var(--nb-gold-soft)]">
                   LỰA CHỌN TỐT NHẤT CỦA BẠN
                 </p>
-                <p className="mt-1.5 text-[clamp(12px,0.95vw,15.5px)] tracking-[0.1em] text-[#cfdcec]">
+                <p className="mt-2 text-[clamp(11px,0.95vw,15.5px)] leading-[1.65] tracking-[0.08em] text-[#dbe6f4]">
                   CHO VIỆC LÀM VÀ HỌC NGHỀ TẠI ĐỨC, CHÂU ÂU
                 </p>
 

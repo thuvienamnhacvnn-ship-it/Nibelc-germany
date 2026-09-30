@@ -50,6 +50,7 @@ export function HeroVideo() {
         aria-hidden="true"
         fetchPriority="high"
         className="absolute inset-0 -z-20 h-full w-full object-cover"
+        style={{ filter: "brightness(1.1) saturate(1.06)" }}
       />
     );
   }
@@ -65,6 +66,7 @@ export function HeroVideo() {
     <video
       ref={video}
       className="absolute inset-0 -z-20 h-full w-full object-cover"
+      style={{ filter: "brightness(1.14) saturate(1.08)" }}
       poster={poster}
       autoPlay
       muted
