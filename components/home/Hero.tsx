@@ -34,7 +34,7 @@ export function Hero() {
   }, [hero]);
 
   return (
-    <section className="relative isolate min-h-[calc(100vh-40px)] overflow-hidden">
+    <section className="relative isolate min-h-[calc(100svh-var(--nb-header))] overflow-hidden lg:min-h-[calc(100vh-40px)]">
       {/* ---------- NỀN: video, bản ngang cho desktop và bản dọc cho điện thoại ---------- */}
       <HeroVideo />
 
@@ -74,7 +74,7 @@ export function Hero() {
 
       {/* ---------- KHỐI GIỮA ---------- */}
       <div
-        className="relative z-20 flex min-h-[calc(100vh-40px)] flex-col items-center"
+        className="relative z-20 flex min-h-[calc(100svh-var(--nb-header))] flex-col items-center lg:min-h-[calc(100vh-40px)]"
         style={{ paddingTop: "calc(var(--nb-header) + 3vh)" }}
       >
         <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
@@ -130,13 +130,17 @@ export function Hero() {
 
         {/* Thanh tìm kiếm đứng riêng, luôn ở dưới cùng phần chữ và ngay trên
             dải tệp — không bị thẻ đơn hàng đẩy đi đâu cả. */}
-        <div className="w-[min(620px,80vw)] px-6 pb-6">
+        <div className="w-[min(620px,86vw)] px-6 pb-8 lg:pb-6">
           <SearchBar />
         </div>
 
         {/* ---------- DẢI PHONG BÌ ---------- */}
-        {/* translateY âm để phong bì tràn qua biên hero xuống phần dưới */}
-        <div className="pointer-events-auto relative w-full" style={{ transform: "translateY(10px)" }}>
+        {/* Chỉ có trên màn rộng. Trên điện thoại Sếp bỏ hẳn: màn hẹp thì dải
+            tệp che mất nhân vật và phải cuộn ngang mới xem hết, không đáng. */}
+        <div
+          className="pointer-events-auto relative hidden w-full lg:block"
+          style={{ transform: "translateY(10px)" }}
+        >
           <IndustryRail
             dangChon={hero.industryId}
             onChon={hero.chonNganh}

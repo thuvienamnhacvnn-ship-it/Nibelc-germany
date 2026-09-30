@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --webpack -p 3490",
     "build": "next build --webpack",
-    "start": "next start -p 3490",
+    "start": "next start -p 3460",
     "lint": "next lint",
     "typecheck": "tsc --noEmit"
   },

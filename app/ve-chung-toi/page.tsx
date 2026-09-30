@@ -26,7 +26,7 @@ export default function Page() {
   return (
     <div className="nb-duoi-header">
       <PageHero
-        anh="/assets/banners/ve-chung-toi.jpg"
+        anh="/assets/home/hero-anh.jpg"
         nhan="NIBELC GROUP GERMANY"
         tieuDe="Kết nối con người – Kiến tạo cơ hội"
         mo="Đồng hành cùng người Việt trên hành trình học tập và làm việc tại Đức, châu Âu."
@@ -52,15 +52,40 @@ export default function Page() {
           </NavLink>
         </div>
 
-        <span className="relative block aspect-[4/3] overflow-hidden rounded-[16px] border border-[var(--nb-line-soft)]">
-          <Image
-            src="/assets/jobs/it/03-portrait-team-3x4.jpg"
-            alt="Đội ngũ NIBELC"
-            fill
-            sizes="(min-width:1024px) 640px, 100vw"
-            className="object-cover"
-          />
-        </span>
+        {/* Bốn nhóm ngành tiêu biểu thay cho một tấm ảnh minh hoạ chung chung.
+            Ảnh nào cũng là người Việt đang làm nghề đó tại Đức, đúng thứ công
+            ty làm — không phải ảnh doanh nhân mượn tạm. */}
+        <ul className="grid grid-cols-2 gap-3.5">
+          {[
+            { id: "pflege", ten: "Điều dưỡng / Y tế" },
+            { id: "gastronomie", ten: "Nhà hàng / Khách sạn" },
+            { id: "elektro", ten: "Điện / Điện tử" },
+            { id: "bau", ten: "Xây dựng / Nội thất" },
+          ].map((x, i) => (
+            <li
+              key={x.id}
+              className={`relative block aspect-[4/3] overflow-hidden rounded-[14px] border border-[var(--nb-line-soft)] ${
+                i % 3 === 0 ? "sm:mt-6" : ""
+              }`}
+            >
+              <Image
+                src={`/assets/nghe/${x.id}.jpg`}
+                alt={x.ten}
+                fill
+                sizes="(min-width:1024px) 300px, 45vw"
+                className="object-cover"
+              />
+              <span
+                className="absolute inset-x-0 bottom-0 h-[58%]"
+                style={{ background: "linear-gradient(180deg, transparent, rgba(4,9,18,.9))" }}
+                aria-hidden="true"
+              />
+              <b className="absolute inset-x-0 bottom-0 px-3.5 pb-3 text-[13px] font-semibold text-white">
+                {x.ten}
+              </b>
+            </li>
+          ))}
+        </ul>
       </section>
 
       {/* ---------- CON SỐ ---------- */}
@@ -84,6 +109,56 @@ export default function Page() {
         </div>
       </section>
 
+      {/* ---------- CHÚNG TÔI LÀM GÌ ---------- */}
+      <section className="nb-wrap py-16">
+        <h2 className="nb-display text-[28px] text-white">Chúng tôi làm gì</h2>
+        <span className="mt-4 mb-9 block h-px w-16 bg-[var(--nb-gold)]" aria-hidden="true" />
+        <ul className="grid gap-6 lg:grid-cols-3">
+          {[
+            {
+              anh: "/assets/nghe/logistik.jpg",
+              ten: "Đơn hàng việc làm",
+              mo: "Tuyển chọn và giới thiệu vị trí tại doanh nghiệp Đức và châu Âu, theo đúng thông báo tuyển dụng của đối tác.",
+              href: "/don-hang",
+              nut: "Xem đơn hàng",
+            },
+            {
+              anh: "/assets/nghe/pflege.jpg",
+              ten: "Du học nghề Ausbildung",
+              mo: "Chương trình học nghề kép tại Đức: vừa học vừa làm, có lương đào tạo và bằng nghề được công nhận.",
+              href: "/du-hoc-nghe",
+              nut: "Tìm hiểu ngành",
+            },
+            {
+              anh: "/assets/nghe/soziales.jpg",
+              ten: "Đồng hành trọn hành trình",
+              mo: "Từ hồ sơ, tiếng Đức, visa cho tới khi ổn định công việc và cuộc sống tại nước sở tại.",
+              href: "/lo-trinh",
+              nut: "Xem lộ trình",
+            },
+          ].map((x) => (
+            <li key={x.ten} className="nb-card flex h-full flex-col overflow-hidden">
+              <span className="relative block aspect-video overflow-hidden">
+                <Image src={x.anh} alt="" fill sizes="(min-width:1024px) 420px, 100vw" className="object-cover" />
+                <span
+                  className="absolute inset-x-0 bottom-0 h-[52%]"
+                  style={{ background: "linear-gradient(180deg, transparent, rgba(4,9,18,.9))" }}
+                  aria-hidden="true"
+                />
+              </span>
+              <span className="flex flex-1 flex-col p-6">
+                <b className="nb-display block text-[21px] text-white">{x.ten}</b>
+                <span className="mt-2.5 block text-[14px] leading-[1.75] text-[var(--nb-text-dim)]">{x.mo}</span>
+                <NavLink href={x.href} className="nb-btn-ghost mt-auto h-11 w-fit px-5 pt-0 text-[14px]">
+                  {x.nut}
+                  <ArrowRight size={15} />
+                </NavLink>
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
       {/* ---------- GIÁ TRỊ CỐT LÕI ---------- */}
       <section className="nb-wrap py-16">
         <h2 className="nb-display text-[28px] text-white">Giá trị cốt lõi</h2>
@@ -99,14 +174,8 @@ export default function Page() {
       </section>
 
       {/* ---------- KẾT NỐI ĐỨC - VIỆT ---------- */}
-      <section className="relative isolate overflow-hidden border-t border-[var(--nb-line-soft)]">
-        <Image
-          src="/assets/home/hero/germany-panorama.png"
-          alt=""
-          fill
-          sizes="100vw"
-          className="-z-10 object-cover opacity-30"
-        />
+      <section className="relative isolate overflow-hidden border-t border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)]">
+        <span className="nb-gold-rule absolute inset-x-0 top-0 opacity-50" aria-hidden="true" />
         <div className="nb-wrap py-16">
           <h2 className="nb-display max-w-[20ch] text-[30px] text-white">Kết nối Việt Nam – Đức và hoà nhập châu Âu</h2>
           <p className="mt-4 max-w-[62ch] text-[15.5px] leading-[1.8] text-[var(--nb-text-dim)]">

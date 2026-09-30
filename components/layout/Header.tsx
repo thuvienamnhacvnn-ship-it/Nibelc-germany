@@ -40,8 +40,15 @@ export function Header() {
       }`}
       style={{ height: "var(--nb-header)" }}
     >
+      {/* Trên điện thoại: logo đứng GIỮA, nút chức năng dạt sang phải. Dùng
+          một ô trống cùng bề ngang bên trái để logo cân đúng tâm màn hình. */}
       <div className="nb-wrap flex h-full items-center gap-8">
-        <NavLink href="/" aria-label="NIBELC GROUP — về trang chủ" className="shrink-0">
+        <span className="h-9 w-9 shrink-0 lg:hidden" aria-hidden="true" />
+        <NavLink
+          href="/"
+          aria-label="NIBELC GROUP — về trang chủ"
+          className="mx-auto shrink-0 lg:mx-0"
+        >
           <Image
             src="/assets/brand/nibelc-logo.svg"
             alt="NIBELC GROUP"
@@ -81,7 +88,7 @@ export function Header() {
           })}
         </nav>
 
-        <div className="ml-auto flex shrink-0 items-center gap-2.5">
+        <div className="flex shrink-0 items-center gap-2.5 lg:ml-auto">
           <button
             type="button"
             onClick={() => setMoTim((v) => !v)}
@@ -101,10 +108,12 @@ export function Header() {
             VI
           </button>
 
-          <NavLink href="/lien-he" className="nb-btn h-9 px-4 text-[13.5px]">
-            <Headphones size={15} />
-            Tư vấn ngay
-          </NavLink>
+          <span className="hidden lg:contents">
+            <NavLink href="/lien-he" className="nb-btn h-9 px-4 text-[13.5px]">
+              <Headphones size={15} />
+              Tư vấn ngay
+            </NavLink>
+          </span>
         </div>
       </div>
 

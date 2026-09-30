@@ -41,7 +41,10 @@ export function NhomNhanVat({
       aria-hidden="true"
       animate={{ opacity: mo, x: dich }}
       transition={{ duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
-      className={`pointer-events-none absolute bottom-[58px] z-0 ${
+      // Ẩn hẳn trên điện thoại: màn hẹp thì hai nhóm chồng vào giữa và chữ
+      // hero đè lên mặt nhân vật — đúng thứ Sếp cấm. Bản dọc đã có video 9:16
+      // với người thật rồi.
+      className={`pointer-events-none absolute bottom-[58px] z-0 hidden lg:block ${
         ben === "trai" ? "left-0 origin-bottom-left" : "right-0 origin-bottom-right"
       } ${rong}`}
     >

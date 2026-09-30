@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { MenuDay } from "@/components/layout/MenuDay";
 import { PageFade, PageTransition } from "@/components/layout/PageTransition";
 
 /**
@@ -54,6 +55,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <PageFade>{children}</PageFade>
           </main>
           <Footer />
+          <MenuDay />
         </PageTransition>
       </body>
     </html>

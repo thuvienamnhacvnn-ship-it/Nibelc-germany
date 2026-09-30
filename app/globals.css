@@ -359,6 +359,13 @@
 }
 
 /* Bệ nổi dưới chân nhân vật PNG — che chỗ ảnh bị cắt ngang */
+/* Chừa chỗ cho menu đáy trên điện thoại, nếu không nó đè lên cuối footer */
+@media (max-width: 1023px) {
+  body {
+    padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
 .nb-be-noi {
   position: absolute;
   left: 50%;

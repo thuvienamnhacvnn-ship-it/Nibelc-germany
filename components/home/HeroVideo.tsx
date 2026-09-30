@@ -9,8 +9,8 @@ import { useEffect, useRef, useState } from "react";
  * mới gắn thẻ, nên máy nào cũng chỉ tải đúng một bản — không nạp cả hai như
  * cách dùng hai thẻ rồi ẩn bằng CSS.
  *
- * `DUNG_ANH` đổi qua lại giữa ẢNH TĨNH và VIDEO. Sếp đang thử ảnh tĩnh; đổi
- * về `false` là quay lại video ngay, không phải sửa gì thêm.
+ * `DUNG_ANH` áp cho DESKTOP: Sếp chọn ảnh tĩnh cho bản ngang; đổi về `false`
+ * là quay lại video. Bản ĐIỆN THOẠI luôn chạy video dọc 9:16 — Sếp chốt vậy.
  *
  * Ảnh poster hiện ngay trong lúc video còn tải, và cũng là thứ duy nhất hiện
  * khi người dùng bật "giảm chuyển động": lúc đó không phát video nữa.
@@ -41,7 +41,7 @@ export function HeroVideo() {
   const poster = `/assets/home/video/${ten}-poster.jpg`;
   const anhTinh = dien ? "/assets/home/hero-anh-mobile.jpg" : "/assets/home/hero-anh.jpg";
 
-  if (DUNG_ANH) {
+  if (DUNG_ANH && !dien) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img

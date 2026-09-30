@@ -37,8 +37,10 @@ export function PageHero({
 
       <div className="nb-wrap nb-bong-chu py-16">
         <p className="nb-eyebrow">{nhan}</p>
-        <h1 className="nb-display mt-3 max-w-[22ch] text-[clamp(30px,3.2vw,46px)] text-white">{tieuDe}</h1>
-        {mo && <p className="mt-4 max-w-[62ch] text-[16px] leading-[1.7] text-[#d7e2f2]">{mo}</p>}
+        <h1 className="nb-display mt-3 max-w-[22ch] text-[clamp(30px,3.2vw,46px)] leading-[1.14] text-white">
+          {tieuDe}
+        </h1>
+        {mo && <p className="mt-5 max-w-[62ch] text-[16px] leading-[1.7] text-[#d7e2f2]">{mo}</p>}
 
         {soLieu && soLieu.length > 0 && (
           <ul className="mt-7 flex flex-wrap gap-x-10 gap-y-4">
