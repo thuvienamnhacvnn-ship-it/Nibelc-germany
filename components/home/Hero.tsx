@@ -80,8 +80,12 @@ export function Hero() {
         <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
           <AnimatePresence mode="wait">
             {hero.dangHienJob && hero.job ? (
-              <motion.div key="job" className="flex flex-col items-center" style={{ perspective: 1200 }}>
-                <FeaturedJob job={hero.job} oTep={hero.oTep} />
+              <motion.div
+                key={`job-${hero.job.id}`}
+                className="flex flex-col items-center"
+                style={{ perspective: 1200 }}
+              >
+                <FeaturedJob job={hero.job} oTep={hero.oTep} doiTiep={hero.doiTiep} />
                 <button
                   type="button"
                   onClick={hero.boChon}

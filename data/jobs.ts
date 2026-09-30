@@ -206,7 +206,13 @@ export function jobBySlug(slug: string): JobFull | undefined {
 
 export function featuredJobOf(industryId: string): JobFull | undefined {
   const ds = jobsByIndustry(industryId);
-  return ds.find((j) => j.featured) ?? ds[0];
+  const j = ds.find((x) => x.featured) ?? ds[0];
+  if (!j) return undefined;
+  // Trên hero LUÔN dùng banner 16:9 của nhóm ngành. Đơn thật có ảnh riêng
+  // (`j.image` đọc từ jobs-that.json), ảnh đó không phải khổ banner và không
+  // cùng phong cách — để nguyên thì thay cả bộ banner mới mà trang chủ nhìn
+  // vẫn y như cũ.
+  return { ...j, image: ANH_NGANH[industryId] ?? j.image };
 }
 
 /** Các thành phố đang có đơn, dùng cho bộ lọc */
