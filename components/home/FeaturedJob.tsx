@@ -92,73 +92,65 @@ export function FeaturedJob({
       style={{ transformStyle: "preserve-3d", perspective: 1400 }}
       className="w-[min(612px,84vw)] overflow-hidden rounded-[20px] border border-[var(--nb-gold)]/70 bg-[var(--nb-navy-900)] text-left shadow-[0_30px_80px_-14px_rgba(0,0,0,.9),0_0_0_1px_rgba(217,184,120,.22),0_0_44px_-12px_rgba(224,172,61,.5)]"
     >
-      {/* ---------- KHUNG ẢNH 16:9 ---------- */}
+      {/* CẢ THẺ là một khung 16:9. Ảnh phủ kín, mọi thông tin và nút đè lên
+          phần dưới. Trước đây ảnh 16:9 rồi mới xếp thêm khối thông tin bên
+          dưới, nên tổng thẻ ra 1,22:1 chứ không phải 16:9. */}
       <div className="relative aspect-video">
         <Image src={job.image} alt={job.title} fill priority sizes="612px" className="object-cover" />
 
         {nganh && (
-          <span className="absolute top-3.5 left-3.5 rounded-full border border-[var(--nb-gold)]/60 bg-[var(--nb-navy-900)]/80 px-3.5 py-1 text-[12px] font-semibold text-[var(--nb-gold-soft)] backdrop-blur-sm">
+          <span className="absolute top-3 left-3 rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/80 px-3 py-1 text-[11.5px] font-semibold text-[var(--nb-gold-soft)] backdrop-blur-sm">
             {nganh.titleVi}
           </span>
         )}
-        <span className="absolute top-3.5 right-3.5 rounded-full bg-[var(--nb-gold)] px-3 py-1 text-[11.5px] font-bold tracking-[0.06em] text-[var(--nb-navy-900)]">
+        <span className="absolute top-3 right-3 rounded-full bg-[var(--nb-gold)] px-3 py-1 text-[11px] font-bold tracking-[0.05em] text-[var(--nb-navy-900)]">
           ĐANG TUYỂN
         </span>
 
-        {/* dải chuyển tiếp ở đáy để tiêu đề tách khỏi ảnh — không phủ màu lên
-            toàn khung hình */}
         <span
-          className="absolute inset-x-0 bottom-0 h-[72%]"
+          className="absolute inset-x-0 bottom-0 h-[76%]"
           style={{
             background:
-              "linear-gradient(180deg, transparent 0%, rgba(4,9,18,.6) 38%, rgba(4,9,18,.92) 72%, var(--nb-navy-900) 100%)",
+              "linear-gradient(180deg, transparent 0%, rgba(4,9,18,.5) 30%, rgba(4,9,18,.88) 62%, rgba(4,9,18,.97) 100%)",
           }}
           aria-hidden="true"
         />
 
-        <div className="absolute inset-x-0 bottom-0 px-5 pb-3">
-          <h2 className="nb-display text-[clamp(21px,1.75vw,28px)] leading-[1.06] font-bold tracking-[-0.015em] text-white [text-shadow:0_2px_10px_rgba(4,9,18,.9)]">
+        <div className="absolute inset-x-0 bottom-0 px-5 pb-4">
+          <h2 className="nb-display text-[clamp(18px,1.6vw,25px)] leading-[1.12] font-bold text-white [text-shadow:0_2px_8px_rgba(4,9,18,.9)]">
             {job.title}
           </h2>
+
+          <div className="mt-2 flex flex-wrap items-center gap-x-3.5 gap-y-1.5">
+            <span className="nb-display rounded-lg border border-[var(--nb-gold)]/55 bg-[var(--nb-navy-900)]/85 px-3 py-1 text-[clamp(16px,1.3vw,21px)] leading-none font-bold text-[var(--nb-gold-strong)]">
+              {chuoiLuong(job)}
+            </span>
+            <span className="flex items-center gap-1.5 text-[12.5px] text-[#d2dded]">
+              <MapPin size={13} className="shrink-0 text-[var(--nb-gold)]" />
+              {noiLamViec(job)}
+            </span>
+            <span className="flex items-center gap-1.5 text-[12.5px] text-[#d2dded]">
+              <Users size={13} className="shrink-0 text-[var(--nb-gold)]" />
+              {job.vacancies} suất
+            </span>
+            <span className="rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/6 px-2 py-0.5 text-[11.5px] text-[#d2dded]">
+              Tiếng {job.languageLevel}
+            </span>
+          </div>
+
+          <div className="mt-3 flex gap-2">
+            <NavLink href={`/don-hang/${job.slug}`} className="nb-btn h-10 flex-1 px-4 text-[13.5px]">
+              Xem đơn hàng
+              <ArrowRight size={14} />
+            </NavLink>
+            <NavLink href="/lien-he" className="nb-btn-ghost h-10 px-4 text-[13.5px]">
+              <Send size={13} />
+              Ứng tuyển
+            </NavLink>
+          </div>
         </div>
       </div>
 
-      {/* ---------- DẢI THÔNG TIN ---------- */}
-      {/* Mức lương KHÔNG dùng chữ đen trên nền vàng nữa: chữ đen nằm trong
-          khối có bóng chữ nên nhận cả bốn lớp bóng tối, nhìn nhoè bệt. Giờ là
-          chữ vàng đặc trên nền navy, viền vàng mảnh — tương phản cao mà nét. */}
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-[var(--nb-gold)]/25 px-5 py-3">
-        <span className="inline-flex items-baseline gap-2 rounded-xl border border-[var(--nb-gold)]/55 bg-[var(--nb-navy-800)] px-3.5 py-1.5">
-          <span className="nb-display text-[clamp(19px,1.6vw,25px)] leading-none font-bold text-[var(--nb-gold-strong)]">
-            {chuoiLuong(job)}
-          </span>
-        </span>
-
-        <ul className="flex flex-wrap items-center gap-x-5 gap-y-1.5 text-[13.5px] text-[#c9d6e6]">
-          <li className="flex items-center gap-1.5">
-            <MapPin size={15} className="text-[var(--nb-gold)]" />
-            {noiLamViec(job)}
-          </li>
-          <li className="flex items-center gap-1.5">
-            <Users size={15} className="text-[var(--nb-gold)]" />
-            {job.vacancies} suất
-          </li>
-          <li className="rounded-full border border-[var(--nb-line)] px-2.5 py-0.5 text-[12.5px]">
-            Tiếng {job.languageLevel}
-          </li>
-        </ul>
-      </div>
-
-      <div className="flex gap-2.5 px-5 pb-4">
-        <NavLink href={`/don-hang/${job.slug}`} className="nb-btn h-11 flex-1 px-5 text-[14.5px]">
-          Xem đơn hàng
-          <ArrowRight size={16} />
-        </NavLink>
-        <NavLink href="/lien-he" className="nb-btn-ghost h-11 px-5 text-[14.5px]">
-          <Send size={15} />
-          Ứng tuyển
-        </NavLink>
-      </div>
     </motion.article>
   );
 }
