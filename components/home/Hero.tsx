@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import { useHeroJobRotation } from "@/hooks/useHeroJobRotation";
@@ -9,7 +10,6 @@ import { FeaturedJob } from "@/components/home/FeaturedJob";
 import { SearchBar } from "@/components/home/SearchBar";
 import { HeroVideo } from "@/components/home/HeroVideo";
 import { NhomNhanVat } from "@/components/home/NhomNhanVat";
-import { CoDucBrush } from "@/components/home/CoDucBrush";
 
 /**
  * HERO TRANG CHỦ
@@ -106,37 +106,24 @@ export function Hero() {
                 className="nb-bong-chu relative max-w-[min(760px,82vw)] lg:max-w-[min(820px,74vw)]"
               >
 
-                {/* ---- CỤM 1: dòng Đức ---- */}
-                <h1 className="nb-hero-chu flex flex-wrap items-baseline justify-center gap-x-[0.28em] leading-[1.1] text-white italic">
-                  <span className="text-[clamp(23px,3.5vw,56px)]">Arbeiten in</span>
-                  <span className="nb-khoi text-[clamp(27px,4.05vw,65px)]">
-                    <span className="nb-bong-sau" aria-hidden="true">
-                      Deutschland
-                    </span>
-                    <span className="nb-vang-khoi">Deutschland</span>
-                  </span>
+                {/* CỤM TIÊU ĐỀ là một tấm PNG nền trong suốt Sếp gửi, không
+                    dựng lại bằng chữ nữa. Vẫn giữ một thẻ h1 cho máy tìm kiếm
+                    và trình đọc màn hình, chỉ ẩn khỏi mắt thường. */}
+                <h1 className="sr-only">
+                  Arbeiten in Deutschland mit Nibelc Germany GmbH — ĐỐI TÁC UY TÍN, lựa chọn tốt nhất của bạn cho
+                  việc làm và học nghề tại Đức, châu Âu
                 </h1>
-                <p className="nb-hero-chu -mt-0.5 text-[clamp(17px,2.6vw,41px)] text-white italic">
-                  mit Nibelc Germany GmbH
-                </p>
+                <Image
+                  src="/assets/home/title-cum.png"
+                  alt=""
+                  width={1400}
+                  height={596}
+                  priority
+                  quality={95}
+                  sizes="(min-width:1024px) 860px, 92vw"
+                  className="mx-auto h-auto w-[min(860px,92vw)]"
+                />
 
-                {/* ---- CỤM 2: khẩu hiệu ---- */}
-                <p className="nb-hero-chu nb-bong-khoi mt-1 text-[clamp(32px,4.6vw,74px)] leading-[1.02] tracking-[0.005em]">
-                  <span className="nb-khoi">
-                    <span className="nb-bong-sau" aria-hidden="true">
-                      ĐỐI TÁC UY TÍN
-                    </span>
-                    <span className="nb-vang-khoi">ĐỐI TÁC UY TÍN</span>
-                  </span>
-                </p>
-                <p className="nb-hero-chu -mt-1 text-[clamp(15px,2.3vw,37px)] tracking-[0.01em] text-white">
-                  LỰA CHỌN TỐT NHẤT CỦA BẠN
-                </p>
-                <p className="nb-hero-chu mt-0.5 text-[clamp(12px,1.75vw,28px)] leading-[1.35] font-bold tracking-[0.01em] text-[var(--nb-gold-soft)]">
-                  CHO VIỆC LÀM VÀ HỌC NGHỀ TẠI ĐỨC, CHÂU ÂU
-                </p>
-
-                <CoDucBrush className="mx-auto mt-3 h-[clamp(16px,2.1vw,34px)] w-[min(360px,62vw)]" />
 
                 <div className="mx-auto mt-4 w-[min(500px,84vw)]">
                   <SearchBar />
