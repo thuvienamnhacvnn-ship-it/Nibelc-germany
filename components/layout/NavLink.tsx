@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { Route } from "next";
-import type { ReactNode, MouseEvent } from "react";
+import type { ReactNode, MouseEvent, CSSProperties } from "react";
 import { useChuyenTrang } from "@/components/layout/PageTransition";
 
 /**
@@ -24,6 +24,9 @@ export function NavLink({
   className?: string;
   children: ReactNode;
   onClick?: () => void;
+  /** cho phep ghi de style inline khi lop tien ich cua Tailwind khong thang
+      duoc (vd .nb-btn dat white-space: nowrap o @layer components) */
+  style?: CSSProperties;
   "aria-label"?: string;
   "aria-current"?: "page" | undefined;
 }) {

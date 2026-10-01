@@ -85,11 +85,15 @@ export function GuideHub() {
   return (
     <div className="nb-wrap grid gap-7 py-10 sm:gap-8 sm:py-14 lg:grid-cols-[236px_minmax(0,1fr)_280px]">
       {/* ---------- CHUYÊN MỤC ---------- */}
-      <aside className="h-fit lg:sticky lg:top-[calc(var(--nb-header)+20px)]">
+      {/* min-w-0 là BẮT BUỘC: ô của lưới mặc định min-width:auto, nên bề rộng
+          max-content của hàng chip kéo ngang (11 chip whitespace-nowrap, ~1500px)
+          lọt ra ngoài và nới rộng cả trang. Thiếu dòng này, khung trang phình
+          quá 1024px, `lg:` bật lên, hàng chip mất overflow-x và càng phình to. */}
+      <aside className="h-fit min-w-0 lg:sticky lg:top-[calc(var(--nb-header)+20px)]">
         <b className="block text-[15px] font-semibold text-white">Danh mục chủ đề</b>
         {/* Mười một chuyên mục xếp dọc ở khổ điện thoại chiếm gần 500px, đẩy bài
             viết xuống quá xa. Dưới lg thì cho chúng thành một hàng kéo ngang. */}
-        <ul className="nb-no-scrollbar mt-4 flex gap-2 overflow-x-auto pb-1 lg:block lg:space-y-1 lg:overflow-x-visible lg:pb-0">
+        <ul className="nb-no-scrollbar mt-4 flex max-w-full gap-2 overflow-x-auto pb-1 lg:block lg:max-w-none lg:space-y-1 lg:overflow-x-visible lg:pb-0">
           {CHUYEN_MUC.map((m) => {
             const so = m === CHUYEN_MUC[0] ? CAM_NANG.length : CAM_NANG.filter((b) => mucCuaBai(b).includes(m)).length;
             const on = muc === m;
@@ -115,7 +119,7 @@ export function GuideHub() {
       </aside>
 
       {/* ---------- BÀI VIẾT ---------- */}
-      <div>
+      <div className="min-w-0">
         <div className="flex items-center gap-3 rounded-full border border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)]/70 px-5 py-2.5 focus-within:border-[var(--nb-gold)]">
           <Search size={17} className="shrink-0 text-[var(--nb-gold)]" />
           <input
@@ -208,7 +212,7 @@ export function GuideHub() {
       </div>
 
       {/* ---------- ĐƯỢC ĐỌC NHIỀU NHẤT ---------- */}
-      <aside className="nb-panel h-fit p-5 lg:sticky lg:top-[calc(var(--nb-header)+20px)]">
+      <aside className="nb-panel h-fit min-w-0 p-5 lg:sticky lg:top-[calc(var(--nb-header)+20px)]">
         <b className="flex items-center gap-2 text-[15px] font-semibold text-white">
           <Flame size={16} className="text-[var(--nb-gold)]" />
           Được đọc nhiều nhất

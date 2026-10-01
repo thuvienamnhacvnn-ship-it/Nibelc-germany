@@ -47,11 +47,17 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
   return (
     <div className="nb-duoi-header">
-      <div className="nb-wrap grid gap-10 py-12 lg:grid-cols-[minmax(0,65fr)_minmax(0,35fr)]">
+      <div className="nb-wrap grid gap-8 py-9 sm:gap-10 sm:py-12 lg:grid-cols-[minmax(0,65fr)_minmax(0,35fr)]">
         {/* ---------------- TRÁI ---------------- */}
         <article>
           <nav aria-label="Đường dẫn" className="flex items-center gap-2 text-[13px] text-[var(--nb-text-mute)]">
-            <NavLink href="/don-hang" className="transition hover:text-[var(--nb-gold-soft)]">
+            {/* Chữ 13px cho vùng bấm cao 21px — ngón tay bấm trượt. Nới sàn
+                44px ở khổ điện thoại (đúng cách bảng lọc đang làm), desktop
+                giữ nguyên dòng mảnh. */}
+            <NavLink
+              href="/don-hang"
+              className="inline-flex min-h-[44px] items-center transition hover:text-[var(--nb-gold-soft)] lg:min-h-0"
+            >
               Đơn hàng
             </NavLink>
             <span>/</span>
@@ -71,22 +77,22 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             )}
           </div>
 
-          <h1 className="nb-display mt-3 text-[clamp(26px,2.6vw,38px)] text-white">{job.title}</h1>
+          <h1 className="nb-display mt-3 text-[23px] leading-[1.2] text-white sm:text-[clamp(26px,2.6vw,38px)] sm:leading-[1.15]">{job.title}</h1>
           <p className="mt-2 text-[14.5px] text-[var(--nb-text-mute)]">{tenNhaTuyenDung(job)}</p>
 
           <div className="mt-7">
             <JobGallery anh={job.gallery.length ? job.gallery : [job.image]} ten={job.title} />
           </div>
 
-          <ul className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-7 grid gap-2.5 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3">
             {THONG_TIN.map(({ Icon, nhan, gt }) => (
-              <li key={nhan} className="nb-panel flex items-center gap-3 p-4">
+              <li key={nhan} className="nb-panel flex items-center gap-2.5 p-3 sm:gap-3 sm:p-4">
                 <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-[var(--nb-line)] text-[var(--nb-gold)]">
                   <Icon size={16} />
                 </span>
                 <span className="min-w-0">
                   <span className="block text-[11.5px] text-[var(--nb-text-mute)]">{nhan}</span>
-                  <b className="mt-0.5 block truncate text-[14.5px] font-semibold text-white">{gt}</b>
+                  <b className="mt-0.5 block truncate text-[13.5px] font-semibold text-white sm:text-[14.5px]">{gt}</b>
                 </span>
               </li>
             ))}
@@ -94,7 +100,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
           {job.description && (
             <Khoi tieuDe="Mô tả công việc">
-              <p className="text-[15px] leading-[1.8] text-[var(--nb-text-dim)]">{job.description}</p>
+              <p className="text-[14.5px] leading-[1.8] text-[var(--nb-text-dim)] sm:text-[15px]">{job.description}</p>
             </Khoi>
           )}
 
@@ -104,7 +110,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                 {job.positions.map((v, i) => (
                   <li
                     key={`${v.name}-${i}`}
-                    className={`flex flex-wrap items-center justify-between gap-3 px-5 py-3.5 ${
+                    className={`flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 px-4 py-3 sm:px-5 sm:py-3.5 ${
                       i % 2 ? "bg-white/[.02]" : ""
                     }`}
                   >
@@ -137,14 +143,14 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           )}
 
           <Khoi tieuDe="Quy trình tham gia">
-            <ol className="grid gap-3 sm:grid-cols-2">
+            <ol className="grid gap-2.5 sm:grid-cols-2 sm:gap-3">
               {[
                 "Gửi hồ sơ và được chuyên viên đánh giá",
                 "Học tiếng Đức tới trình độ đơn hàng yêu cầu",
                 "Phỏng vấn với chủ sử dụng lao động",
                 "Ký hợp đồng, nộp hồ sơ visa và xuất cảnh",
               ].map((b, i) => (
-                <li key={b} className="nb-panel flex gap-3 p-4">
+                <li key={b} className="nb-panel flex gap-3 p-3.5 sm:p-4">
                   <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[var(--nb-gold)] text-[12px] font-bold text-[var(--nb-navy-900)]">
                     {i + 1}
                   </span>
@@ -159,9 +165,9 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         <aside className="lg:sticky lg:top-[calc(var(--nb-header)+20px)] lg:h-fit">
           <div className="nb-panel overflow-hidden">
             <div className="nb-gold-rule" aria-hidden="true" />
-            <div className="p-6">
+            <div className="p-5 sm:p-6">
               <p className="text-[12.5px] text-[var(--nb-text-mute)]">Thu nhập</p>
-              <b className="nb-gold-text nb-display mt-1 block text-[30px]">{chuoiLuong(job)}</b>
+              <b className="nb-gold-text nb-display mt-1 block text-[27px] sm:text-[30px]">{chuoiLuong(job)}</b>
 
               <dl className="mt-5 space-y-3 border-t border-[var(--nb-line-soft)] pt-5 text-[14px]">
                 {[
@@ -200,10 +206,10 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       </div>
 
       {lienQuan.length > 0 && (
-        <section className="border-t border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] py-16">
+        <section className="border-t border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] py-11 sm:py-16">
           <div className="nb-wrap">
-            <h2 className="nb-display text-[26px] text-white">Đơn hàng cùng ngành</h2>
-            <ul className="mt-7 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <h2 className="nb-display text-[22px] text-white sm:text-[26px]">Đơn hàng cùng ngành</h2>
+            <ul className="mt-6 grid gap-5 sm:mt-7 sm:gap-6 md:grid-cols-2 xl:grid-cols-3">
               {lienQuan.map((j) => (
                 <li key={j.id}>
                   <JobCard job={j} />
@@ -219,8 +225,8 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
 function Khoi({ tieuDe, children }: { tieuDe: string; children: React.ReactNode }) {
   return (
-    <section className="mt-10">
-      <h2 className="nb-display text-[21px] text-white">{tieuDe}</h2>
+    <section className="mt-9 sm:mt-10">
+      <h2 className="nb-display text-[19px] text-white sm:text-[21px]">{tieuDe}</h2>
       <span className="mt-3 mb-5 block h-px w-16 bg-[var(--nb-gold)]" aria-hidden="true" />
       {children}
     </section>
@@ -231,7 +237,7 @@ function DanhSach({ ds }: { ds: string[] }) {
   return (
     <ul className="space-y-2.5">
       {ds.map((x) => (
-        <li key={x} className="flex gap-3 text-[15px] leading-[1.7] text-[var(--nb-text-dim)]">
+        <li key={x} className="flex gap-2.5 text-[14.5px] leading-[1.7] text-[var(--nb-text-dim)] sm:gap-3 sm:text-[15px]">
           <Check size={17} className="mt-[3px] shrink-0 text-[var(--nb-gold)]" />
           {x}
         </li>

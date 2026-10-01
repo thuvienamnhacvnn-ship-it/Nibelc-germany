@@ -73,7 +73,11 @@ export function JourneyTimeline() {
       </ol>
 
       {/* ---------- BẢNG CHI TIẾT ---------- */}
-      <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
+      {/* Dưới lg lưới này chỉ có MỘT cột, nhưng để `grid` trần thì cột tự nở
+          theo min-content của thẻ con (đo được 292,7px) trong khi khung chỉ
+          rộng 256px ở màn 320px — cả trang bị đẩy rộng ra 325px.
+          Khai `grid-cols-[minmax(0,1fr)]` để cột không bao giờ vượt khung. */}
+      <div className="mt-8 grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
         <AnimatePresence mode="wait">
           <motion.div
             key={chang.so}

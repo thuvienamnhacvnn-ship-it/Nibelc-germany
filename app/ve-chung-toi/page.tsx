@@ -47,9 +47,21 @@ export default function Page() {
             địa phương, NIBELC đồng hành cùng học viên và người lao động trên toàn bộ hành trình — từ Việt Nam đến khi
             ổn định cuộc sống và công việc tại Đức.
           </p>
-          <NavLink href="/lien-he" className="nb-btn mt-8 h-12 px-7 text-[15px]">
+          {/* `.nb-btn` đặt white-space: nowrap, mà dòng chữ này rộng 311px —
+              hơn 256px chỗ trống ở màn 320px nên nó đẩy cả trang rộng ra 343px.
+              Cho phép xuống dòng và bỏ chiều cao cứng (h-12 + hai dòng thì chữ
+              trào ra ngoài viên thuốc), giữ sàn 48px cho đủ tầm ngón tay.
+              PHẢI dùng style nội tuyến, KHÔNG dùng lớp `whitespace-normal`:
+              `.nb-btn` trong globals.css nằm NGOÀI mọi @layer nên nó thắng mọi
+              lớp tiện ích của Tailwind v4 (vốn ở @layer utilities) — đã thử,
+              computed white-space vẫn ra nowrap. */}
+          <NavLink
+            href="/lien-he"
+            style={{ whiteSpace: "normal" }}
+            className="nb-btn mt-8 h-auto max-w-full min-h-12 px-7 py-3 text-center text-[15px]"
+          >
             Bắt đầu hành trình cùng NIBELC
-            <ArrowRight size={16} />
+            <ArrowRight size={16} className="shrink-0" />
           </NavLink>
         </div>
 

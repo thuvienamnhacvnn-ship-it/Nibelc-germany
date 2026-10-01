@@ -123,8 +123,13 @@ export function SearchCommandBar({
       </O>
 
       {/* h-auto làm nút cao đúng bằng dòng chữ (24px) khi nó nằm một mình trên
-          một hàng ở khổ điện thoại — không đủ để bấm. Khoá chiều cao 48px. */}
-      <button type="submit" className="nb-btn m-1.5 h-12 w-full min-w-[168px] flex-1 px-7 text-[15px] lg:h-auto lg:w-auto">
+          một hàng ở khổ điện thoại — không đủ để bấm. Khoá chiều cao 48px.
+          `basis-full` cùng lý do với năm ô trên: `flex-1` đặt flex-basis = 0
+          nên nút cũng bị kéo lên chen chung hàng với chúng. */}
+      <button
+        type="submit"
+        className="nb-btn m-1.5 h-12 w-full basis-full px-7 text-[15px] lg:h-auto lg:w-auto lg:min-w-[168px] lg:flex-1 lg:basis-0"
+      >
         <Search size={17} />
         Tìm kiếm
       </button>
@@ -142,12 +147,26 @@ function O({
   children: React.ReactNode;
 }) {
   return (
-    /* Ở khổ điện thoại mỗi ô chiếm trọn một hàng: min-w-[196px] để nguyên thì
-       hai ô cố chen vào một hàng và ô nào cũng bị bóp còn một nửa chữ. */
-    <label className="flex w-full min-w-0 flex-1 items-center gap-3 bg-[var(--nb-navy-800)]/60 px-4 py-2 transition hover:bg-[var(--nb-navy-700)]/70 lg:w-auto lg:min-w-[196px] lg:py-3">
+    /* VÌ SAO `basis-full` chứ không phải `w-full`:
+       `flex-1` là viết tắt của `flex: 1 1 0%` — nó đặt flex-basis = 0, mà
+       flex-basis thắng width trong phép chia chỗ của flexbox. Nên dù có
+       `w-full` lẫn `flex-wrap`, trình duyệt vẫn thấy năm ô "rộng 0" là vừa
+       một hàng và không bao giờ xuống dòng: ở 390px mỗi ô bị ép còn 64px,
+       nhãn vỡ ba dòng và ô thứ năm tràn khỏi khung.
+       `basis-full` (flex-basis: 100%) mới buộc mỗi ô chiếm trọn một hàng.
+       Từ lg trở lên trả lại `flex-1` để bố cục ngang của desktop y như cũ. */
+    <label className="flex w-full min-w-0 basis-full items-center gap-3 bg-[var(--nb-navy-800)]/60 px-4 py-2.5 transition hover:bg-[var(--nb-navy-700)]/70 lg:w-auto lg:min-w-[196px] lg:flex-1 lg:basis-0 lg:py-3">
       <Icon size={17} className="shrink-0 text-[var(--nb-gold)]" />
       <span className="min-w-0 flex-1">
-        <span className="block text-[12px] tracking-[0.1em] text-[var(--nb-text-mute)] uppercase lg:text-[10.5px]">{nhan}</span>
+        {/* TUYỆT ĐỐI không `truncate` (overflow:hidden) cùng `leading-none` ở
+            đây: nhãn viết HOA có dấu tiếng Việt, dấu nằm cao hơn thân chữ nên
+            ô dòng cao đúng 1em sẽ XÉN mất dấu — "TÌM NGÀNH NGHỀ" hiện ra thành
+            "TIM NGANH NGHE". Để dòng rộng 1.45em và không chặn tràn.
+            Nhãn dài nhất ("TRÌNH ĐỘ TIẾNG ĐỨC" ≈ 145px) vẫn vừa một dòng
+            trong 191px chỗ trống ở khổ hẹp nhất (320px). */}
+        <span className="block text-[11px] leading-[1.45] tracking-[0.1em] text-[var(--nb-text-mute)] uppercase lg:text-[10.5px]">
+          {nhan}
+        </span>
         {children}
       </span>
     </label>
