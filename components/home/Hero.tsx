@@ -114,17 +114,6 @@ export function Hero() {
                   việc làm và học nghề tại Đức, châu Âu
                 </h1>
                 <span className="relative mx-auto block w-[min(860px,92vw)]">
-                  {/* Nền tối mềm phía sau cụm chữ: phần chữ trắng đang lẫn vào
-                      mây và núi tuyết. Toả từ giữa ra nên không thành một mảng
-                      vuông đè lên ảnh. */}
-                  <span
-                    aria-hidden="true"
-                    className="pointer-events-none absolute -inset-x-10 -inset-y-8 -z-10"
-                    style={{
-                      background:
-                        "radial-gradient(58% 54% at 50% 50%, rgba(4,10,20,.62) 0%, rgba(4,10,20,.4) 46%, rgba(4,10,20,.16) 72%, transparent 100%)",
-                    }}
-                  />
                   <Image
                     src="/assets/home/title-cum.png"
                     alt=""
@@ -137,8 +126,10 @@ export function Hero() {
                     style={{
                       // Bóng ôm sát nét chữ. Đây là ảnh thường nên drop-shadow
                       // chạy đúng, khác hẳn chữ dùng background-clip trước đây.
+                      // Bóng ÔM SÁT nét chữ. Bán kính lớn làm bóng loang ra
+                      // cả vùng trống quanh cụm, nhìn như một mảng mờ bẩn.
                       filter:
-                        "drop-shadow(0 1px 1px rgba(4,10,20,.95)) drop-shadow(0 3px 7px rgba(4,10,20,.85)) drop-shadow(0 10px 26px rgba(4,10,20,.6))",
+                        "drop-shadow(0 0 1px rgba(4,10,20,.95)) drop-shadow(0 1px 2px rgba(4,10,20,.9)) drop-shadow(0 2px 4px rgba(4,10,20,.7))",
                     }}
                   />
                 </span>
