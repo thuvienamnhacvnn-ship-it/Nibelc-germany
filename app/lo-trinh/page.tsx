@@ -14,12 +14,13 @@ export default function Page() {
     <div className="nb-duoi-header">
       <PageHero
         anh="/assets/banners/lo-trinh.jpg"
+        anhDoc="/assets/banners/mobile/lo-trinh.jpg"
         nhan="Hành trình kiến tạo tương lai"
         tieuDe="Lộ trình từ Việt Nam đến Đức"
         mo="Đồng hành cùng bạn trên từng bước, an toàn, minh bạch và hiệu quả."
         soLieu={[{ so: String(CHANG.length), nhan: "chặng" }]}
       />
-      <section className="nb-wrap py-14">
+      <section className="nb-wrap py-10 sm:py-14">
         <JourneyTimeline />
       </section>
     </div>

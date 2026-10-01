@@ -83,13 +83,13 @@ export function JourneyTimeline() {
             transition={{ duration: 0.32, ease: [0.22, 0.61, 0.36, 1] }}
             className="nb-panel overflow-hidden"
           >
-            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--nb-line-soft)] px-6 py-5">
-              <div className="flex items-center gap-4">
-                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[var(--nb-gold)] text-[16px] font-bold text-[var(--nb-navy-900)]">
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--nb-line-soft)] px-5 py-5 sm:px-6">
+              <div className="flex items-center gap-3.5 sm:gap-4">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[var(--nb-gold)] text-[16px] font-bold text-[var(--nb-navy-900)] sm:h-12 sm:w-12">
                   {chang.so}
                 </span>
-                <div>
-                  <h3 className="nb-display text-[22px] text-white">{chang.ten}</h3>
+                <div className="min-w-0">
+                  <h3 className="nb-display text-[19px] text-white sm:text-[22px]">{chang.ten}</h3>
                   <p className="mt-0.5 text-[13.5px] text-[var(--nb-text-dim)]">{chang.mo}</p>
                 </div>
               </div>
@@ -99,7 +99,7 @@ export function JourneyTimeline() {
               </span>
             </div>
 
-            <div className="grid gap-6 p-6 md:grid-cols-2">
+            <div className="grid gap-6 p-5 sm:p-6 md:grid-cols-2">
               {[
                 { ten: "Công việc cần làm", ds: chang.viec },
                 { ten: "Giấy tờ cần chuẩn bị", ds: chang.giay },
@@ -132,14 +132,14 @@ export function JourneyTimeline() {
                   type="button"
                   onClick={() => setMo(i)}
                   aria-pressed={i === mo}
-                  className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-[13.5px] transition ${
+                  className={`flex min-h-[44px] w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-[13.5px] transition lg:min-h-0 ${
                     i === mo
                       ? "bg-[var(--nb-gold)]/12 text-[var(--nb-gold-soft)]"
                       : "text-[var(--nb-text-dim)] hover:bg-white/5"
                   }`}
                 >
                   <span
-                    className={`grid h-6 w-6 shrink-0 place-items-center rounded-full text-[11px] font-bold ${
+                    className={`grid h-6 w-6 shrink-0 place-items-center rounded-full text-[12px] font-bold lg:text-[11px] ${
                       i === mo
                         ? "bg-[var(--nb-gold)] text-[var(--nb-navy-900)]"
                         : "border border-[var(--nb-line-soft)] text-[var(--nb-text-mute)]"

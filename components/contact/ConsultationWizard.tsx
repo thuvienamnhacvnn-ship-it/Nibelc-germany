@@ -105,7 +105,7 @@ export function ConsultationWizard() {
 
   if (xong) {
     return (
-      <div className="nb-panel p-10 text-center">
+      <div className="nb-panel p-7 text-center sm:p-10">
         <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-[var(--nb-gold)]">
           <Check size={30} className="text-[var(--nb-navy-900)]" />
         </span>
@@ -132,12 +132,12 @@ export function ConsultationWizard() {
   return (
     <div className="nb-panel overflow-hidden">
       {/* ---------- THANH BƯỚC ---------- */}
-      <ol className="flex flex-wrap gap-2 border-b border-[var(--nb-line-soft)] px-6 py-5">
+      <ol className="nb-no-scrollbar flex gap-2 overflow-x-auto border-b border-[var(--nb-line-soft)] px-4 py-4 sm:flex-wrap sm:overflow-x-visible sm:px-6 sm:py-5">
         {BUOC.map((x, i) => {
           const on = i === b;
           const qua = i < b;
           return (
-            <li key={x.so} className="flex items-center gap-2">
+            <li key={x.so} className="flex shrink-0 items-center gap-2 sm:shrink">
               <button
                 type="button"
                 onClick={() => i < b && setB(i)}
@@ -159,7 +159,7 @@ export function ConsultationWizard() {
                   {qua ? <Check size={14} /> : x.so}
                 </span>
                 <span className="text-left">
-                  <span className="block text-[10.5px] tracking-wide text-[var(--nb-text-mute)] uppercase">
+                  <span className="block text-[12px] tracking-wide text-[var(--nb-text-mute)] uppercase sm:text-[10.5px]">
                     Bước {x.so}
                   </span>
                   <span className={`block text-[13.5px] font-medium ${on ? "text-white" : "text-[var(--nb-text-dim)]"}`}>
@@ -179,7 +179,7 @@ export function ConsultationWizard() {
         initial={{ opacity: 0, x: 18 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.3, ease: [0.22, 0.61, 0.36, 1] }}
-        className="p-6 lg:p-8"
+        className="p-5 sm:p-6 lg:p-8"
       >
         {b === 0 && (
           <div className="grid gap-4 sm:grid-cols-2">
@@ -212,7 +212,7 @@ export function ConsultationWizard() {
                       type="button"
                       onClick={() => dat("nganh", i.id)}
                       aria-pressed={v.nganh === i.id}
-                      className={`w-full rounded-lg border px-3.5 py-2.5 text-left text-[13.5px] transition ${
+                      className={`min-h-[44px] w-full rounded-lg border px-3.5 py-2.5 text-left text-[13.5px] transition sm:min-h-0 ${
                         v.nganh === i.id
                           ? "border-[var(--nb-gold)] bg-[var(--nb-gold)]/12 text-[var(--nb-gold-soft)]"
                           : "border-[var(--nb-line-soft)] text-[var(--nb-text-dim)] hover:border-[var(--nb-line)]"
@@ -254,7 +254,7 @@ export function ConsultationWizard() {
                 rows={5}
                 value={v.ghiChu}
                 onChange={(e) => dat("ghiChu", e.target.value)}
-                className="nb-input resize-y"
+                className="nb-input min-h-[120px] resize-y"
               />
             </label>
           </div>
@@ -300,24 +300,24 @@ export function ConsultationWizard() {
       </motion.div>
 
       {/* ---------- ĐIỀU HƯỚNG ---------- */}
-      <div className="flex items-center justify-between gap-4 border-t border-[var(--nb-line-soft)] px-6 py-5">
+      <div className="flex items-center justify-between gap-3 border-t border-[var(--nb-line-soft)] px-5 py-4 sm:gap-4 sm:px-6 sm:py-5">
         <button
           type="button"
           onClick={() => setB((x) => Math.max(0, x - 1))}
           disabled={b === 0}
-          className="nb-btn-solid h-11 px-5 text-[14px] disabled:opacity-35"
+          className="nb-btn-solid h-12 px-4 text-[14px] disabled:opacity-35 sm:h-11 sm:px-5"
         >
           <ArrowLeft size={15} />
           Quay lại
         </button>
 
         {b < BUOC.length - 1 ? (
-          <button type="button" onClick={tiep} className="nb-btn h-11 px-7 text-[14.5px]">
+          <button type="button" onClick={tiep} className="nb-btn h-12 px-6 text-[14.5px] sm:h-11 sm:px-7">
             Tiếp tục
             <ArrowRight size={15} />
           </button>
         ) : (
-          <button type="button" onClick={gui} className="nb-btn h-11 px-7 text-[14.5px]">
+          <button type="button" onClick={gui} className="nb-btn h-12 px-6 text-[14.5px] sm:h-11 sm:px-7">
             Gửi thông tin tư vấn
             <Send size={15} />
           </button>
@@ -358,7 +358,7 @@ function O({
         placeholder={goiY}
         autoComplete={auto}
         aria-invalid={!!loi}
-        className="nb-input"
+        className="nb-input min-h-[44px] sm:min-h-0"
         style={loi ? { borderColor: "#ff7a6b" } : undefined}
       />
       {loi && <span className="mt-1.5 block text-[12.5px] text-[#ff7a6b]">{loi}</span>}
@@ -370,7 +370,7 @@ function Select({ nhan, gt, dat, ds }: { nhan: string; gt: string; dat: (v: stri
   return (
     <label className="block">
       <span className="mb-1.5 block text-[13px] font-medium text-[var(--nb-text-dim)]">{nhan}</span>
-      <select value={gt} onChange={(e) => dat(e.target.value)} className="nb-input">
+      <select value={gt} onChange={(e) => dat(e.target.value)} className="nb-input min-h-[44px] sm:min-h-0">
         {ds.map((x) => (
           <option key={x} value={x}>
             {x || "— Chọn —"}

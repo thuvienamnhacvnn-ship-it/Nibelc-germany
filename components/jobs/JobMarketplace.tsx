@@ -54,6 +54,10 @@ export function JobMarketplace() {
   const [sapXep, setSapXep] = useState<"moi" | "luong-cao" | "suat-nhieu">("moi");
   const [dangLuoi, setDangLuoi] = useState(true);
   const [hien, setHien] = useState(9);
+  /** Chỉ dùng ở khổ điện thoại: bảng lọc 7 nhóm xếp TRÊN lưới kết quả, mở sẵn
+      thì phải cuộn gần hai màn hình mới thấy đơn hàng đầu tiên. Từ lg trở lên
+      bảng là cột bên nên luôn hiện, không phụ thuộc state này. */
+  const [moLoc, setMoLoc] = useState(false);
 
   const ketQua = useMemo(() => {
     const q = bo(tuKhoa.trim());
@@ -121,9 +125,32 @@ export function JobMarketplace() {
         <SearchCommandBar gt={lenh} dat={datLenh} onTim={() => setHien(9)} />
       </div>
 
-    <div className="nb-wrap grid gap-8 py-12 lg:grid-cols-[286px_minmax(0,1fr)]">
+    <div className="nb-wrap grid gap-5 py-9 sm:gap-8 sm:py-12 lg:grid-cols-[286px_minmax(0,1fr)]">
+      {/* Cửa mở bảng lọc, chỉ có ở khổ hẹp */}
+      <button
+        type="button"
+        onClick={() => setMoLoc((v) => !v)}
+        aria-expanded={moLoc}
+        className="nb-btn-solid h-12 w-full justify-between px-5 text-[14.5px] lg:hidden"
+      >
+        <span className="flex items-center gap-2.5">
+          <SlidersHorizontal size={17} className="text-[var(--nb-gold)]" />
+          Bộ lọc tìm kiếm
+          {soLoc > 0 && (
+            <span className="rounded-full bg-[var(--nb-gold)] px-2 py-0.5 text-[12px] font-bold text-[var(--nb-navy-900)]">
+              {soLoc}
+            </span>
+          )}
+        </span>
+        <ChevronDown size={17} className={`transition-transform duration-300 ${moLoc ? "rotate-180" : ""}`} />
+      </button>
+
       {/* ---------------- BỘ LỌC ---------------- */}
-      <aside className="nb-panel h-fit p-6 lg:sticky lg:top-[calc(var(--nb-header)+20px)]">
+      <aside
+        className={`nb-panel h-fit p-5 sm:p-6 lg:sticky lg:top-[calc(var(--nb-header)+20px)] lg:block ${
+          moLoc ? "block" : "hidden"
+        }`}
+      >
         <div className="flex items-center justify-between">
           <b className="flex items-center gap-2 text-[15.5px] font-semibold text-white">
             <SlidersHorizontal size={17} className="text-[var(--nb-gold)]" />
@@ -133,7 +160,7 @@ export function JobMarketplace() {
             <button
               type="button"
               onClick={xoaHet}
-              className="flex items-center gap-1 text-[12.5px] text-[var(--nb-text-mute)] transition hover:text-[var(--nb-gold-soft)]"
+              className="flex min-h-[44px] items-center gap-1 text-[12.5px] text-[var(--nb-text-mute)] transition hover:text-[var(--nb-gold-soft)] lg:min-h-0"
             >
               <X size={13} />
               Xoá ({soLoc})
@@ -152,7 +179,7 @@ export function JobMarketplace() {
                     type="button"
                     onClick={() => setNganh((c) => (on ? c.filter((x) => x !== i.id) : [...c, i.id]))}
                     aria-pressed={on}
-                    className={`flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-[13.5px] transition ${
+                    className={`flex min-h-[44px] w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-[13.5px] transition lg:min-h-0 ${
                       on ? "bg-[var(--nb-gold)]/12 text-[var(--nb-gold-soft)]" : "text-[var(--nb-text-dim)] hover:bg-white/5"
                     }`}
                   >
@@ -164,7 +191,7 @@ export function JobMarketplace() {
                       {on && <span className="h-[7px] w-[7px] rounded-[1px] bg-[var(--nb-navy-900)]" />}
                     </span>
                     <span className="min-w-0 flex-1 truncate">{i.titleVi}</span>
-                    <span className="text-[11.5px] text-[var(--nb-text-mute)]">{so}</span>
+                    <span className="text-[12px] text-[var(--nb-text-mute)] lg:text-[11.5px]">{so}</span>
                   </button>
                 </li>
               );
@@ -187,7 +214,7 @@ export function JobMarketplace() {
                 type="button"
                 onClick={() => setLuongMin(m.min)}
                 aria-pressed={luongMin === m.min}
-                className={`rounded-full border px-3 py-1.5 text-[12.5px] transition ${
+                className={`inline-flex min-h-[44px] items-center rounded-full border px-3.5 py-1.5 text-[12.5px] transition lg:min-h-0 lg:px-3 ${
                   luongMin === m.min
                     ? "border-[var(--nb-gold)] bg-[var(--nb-gold)]/12 text-[var(--nb-gold-soft)]"
                     : "border-[var(--nb-line-soft)] text-[var(--nb-text-dim)] hover:border-[var(--nb-line)]"
@@ -214,13 +241,16 @@ export function JobMarketplace() {
       <div>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h2 className="nb-display text-[26px] text-white">Đơn hàng mới nhất</h2>
+            <h2 className="nb-display text-[23px] text-white sm:text-[26px]">Đơn hàng mới nhất</h2>
             <p className="mt-1 text-[13.5px] text-[var(--nb-text-dim)]">
               Hiển thị {Math.min(hien, ketQua.length)} trong {ketQua.length} đơn hàng
             </p>
           </div>
 
-          <div className="flex shrink-0 flex-wrap items-center gap-2.5">
+          {/* shrink-0 + nội dung rộng ~366px là thủ phạm làm trang Đơn hàng
+              tràn ngang ở khổ 390px: khối này không co được nên nó nới cả khung
+              trang ra. Ở khổ hẹp cho nó chiếm trọn một hàng và tự xuống dòng. */}
+          <div className="flex w-full flex-wrap items-center gap-2.5 lg:w-auto lg:shrink-0">
             <div className="flex overflow-hidden rounded-full border border-[var(--nb-line-soft)]">
               {[
                 { on: dangLuoi, dat: () => setDangLuoi(true), Icon: LayoutGrid, nhan: "Lưới" },
@@ -231,7 +261,7 @@ export function JobMarketplace() {
                   type="button"
                   onClick={dat}
                   aria-pressed={on}
-                  className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap px-3.5 py-2 text-[12.5px] transition ${
+                  className={`flex min-h-[44px] shrink-0 items-center gap-1.5 whitespace-nowrap px-3.5 py-2 text-[12.5px] transition lg:min-h-0 ${
                     on ? "bg-[var(--nb-gold)] text-[var(--nb-navy-900)]" : "text-[var(--nb-text-dim)]"
                   }`}
                 >
@@ -246,7 +276,7 @@ export function JobMarketplace() {
               value={sapXep}
               onChange={(e) => setSapXep(e.target.value as typeof sapXep)}
               aria-label="Sắp xếp"
-              className="nb-input h-10 w-[176px]! shrink-0 py-0 text-[13px]"
+              className="nb-input h-11 min-w-[138px] flex-1 py-0 text-[13px] lg:h-10 lg:w-[176px]! lg:flex-none lg:shrink-0"
             >
               <option value="moi">Mới nhất</option>
               <option value="luong-cao">Lương cao nhất</option>
@@ -256,7 +286,7 @@ export function JobMarketplace() {
         </div>
 
         {ketQua.length === 0 ? (
-          <div className="nb-panel mt-8 p-14 text-center">
+          <div className="nb-panel mt-8 p-8 text-center sm:p-14">
             <b className="block text-[17px] text-white">Không có đơn hàng nào khớp bộ lọc</b>
             <p className="mt-2 text-[14px] text-[var(--nb-text-dim)]">Thử bỏ bớt điều kiện hoặc mở rộng mức lương.</p>
             <button type="button" onClick={xoaHet} className="nb-btn-ghost mt-6 h-10 px-5 text-[13.5px]">
@@ -343,7 +373,7 @@ function Chon({ gt, dat, ds }: { gt: string; dat: (v: string) => void; ds: strin
               type="button"
               onClick={() => dat(x)}
               aria-pressed={on}
-              className={`flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-[13.5px] transition ${
+              className={`flex min-h-[44px] w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-[13.5px] transition lg:min-h-0 ${
                 on
                   ? "bg-[var(--nb-gold)]/12 text-[var(--nb-gold-soft)]"
                   : "text-[var(--nb-text-dim)] hover:bg-white/5"

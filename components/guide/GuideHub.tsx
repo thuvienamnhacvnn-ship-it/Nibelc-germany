@@ -83,26 +83,30 @@ export function GuideHub() {
   const docNhieu = CAM_NANG.slice(0, 5);
 
   return (
-    <div className="nb-wrap grid gap-8 py-14 lg:grid-cols-[236px_minmax(0,1fr)_280px]">
+    <div className="nb-wrap grid gap-7 py-10 sm:gap-8 sm:py-14 lg:grid-cols-[236px_minmax(0,1fr)_280px]">
       {/* ---------- CHUYÊN MỤC ---------- */}
       <aside className="h-fit lg:sticky lg:top-[calc(var(--nb-header)+20px)]">
         <b className="block text-[15px] font-semibold text-white">Danh mục chủ đề</b>
-        <ul className="mt-4 space-y-1">
+        {/* Mười một chuyên mục xếp dọc ở khổ điện thoại chiếm gần 500px, đẩy bài
+            viết xuống quá xa. Dưới lg thì cho chúng thành một hàng kéo ngang. */}
+        <ul className="nb-no-scrollbar mt-4 flex gap-2 overflow-x-auto pb-1 lg:block lg:space-y-1 lg:overflow-x-visible lg:pb-0">
           {CHUYEN_MUC.map((m) => {
             const so = m === CHUYEN_MUC[0] ? CAM_NANG.length : CAM_NANG.filter((b) => mucCuaBai(b).includes(m)).length;
             const on = muc === m;
             return (
-              <li key={m}>
+              <li key={m} className="shrink-0 lg:shrink">
                 <button
                   type="button"
                   onClick={() => setMuc(m)}
                   aria-pressed={on}
-                  className={`flex w-full items-center justify-between gap-2 rounded-lg px-3 py-2.5 text-left text-[13.5px] transition ${
-                    on ? "bg-[var(--nb-gold)]/12 text-[var(--nb-gold-soft)]" : "text-[var(--nb-text-dim)] hover:bg-white/5"
+                  className={`flex min-h-[44px] w-full items-center justify-between gap-2 rounded-full border px-4 py-2.5 text-left text-[13.5px] whitespace-nowrap transition lg:min-h-0 lg:rounded-lg lg:border-0 lg:px-3 lg:whitespace-normal ${
+                    on
+                      ? "border-[var(--nb-gold)] bg-[var(--nb-gold)]/12 text-[var(--nb-gold-soft)]"
+                      : "border-[var(--nb-line-soft)] text-[var(--nb-text-dim)] hover:bg-white/5"
                   }`}
                 >
-                  <span className="min-w-0 truncate">{m}</span>
-                  <span className="text-[11.5px] text-[var(--nb-text-mute)]">{so}</span>
+                  <span className="min-w-0 lg:truncate">{m}</span>
+                  <span className="text-[12px] text-[var(--nb-text-mute)] lg:text-[11.5px]">{so}</span>
                 </button>
               </li>
             );
@@ -119,19 +123,21 @@ export function GuideHub() {
             onChange={(e) => setTu(e.target.value)}
             placeholder="Tìm kiếm trong cẩm nang..."
             aria-label="Tìm kiếm trong cẩm nang"
-            className="h-8 min-w-0 flex-1 bg-transparent text-[14.5px] text-white outline-none placeholder:text-[var(--nb-text-mute)]"
+            className="h-11 min-w-0 flex-1 bg-transparent text-[14.5px] text-white outline-none placeholder:text-[var(--nb-text-mute)] lg:h-8"
           />
         </div>
 
         {ds.length === 0 ? (
-          <p className="nb-panel mt-6 p-12 text-center text-[14.5px] text-[var(--nb-text-dim)]">
+          <p className="nb-panel mt-6 p-8 text-center text-[14.5px] text-[var(--nb-text-dim)] sm:p-12">
             Không có bài viết nào khớp. Thử từ khoá khác hoặc chọn “Tất cả bài viết”.
           </p>
         ) : (
           <>
             {noiBat && (
               <NavLink href={`/cam-nang/${noiBat.id}`} className="nb-card group mt-6 block overflow-hidden">
-                <span className="relative block h-[300px] overflow-hidden">
+                {/* Chữ đè lên ảnh nên ảnh phải cao hơn ở khổ hẹp, nếu không
+                    tiêu đề 26px xuống bốn dòng và tràn lên khỏi khung ảnh. */}
+                <span className="relative block h-[320px] overflow-hidden sm:h-[300px]">
                   <Image
                     src={ANH[0]!}
                     alt=""
@@ -144,14 +150,16 @@ export function GuideHub() {
                     style={{ background: "linear-gradient(180deg, rgba(7,21,37,.15) 35%, rgba(7,21,37,.95))" }}
                     aria-hidden="true"
                   />
-                  <span className="absolute inset-x-0 bottom-0 p-7">
-                    <span className="rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/70 px-3 py-1 text-[11.5px] font-semibold text-[var(--nb-gold-soft)]">
+                  <span className="absolute inset-x-0 bottom-0 p-5 sm:p-7">
+                    <span className="rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/70 px-3 py-1 text-[12px] font-semibold text-[var(--nb-gold-soft)] sm:text-[11.5px]">
                       {mucCuaBai(noiBat)[0]}
                     </span>
-                    <b className="nb-display mt-3 block max-w-[34ch] text-[26px] leading-tight text-white">
+                    <b className="nb-display mt-3 block max-w-[34ch] text-[21px] leading-tight text-white sm:text-[26px]">
                       {noiBat.tieuDe}
                     </b>
-                    <span className="mt-2 block max-w-[62ch] text-[14px] text-[var(--nb-text-dim)]">{noiBat.tomTat}</span>
+                    <span className="mt-2 block max-w-[62ch] text-[14px] text-[var(--nb-text-dim)] [display:-webkit-box] [overflow:hidden] [-webkit-box-orient:vertical] [-webkit-line-clamp:3] sm:[display:block]">
+                      {noiBat.tomTat}
+                    </span>
                     <span className="mt-3 flex items-center gap-2 text-[12.5px] text-[var(--nb-text-mute)]">
                       <Clock size={12} />
                       {noiBat.phut} phút đọc
@@ -175,7 +183,7 @@ export function GuideHub() {
                       />
                     </span>
                     <span className="flex flex-1 flex-col p-5">
-                      <span className="text-[11.5px] font-semibold tracking-wide text-[var(--nb-gold)] uppercase">
+                      <span className="text-[12px] font-semibold tracking-wide text-[var(--nb-gold)] uppercase lg:text-[11.5px]">
                         {mucCuaBai(b)[0]}
                       </span>
                       <b className="mt-2 block text-[16.5px] leading-snug font-semibold text-white">{b.tieuDe}</b>
@@ -208,7 +216,7 @@ export function GuideHub() {
         <ol className="mt-4 space-y-3">
           {docNhieu.map((b, i) => (
             <li key={b.id}>
-              <NavLink href={`/cam-nang/${b.id}`} className="group flex gap-3">
+              <NavLink href={`/cam-nang/${b.id}`} className="group flex min-h-[44px] gap-3 lg:min-h-0">
                 <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-[var(--nb-line-soft)] text-[11.5px] font-bold text-[var(--nb-gold)]">
                   {String(i + 1).padStart(2, "0")}
                 </span>
@@ -216,7 +224,7 @@ export function GuideHub() {
                   <span className="block text-[13px] leading-snug font-medium text-[var(--nb-text)] transition group-hover:text-[var(--nb-gold-soft)]">
                     {b.tieuDe}
                   </span>
-                  <span className="mt-0.5 block text-[11.5px] text-[var(--nb-text-mute)]">{b.phut} phút đọc</span>
+                  <span className="mt-0.5 block text-[12px] text-[var(--nb-text-mute)] lg:text-[11.5px]">{b.phut} phút đọc</span>
                 </span>
               </NavLink>
             </li>

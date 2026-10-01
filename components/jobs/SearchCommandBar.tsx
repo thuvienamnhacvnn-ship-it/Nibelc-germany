@@ -51,7 +51,7 @@ export function SearchCommandBar({
           value={gt.nganh}
           onChange={(e) => dat({ nganh: e.target.value })}
           aria-label="Ngành nghề"
-          className="w-full bg-transparent text-[14px] text-white outline-none"
+          className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto"
         >
           <option value="">Tất cả ngành nghề</option>
           {INDUSTRIES.map((i) => (
@@ -67,7 +67,7 @@ export function SearchCommandBar({
           value={gt.thanhPho}
           onChange={(e) => dat({ thanhPho: e.target.value })}
           aria-label="Thành phố"
-          className="w-full bg-transparent text-[14px] text-white outline-none"
+          className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto"
         >
           <option value="">Tất cả địa điểm</option>
           {allCities().map((c) => (
@@ -83,7 +83,7 @@ export function SearchCommandBar({
           value={gt.luongMin}
           onChange={(e) => dat({ luongMin: Number(e.target.value) })}
           aria-label="Mức lương tối thiểu"
-          className="w-full bg-transparent text-[14px] text-white outline-none"
+          className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto"
         >
           {LUONG.map((l) => (
             <option key={l.gt} value={l.gt}>
@@ -98,7 +98,7 @@ export function SearchCommandBar({
           value={gt.chuongTrinh}
           onChange={(e) => dat({ chuongTrinh: e.target.value })}
           aria-label="Loại chương trình"
-          className="w-full bg-transparent text-[14px] text-white outline-none"
+          className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto"
         >
           <option value="">Tất cả chương trình</option>
           <option value="Lao động">Lao động</option>
@@ -111,7 +111,7 @@ export function SearchCommandBar({
           value={gt.tieng}
           onChange={(e) => dat({ tieng: e.target.value })}
           aria-label="Trình độ tiếng Đức"
-          className="w-full bg-transparent text-[14px] text-white outline-none"
+          className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto"
         >
           <option value="">Tất cả trình độ</option>
           {["A2 – B1", "B1", "B1 – B2", "B2"].map((t) => (
@@ -122,7 +122,9 @@ export function SearchCommandBar({
         </select>
       </O>
 
-      <button type="submit" className="nb-btn m-1.5 h-auto min-w-[168px] flex-1 px-7 text-[15px]">
+      {/* h-auto làm nút cao đúng bằng dòng chữ (24px) khi nó nằm một mình trên
+          một hàng ở khổ điện thoại — không đủ để bấm. Khoá chiều cao 48px. */}
+      <button type="submit" className="nb-btn m-1.5 h-12 w-full min-w-[168px] flex-1 px-7 text-[15px] lg:h-auto lg:w-auto">
         <Search size={17} />
         Tìm kiếm
       </button>
@@ -140,10 +142,12 @@ function O({
   children: React.ReactNode;
 }) {
   return (
-    <label className="flex min-w-[196px] flex-1 items-center gap-3 bg-[var(--nb-navy-800)]/60 px-4 py-3 transition hover:bg-[var(--nb-navy-700)]/70">
+    /* Ở khổ điện thoại mỗi ô chiếm trọn một hàng: min-w-[196px] để nguyên thì
+       hai ô cố chen vào một hàng và ô nào cũng bị bóp còn một nửa chữ. */
+    <label className="flex w-full min-w-0 flex-1 items-center gap-3 bg-[var(--nb-navy-800)]/60 px-4 py-2 transition hover:bg-[var(--nb-navy-700)]/70 lg:w-auto lg:min-w-[196px] lg:py-3">
       <Icon size={17} className="shrink-0 text-[var(--nb-gold)]" />
       <span className="min-w-0 flex-1">
-        <span className="block text-[10.5px] tracking-[0.1em] text-[var(--nb-text-mute)] uppercase">{nhan}</span>
+        <span className="block text-[12px] tracking-[0.1em] text-[var(--nb-text-mute)] uppercase lg:text-[10.5px]">{nhan}</span>
         {children}
       </span>
     </label>

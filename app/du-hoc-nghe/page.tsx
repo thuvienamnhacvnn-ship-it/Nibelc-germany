@@ -45,46 +45,47 @@ export default function Page() {
     <div className="nb-duoi-header">
       <PageHero
         anh="/assets/banners/du-hoc-nghe.jpg"
+        anhDoc="/assets/banners/mobile/du-hoc-nghe.jpg"
         nhan="Ausbildung — đào tạo kép"
         tieuDe={
           <>
             Du học nghề Đức
-            <span className="mt-2 block text-[0.52em] font-normal text-[var(--nb-gold-soft)]">
+            <span className="mt-2 block text-[15px] font-normal text-[var(--nb-gold-soft)] sm:text-[0.52em]">
               Học nghề – Có lương – Xây dựng tương lai tại châu Âu
             </span>
           </>
         }
         mo="Đào tạo kép là mô hình riêng của nước Đức: học tại trường nghề công lập và làm thật tại doanh nghiệp, có trợ cấp hằng tháng và bằng nghề được công nhận toàn EU."
       >
-        <div className="mt-8 flex flex-wrap gap-3">
-          <NavLink href="#nganh-nghe" className="nb-btn h-12 px-7 text-[15px]">
+        <div className="mt-7 flex flex-wrap gap-3 sm:mt-8">
+          <NavLink href="#nganh-nghe" className="nb-btn h-12 w-full px-7 text-[15px] sm:w-auto">
             Khám phá ngành nghề
             <ArrowRight size={16} />
           </NavLink>
-          <NavLink href="/lien-he" className="nb-btn-ghost h-12 px-7 text-[15px]">
+          <NavLink href="/lien-he" className="nb-btn-ghost h-12 w-full px-7 text-[15px] sm:w-auto">
             Kiểm tra điều kiện
           </NavLink>
         </div>
       </PageHero>
 
       {/* ---------- EXPLORER NGÀNH ---------- */}
-      <section id="nganh-nghe" className="nb-wrap py-16">
-        <h2 className="nb-display text-[30px] text-white">Khám phá ngành nghề du học nghề Đức</h2>
-        <p className="mt-3 max-w-[70ch] text-[15px] text-[var(--nb-text-dim)]">
+      <section id="nganh-nghe" className="nb-wrap py-11 sm:py-16">
+        <h2 className="nb-display text-[24px] text-white sm:text-[30px]">Khám phá ngành nghề du học nghề Đức</h2>
+        <p className="mt-3 max-w-[70ch] text-[14.5px] leading-[1.7] text-[var(--nb-text-dim)] sm:text-[15px]">
           Trợ cấp ghi dưới đây là khoảng tham khảo theo mặt bằng ngành, tính theo lương gộp mỗi tháng. Mức thật ghi
           trong hợp đồng học nghề của từng doanh nghiệp.
         </p>
 
-        <ul className="nb-no-scrollbar mt-9 flex gap-5 overflow-x-auto pb-3">
+        <ul className="nb-no-scrollbar mt-7 flex gap-4 overflow-x-auto pb-3 sm:mt-9 sm:gap-5">
           {NGANH_HOC.map((n) => (
-            <li key={n.id} className="w-[268px] shrink-0">
+            <li key={n.id} className="w-[250px] shrink-0 sm:w-[268px]">
               <NavLink href={`/du-hoc-nghe/${n.id}`} className="nb-card group block h-full overflow-hidden">
                 <span className="relative block h-[172px] overflow-hidden">
                   <Image
                     src={ANH[n.id] ?? "/assets/jobs/logistik/01-hero-16x9.jpg"}
                     alt=""
                     fill
-                    sizes="268px"
+                    sizes="(min-width:640px) 268px, 250px"
                     className="object-cover transition-transform duration-[600ms] group-hover:scale-105"
                   />
                   <span
@@ -124,13 +125,13 @@ export default function Page() {
       </section>
 
       {/* ---------- BỐN BƯỚC ---------- */}
-      <section className="border-y border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] py-16">
+      <section className="border-y border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] py-11 sm:py-16">
         <div className="nb-wrap">
-          <h2 className="nb-display text-[30px] text-white">Du học nghề Đức hoạt động như thế nào?</h2>
-          <ol className="mt-9 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          <h2 className="nb-display text-[24px] text-white sm:text-[30px]">Du học nghề Đức hoạt động như thế nào?</h2>
+          <ol className="mt-7 grid gap-4 sm:mt-9 sm:gap-5 md:grid-cols-2 xl:grid-cols-4">
             {BUOC.map((b) => (
-              <li key={b.so} className="nb-panel p-6">
-                <b className="nb-gold-text nb-display block text-[30px] leading-none">{b.so}</b>
+              <li key={b.so} className="nb-panel p-5 sm:p-6">
+                <b className="nb-gold-text nb-display block text-[27px] leading-none sm:text-[30px]">{b.so}</b>
                 <b className="mt-3 block text-[17px] font-semibold text-white">{b.ten}</b>
                 <span className="mt-2 block text-[14px] leading-[1.7] text-[var(--nb-text-dim)]">{b.mo}</span>
               </li>
@@ -140,7 +141,7 @@ export default function Page() {
       </section>
 
       {/* ---------- KHỐI SPLIT ---------- */}
-      <section className="nb-wrap grid items-center gap-10 py-16 lg:grid-cols-2">
+      <section className="nb-wrap grid items-center gap-8 py-11 sm:gap-10 sm:py-16 lg:grid-cols-2">
         <span className="relative block aspect-[4/3] overflow-hidden rounded-[16px] border border-[var(--nb-line-soft)]">
           <Image
             src="/assets/jobs/mechanik/03-portrait-team-3x4.jpg"
@@ -153,8 +154,8 @@ export default function Page() {
 
         <div>
           <p className="nb-eyebrow">Vì sao chọn đào tạo kép</p>
-          <h2 className="nb-display mt-3 text-[30px] text-white">Ba năm học nghề, cả đời có nghề</h2>
-          <ul className="mt-7 space-y-5">
+          <h2 className="nb-display mt-3 text-[24px] text-white sm:text-[30px]">Ba năm học nghề, cả đời có nghề</h2>
+          <ul className="mt-6 space-y-5 sm:mt-7">
             {LOI_ICH.map(({ Icon, ten, mo }) => (
               <li key={ten} className="flex gap-4">
                 <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-[var(--nb-line)] text-[var(--nb-gold)]">
@@ -167,7 +168,7 @@ export default function Page() {
               </li>
             ))}
           </ul>
-          <NavLink href="/lien-he" className="nb-btn mt-8 h-12 px-7 text-[15px]">
+          <NavLink href="/lien-he" className="nb-btn mt-8 h-12 w-full px-6 text-center text-[15px] sm:w-auto sm:px-7">
             Đăng ký tư vấn du học nghề
             <ArrowRight size={16} />
           </NavLink>

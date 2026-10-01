@@ -15,6 +15,7 @@ export default function Page() {
     <div className="nb-duoi-header">
       <PageHero
         anh="/assets/banners/don-hang.jpg"
+        anhDoc="/assets/banners/mobile/don-hang.jpg"
         nhan="Sàn đơn hàng"
         tieuDe="Cơ hội nghề nghiệp tại Đức"
         mo="Tìm kiếm đơn hàng phù hợp với ngành nghề, khu vực và kinh nghiệm của bạn."

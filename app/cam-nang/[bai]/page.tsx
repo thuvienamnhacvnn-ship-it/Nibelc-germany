@@ -24,30 +24,30 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
 
   return (
     <div className="nb-duoi-header">
-      <article className="mx-auto max-w-[860px] px-8 py-14">
+      <article className="mx-auto max-w-[860px] px-5 py-10 sm:px-8 sm:py-14">
         <NavLink
           href="/cam-nang"
-          className="inline-flex items-center gap-2 text-[13.5px] text-[var(--nb-text-mute)] transition hover:text-[var(--nb-gold-soft)]"
+          className="inline-flex min-h-[44px] items-center gap-2 text-[13.5px] text-[var(--nb-text-mute)] transition hover:text-[var(--nb-gold-soft)] lg:min-h-0"
         >
           <ArrowLeft size={15} />
           Cẩm nang
         </NavLink>
 
         <p className="nb-eyebrow mt-6">{b.nhom}</p>
-        <h1 className="nb-display mt-3 text-[clamp(28px,3vw,42px)] text-white">{b.tieuDe}</h1>
+        <h1 className="nb-display mt-3 text-[25px] leading-[1.18] text-white sm:text-[clamp(28px,3vw,42px)] sm:leading-[1.15]">{b.tieuDe}</h1>
         <p className="mt-2 flex items-center gap-2 text-[13px] text-[var(--nb-text-mute)]">
           <Clock size={13} />
           {b.phut} phút đọc
         </p>
-        <p className="mt-6 text-[17px] leading-[1.75] text-[var(--nb-text-dim)]">{b.tomTat}</p>
+        <p className="mt-6 text-[16.5px] leading-[1.75] text-[var(--nb-text-dim)] sm:text-[17px]">{b.tomTat}</p>
 
         {b.khoi.map((k, i) => (
           <section key={k.tieuDe} className={i > 0 ? "mt-11" : "mt-11"}>
-            <h2 className="nb-display text-[23px] text-white">{k.tieuDe}</h2>
+            <h2 className="nb-display text-[20px] leading-snug text-white sm:text-[23px]">{k.tieuDe}</h2>
             <span className="mt-3 mb-5 block h-px w-14 bg-[var(--nb-gold)]" aria-hidden="true" />
 
             {k.doan?.map((d) => (
-              <p key={d} className="mt-4 text-[16px] leading-[1.85] text-[var(--nb-text-dim)]">
+              <p key={d} className="mt-4 text-[15.5px] leading-[1.8] text-[var(--nb-text-dim)] sm:text-[16px] sm:leading-[1.85]">
                 {d}
               </p>
             ))}
@@ -64,7 +64,7 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
             )}
 
             {k.luuY && (
-              <p className="nb-panel mt-6 flex gap-3.5 p-5 text-[15px] leading-[1.75] text-[var(--nb-text-dim)]">
+              <p className="nb-panel mt-6 flex gap-3 p-4 text-[15px] leading-[1.75] text-[var(--nb-text-dim)] sm:gap-3.5 sm:p-5">
                 <Lightbulb size={19} className="mt-0.5 shrink-0 text-[var(--nb-gold)]" />
                 <span>
                   <b className="mr-1.5 font-semibold text-[var(--nb-gold-soft)]">Lưu ý:</b>

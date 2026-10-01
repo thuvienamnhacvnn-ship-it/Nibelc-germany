@@ -90,7 +90,7 @@ export function JobCard({ job, lon = false }: { job: JobFull; lon?: boolean }) {
             {chuoiLuong(job)}
           </b>
           <span className="shrink-0 text-right leading-tight">
-            <span className="block text-[11px] text-[var(--nb-text-mute)]">Số lượng</span>
+            <span className="block text-[12px] text-[var(--nb-text-mute)] lg:text-[11px]">Số lượng</span>
             <b className="block text-[14px] font-semibold text-white">{job.vacancies} người</b>
           </span>
         </span>
