@@ -1,6 +1,6 @@
-import Image from "next/image";
 import type { Metadata } from "next";
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { PageHero } from "@/components/ui/PageHero";
 import { ConsultationWizard } from "@/components/contact/ConsultationWizard";
 import { LEGAL } from "@/data/company";
 
@@ -13,29 +13,29 @@ export default function Page() {
   const tel = LEGAL.phone.replace(/\s/g, "");
   return (
     <div className="nb-duoi-header">
-      <section className="nb-wrap py-10 sm:py-14">
-        <p className="nb-eyebrow">Trung tâm tư vấn NIBELC</p>
-        <h1 className="nb-display mt-3 text-[26px] leading-[1.18] text-white sm:text-[clamp(30px,3.2vw,44px)] sm:leading-[1.15]">
-          Bắt đầu hành trình của bạn tại Đức
-        </h1>
-        <p className="mt-3 max-w-[60ch] text-[15px] leading-[1.7] text-[var(--nb-text-dim)] sm:text-[16px]">
-          Để lại thông tin, đội ngũ NIBELC sẽ tư vấn chương trình phù hợp.
-        </p>
+      {/* Banner cùng khuôn PageHero như mọi trang con. Ảnh văn phòng trước đây
+          nằm ở cột phải, nay chuyển lên banner (nửa trái ảnh tối sẵn, không phủ lớp). */}
+      <PageHero
+        anh="/assets/banners/lien-he.jpg"
+        anhDoc="/assets/banners/mobile/lien-he.jpg"
+        nhan="Trung tâm tư vấn NIBELC"
+        tieuDe={
+          <>
+            {/* Ngắt dòng ở máy tính để h1 dừng trước bóng người lễ tân trong ảnh */}
+            Bắt đầu hành trình <br className="hidden lg:inline" />
+            của bạn tại Đức
+          </>
+        }
+        mo="Để lại thông tin, đội ngũ NIBELC sẽ tư vấn chương trình phù hợp."
+      />
 
-        <div className="mt-8 grid gap-7 sm:mt-10 sm:gap-8 lg:grid-cols-[minmax(0,60fr)_minmax(0,40fr)]">
+      <section className="nb-wrap py-10 sm:py-14 lg:py-20">
+        {/* lg:items-start: cột form không bị kéo cao bằng cột phải nữa — trước
+            đây khung form trống ~400px ở đáy. */}
+        <div className="grid gap-7 sm:gap-8 lg:grid-cols-[minmax(0,60fr)_minmax(0,40fr)] lg:items-start lg:gap-6">
           <ConsultationWizard />
 
-          <aside className="space-y-5">
-            <span className="relative block aspect-[16/9] overflow-hidden rounded-[16px] border border-[var(--nb-line-soft)]">
-              <Image
-                src="/assets/banners/lien-he.jpg"
-                alt="Văn phòng NIBELC tại Berlin"
-                fill
-                sizes="(min-width:1024px) 520px, 100vw"
-                className="object-cover"
-              />
-            </span>
-
+          <aside className="space-y-5 lg:space-y-6">
             <div className="nb-panel p-5 sm:p-6">
               <b className="block text-[16px] font-semibold text-white">{LEGAL.name}</b>
               <p className="mt-2 flex gap-2.5 text-[14px] leading-[1.7] text-[var(--nb-text-dim)]">

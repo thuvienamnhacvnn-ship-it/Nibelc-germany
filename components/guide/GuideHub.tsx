@@ -83,13 +83,15 @@ export function GuideHub() {
   const docNhieu = CAM_NANG.slice(0, 5);
 
   return (
-    <div className="nb-wrap grid gap-7 py-10 sm:gap-8 sm:py-14 lg:grid-cols-[236px_minmax(0,1fr)_280px]">
+    <div className="nb-wrap grid gap-7 py-10 sm:gap-8 sm:py-14 lg:grid-cols-[236px_minmax(0,1fr)_280px] lg:py-20">
       {/* ---------- CHUYÊN MỤC ---------- */}
       {/* min-w-0 là BẮT BUỘC: ô của lưới mặc định min-width:auto, nên bề rộng
           max-content của hàng chip kéo ngang (11 chip whitespace-nowrap, ~1500px)
           lọt ra ngoài và nới rộng cả trang. Thiếu dòng này, khung trang phình
           quá 1024px, `lg:` bật lên, hàng chip mất overflow-x và càng phình to. */}
-      <aside className="h-fit min-w-0 lg:sticky lg:top-[calc(var(--nb-header)+20px)]">
+      {/* Máy tính: cùng khung panel với cột "Được đọc nhiều nhất" bên phải cho cân
+          (viết bằng utility lg: thay vì .nb-panel để khổ điện thoại giữ nguyên). */}
+      <aside className="h-fit min-w-0 lg:sticky lg:top-[calc(var(--nb-header)+20px)] lg:rounded-[16px] lg:border lg:border-[var(--nb-line-soft)] lg:bg-[linear-gradient(180deg,rgba(11,28,54,.92),rgba(7,21,37,.92))] lg:p-5">
         <b className="block text-[15px] font-semibold text-white">Danh mục chủ đề</b>
         {/* Mười một chuyên mục xếp dọc ở khổ điện thoại chiếm gần 500px, đẩy bài
             viết xuống quá xa. Dưới lg thì cho chúng thành một hàng kéo ngang. */}
@@ -138,27 +140,26 @@ export function GuideHub() {
         ) : (
           <>
             {noiBat && (
-              <NavLink href={`/cam-nang/${noiBat.id}`} className="nb-card group mt-6 block overflow-hidden">
-                {/* Chữ đè lên ảnh nên ảnh phải cao hơn ở khổ hẹp, nếu không
-                    tiêu đề 26px xuống bốn dòng và tràn lên khỏi khung ảnh. */}
-                <span className="relative block h-[320px] overflow-hidden sm:h-[300px]">
+              <NavLink
+                href={`/cam-nang/${noiBat.id}`}
+                className="nb-card group mt-6 block overflow-hidden lg:grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]"
+              >
+                {/* Không phủ lớp tối lên ảnh (luật Sếp): chữ nằm DƯỚI ảnh ở khổ
+                    hẹp, nằm BÊN PHẢI ảnh ở máy tính, trên nền thẻ. */}
+                <span className="relative block h-[220px] overflow-hidden sm:h-[260px] lg:h-auto lg:min-h-[300px]">
                   <Image
                     src={ANH[0]!}
                     alt=""
                     fill
-                    sizes="(min-width:1024px) 720px, 100vw"
+                    sizes="(min-width:1024px) 400px, 100vw"
                     className="object-cover transition-transform duration-[700ms] group-hover:scale-105"
                   />
-                  <span
-                    className="absolute inset-0"
-                    style={{ background: "linear-gradient(180deg, rgba(7,21,37,.15) 35%, rgba(7,21,37,.95))" }}
-                    aria-hidden="true"
-                  />
-                  <span className="absolute inset-x-0 bottom-0 p-5 sm:p-7">
-                    <span className="rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/70 px-3 py-1 text-[12px] font-semibold text-[var(--nb-gold-soft)] sm:text-[11.5px]">
+                </span>
+                <span className="flex flex-col justify-center p-5 sm:p-7">
+                    <span className="self-start rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/70 px-3 py-1 text-[12px] font-semibold text-[var(--nb-gold-soft)] sm:text-[11.5px]">
                       {mucCuaBai(noiBat)[0]}
                     </span>
-                    <b className="nb-display mt-3 block max-w-[34ch] text-[21px] leading-tight text-white sm:text-[26px]">
+                    <b className="nb-display mt-3 block max-w-[34ch] text-[21px] leading-tight text-white sm:text-[26px] lg:text-[24px]">
                       {noiBat.tieuDe}
                     </b>
                     <span className="mt-2 block max-w-[62ch] text-[14px] text-[var(--nb-text-dim)] [display:-webkit-box] [overflow:hidden] [-webkit-box-orient:vertical] [-webkit-line-clamp:3] sm:[display:block]">
@@ -168,16 +169,22 @@ export function GuideHub() {
                       <Clock size={12} />
                       {noiBat.phut} phút đọc
                     </span>
-                  </span>
                 </span>
               </NavLink>
             )}
 
-            <ul className="mt-6 grid gap-5 md:grid-cols-2">
-              {conLai.map((b, i) => (
-                <li key={b.id}>
-                  <NavLink href={`/cam-nang/${b.id}`} className="nb-card group flex h-full flex-col overflow-hidden">
-                    <span className="relative block h-[150px] overflow-hidden">
+            <ul className="mt-6 grid gap-5 md:grid-cols-2 lg:gap-6">
+              {conLai.map((b, i) => {
+                // Số bài lẻ thì thẻ cuối trải hai cột (ảnh trái, chữ phải) để
+                // hàng cuối không còn một thẻ lẻ bỏ trống nửa phải.
+                const le = conLai.length % 2 === 1 && i === conLai.length - 1;
+                return (
+                <li key={b.id} className={le ? "lg:col-span-2" : undefined}>
+                  <NavLink
+                    href={`/cam-nang/${b.id}`}
+                    className={`nb-card group flex h-full flex-col overflow-hidden ${le ? "lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]" : ""}`}
+                  >
+                    <span className={`relative block h-[150px] overflow-hidden ${le ? "lg:h-auto lg:min-h-[200px]" : ""}`}>
                       <Image
                         src={ANH[(i + 1) % ANH.length]!}
                         alt=""
@@ -205,7 +212,8 @@ export function GuideHub() {
                     </span>
                   </NavLink>
                 </li>
-              ))}
+                );
+              })}
             </ul>
           </>
         )}

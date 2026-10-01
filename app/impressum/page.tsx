@@ -23,7 +23,9 @@ export default function Page() {
         mo="Angaben gemäß § 5 TMG."
       />
 
-      <section className="mx-auto max-w-[820px] px-8 py-14">
+      {/* Máy tính: cùng mép trái với banner (khung .nb-wrap 1400/32, >1440 là 1600/40)
+          thay vì một cột 820px căn giữa lệch khỏi chữ banner; dòng chữ vẫn giới hạn 820px. */}
+      <section className="mx-auto max-w-[820px] px-8 py-14 lg:max-w-[1400px] lg:py-20 lg:[&>*]:max-w-[820px] min-[1441px]:max-w-[1600px] min-[1441px]:px-10">
         <Muc tieuDe="Diensteanbieter">
           <address className="text-[16px] leading-[1.9] not-italic text-[var(--nb-text-dim)]">
             {LEGAL.name}

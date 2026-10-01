@@ -20,7 +20,7 @@ export default function Page() {
         mo="Đồng hành cùng bạn trên từng bước, an toàn, minh bạch và hiệu quả."
         soLieu={[{ so: String(CHANG.length), nhan: "chặng" }]}
       />
-      <section className="nb-wrap py-10 sm:py-14">
+      <section className="nb-wrap py-10 sm:py-14 lg:py-20">
         <JourneyTimeline />
       </section>
     </div>

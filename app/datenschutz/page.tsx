@@ -77,7 +77,9 @@ export default function Page() {
         mo="Informationen nach Art. 13 DSGVO."
       />
 
-      <section className="mx-auto max-w-[820px] px-8 py-14">
+      {/* Máy tính: cùng mép trái với banner (khung .nb-wrap 1400/32, >1440 là 1600/40)
+          thay vì một cột 820px căn giữa lệch khỏi chữ banner; dòng chữ vẫn giới hạn 820px. */}
+      <section className="mx-auto max-w-[820px] px-8 py-14 lg:max-w-[1400px] lg:py-20 lg:[&>*]:max-w-[820px] min-[1441px]:max-w-[1600px] min-[1441px]:px-10">
         {MUC.map((m, i) => (
           <section key={m.h} className={i > 0 ? "mt-9" : ""}>
             <h2 className="nb-display text-[21px] text-white">{m.h}</h2>

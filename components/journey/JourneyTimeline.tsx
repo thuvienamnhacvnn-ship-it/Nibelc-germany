@@ -19,21 +19,23 @@ export function JourneyTimeline() {
   return (
     <>
       {/* ---------- DẢI CHẶNG ---------- */}
-      <ol className="nb-no-scrollbar flex gap-3 overflow-x-auto pb-3">
+      {/* Điện thoại: hàng cuộn ngang như cũ. Máy tính: lưới 9 cột vừa khung,
+          trước đây hàng cuộn bị cắt mất chặng 7–9 ở mép phải. */}
+      <ol className="nb-no-scrollbar flex gap-3 overflow-x-auto pb-3 lg:grid lg:grid-cols-9 lg:overflow-visible lg:pb-0">
         {CHANG.map((c, i) => {
           const on = i === mo;
           const daQua = i < mo;
           return (
-            <li key={c.so} className="shrink-0">
+            <li key={c.so} className="shrink-0 lg:min-w-0">
               <button
                 type="button"
                 onClick={() => setMo(i)}
                 aria-pressed={on}
-                className={`nb-card group block w-[188px] overflow-hidden p-0 text-left transition ${
+                className={`nb-card group block w-[188px] overflow-hidden p-0 text-left transition lg:flex lg:h-full lg:w-full lg:flex-col ${
                   on ? "border-[var(--nb-gold)]" : ""
                 }`}
               >
-                <span className="flex items-center gap-2.5 px-4 pt-4">
+                <span className="flex items-center gap-2.5 px-4 pt-4 lg:min-h-[96px] lg:flex-col lg:items-start lg:gap-2 lg:px-3 lg:pt-3 xl:min-h-[82px]">
                   <span
                     className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-[12.5px] font-bold transition ${
                       on
@@ -46,24 +48,24 @@ export function JourneyTimeline() {
                     {daQua ? <Check size={14} /> : c.so}
                   </span>
                   <span
-                    className={`text-[13.5px] leading-tight font-semibold ${on ? "text-white" : "text-[var(--nb-text-dim)]"}`}
+                    className={`text-[13.5px] leading-tight font-semibold lg:text-[13px] ${on ? "text-white" : "text-[var(--nb-text-dim)]"}`}
                   >
                     {c.ten}
                   </span>
                 </span>
 
-                <span className="relative mt-3 block h-[88px] overflow-hidden">
+                <span className="relative mt-3 block h-[88px] overflow-hidden lg:mt-2">
                   <Image
                     src={c.anh}
                     alt=""
                     fill
-                    sizes="188px"
+                    sizes="(min-width:1024px) 150px, 188px"
                     className={`object-cover transition duration-500 ${on ? "" : "grayscale-[35%] brightness-75"}`}
                   />
                 </span>
 
-                <span className="flex items-center gap-1.5 px-4 py-2.5 text-[12px] text-[var(--nb-text-mute)]">
-                  <Clock size={12} className="text-[var(--nb-gold)]" />
+                <span className="flex items-center gap-1.5 px-4 py-2.5 text-[12px] text-[var(--nb-text-mute)] lg:mt-auto lg:items-start lg:px-3 lg:text-[11.5px] lg:leading-snug">
+                  <Clock size={12} className="shrink-0 text-[var(--nb-gold)] lg:mt-[2px]" />
                   {c.thoiGian}
                 </span>
               </button>
@@ -77,7 +79,7 @@ export function JourneyTimeline() {
           theo min-content của thẻ con (đo được 292,7px) trong khi khung chỉ
           rộng 256px ở màn 320px — cả trang bị đẩy rộng ra 325px.
           Khai `grid-cols-[minmax(0,1fr)]` để cột không bao giờ vượt khung. */}
-      <div className="mt-8 grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
+      <div className="mt-8 grid grid-cols-[minmax(0,1fr)] gap-6 lg:mt-10 lg:grid-cols-[minmax(0,1fr)_300px]">
         <AnimatePresence mode="wait">
           <motion.div
             key={chang.so}
@@ -93,7 +95,7 @@ export function JourneyTimeline() {
                   {chang.so}
                 </span>
                 <div className="min-w-0">
-                  <h3 className="nb-display text-[19px] text-white sm:text-[22px]">{chang.ten}</h3>
+                  <h3 className="nb-display text-[19px] text-white sm:text-[22px] lg:text-[26px]">{chang.ten}</h3>
                   <p className="mt-0.5 text-[13.5px] text-[var(--nb-text-dim)]">{chang.mo}</p>
                 </div>
               </div>

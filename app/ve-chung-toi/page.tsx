@@ -34,7 +34,7 @@ export default function Page() {
       />
 
       {/* ---------- CHÚNG TÔI LÀ AI ---------- */}
-      <section className="nb-wrap grid items-center gap-9 py-11 sm:gap-12 sm:py-16 lg:grid-cols-2">
+      <section className="nb-wrap grid items-center gap-9 py-11 sm:gap-12 sm:py-16 lg:grid-cols-2 lg:gap-16 lg:py-20">
         <div>
           <h2 className="nb-display text-[25px] text-white sm:text-[32px]">Chúng tôi là ai</h2>
           <span className="mt-4 mb-6 block h-px w-16 bg-[var(--nb-gold)]" aria-hidden="true" />
@@ -88,12 +88,8 @@ export default function Page() {
                 sizes="(min-width:1024px) 300px, 45vw"
                 className="object-cover"
               />
-              <span
-                className="absolute inset-x-0 bottom-0 h-[58%]"
-                style={{ background: "linear-gradient(180deg, transparent, rgba(4,9,18,.9))" }}
-                aria-hidden="true"
-              />
-              <b className="absolute inset-x-0 bottom-0 px-3.5 pb-3 text-[13px] font-semibold text-white">
+              {/* Không phủ lớp tối lên ảnh: tên ngành nằm trên nhãn nền đặc riêng */}
+              <b className="absolute bottom-2.5 left-2.5 max-w-[calc(100%-20px)] rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/85 px-3 py-1 text-[12.5px] font-semibold text-white backdrop-blur-sm">
                 {x.ten}
               </b>
             </li>
@@ -104,7 +100,7 @@ export default function Page() {
       {/* ---------- CON SỐ ---------- */}
       <section className="border-y border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] py-11 sm:py-14">
         <div className="nb-wrap">
-          <h2 className="nb-display text-[24px] text-white sm:text-[28px]">Những con số tạo nên niềm tin</h2>
+          <h2 className="nb-display text-[24px] text-white sm:text-[28px] lg:text-[32px]">Những con số tạo nên niềm tin</h2>
           <ul className="mt-7 grid gap-7 sm:mt-9 sm:grid-cols-2 sm:gap-8 lg:grid-cols-4">
             {[
               { so: String(JOBS.length), nhan: "đơn hàng đang tuyển", mo: "Cập nhật theo thông báo tuyển dụng thật" },
@@ -123,8 +119,8 @@ export default function Page() {
       </section>
 
       {/* ---------- CHÚNG TÔI LÀM GÌ ---------- */}
-      <section className="nb-wrap py-11 sm:py-16">
-        <h2 className="nb-display text-[24px] text-white sm:text-[28px]">Chúng tôi làm gì</h2>
+      <section className="nb-wrap py-11 sm:py-16 lg:py-20">
+        <h2 className="nb-display text-[24px] text-white sm:text-[28px] lg:text-[32px]">Chúng tôi làm gì</h2>
         <span className="mt-4 mb-7 block h-px w-16 bg-[var(--nb-gold)] sm:mb-9" aria-hidden="true" />
         <ul className="grid gap-6 lg:grid-cols-3">
           {[
@@ -153,11 +149,6 @@ export default function Page() {
             <li key={x.ten} className="nb-card flex h-full flex-col overflow-hidden">
               <span className="relative block aspect-video overflow-hidden">
                 <Image src={x.anh} alt="" fill sizes="(min-width:1024px) 420px, 100vw" className="object-cover" />
-                <span
-                  className="absolute inset-x-0 bottom-0 h-[52%]"
-                  style={{ background: "linear-gradient(180deg, transparent, rgba(4,9,18,.9))" }}
-                  aria-hidden="true"
-                />
               </span>
               <span className="flex flex-1 flex-col p-5 sm:p-6">
                 <b className="nb-display block text-[19px] text-white sm:text-[21px]">{x.ten}</b>
@@ -173,8 +164,8 @@ export default function Page() {
       </section>
 
       {/* ---------- GIÁ TRỊ CỐT LÕI ---------- */}
-      <section className="nb-wrap py-11 sm:py-16">
-        <h2 className="nb-display text-[24px] text-white sm:text-[28px]">Giá trị cốt lõi</h2>
+      <section className="nb-wrap py-11 sm:py-16 lg:pt-0 lg:pb-20">
+        <h2 className="nb-display text-[24px] text-white sm:text-[28px] lg:text-[32px]">Giá trị cốt lõi</h2>
         <ul className="mt-7 grid gap-6 sm:mt-9 sm:grid-cols-2 lg:grid-cols-4">
           {GIA_TRI.map((g, i) => (
             <li key={g.ten} className="border-l border-[var(--nb-line)] pl-5">
@@ -189,13 +180,13 @@ export default function Page() {
       {/* ---------- KẾT NỐI ĐỨC - VIỆT ---------- */}
       <section className="relative isolate overflow-hidden border-t border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)]">
         <span className="nb-gold-rule absolute inset-x-0 top-0 opacity-50" aria-hidden="true" />
-        <div className="nb-wrap py-11 sm:py-16">
-          <h2 className="nb-display max-w-[20ch] text-[25px] text-white sm:text-[30px]">Kết nối Việt Nam – Đức và hoà nhập châu Âu</h2>
-          <p className="mt-4 max-w-[62ch] text-[15px] leading-[1.8] text-[var(--nb-text-dim)] sm:text-[15.5px]">
+        <div className="nb-wrap py-11 sm:py-16 lg:py-20">
+          <h2 className="nb-display max-w-[20ch] text-[25px] text-white sm:text-[30px] lg:max-w-none lg:text-[32px]">Kết nối Việt Nam – Đức và hoà nhập châu Âu</h2>
+          <p className="mt-4 max-w-[62ch] text-[15px] leading-[1.8] lg:max-w-[72ch] text-[var(--nb-text-dim)] sm:text-[15.5px]">
             Chúng tôi xây dựng cầu nối vững chắc giữa người Việt và thị trường Đức, mở ra cơ hội học tập, làm việc và
             phát triển sự nghiệp tại châu Âu.
           </p>
-          <ul className="mt-7 grid gap-4 sm:mt-9 sm:grid-cols-3 sm:gap-5">
+          <ul className="mt-7 grid gap-4 sm:mt-9 sm:grid-cols-3 sm:gap-5 lg:gap-6">
             {[
               ["Con người là trung tâm", "Mỗi hồ sơ là một con người, không phải một con số."],
               ["Cơ hội toàn cầu", "Mạng lưới đối tác tại Đức và các nước châu Âu."],
