@@ -75,7 +75,7 @@ export function Hero() {
       {/* ---------- KHỐI GIỮA ---------- */}
       <div
         className="relative z-20 flex min-h-[calc(100svh-var(--nb-header))] flex-col items-center lg:min-h-[calc(100vh-40px)]"
-        style={{ paddingTop: "var(--nb-header)" }}
+        style={{ paddingTop: "calc(var(--nb-header) + 76px)" }}
       >
         <div className="flex flex-1 flex-col items-center justify-start px-6 pt-0 text-center">
           <h1 className="sr-only">
