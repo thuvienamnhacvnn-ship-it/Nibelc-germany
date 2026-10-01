@@ -1,0 +1,99 @@
+/* ============================================================
+   ĐƠN HÀNG — THÂN TRANG SÁNG (chỉ desktop ≥ 1024px)
+   ------------------------------------------------------------
+   Token lấy từ _w-agent/01_tra-kho-sang.md (bảng token SÁNG).
+   Biến khai báo trong phạm vi .dh-sang nên không lan ra trang khác;
+   chỉ dùng qua utility `lg:` nên khổ điện thoại giữ nguyên nền navy.
+
+   Vì sao có phần ghi đè .nb-panel / .nb-btn* / .nb-input ở dưới:
+   các lớp .nb-* trong globals.css nằm NGOÀI @layer nên utility
+   Tailwind (`lg:bg-white`…) không thắng được. Ghi đè ở đây bằng
+   bộ chọn có phạm vi (.dh-sang .nb-panel) — độ ưu tiên cao hơn,
+   không đụng globals.css.
+   ============================================================ */
+.dh-sang {
+  --s-page: #ffffff;
+  --s-alt: #f6f1e7;
+  --s-soft: #f8fafc;
+  --s-line: #e3e8ee;
+  --s-line-warm: #e6dcc6;
+  --s-input-line: #d5dce5;
+  --s-ink: #071525;
+  --s-body: #3d4b5c;
+  --s-mute: #5b6878;
+  --s-gold: #7a5c20;
+  --s-gold-brand: #d9b878;
+  --s-gold-brand-hover: #e3c78f;
+  --s-navy-hover: #0e2740;
+  --s-focus: #8a6a2f;
+  --s-shadow-rest: 0 1px 2px rgba(7, 21, 37, 0.05), 0 4px 12px rgba(7, 21, 37, 0.04);
+  --s-shadow-hover: 0 2px 4px rgba(7, 21, 37, 0.05), 0 12px 32px rgba(7, 21, 37, 0.1), 0 24px 48px rgba(7, 21, 37, 0.04);
+  --s-shadow-float: 0 2px 6px rgba(7, 21, 37, 0.06), 0 16px 40px rgba(7, 21, 37, 0.12);
+}
+
+@media (min-width: 1024px) {
+  .dh-sang .nb-panel {
+    background: var(--s-page);
+    border: 1px solid var(--s-line);
+    border-radius: 16px;
+    box-shadow: var(--s-shadow-rest);
+  }
+
+  .dh-sang .nb-input {
+    background: var(--s-page);
+    border-color: var(--s-input-line);
+    color: var(--s-ink);
+  }
+  /* .nb-input đặt padding 0.7rem ngoài @layer nên utility py-0 không ăn:
+     ô chọn cao 40px chỉ còn 17px cho chữ → xén chân chữ. */
+  .dh-sang select.nb-input {
+    padding-block: 0;
+  }
+  .dh-sang .nb-input:focus {
+    background: var(--s-page);
+    border-color: var(--s-focus);
+  }
+
+  /* nút vàng: vàng đặc một màu, chữ navy — không gradient */
+  .dh-sang .nb-btn {
+    background: var(--s-gold-brand);
+    color: var(--s-ink);
+  }
+  .dh-sang .nb-btn:hover {
+    background: var(--s-gold-brand-hover);
+    box-shadow: none;
+    transform: none;
+  }
+
+  /* nút viền: nền trắng, viền mảnh, chữ navy */
+  .dh-sang .nb-btn-ghost {
+    background: var(--s-page);
+    border-color: var(--s-input-line);
+    color: var(--s-ink);
+    backdrop-filter: none;
+  }
+  .dh-sang .nb-btn-ghost:hover {
+    background: var(--s-page);
+    border-color: var(--s-ink);
+    transform: none;
+  }
+
+  /* chữ mạ vàng → vàng đồng đặc, đủ tương phản trên nền sáng */
+  .dh-sang .nb-gold-text {
+    background: none;
+    color: var(--s-gold);
+  }
+
+  .dh-sang :focus-visible {
+    outline: 2px solid var(--s-focus);
+    outline-offset: 2px;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* thanh tìm 5 ô gối lên đáy banner: thẻ trắng nổi, bóng mềm pha navy */
+  .dh-sang .dh-thanh-tim {
+    box-shadow: var(--s-shadow-float);
+    border-color: var(--s-line);
+  }
+}

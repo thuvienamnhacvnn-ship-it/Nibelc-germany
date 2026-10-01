@@ -107,16 +107,7 @@ export function FeaturedJob({
           ĐANG TUYỂN
         </span>
 
-        <span
-          className="absolute inset-x-0 bottom-0 h-[76%]"
-          style={{
-            background:
-              "linear-gradient(180deg, transparent 0%, rgba(4,9,18,.5) 30%, rgba(4,9,18,.88) 62%, rgba(4,9,18,.97) 100%)",
-          }}
-          aria-hidden="true"
-        />
-
-        <div className="absolute inset-x-0 bottom-0 px-5 pb-4">
+        <div className="absolute inset-x-0 bottom-0 border-t border-[var(--nb-gold)]/35 bg-[var(--nb-navy-900)]/94 px-5 pt-3 pb-4">
           <h2 className="nb-display text-[clamp(18px,1.6vw,25px)] leading-[1.12] font-bold text-white [text-shadow:0_2px_8px_rgba(4,9,18,.9)]">
             {job.title}
           </h2>

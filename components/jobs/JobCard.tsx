@@ -36,11 +36,6 @@ export function JobCard({ job, lon = false }: { job: JobFull; lon?: boolean }) {
           sizes={lon ? "(min-width:1280px) 840px, 100vw" : "(min-width:1280px) 420px, 100vw"}
           className="object-cover transition-transform duration-[600ms] ease-[cubic-bezier(.22,.61,.36,1)] group-hover:scale-[1.05]"
         />
-        <span
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(180deg, rgba(7,21,37,.04) 46%, rgba(7,21,37,.9))" }}
-          aria-hidden="true"
-        />
 
         {/* góc trái: trạng thái đơn */}
         {job.isSample ? (

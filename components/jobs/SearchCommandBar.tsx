@@ -42,7 +42,7 @@ export function SearchCommandBar({
         e.preventDefault();
         onTim();
       }}
-      className="nb-panel flex flex-wrap items-stretch gap-px overflow-hidden p-px"
+      className="nb-panel dh-thanh-tim flex flex-wrap items-stretch gap-px overflow-hidden p-px"
       role="search"
       aria-label="Tìm đơn hàng"
     >
@@ -51,7 +51,7 @@ export function SearchCommandBar({
           value={gt.nganh}
           onChange={(e) => dat({ nganh: e.target.value })}
           aria-label="Ngành nghề"
-          className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto"
+          className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto lg:cursor-pointer lg:font-medium lg:text-[var(--s-ink)]"
         >
           <option value="">Tất cả ngành nghề</option>
           {INDUSTRIES.map((i) => (
@@ -67,7 +67,7 @@ export function SearchCommandBar({
           value={gt.thanhPho}
           onChange={(e) => dat({ thanhPho: e.target.value })}
           aria-label="Thành phố"
-          className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto"
+          className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto lg:cursor-pointer lg:font-medium lg:text-[var(--s-ink)]"
         >
           <option value="">Tất cả địa điểm</option>
           {allCities().map((c) => (
@@ -83,7 +83,7 @@ export function SearchCommandBar({
           value={gt.luongMin}
           onChange={(e) => dat({ luongMin: Number(e.target.value) })}
           aria-label="Mức lương tối thiểu"
-          className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto"
+          className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto lg:cursor-pointer lg:font-medium lg:text-[var(--s-ink)]"
         >
           {LUONG.map((l) => (
             <option key={l.gt} value={l.gt}>
@@ -98,7 +98,7 @@ export function SearchCommandBar({
           value={gt.chuongTrinh}
           onChange={(e) => dat({ chuongTrinh: e.target.value })}
           aria-label="Loại chương trình"
-          className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto"
+          className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto lg:cursor-pointer lg:font-medium lg:text-[var(--s-ink)]"
         >
           <option value="">Tất cả chương trình</option>
           <option value="Lao động">Lao động</option>
@@ -111,7 +111,7 @@ export function SearchCommandBar({
           value={gt.tieng}
           onChange={(e) => dat({ tieng: e.target.value })}
           aria-label="Trình độ tiếng Đức"
-          className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto"
+          className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto lg:cursor-pointer lg:font-medium lg:text-[var(--s-ink)]"
         >
           <option value="">Tất cả trình độ</option>
           {["A2 – B1", "B1", "B1 – B2", "B2"].map((t) => (
@@ -155,8 +155,8 @@ function O({
        nhãn vỡ ba dòng và ô thứ năm tràn khỏi khung.
        `basis-full` (flex-basis: 100%) mới buộc mỗi ô chiếm trọn một hàng.
        Từ lg trở lên trả lại `flex-1` để bố cục ngang của desktop y như cũ. */
-    <label className="flex w-full min-w-0 basis-full items-center gap-3 bg-[var(--nb-navy-800)]/60 px-4 py-2.5 transition hover:bg-[var(--nb-navy-700)]/70 lg:w-auto lg:min-w-[196px] lg:flex-1 lg:basis-0 lg:py-3">
-      <Icon size={17} className="shrink-0 text-[var(--nb-gold)]" />
+    <label className="flex w-full min-w-0 basis-full items-center gap-3 bg-[var(--nb-navy-800)]/60 px-4 py-2.5 transition hover:bg-[var(--nb-navy-700)]/70 lg:w-auto lg:border-r lg:border-[var(--s-line)] lg:bg-white lg:hover:bg-[var(--s-soft)] lg:min-w-[196px] lg:flex-1 lg:basis-0 lg:py-3">
+      <Icon size={17} className="shrink-0 text-[var(--nb-gold)] lg:text-[var(--s-gold)]" />
       <span className="min-w-0 flex-1">
         {/* TUYỆT ĐỐI không `truncate` (overflow:hidden) cùng `leading-none` ở
             đây: nhãn viết HOA có dấu tiếng Việt, dấu nằm cao hơn thân chữ nên
@@ -164,7 +164,7 @@ function O({
             "TIM NGANH NGHE". Để dòng rộng 1.45em và không chặn tràn.
             Nhãn dài nhất ("TRÌNH ĐỘ TIẾNG ĐỨC" ≈ 145px) vẫn vừa một dòng
             trong 191px chỗ trống ở khổ hẹp nhất (320px). */}
-        <span className="block text-[11px] leading-[1.45] tracking-[0.1em] text-[var(--nb-text-mute)] uppercase lg:text-[10.5px]">
+        <span className="block text-[11px] leading-[1.45] tracking-[0.1em] text-[var(--nb-text-mute)] uppercase lg:text-[10.5px] lg:font-semibold lg:text-[var(--s-mute)]">
           {nhan}
         </span>
         {children}

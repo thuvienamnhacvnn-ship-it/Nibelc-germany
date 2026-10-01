@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
 import { JobMarketplace } from "@/components/jobs/JobMarketplace";
 import { JOBS, TONG_SUAT } from "@/data/jobs";
+import "./don-hang-sang.css";
 
 export const metadata: Metadata = {
   title: "Đơn hàng — Cơ hội nghề nghiệp tại Đức",
