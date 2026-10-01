@@ -139,6 +139,47 @@
   letter-spacing: -0.012em;
 }
 
+/* VỆT CỜ ĐỨC — nét cọ đen/đỏ/vàng quét chéo sau chữ "Deutschland",
+   mô-típ có trong ảnh mẫu. */
+.nb-co-brush {
+  display: inline-block;
+  position: absolute;
+  top: -0.06em;
+  left: 100%;
+  width: 1.75em;
+  height: 0.72em;
+  margin-left: 0.06em;
+  transform: skewX(-14deg);
+  background: linear-gradient(
+    180deg,
+    #1a1a1a 0% 33%,
+    #d81717 33% 66%,
+    #f5c518 66% 100%
+  );
+  -webkit-mask-image: radial-gradient(130% 110% at 0% 50%, #000 42%, rgba(0, 0, 0, 0.55) 68%, transparent 100%);
+  mask-image: radial-gradient(130% 110% at 0% 50%, #000 42%, rgba(0, 0, 0, 0.55) 68%, transparent 100%);
+  opacity: 0.95;
+}
+
+/* Bóng khối dưới chữ vàng.
+   Chữ vàng là mảng nền cắt theo hình chữ nên KHÔNG nhận được text-shadow hay
+   filter (thử rồi, ra mảng đen). Cách chạy được: đặt một bản sao của chính
+   dòng chữ nằm ngay phía sau, tô màu nâu sẫm đặc và dịch xuống vài pixel. */
+.nb-khoi {
+  position: relative;
+  display: inline-block;
+}
+.nb-khoi > .nb-bong-sau {
+  position: absolute;
+  inset: 0;
+  color: rgba(46, 27, 2, 0.75);
+  -webkit-text-fill-color: rgba(46, 27, 2, 0.75);
+  transform: translate(2px, 3px);
+  z-index: -1;
+  pointer-events: none;
+  user-select: none;
+}
+
 /* CHỮ VÀNG KHỐI — cụm tiêu đề hero, dựng theo ảnh mẫu Sếp gửi.
    Gradient nhiều chặng cho ra chất kim loại (sáng ở đỉnh, đậm ở giữa, sáng
    lại ở chân), cộng một viền nâu mảnh để chữ có khối.
@@ -148,12 +189,13 @@
 .nb-vang-khoi {
   background: linear-gradient(
     180deg,
-    #fff6da 0%,
-    #f6d78a 20%,
-    var(--nb-gold-strong) 46%,
-    #8a5c10 68%,
-    #d9a33c 86%,
-    #ffeec2 100%
+    #fffdf2 0%,
+    #ffeaa8 16%,
+    #ffcc55 40%,
+    #e0a32c 58%,
+    #c98a1d 70%,
+    #ffd977 86%,
+    #fff6d8 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
@@ -164,7 +206,7 @@
      thì viền phủ kín nét và chữ thành một mảng tối. */
   /* đo theo em: 3px cố định thì trên điện thoại chữ 26px bị viền nuốt gần
      hết nét, nhìn bệt và mất hẳn chất vàng */
-  -webkit-text-stroke: 0.062em rgba(22, 13, 1, 0.82);
+  -webkit-text-stroke: 0.035em rgba(74, 45, 4, 0.9);
   paint-order: stroke fill;
   padding-block: 0.1em;
   margin-block: -0.1em;

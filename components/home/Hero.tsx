@@ -104,33 +104,35 @@ export function Hero() {
                 transition={{ duration: 0.45, ease: [0.22, 0.61, 0.36, 1] }}
                 className="nb-bong-chu relative max-w-[min(760px,82vw)] lg:max-w-[min(820px,74vw)]"
               >
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute -inset-x-12 -top-8 -bottom-5 -z-10 rounded-[26px]"
-                  style={{
-                    background: "rgba(255, 246, 224, 0.26)",
-                    boxShadow: "0 0 60px 40px rgba(255,246,224,.26)",
-                    backdropFilter: "blur(2px)",
-                  }}
-                />
 
                 {/* ---- CỤM 1: dòng Đức ---- */}
                 <h1 className="nb-hero-chu flex flex-wrap items-baseline justify-center gap-x-[0.28em] leading-[1.1] text-white italic">
-                  <span className="text-[clamp(21px,2.7vw,44px)]">Arbeiten in</span>
-                  <span className="nb-vang-khoi text-[clamp(28px,4vw,64px)] not-italic">Deutschland</span>
+                  <span className="text-[clamp(23px,3.5vw,56px)]">Arbeiten in</span>
+                  <span className="nb-khoi text-[clamp(27px,4.05vw,65px)]">
+                    <span className="nb-bong-sau" aria-hidden="true">
+                      Deutschland
+                    </span>
+                    <span className="nb-vang-khoi">Deutschland</span>
+                    <span className="nb-co-brush" aria-hidden="true" />
+                  </span>
                 </h1>
-                <p className="nb-hero-chu -mt-0.5 text-[clamp(15px,1.5vw,27px)] text-white italic">
+                <p className="nb-hero-chu -mt-0.5 text-[clamp(17px,2.6vw,41px)] text-white italic">
                   mit Nibelc Germany GmbH
                 </p>
 
                 {/* ---- CỤM 2: khẩu hiệu ---- */}
                 <p className="nb-hero-chu nb-bong-khoi mt-1 text-[clamp(32px,4.6vw,74px)] leading-[1.02] tracking-[0.005em]">
-                  <span className="nb-vang-khoi">ĐỐI TÁC UY TÍN</span>
+                  <span className="nb-khoi">
+                    <span className="nb-bong-sau" aria-hidden="true">
+                      ĐỐI TÁC UY TÍN
+                    </span>
+                    <span className="nb-vang-khoi">ĐỐI TÁC UY TÍN</span>
+                  </span>
                 </p>
-                <p className="nb-hero-chu -mt-1 text-[clamp(14px,1.45vw,25px)] tracking-[0.02em] text-white">
+                <p className="nb-hero-chu -mt-1 text-[clamp(15px,2.3vw,37px)] tracking-[0.01em] text-white">
                   LỰA CHỌN TỐT NHẤT CỦA BẠN
                 </p>
-                <p className="nb-hero-chu mt-0.5 text-[clamp(11px,1.05vw,18px)] leading-[1.5] font-bold tracking-[0.03em] text-[var(--nb-gold-soft)]">
+                <p className="nb-hero-chu mt-0.5 text-[clamp(12px,1.75vw,28px)] leading-[1.35] font-bold tracking-[0.01em] text-[var(--nb-gold-soft)]">
                   CHO VIỆC LÀM VÀ HỌC NGHỀ TẠI ĐỨC, CHÂU ÂU
                 </p>
 
