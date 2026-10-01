@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Briefcase, ChevronDown, Coins, FileText, GraduationCap, Languages, LayoutGrid, List, MapPin, SlidersHorizontal, X } from "lucide-react";
 import { JobCard } from "@/components/jobs/JobCard";
@@ -17,6 +17,9 @@ import { JOBS, allCities, allStates, type JobFull } from "@/data/jobs";
  * Trạng thái ban đầu đọc từ query (?industry=, ?city=, ?q=) nên link từ trang
  * chủ và từ ô tìm kiếm mở đúng bộ lọc.
  */
+
+/** Nhóm lọc đang mở (chỉ một nhóm một lúc). undefined = nhóm tự giữ trạng thái moSan. */
+const NhomCtx = createContext<[string | null | undefined, (v: string | null) => void]>([undefined, () => {}]);
 
 const MUC_LUONG = [
   { nhan: "Tất cả", min: 0 },
@@ -59,6 +62,7 @@ export function JobMarketplace() {
       thì phải cuộn gần hai màn hình mới thấy đơn hàng đầu tiên. Từ lg trở lên
       bảng là cột bên nên luôn hiện, không phụ thuộc state này. */
   const [moLoc, setMoLoc] = useState(false);
+  const nhomMo = useState<string | null>("Ngành nghề");
 
   const ketQua = useMemo(() => {
     const q = bo(tuKhoa.trim());
@@ -176,11 +180,12 @@ export function JobMarketplace() {
           Desktop: thẻ trắng rộng cố định 280px, dính khi cuộn; quá cao thì tự
           cuộn bên trong chứ không đẩy chân thẻ ra khỏi màn hình. */}
       <aside
-        className={`nb-panel h-fit p-5 sm:p-6 lg:sticky lg:top-[calc(var(--nb-header)+24px)] lg:block lg:max-h-[calc(100vh-var(--nb-header)-48px)] lg:overflow-y-auto lg:px-5 lg:py-4 ${
+        className={`nb-panel h-fit p-5 sm:p-6 lg:block lg:px-5 lg:py-4 ${
           moLoc ? "block" : "hidden"
         }`}
         aria-label="Bộ lọc đơn hàng"
       >
+        <NhomCtx.Provider value={nhomMo}>
         <div className="flex items-center justify-between lg:pb-1.5">
           <b className="flex items-center gap-2 text-[15.5px] font-semibold text-white lg:text-[15px] lg:text-[var(--s-ink)]">
             <SlidersHorizontal size={17} className="text-[var(--nb-gold)] lg:text-[var(--s-gold)]" />
@@ -199,7 +204,9 @@ export function JobMarketplace() {
         </div>
 
         <Nhom nhan="Ngành nghề" Icon={Briefcase} moSan tomTat={nganh.length ? `${nganh.length} ngành đã chọn` : "Tất cả ngành nghề"}>
-          <ul className="max-h-[240px] space-y-1 overflow-y-auto pr-1 lg:max-h-[216px] lg:space-y-0.5">
+          {/* Desktop hiện ĐỦ mọi ngành, không cuộn lồng (trước bị khoá 216px nên
+              chỉ thấy 6/12 ngành, "Nông nghiệp", "Ô tô"… bị giấu). */}
+          <ul className="max-h-[240px] space-y-1 overflow-y-auto pr-1 lg:max-h-none lg:space-y-0.5 lg:overflow-visible lg:pr-0">
             {INDUSTRIES.map((i) => {
               const on = nganh.includes(i.id);
               const so = JOBS.filter((j) => j.industryId === i.id).length;
@@ -271,6 +278,7 @@ export function JobMarketplace() {
         <Nhom nhan="Chương trình" Icon={FileText} tomTat={ct === "Tất cả" ? "Tất cả chương trình" : ct}>
           <Chon gt={ct} dat={setCt} ds={CHUONG_TRINH} />
         </Nhom>
+        </NhomCtx.Provider>
       </aside>
 
       {/* ---------------- KẾT QUẢ ---------------- */}
@@ -438,7 +446,11 @@ function Nhom({
   moSan?: boolean;
   children: React.ReactNode;
 }) {
-  const [mo, setMo] = useState(moSan);
+  // Mỗi lúc chỉ MỘT nhóm mở: mở nhóm này thì nhóm đang mở tự gập lại, cột lọc
+  // không phình dài vô tận khi khách bấm mở lần lượt từng nhóm.
+  const [dangMo, setDangMo] = useContext(NhomCtx);
+  const mo = dangMo === undefined ? moSan : dangMo === nhan;
+  const setMo = (f: (v: boolean) => boolean) => setDangMo(f(mo) ? nhan : null);
   return (
     <div className="border-t border-[var(--nb-line-soft)] first-of-type:border-0 lg:border-[var(--s-line)]">
       <button
@@ -464,7 +476,7 @@ function Nhom({
 
 function Chon({ gt, dat, ds }: { gt: string; dat: (v: string) => void; ds: string[] }) {
   return (
-    <ul className="max-h-[220px] space-y-1 overflow-y-auto pr-1 lg:space-y-0.5">
+    <ul className="max-h-[220px] space-y-1 overflow-y-auto pr-1 lg:max-h-none lg:space-y-0.5 lg:overflow-visible lg:pr-0">
       {ds.map((x) => {
         const on = gt === x;
         return (

@@ -46,7 +46,7 @@ const TOKEN = {
      sáng, chỉ bóng chữ thì "ĐỐI TÁC UY TÍN" vàng chìm vào mây */
   "--td-nen": "rgba(6,17,34,.56)",
   "--td-vien": "rgba(232,201,135,.22)",
-  "--td-bong": "0 1px 2px rgba(3,10,22,.7), 0 2px 12px rgba(3,10,22,.55), 0 6px 34px rgba(3,10,22,.5)",
+  "--td-bong": "none", // Sếp cấm glow/bóng chữ
 } as CSSProperties;
 
 export function CumTieuDe({ chu = CHU_VI, className = "" }: { chu?: ChuTieuDe; className?: string }) {
