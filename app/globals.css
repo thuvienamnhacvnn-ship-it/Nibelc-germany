@@ -156,7 +156,7 @@
      thì viền phủ kín nét và chữ thành một mảng tối. */
   /* đo theo em: 3px cố định thì trên điện thoại chữ 26px bị viền nuốt gần
      hết nét, nhìn bệt và mất hẳn chất vàng */
-  -webkit-text-stroke: 0.05em rgba(28, 17, 2, 0.72);
+  -webkit-text-stroke: 0.062em rgba(22, 13, 1, 0.82);
   paint-order: stroke fill;
   padding-block: 0.1em;
   margin-block: -0.1em;

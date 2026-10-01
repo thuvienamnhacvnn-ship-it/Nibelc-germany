@@ -106,10 +106,11 @@ export function Hero() {
               >
                 <span
                   aria-hidden="true"
-                  className="pointer-events-none absolute -inset-x-14 -top-10 -bottom-6 -z-10 rounded-[40px]"
+                  className="pointer-events-none absolute -inset-x-12 -top-8 -bottom-5 -z-10 rounded-[26px]"
                   style={{
-                    background:
-                      "radial-gradient(70% 66% at 50% 48%, rgba(255,247,228,.5) 0%, rgba(255,240,206,.34) 42%, rgba(255,236,196,.14) 70%, transparent 100%)",
+                    background: "rgba(255, 246, 224, 0.26)",
+                    boxShadow: "0 0 60px 40px rgba(255,246,224,.26)",
+                    backdropFilter: "blur(2px)",
                   }}
                 />
 
@@ -118,22 +119,22 @@ export function Hero() {
                   <span className="text-[clamp(21px,2.7vw,44px)]">Arbeiten in</span>
                   <span className="nb-vang-khoi text-[clamp(28px,4vw,64px)] not-italic">Deutschland</span>
                 </h1>
-                <p className="mt-1 text-[clamp(15px,1.35vw,24px)] font-semibold text-white italic">
+                <p className="-mt-0.5 text-[clamp(15px,1.5vw,27px)] font-bold text-white italic">
                   mit Nibelc Germany GmbH
                 </p>
 
                 {/* ---- CỤM 2: khẩu hiệu ---- */}
-                <p className="nb-bong-khoi nb-display mt-5 text-[clamp(32px,4.3vw,70px)] leading-[1.04] tracking-[0.01em]">
+                <p className="nb-bong-khoi nb-display mt-1 text-[clamp(32px,4.6vw,74px)] leading-[1.02] tracking-[0.01em]">
                   <span className="nb-vang-khoi">ĐỐI TÁC UY TÍN</span>
                 </p>
-                <p className="mt-1.5 text-[clamp(14px,1.35vw,23px)] font-bold tracking-[0.02em] text-white">
+                <p className="-mt-1 text-[clamp(14px,1.45vw,25px)] font-bold tracking-[0.02em] text-white">
                   LỰA CHỌN TỐT NHẤT CỦA BẠN
                 </p>
-                <p className="mt-1.5 text-[clamp(11px,0.95vw,16px)] leading-[1.65] font-semibold tracking-[0.04em] text-[var(--nb-gold-soft)]">
+                <p className="mt-0.5 text-[clamp(11px,1.05vw,18px)] leading-[1.5] font-semibold tracking-[0.03em] text-[var(--nb-gold-soft)]">
                   CHO VIỆC LÀM VÀ HỌC NGHỀ TẠI ĐỨC, CHÂU ÂU
                 </p>
 
-                <div className="mx-auto mt-6 w-[min(620px,86vw)]">
+                <div className="mx-auto mt-5 w-[min(500px,84vw)]">
                   <SearchBar />
                 </div>
               </motion.div>

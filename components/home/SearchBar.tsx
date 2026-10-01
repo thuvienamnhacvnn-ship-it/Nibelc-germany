@@ -94,7 +94,7 @@ export function SearchBar() {
           if (goiY[chon]) di(goiY[chon]);
           else chuyen(`/don-hang${tu.trim() ? `?q=${encodeURIComponent(tu.trim())}` : ""}`);
         }}
-        className="flex items-center gap-3 rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-800)]/72 px-5 py-2.5 backdrop-blur-md transition focus-within:border-[var(--nb-gold)]"
+        className="flex items-center gap-3 rounded-full border border-white/45 bg-white/22 px-5 py-2 pr-2 backdrop-blur-md transition focus-within:border-[var(--nb-gold)]"
         role="search"
       >
         <Search size={18} className="shrink-0 text-[var(--nb-gold)]" />
