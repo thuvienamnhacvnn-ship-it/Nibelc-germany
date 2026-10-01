@@ -1,19 +1,22 @@
+import type { CSSProperties } from "react";
+
 /**
- * CỤM TIÊU ĐỀ HERO — VẼ BẰNG VECTOR
+ * CỤM TIÊU ĐỀ HERO — CHỮ HTML THẬT, 3 TẦNG
  *
- * Trước đây cụm này là một tấm PNG nên không chuyển ngữ được. Nay là SVG với
- * <text> thật: đổi sang tiếng Đức hay tiếng Anh chỉ cần thay chuỗi trong
- * `chu`, không phải vẽ lại ảnh.
+ * Bản trước là SVG chữ vàng kim loại 7 chặng + viền nâu + 3 lớp bóng, 5 dòng
+ * 6 cỡ chữ trộn nghiêng/đứng, thêm vệt cờ và chấm vạch trang trí → Sếp chê
+ * xấu (01/10/2026). Nay gom lại 3 tầng, mỗi chữ MỘT màu đặc, không viền,
+ * không gradient, không glow; chỉ một bóng mềm để tách chữ khỏi nền trời.
  *
- * Hiệu ứng vàng kim loại dựng bằng:
- *   - <linearGradient> dọc: sáng ở đỉnh, đậm ở giữa, sáng lại ở chân
- *   - stroke nâu sẫm + paint-order="stroke" → viền vẽ TRƯỚC rồi gradient tô
- *     đè lên, nên viền chỉ lộ ra ngoài nét chữ. SVG xử lý paint-order đúng
- *     chuẩn, không dính mấy lỗi của background-clip bên CSS
- *   - <feDropShadow> cho bóng khối
+ *   Tầng 1 (nhỏ):    Arbeiten in Deutschland / mit Nibelc Germany GmbH
+ *   Tầng 2 (lớn):    ĐỐI TÁC UY TÍN
+ *   Tầng 3 (chữ hoa giãn): hai dòng khẩu hiệu, ngăn với tầng 2 bằng vạch vàng 1px
  *
- * Chữ nằm trong SVG nên máy tìm kiếm vẫn đọc được; trang vẫn giữ thêm một thẻ
- * h1 ẩn ở Hero cho chắc.
+ * Mọi cỡ chữ co theo vw (clamp) để ở 1280px cụm chữ không đè đầu hai nhóm
+ * nhân vật, và trên 390px vẫn gọn trong khung.
+ *
+ * Chuyển ngữ: chỉ thay chuỗi trong `chu`, chữ dài ngắn khác nhau tự xuống dòng
+ * cân đối nhờ text-balance.
  */
 
 export interface ChuTieuDe {
@@ -34,108 +37,62 @@ export const CHU_VI: ChuTieuDe = {
   dong5: "CHO VIỆC LÀM VÀ HỌC NGHỀ TẠI ĐỨC, CHÂU ÂU",
 };
 
+/* Token riêng của cụm tiêu đề (không rải mã màu lẻ trong JSX) */
+const TOKEN = {
+  "--td-vang": "#E8C987",
+  "--td-trang": "#FFFFFF",
+  "--td-trang-phu": "rgba(255,255,255,.88)",
+  /* tấm nền RIÊNG của cụm chữ (không phủ cả ảnh) — nền trời/núi tuyết quá
+     sáng, chỉ bóng chữ thì "ĐỐI TÁC UY TÍN" vàng chìm vào mây */
+  "--td-nen": "rgba(6,17,34,.56)",
+  "--td-vien": "rgba(232,201,135,.22)",
+  "--td-bong": "0 1px 2px rgba(3,10,22,.7), 0 2px 12px rgba(3,10,22,.55), 0 6px 34px rgba(3,10,22,.5)",
+} as CSSProperties;
+
 export function CumTieuDe({ chu = CHU_VI, className = "" }: { chu?: ChuTieuDe; className?: string }) {
-  const F = "var(--font-hero), system-ui, sans-serif";
-
   return (
-    <svg viewBox="0 0 1400 660" className={className} role="img" aria-label={`${chu.dong1a} ${chu.dong1b} — ${chu.dong3}`}>
-      <defs>
-        {/* vàng kim loại */}
-        <linearGradient id="nb-vang" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor="#fffdf2" />
-          <stop offset="16%" stopColor="#ffeaa8" />
-          <stop offset="40%" stopColor="#ffcc55" />
-          <stop offset="58%" stopColor="#e0a32c" />
-          <stop offset="70%" stopColor="#c98a1d" />
-          <stop offset="86%" stopColor="#ffd977" />
-          <stop offset="100%" stopColor="#fff6d8" />
-        </linearGradient>
-        {/* trắng hơi ngả bạc */}
-        <linearGradient id="nb-trang" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor="#ffffff" />
-          <stop offset="62%" stopColor="#f2f6fb" />
-          <stop offset="100%" stopColor="#cfd9e6" />
-        </linearGradient>
-        <filter id="nb-bong" x="-12%" y="-12%" width="124%" height="124%">
-          <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#040a14" floodOpacity="1" />
-          <feDropShadow dx="0" dy="5" stdDeviation="6" floodColor="#040a14" floodOpacity=".95" />
-          <feDropShadow dx="0" dy="12" stdDeviation="16" floodColor="#040a14" floodOpacity=".7" />
-        </filter>
-      </defs>
-
-      {/* `textLength` + `lengthAdjust` ép mỗi dòng vừa đúng bề ngang đã định.
-          Đây cũng là chỗ khiến bản vector hơn hẳn ảnh: chuyển sang tiếng Đức
-          hay tiếng Anh, chữ dài ngắn khác nhau vẫn tự co về đúng khung, không
-          tràn ra ngoài như vừa rồi. */}
-      <g filter="url(#nb-bong)" fontFamily={F} fontWeight={900} textAnchor="middle" paintOrder="stroke">
-        {/* ---- dòng 1: Arbeiten in Deutschland ---- */}
-        <text x="700" y="178" fontSize="85" fontStyle="italic" fill="url(#nb-trang)" stroke="#0b1522" strokeWidth="3">
-          {chu.dong1a}
-          <tspan
-            fill="url(#nb-vang)"
-            stroke="#3a2402"
-            strokeWidth="5"
-            fontSize="100"
-            dx="18"
-          >
-            {chu.dong1b}
-          </tspan>
-        </text>
-
-        {/* vệt cờ Đức quét chéo sau dòng 1 */}
-        <g transform="translate(1150 78) rotate(-13) scale(.78)" filter="none">
-          <path d="M0 10 C 70 0, 170 -4, 258 -10 C 246 2, 150 12, 74 20 C 46 23, 18 20, 0 10 Z" fill="#141414" />
-          <path d="M-2 40 C 72 29, 174 24, 262 18 C 250 31, 152 43, 76 50 C 46 53, 16 50, -2 40 Z" fill="#d81b1b" />
-          <path d="M2 70 C 76 58, 178 52, 266 46 C 254 60, 156 72, 80 80 C 50 83, 20 80, 2 70 Z" fill="#f6c21c" />
-        </g>
-
-        {/* ---- dòng 2 ---- */}
-        <text x="700" y="272" fontSize="69" fontStyle="italic" fill="url(#nb-trang)" stroke="#0b1522" strokeWidth="2.6">
+    <div
+      className={`flex w-fit max-w-full shrink-0 flex-col items-center rounded-[20px] border border-[color:var(--td-vien)] bg-[color:var(--td-nen)] px-5 py-6 text-center [text-shadow:var(--td-bong)] sm:px-10 lg:rounded-[24px] lg:px-12 lg:py-7 ${className}`}
+      style={TOKEN}
+    >
+      <h1 className="flex flex-col items-center">
+        {/* Tầng 1 */}
+        <span
+          className="block font-semibold leading-[1.15] text-[color:var(--td-trang)] text-[clamp(21px,2.3vw,34px)]"
+          style={{ fontFamily: "var(--font-display)" }}
+        >
+          {chu.dong1a} <span className="text-[color:var(--td-vang)]">{chu.dong1b}</span>
+        </span>
+        <span
+          className="mt-1.5 block font-medium leading-[1.3] text-[color:var(--td-trang-phu)] text-[clamp(13.5px,1.25vw,18px)] lg:mt-2"
+          style={{ fontFamily: "var(--font-inter)" }}
+        >
           {chu.dong2}
-        </text>
+        </span>
 
-        {/* ---- dòng 3: khẩu hiệu ---- */}
-        <text x="700" y="438" fontSize="148" fill="url(#nb-vang)" stroke="#3a2402" strokeWidth="6">
+        {/* Tầng 2 — lớn nhất */}
+        <span
+          className="mt-3 block font-bold leading-[1.08] tracking-[0.02em] text-balance text-[color:var(--td-vang)] text-[clamp(32px,4.85vw,70px)] lg:mt-3"
+          style={{ fontFamily: "var(--font-display)" }}
+        >
           {chu.dong3}
-        </text>
+        </span>
+      </h1>
 
-        {/* ---- DECOR: hai nhánh champagne ôm hai bên khẩu hiệu ---- */}
-        <g stroke="url(#nb-vang)" strokeLinecap="round" fill="none">
-          <path d="M70 400 L150 400" strokeWidth="5" />
-          <path d="M96 420 L150 420" strokeWidth="3" opacity=".7" />
-          <path d="M1330 400 L1250 400" strokeWidth="5" />
-          <path d="M1304 420 L1250 420" strokeWidth="3" opacity=".7" />
-        </g>
-        <g fill="url(#nb-vang)">
-          <circle cx="58" cy="400" r="7" />
-          <circle cx="1342" cy="400" r="7" />
-        </g>
+      {/* Vạch vàng mảnh ngăn tầng 2 với tầng 3 */}
+      <span
+        aria-hidden="true"
+        className="mt-3.5 block h-px w-[clamp(56px,6vw,88px)] bg-[color:var(--td-vang)] lg:mt-4"
+      />
 
-        {/* ---- dòng 4 ---- */}
-        <text x="700" y="530" fontSize="63" fill="url(#nb-trang)" stroke="#0b1522" strokeWidth="2.4">
-          {chu.dong4}
-        </text>
-
-        {/* ---- dòng 5 ---- */}
-        <text x="700" y="606" fontSize="46" fill="url(#nb-vang)" stroke="#3a2402" strokeWidth="2.2">
-          {chu.dong5}
-        </text>
-
-        {/* ---- DECOR: vạch champagne thon hai đầu, khép lại cả cụm ---- */}
-        <path
-          d="M400 638 L1000 638"
-          stroke="url(#nb-vang)"
-          strokeWidth="3"
-          strokeLinecap="round"
-          fill="none"
-          opacity=".85"
-        />
-        <g fill="url(#nb-vang)" opacity=".9">
-          <circle cx="700" cy="638" r="5.5" />
-          <circle cx="648" cy="638" r="3" />
-          <circle cx="752" cy="638" r="3" />
-        </g>
-      </g>
-    </svg>
+      {/* Tầng 3 */}
+      <p
+        className="mt-3.5 font-semibold uppercase leading-[1.65] tracking-[0.1em] text-balance text-[color:var(--td-trang)] text-[clamp(11px,1.12vw,16px)] lg:mt-4 lg:tracking-[0.14em]"
+        style={{ fontFamily: "var(--font-inter)" }}
+      >
+        <span className="block">{chu.dong4}</span>
+        <span className="block">{chu.dong5}</span>
+      </p>
+    </div>
   );
 }

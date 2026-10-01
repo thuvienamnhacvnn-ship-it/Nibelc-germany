@@ -79,10 +79,7 @@ export function Hero() {
         style={{ paddingTop: "calc(var(--nb-header) + 76px)" }}
       >
         <div className="flex flex-1 flex-col items-center justify-start px-6 pt-0 text-center">
-          <h1 className="sr-only">
-            Arbeiten in Deutschland mit Nibelc Germany GmbH — ĐỐI TÁC UY TÍN, lựa chọn tốt nhất của bạn cho việc
-            làm và học nghề tại Đức, châu Âu
-          </h1>
+          {/* h1 nằm trong CumTieuDe (chữ HTML thật), không cần bản sr-only nữa. */}
 
           {/* Bấm một tệp thì CẢ CỤM tiêu đề nhường chỗ cho thẻ đơn — đúng
               quy luật Sếp đặt từ đầu.
@@ -108,7 +105,7 @@ export function Hero() {
                   transition={{ duration: 0.38, ease: [0.22, 0.61, 0.36, 1] }}
                   className="absolute inset-x-0 top-0 flex flex-col items-center"
                 >
-                  <CumTieuDe className="block h-auto w-[min(700px,88vw)]" />
+                  <CumTieuDe className="lg:-mt-8 lg:w-max lg:max-w-[min(860px,60vw)]" />
                 </motion.div>
               )}
             </AnimatePresence>

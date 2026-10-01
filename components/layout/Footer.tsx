@@ -164,7 +164,7 @@ export function Footer() {
             src={`https://www.openstreetmap.org/export/embed.html?bbox=${KHUNG_BAN_DO}&layer=mapnik`}
             loading="lazy"
             referrerPolicy="no-referrer"
-            className="block h-[190px] w-full border-0 grayscale-[.25] lg:h-[280px]"
+            className="block h-[190px] w-full border-0 grayscale-[.25] lg:h-[200px]"
           />
         </div>
       </div>
