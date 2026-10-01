@@ -33,7 +33,14 @@ export function PageHero({
 }) {
   return (
     <section className="relative isolate overflow-hidden">
-      <div className="absolute inset-0 -z-10">
+      {/* ẢNH BANNER
+          Ở ĐIỆN THOẠI đây là một khối riêng cao 220px, KHÔNG có chữ nào nằm
+          đè lên: chữ xuống hẳn phía dưới trên nền phẳng. Lý do: ảnh banner là
+          ảnh thật nhiều chi tiết (hoàng hôn, thư viện, bếp), chữ 15px đặt lên
+          đó chỉ dựa vào bóng chữ nên vừa khó đọc vừa hay rơi trúng mặt người.
+          TỪ lg trở lên ảnh quay lại làm NỀN tuyệt đối và chữ nằm đè như cũ —
+          màn rộng có chỗ cho chữ nằm vào vùng trống của ảnh. */}
+      <div className="relative h-[220px] w-full sm:h-[260px] lg:absolute lg:inset-0 lg:-z-10 lg:h-auto">
         <picture>
           {anhDoc && <source media="(max-width: 767px)" srcSet={anhDoc} />}
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -44,22 +51,23 @@ export function PageHero({
             className="absolute inset-0 h-full w-full object-cover object-center"
           />
         </picture>
+
+        {/* KHÔNG phủ lớp màu lên ảnh banner. Chỉ một dải chuyển tiếp mỏng ở
+            ĐÁY để ảnh nối liền vào nền trang. */}
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[34%] lg:h-[22%]"
+          style={{
+            // bắt đầu từ CHÍNH màu nền ở độ trong suốt 0 — chép tay rgba(5,11,22,0)
+            // thì sau khi nền đổi sang xanh, giữa dải hiện một vệt xám bẩn
+            background: "linear-gradient(180deg, rgb(var(--nb-navy-900-rgb) / 0) 0%, var(--nb-navy-900) 94%)",
+          }}
+          aria-hidden="true"
+        />
       </div>
-      {/* KHÔNG phủ lớp màu lên ảnh banner. Ảnh đã được tạo với phần trái
-          tối sẵn, và chữ tự mang bóng riêng (.nb-bong-chu). */}
 
-      {/* Dải chuyển tiếp mỏng ở đáy để banner nối liền vào nền trang */}
-      <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[22%]"
-        style={{
-          // bắt đầu từ CHÍNH màu nền ở độ trong suốt 0 — chép tay rgba(5,11,22,0)
-          // thì sau khi nền đổi sang xanh, giữa dải hiện một vệt xám bẩn
-          background: "linear-gradient(180deg, rgb(var(--nb-navy-900-rgb) / 0) 0%, var(--nb-navy-900) 94%)",
-        }}
-        aria-hidden="true"
-      />
-
-      <div className="nb-wrap nb-bong-chu py-11 sm:py-16">
+      {/* nb-hero-con-chu: ở điện thoại khối chữ này nằm trên nền phẳng nên bóng
+          chữ bị TẮT (xem app/globals.css) — bóng ở đó chỉ làm chữ nhoè. */}
+      <div className="nb-wrap nb-hero-con-chu nb-bong-chu py-7 sm:py-9 lg:py-16">
         <p className="nb-eyebrow">{nhan}</p>
         {/* Trên điện thoại clamp() rơi về 30px cho MỌI tiêu đề, kể cả câu dài
             như "Du học nghề Đức – Học nghề – Có lương…", nên chữ tràn ra 4–5
@@ -85,7 +93,11 @@ export function PageHero({
               <li key={t.nhan} className="shrink-0">
                 <NavLink
                   href={t.href}
-                  className="flex h-11 items-center gap-2 rounded-full border border-[var(--nb-gold)]/45 bg-[var(--nb-navy-900)]/70 px-4 text-[13.5px] font-medium whitespace-nowrap text-[var(--nb-gold-soft)] backdrop-blur-sm transition hover:border-[var(--nb-gold)] hover:bg-[var(--nb-gold)] hover:text-[var(--nb-navy-900)]"
+                  /* Ở điện thoại chip nằm trên nền trang phẳng chứ không còn
+                     trên ảnh, nên nền mờ `navy-900/70` sẽ gần như tàng hình.
+                     Dùng bậc KHỐI cho nó nổi lên; từ lg mới quay lại nền mờ
+                     vì lúc đó phía sau là ảnh. */
+                  className="flex h-11 items-center gap-2 rounded-full border border-[var(--nb-gold)]/45 bg-[var(--nb-navy-800)] px-4 text-[13.5px] font-medium whitespace-nowrap text-[var(--nb-gold-soft)] transition hover:border-[var(--nb-gold)] hover:bg-[var(--nb-gold)] hover:text-[var(--nb-navy-900)] lg:bg-[var(--nb-navy-900)]/70 lg:backdrop-blur-sm"
                 >
                   {t.nhan}
                   {t.so !== undefined && (
