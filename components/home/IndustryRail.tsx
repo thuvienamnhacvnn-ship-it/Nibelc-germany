@@ -118,50 +118,47 @@ export function IndustryRail({
         onHover(false);
       }}
     >
-      {/* CHÂN BANNER — dải sáng cong hai góc, có các vệt ánh sáng uốn chạy
-          ngang phía sau các tệp, đúng như ảnh mẫu. Bản trước chỉ là một dải
-          mờ nên nhìn như không có gì. */}
-      <div
-        className="pointer-events-none absolute top-[6%] bottom-0 left-1/2 w-[1640px] max-w-[94vw] -translate-x-1/2 overflow-hidden rounded-t-[42px]"
-        aria-hidden="true"
-      >
-        {/* nền dải */}
-        <span
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(255,246,222,.62) 0%, rgba(243,201,108,.5) 22%, rgba(190,140,52,.34) 44%, rgba(14,34,62,.78) 74%, var(--nb-navy-900) 100%)",
-          }}
-        />
-        {/* vệt sáng uốn — ba đường cong champagne chạy ngang */}
-        <svg
-          viewBox="0 0 1640 220"
-          preserveAspectRatio="none"
-          className="absolute inset-x-0 bottom-0 h-full w-full"
-        >
+      {/* CHÂN BANNER — chạy SUỐT chiều ngang màn hình, cạnh trên võng cong
+          xuống giữa, nền xanh navy, trên đó là các dải vàng uốn lượn.
+          Trước đây em dựng thành một hộp bo góc 1640px nằm giữa — sai hẳn
+          so với mẫu. */}
+      <div className="pointer-events-none absolute inset-x-0 -top-[72px] bottom-0 -z-10 overflow-hidden" aria-hidden="true">
+        <svg viewBox="0 0 1920 220" preserveAspectRatio="none" className="absolute inset-0 h-full w-full">
           <defs>
-            <linearGradient id="nb-vet" x1="0" x2="1" y1="0" y2="0">
-              <stop offset="0%" stopColor="rgba(255,238,190,0)" />
-              <stop offset="22%" stopColor="rgba(255,238,190,.95)" />
-              <stop offset="50%" stopColor="rgba(255,214,120,1)" />
-              <stop offset="78%" stopColor="rgba(255,238,190,.95)" />
-              <stop offset="100%" stopColor="rgba(255,238,190,0)" />
+            <linearGradient id="nb-nen-xanh" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor="#123061" />
+              <stop offset="34%" stopColor="#0c2247" />
+              <stop offset="72%" stopColor="#081833" />
+              <stop offset="100%" stopColor="var(--nb-navy-900)" />
+            </linearGradient>
+            <linearGradient id="nb-line-vang" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0%" stopColor="rgba(224,172,61,0)" />
+              <stop offset="14%" stopColor="rgba(255,228,156,.95)" />
+              <stop offset="50%" stopColor="rgba(255,206,98,1)" />
+              <stop offset="86%" stopColor="rgba(255,228,156,.95)" />
+              <stop offset="100%" stopColor="rgba(224,172,61,0)" />
             </linearGradient>
           </defs>
-          <path d="M0 150 C 380 60, 1260 60, 1640 150" fill="none" stroke="url(#nb-vet)" strokeWidth="3" opacity="1" />
-          <path d="M0 176 C 420 92, 1220 92, 1640 176" fill="none" stroke="url(#nb-vet)" strokeWidth="2" opacity=".8" />
-          <path d="M0 126 C 340 44, 1300 44, 1640 126" fill="none" stroke="url(#nb-vet)" strokeWidth="1.6" opacity=".6" />
+
+          {/* nền xanh, cạnh trên võng cong xuống giữa */}
+          <path d="M0 30 C 520 86, 1400 86, 1920 30 L1920 220 L0 220 Z" fill="url(#nb-nen-xanh)" />
+          {/* viền vàng chạy theo đúng cạnh cong đó */}
+          <path
+            d="M0 30 C 520 86, 1400 86, 1920 30"
+            fill="none"
+            stroke="url(#nb-line-vang)"
+            strokeWidth="3"
+          />
+
+          {/* các dải vàng uốn lượn bên trong nền xanh */}
+          <path d="M0 108 C 470 42, 1450 42, 1920 108" fill="none" stroke="url(#nb-line-vang)" strokeWidth="2.6" opacity="1" />
+          <path d="M0 140 C 430 72, 1490 72, 1920 140" fill="none" stroke="url(#nb-line-vang)" strokeWidth="2" opacity=".8" />
+          <path d="M0 172 C 520 104, 1400 104, 1920 172" fill="none" stroke="url(#nb-line-vang)" strokeWidth="1.5" opacity=".6" />
+          <path d="M0 202 C 460 138, 1460 138, 1920 202" fill="none" stroke="url(#nb-line-vang)" strokeWidth="1.2" opacity=".42" />
         </svg>
-        {/* mép trên sáng champagne */}
-        <span
-          className="absolute inset-x-0 top-0 h-[2px]"
-          style={{ background: "linear-gradient(90deg, transparent, rgba(255,243,210,.95) 18%, rgba(255,243,210,.95) 82%, transparent)" }}
-        />
       </div>
 
-      <div className="nb-gold-rule absolute bottom-[10px] left-1/2 w-[1080px] max-w-[92vw] -translate-x-1/2 opacity-60" aria-hidden="true" />
-
-      <div
+            <div
         ref={boc}
         onWheel={lan}
         onPointerDown={keoBatDau}
