@@ -83,7 +83,7 @@ export function Hero() {
             {hero.dangHienJob && hero.job ? (
               <motion.div
                 key={`job-${hero.job.id}`}
-                className="flex flex-col items-center"
+                className="mt-[189px] flex flex-col items-center"
                 style={{ perspective: 1200 }}
               >
                 <FeaturedJob job={hero.job} oTep={hero.oTep} doiTiep={hero.doiTiep} huong={hero.huong} />
@@ -135,7 +135,7 @@ export function Hero() {
                 </span>
 
 
-                <div className="mx-auto mt-4 w-[min(500px,84vw)]">
+                <div className="mx-auto mt-[189px] w-[min(500px,84vw)]">
                   <SearchBar />
                 </div>
               </motion.div>

@@ -188,9 +188,10 @@ export function IndustryRail({
         ))}
       </div>
 
-      {/* mờ hai mép để phong bì trôi ra ngoài không bị cắt cứng */}
-      <div className="nb-rail-fade-l pointer-events-none absolute inset-y-0 left-1/2 w-16 -translate-x-[560px]" aria-hidden="true" />
-      <div className="nb-rail-fade-r pointer-events-none absolute inset-y-0 left-1/2 w-16 translate-x-[480px]" aria-hidden="true" />
+      {/* ĐÃ BỎ hai khối "mờ mép": nền của chúng là navy ĐẶC ở 8% đầu rồi mới
+          mờ dần, nên hiện ra thành hai mảng chữ nhật tối có mép thẳng, đè lên
+          ảnh nhân vật hai bên. Dải tệp nay chỉ một lượt 12 cái nằm gọn giữa
+          màn, không còn gì trôi ra ngoài để phải che. */}
 
       {[
         { huong: -1 as const, Icon: ChevronLeft, lop: "left-[max(6px,calc(50%-568px))]", nhan: "Xem ngành phía trước" },
