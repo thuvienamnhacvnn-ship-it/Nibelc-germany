@@ -122,8 +122,8 @@ export function IndustryRail({
           xuống giữa, nền xanh navy, trên đó là các dải vàng uốn lượn.
           Trước đây em dựng thành một hộp bo góc 1640px nằm giữa — sai hẳn
           so với mẫu. */}
-      <div className="pointer-events-none absolute inset-x-0 -top-[26px] bottom-0 -z-10 overflow-hidden" aria-hidden="true">
-        <svg viewBox="0 0 1920 150" preserveAspectRatio="none" className="absolute inset-0 h-full w-full">
+      <div className="pointer-events-none absolute inset-x-0 -top-[4px] bottom-0 -z-10 overflow-hidden" aria-hidden="true">
+        <svg viewBox="0 0 1920 112" preserveAspectRatio="none" className="absolute inset-0 h-full w-full">
           <defs>
             <linearGradient id="nb-nen-xanh" x1="0" x2="0" y1="0" y2="1">
               <stop offset="0%" stopColor="#123061" />
@@ -141,20 +141,20 @@ export function IndustryRail({
           </defs>
 
           {/* nền xanh, cạnh trên võng cong xuống giữa */}
-          <path d="M0 22 C 520 62, 1400 62, 1920 22 L1920 150 L0 150 Z" fill="url(#nb-nen-xanh)" />
+          <path d="M0 14 C 520 44, 1400 44, 1920 14 L1920 112 L0 112 Z" fill="url(#nb-nen-xanh)" />
           {/* viền vàng chạy theo đúng cạnh cong đó */}
           <path
-            d="M0 22 C 520 62, 1400 62, 1920 22"
+            d="M0 14 C 520 44, 1400 44, 1920 14"
             fill="none"
             stroke="url(#nb-line-vang)"
             strokeWidth="3"
           />
 
           {/* các dải vàng uốn lượn bên trong nền xanh */}
-          <path d="M0 78 C 470 32, 1450 32, 1920 78" fill="none" stroke="url(#nb-line-vang)" strokeWidth="2.6" opacity="1" />
-          <path d="M0 100 C 430 54, 1490 54, 1920 100" fill="none" stroke="url(#nb-line-vang)" strokeWidth="2" opacity=".8" />
-          <path d="M0 122 C 520 76, 1400 76, 1920 122" fill="none" stroke="url(#nb-line-vang)" strokeWidth="1.5" opacity=".6" />
-          <path d="M0 142 C 460 98, 1460 98, 1920 142" fill="none" stroke="url(#nb-line-vang)" strokeWidth="1.2" opacity=".42" />
+          <path d="M0 56 C 470 22, 1450 22, 1920 56" fill="none" stroke="url(#nb-line-vang)" strokeWidth="2.6" opacity="1" />
+          <path d="M0 72 C 430 38, 1490 38, 1920 72" fill="none" stroke="url(#nb-line-vang)" strokeWidth="2" opacity=".8" />
+          <path d="M0 88 C 520 54, 1400 54, 1920 88" fill="none" stroke="url(#nb-line-vang)" strokeWidth="1.5" opacity=".6" />
+          <path d="M0 104 C 460 70, 1460 70, 1920 104" fill="none" stroke="url(#nb-line-vang)" strokeWidth="1.2" opacity=".42" />
         </svg>
       </div>
 
