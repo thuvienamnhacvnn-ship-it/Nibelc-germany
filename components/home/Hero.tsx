@@ -79,34 +79,17 @@ export function Hero() {
         style={{ paddingTop: "var(--nb-header)" }}
       >
         <div className="flex flex-1 flex-col items-center justify-start px-6 pt-0 text-center">
-          {/* CỤM TIÊU ĐỀ luôn đứng nguyên chỗ. Trước đây thẻ đơn hàng thay
-              thế cả cụm này nên bấm một tệp là tiêu đề biến mất và thẻ chắn
-              giữa banner — vỡ hết bố cục. Nay chỉ phần DƯỚI tiêu đề đổi:
-              không mở đơn thì là thanh tìm kiếm, mở đơn thì là thẻ đơn. */}
           <h1 className="sr-only">
             Arbeiten in Deutschland mit Nibelc Germany GmbH — ĐỐI TÁC UY TÍN, lựa chọn tốt nhất của bạn cho việc
             làm và học nghề tại Đức, châu Âu
           </h1>
-          <span className="relative mx-auto block w-[min(621px,80vw)]">
-            <Image
-              src="/assets/home/title-cum.png"
-              alt=""
-              width={1400}
-              height={596}
-              priority
-              quality={95}
-              sizes="(min-width:1024px) 621px, 80vw"
-              className="h-auto w-full"
-              style={{
-                // Bóng ÔM SÁT nét chữ. Bán kính lớn làm bóng loang ra cả vùng
-                // trống quanh cụm, nhìn như một mảng mờ bẩn.
-                filter:
-                  "drop-shadow(0 0 1px rgba(4,10,20,.95)) drop-shadow(0 1px 2px rgba(4,10,20,.9)) drop-shadow(0 2px 4px rgba(4,10,20,.7))",
-              }}
-            />
-          </span>
 
-          <div className="relative mt-[160px] flex h-[56px] w-full flex-col items-center">
+          {/* Bấm một tệp thì CẢ CỤM tiêu đề nhường chỗ cho thẻ đơn — đúng
+              quy luật Sếp đặt từ đầu.
+              Khối này KHOÁ CHIỀU CAO: cụm tiêu đề cao hơn thẻ đơn, nếu để nó
+              tự co thì lúc đổi qua lại dải tệp bên dưới bị nhấc lên hạ xuống
+              theo. Hai nhánh cùng neo tuyệt đối ở mép trên. */}
+          <div className="relative h-[408px] w-full">
             <AnimatePresence mode="wait" custom={{ doiTiep: hero.doiTiep, huong: hero.huong }}>
               {hero.dangHienJob && hero.job ? (
                 <motion.div
@@ -126,17 +109,40 @@ export function Hero() {
                 </motion.div>
               ) : (
                 <motion.div
-                  key="tim"
-                  initial={{ opacity: 0, y: 10 }}
+                  key="brand"
+                  initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.3, ease: [0.22, 0.61, 0.36, 1] }}
-                  className="w-[min(500px,84vw)]"
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.38, ease: [0.22, 0.61, 0.36, 1] }}
+                  className="absolute inset-x-0 top-0 flex flex-col items-center"
                 >
-                  <SearchBar />
+                  <span className="relative block w-[min(621px,80vw)]">
+                    <Image
+                      src="/assets/home/title-cum.png"
+                      alt=""
+                      width={1400}
+                      height={596}
+                      priority
+                      quality={95}
+                      sizes="(min-width:1024px) 621px, 80vw"
+                      className="h-auto w-full"
+                      style={{
+                        // Bóng ÔM SÁT nét chữ. Bán kính lớn làm bóng loang ra
+                        // cả vùng trống quanh cụm, nhìn như một mảng mờ bẩn.
+                        filter:
+                          "drop-shadow(0 0 1px rgba(4,10,20,.95)) drop-shadow(0 1px 2px rgba(4,10,20,.9)) drop-shadow(0 2px 4px rgba(4,10,20,.7))",
+                      }}
+                    />
+                  </span>
                 </motion.div>
               )}
             </AnimatePresence>
+          </div>
+
+          {/* Thanh tìm kiếm đứng NGOÀI khối đổi: mở đơn hay không nó vẫn ở
+              nguyên đây. */}
+          <div className="mt-4 w-[min(500px,84vw)]">
+            <SearchBar />
           </div>
         </div>
 
