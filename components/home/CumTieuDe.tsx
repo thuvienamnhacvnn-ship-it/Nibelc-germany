@@ -38,7 +38,7 @@ export function CumTieuDe({ chu = CHU_VI, className = "" }: { chu?: ChuTieuDe; c
   const F = "var(--font-hero), system-ui, sans-serif";
 
   return (
-    <svg viewBox="0 0 1400 560" className={className} role="img" aria-label={`${chu.dong1a} ${chu.dong1b} — ${chu.dong3}`}>
+    <svg viewBox="0 0 1400 660" className={className} role="img" aria-label={`${chu.dong1a} ${chu.dong1b} — ${chu.dong3}`}>
       <defs>
         {/* vàng kim loại */}
         <linearGradient id="nb-vang" x1="0" x2="0" y1="0" y2="1">
@@ -57,8 +57,9 @@ export function CumTieuDe({ chu = CHU_VI, className = "" }: { chu?: ChuTieuDe; c
           <stop offset="100%" stopColor="#cfd9e6" />
         </linearGradient>
         <filter id="nb-bong" x="-12%" y="-12%" width="124%" height="124%">
-          <feDropShadow dx="0" dy="3" stdDeviation="3" floodColor="#040a14" floodOpacity=".92" />
-          <feDropShadow dx="0" dy="7" stdDeviation="10" floodColor="#040a14" floodOpacity=".55" />
+          <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#040a14" floodOpacity="1" />
+          <feDropShadow dx="0" dy="5" stdDeviation="6" floodColor="#040a14" floodOpacity=".95" />
+          <feDropShadow dx="0" dy="12" stdDeviation="16" floodColor="#040a14" floodOpacity=".7" />
         </filter>
       </defs>
 
@@ -68,7 +69,7 @@ export function CumTieuDe({ chu = CHU_VI, className = "" }: { chu?: ChuTieuDe; c
           tràn ra ngoài như vừa rồi. */}
       <g filter="url(#nb-bong)" fontFamily={F} fontWeight={900} textAnchor="middle" paintOrder="stroke">
         {/* ---- dòng 1: Arbeiten in Deutschland ---- */}
-        <text x="700" y="186" fontSize="85" fontStyle="italic" fill="url(#nb-trang)" stroke="#0b1522" strokeWidth="3">
+        <text x="700" y="178" fontSize="85" fontStyle="italic" fill="url(#nb-trang)" stroke="#0b1522" strokeWidth="3">
           {chu.dong1a}
           <tspan
             fill="url(#nb-vang)"
@@ -82,31 +83,58 @@ export function CumTieuDe({ chu = CHU_VI, className = "" }: { chu?: ChuTieuDe; c
         </text>
 
         {/* vệt cờ Đức quét chéo sau dòng 1 */}
-        <g transform="translate(1150 86) rotate(-13) scale(.78)" filter="none">
+        <g transform="translate(1150 78) rotate(-13) scale(.78)" filter="none">
           <path d="M0 10 C 70 0, 170 -4, 258 -10 C 246 2, 150 12, 74 20 C 46 23, 18 20, 0 10 Z" fill="#141414" />
           <path d="M-2 40 C 72 29, 174 24, 262 18 C 250 31, 152 43, 76 50 C 46 53, 16 50, -2 40 Z" fill="#d81b1b" />
           <path d="M2 70 C 76 58, 178 52, 266 46 C 254 60, 156 72, 80 80 C 50 83, 20 80, 2 70 Z" fill="#f6c21c" />
         </g>
 
         {/* ---- dòng 2 ---- */}
-        <text x="700" y="258" fontSize="69" fontStyle="italic" fill="url(#nb-trang)" stroke="#0b1522" strokeWidth="2.6">
+        <text x="700" y="272" fontSize="69" fontStyle="italic" fill="url(#nb-trang)" stroke="#0b1522" strokeWidth="2.6">
           {chu.dong2}
         </text>
 
         {/* ---- dòng 3: khẩu hiệu ---- */}
-        <text x="700" y="400" fontSize="148" fill="url(#nb-vang)" stroke="#3a2402" strokeWidth="6">
+        <text x="700" y="438" fontSize="148" fill="url(#nb-vang)" stroke="#3a2402" strokeWidth="6">
           {chu.dong3}
         </text>
 
+        {/* ---- DECOR: hai nhánh champagne ôm hai bên khẩu hiệu ---- */}
+        <g stroke="url(#nb-vang)" strokeLinecap="round" fill="none">
+          <path d="M70 400 L150 400" strokeWidth="5" />
+          <path d="M96 420 L150 420" strokeWidth="3" opacity=".7" />
+          <path d="M1330 400 L1250 400" strokeWidth="5" />
+          <path d="M1304 420 L1250 420" strokeWidth="3" opacity=".7" />
+        </g>
+        <g fill="url(#nb-vang)">
+          <circle cx="58" cy="400" r="7" />
+          <circle cx="1342" cy="400" r="7" />
+        </g>
+
         {/* ---- dòng 4 ---- */}
-        <text x="700" y="464" fontSize="63" fill="url(#nb-trang)" stroke="#0b1522" strokeWidth="2.4">
+        <text x="700" y="530" fontSize="63" fill="url(#nb-trang)" stroke="#0b1522" strokeWidth="2.4">
           {chu.dong4}
         </text>
 
         {/* ---- dòng 5 ---- */}
-        <text x="700" y="520" fontSize="46" fill="url(#nb-vang)" stroke="#3a2402" strokeWidth="2.2">
+        <text x="700" y="606" fontSize="46" fill="url(#nb-vang)" stroke="#3a2402" strokeWidth="2.2">
           {chu.dong5}
         </text>
+
+        {/* ---- DECOR: vạch champagne thon hai đầu, khép lại cả cụm ---- */}
+        <path
+          d="M400 638 L1000 638"
+          stroke="url(#nb-vang)"
+          strokeWidth="3"
+          strokeLinecap="round"
+          fill="none"
+          opacity=".85"
+        />
+        <g fill="url(#nb-vang)" opacity=".9">
+          <circle cx="700" cy="638" r="5.5" />
+          <circle cx="648" cy="638" r="3" />
+          <circle cx="752" cy="638" r="3" />
+        </g>
       </g>
     </svg>
   );
