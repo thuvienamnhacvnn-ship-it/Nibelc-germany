@@ -131,6 +131,53 @@
   margin-block: -0.12em;
 }
 
+/* CHỮ VÀNG KHỐI — cụm tiêu đề hero, dựng theo ảnh mẫu Sếp gửi.
+   Gradient nhiều chặng cho ra chất kim loại (sáng ở đỉnh, đậm ở giữa, sáng
+   lại ở chân), cộng một viền nâu mảnh để chữ có khối.
+   KHÔNG đặt text-shadow hay filter lên chính nó: chữ này là mảng nền cắt theo
+   hình chữ, thêm bóng vào là ra mảng đen. Muốn tách nền thì đổ bóng ở lớp
+   BỌC NGOÀI (.nb-bong-khoi). */
+.nb-vang-khoi {
+  background: linear-gradient(
+    180deg,
+    #fff6da 0%,
+    #f6d78a 20%,
+    var(--nb-gold-strong) 46%,
+    #8a5c10 68%,
+    #d9a33c 86%,
+    #ffeec2 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* Viền tối cho chữ có khối và tách khỏi nền trời sáng.
+     `paint-order: stroke fill` bắt trình duyệt vẽ viền TRƯỚC rồi mới tô
+     gradient đè lên, nên viền chỉ lộ ra phía ngoài nét chữ. Thiếu dòng này
+     thì viền phủ kín nét và chữ thành một mảng tối. */
+  /* đo theo em: 3px cố định thì trên điện thoại chữ 26px bị viền nuốt gần
+     hết nét, nhìn bệt và mất hẳn chất vàng */
+  -webkit-text-stroke: 0.05em rgba(28, 17, 2, 0.72);
+  paint-order: stroke fill;
+  padding-block: 0.1em;
+  margin-block: -0.1em;
+}
+
+/* Thủ phạm làm chữ vàng ra ĐEN: khối cha mang .nb-bong-chu có text-shadow
+   bốn lớp tối, kế thừa xuống đây. Chữ này trong suốt (mảng nền cắt theo hình
+   chữ) nên cái nhìn thấy chỉ còn bóng đen. Phải TẮT bóng cho chính nó. */
+.nb-bong-chu .nb-vang-khoi,
+.nb-vang-khoi {
+  text-shadow: none;
+}
+
+/* ĐỪNG đổ bóng quanh chữ vàng khối — kể cả đặt filter ở thẻ CHA.
+   filter trên cha buộc trình duyệt tô phẳng thẻ con, mà thẻ con là mảng nền
+   cắt theo hình chữ, nên ra một mảng đen. Đã thử và dính đúng như vậy.
+   Chữ tách khỏi nền bằng VIỀN (-webkit-text-stroke) ở ngay bên dưới. */
+.nb-bong-khoi {
+  filter: none;
+}
+
 /* Nhãn nhỏ giãn cách rộng */
 .nb-eyebrow {
   font-size: 12px;

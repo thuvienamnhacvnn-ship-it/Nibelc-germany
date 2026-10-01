@@ -118,12 +118,15 @@ export function IndustryRail({
         onHover(false);
       }}
     >
-      {/* nền THẲNG: dải navy + một vạch vàng mảnh */}
+      {/* Dải nền MỎNG ở chân banner, bo cong đều hai góc trên — đúng mẫu Sếp
+          gửi. Trước đây là một mảng toả tròn mờ dần, nhìn không ra hình khối
+          nào cả. */}
       <div
-        className="pointer-events-none absolute top-[24%] bottom-0 left-1/2 w-[1140px] max-w-[96vw] -translate-x-1/2 rounded-t-[28px]"
+        className="pointer-events-none absolute top-[30%] bottom-0 left-1/2 w-[1640px] max-w-[94vw] -translate-x-1/2 rounded-t-[34px] border-t border-[var(--nb-gold)]/35"
         style={{
           background:
-            "radial-gradient(120% 100% at 50% 100%, rgba(5,11,22,.88) 0%, rgba(5,11,22,.6) 55%, transparent 100%)",
+            "linear-gradient(180deg, rgba(5,11,22,.72) 0%, rgba(5,11,22,.9) 46%, var(--nb-navy-900) 100%)",
+          boxShadow: "0 -12px 36px rgba(0,0,0,.45)",
         }}
         aria-hidden="true"
       />

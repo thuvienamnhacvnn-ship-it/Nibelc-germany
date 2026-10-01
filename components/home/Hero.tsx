@@ -104,22 +104,25 @@ export function Hero() {
                 transition={{ duration: 0.45, ease: [0.22, 0.61, 0.36, 1] }}
                 className="nb-bong-chu max-w-[min(760px,82vw)] lg:max-w-[min(760px,74vw)]"
               >
-                <h1 className="nb-display text-[clamp(26px,3.6vw,58px)] leading-[1.12] text-white">
-                  Arbeiten in <span className="nb-gold-text">Deutschland</span>
+                {/* ---- CỤM 1: dòng Đức ---- */}
+                <h1 className="nb-display text-[clamp(26px,3.6vw,58px)] leading-[1.12] text-white italic">
+                  Arbeiten in{" "}
+                  <span className="nb-bong-khoi inline-block not-italic">
+                    <span className="nb-vang-khoi">Deutschland</span>
+                  </span>
                 </h1>
-                <p className="mt-2.5 text-[clamp(15px,1.35vw,23px)] font-medium text-[#dbe6f4]">
+                <p className="mt-1 text-[clamp(15px,1.35vw,24px)] font-semibold text-white italic">
                   mit Nibelc Germany GmbH
                 </p>
 
-                <div className="mx-auto mt-7 h-px w-32 bg-gradient-to-r from-transparent via-[var(--nb-gold)] to-transparent lg:w-40" />
-
-                <p className="nb-display mt-7 text-[clamp(23px,2.9vw,46px)] leading-[1.14] tracking-[0.02em] text-white">
-                  ĐỐI TÁC UY TÍN
+                {/* ---- CỤM 2: khẩu hiệu ---- */}
+                <p className="nb-bong-khoi nb-display mt-5 text-[clamp(32px,4.3vw,70px)] leading-[1.04] tracking-[0.01em]">
+                  <span className="nb-vang-khoi">ĐỐI TÁC UY TÍN</span>
                 </p>
-                <p className="mt-3 text-[clamp(12px,1.15vw,19px)] font-semibold tracking-[0.08em] text-[var(--nb-gold-soft)]">
+                <p className="mt-1.5 text-[clamp(14px,1.35vw,23px)] font-bold tracking-[0.02em] text-white">
                   LỰA CHỌN TỐT NHẤT CỦA BẠN
                 </p>
-                <p className="mt-2 text-[clamp(11px,0.95vw,15.5px)] leading-[1.65] tracking-[0.08em] text-[#dbe6f4]">
+                <p className="mt-1.5 text-[clamp(11px,0.95vw,16px)] leading-[1.65] font-semibold tracking-[0.04em] text-[var(--nb-gold-soft)]">
                   CHO VIỆC LÀM VÀ HỌC NGHỀ TẠI ĐỨC, CHÂU ÂU
                 </p>
 

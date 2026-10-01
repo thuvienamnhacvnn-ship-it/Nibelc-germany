@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Briefcase, MapPin, Search, Tag } from "lucide-react";
+import { ArrowRight, Briefcase, MapPin, Search, Tag } from "lucide-react";
 import { useChuyenTrang } from "@/components/layout/PageTransition";
 import { JOBS } from "@/data/jobs";
 import { INDUSTRIES } from "@/data/industries";
@@ -112,8 +112,12 @@ export function SearchBar() {
           aria-autocomplete="list"
           className="h-9 min-w-0 flex-1 bg-transparent text-[15px] text-white outline-none placeholder:text-[var(--nb-text-mute)]"
         />
-        <button type="submit" className="nb-btn h-9 shrink-0 px-5 text-[13.5px]">
-          Tìm
+        <button
+          type="submit"
+          aria-label="Tìm"
+          className="nb-btn h-11 w-11 shrink-0 p-0 text-[13.5px]"
+        >
+          <ArrowRight size={18} />
         </button>
       </form>
 
