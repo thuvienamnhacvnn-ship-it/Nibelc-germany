@@ -20,7 +20,11 @@ export default function Page() {
         nhan="Hành trình kiến tạo tương lai"
         tieuDe="Lộ trình từ Việt Nam đến Đức"
         mo="Đồng hành cùng bạn trên từng bước, an toàn, minh bạch và hiệu quả."
-        soLieu={[{ so: String(CHANG.length), nhan: "chặng" }]}
+        loiTat={[
+          { nhan: "Xem đơn hàng", href: "/don-hang" },
+          { nhan: "Du học nghề", href: "/du-hoc-nghe" },
+          { nhan: "Đăng ký tư vấn", href: "/lien-he" },
+        ]}
       />
 
       {/* Thân trang SÁNG ở máy tính (app/trang-sang.css); điện thoại giữ nền cũ. */}

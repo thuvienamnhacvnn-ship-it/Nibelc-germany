@@ -10,6 +10,7 @@ import { SearchBar } from "@/components/home/SearchBar";
 import { HeroVideo } from "@/components/home/HeroVideo";
 import { NhomNhanVat } from "@/components/home/NhomNhanVat";
 import { CumTieuDe } from "@/components/home/CumTieuDe";
+import { NavLink } from "@/components/layout/NavLink";
 
 /**
  * HERO TRANG CHỦ
@@ -76,9 +77,26 @@ export function Hero() {
       {/* ---------- KHỐI GIỮA ---------- */}
       <div
         className="relative z-20 flex min-h-[calc(100svh-var(--nb-header))] flex-col items-center lg:min-h-[calc(100vh-40px)]"
-        style={{ paddingTop: "calc(var(--nb-header) + 76px)" }}
+        style={{ paddingTop: "var(--nb-dem-hero, calc(var(--nb-header) + 76px))" }}
       >
         <div className="flex flex-1 flex-col items-center justify-start px-6 pt-0 text-center">
+          {/* LOGO nằm trong BANNER, không phải trong header.
+              Trên điện thoại header đã bỏ hẳn, nên logo là một phần của banner
+              và trôi theo khi cuộn — không có thanh nào bám đỉnh màn hình. */}
+          <NavLink
+            href="/"
+            aria-label="NIBELC GERMANY — trang chủ"
+            className="mb-5 block lg:hidden"
+          >
+            <Image
+              src="/assets/brand/nibelc-logo.svg"
+              alt="NIBELC GERMANY"
+              width={200}
+              height={44}
+              priority
+              className="mx-auto h-14 w-auto drop-shadow-[0_2px_6px_rgba(4,10,20,.9)]"
+            />
+          </NavLink>
           {/* h1 nằm trong CumTieuDe (chữ HTML thật), không cần bản sr-only nữa. */}
 
           {/* Bấm một tệp thì CẢ CỤM tiêu đề nhường chỗ cho thẻ đơn — đúng
