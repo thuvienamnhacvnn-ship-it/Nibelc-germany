@@ -111,7 +111,7 @@ export function Hero() {
               {hero.dangHienJob && hero.job ? (
                 <motion.div
                   key={`job-${hero.job.id}`}
-                  className="absolute top-[-150px] left-1/2 flex -translate-x-1/2 flex-col items-center"
+                  className="absolute top-0 left-1/2 flex -translate-x-1/2 flex-col items-center"
                   style={{ perspective: 1200 }}
                 >
                   <FeaturedJob job={hero.job} oTep={hero.oTep} doiTiep={hero.doiTiep} huong={hero.huong} />
