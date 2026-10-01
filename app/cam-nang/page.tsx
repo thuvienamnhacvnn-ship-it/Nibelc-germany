@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
 import { GuideHub } from "@/components/guide/GuideHub";
 import { CAM_NANG } from "@/data/articles";
+import { CtaCuoiTrang } from "@/components/ui/CtaCuoiTrang";
+import "../trang-sang.css";
 
 export const metadata: Metadata = {
   title: "Cẩm nang Đức — Kiến thức cần thiết trước và sau khi sang Đức",
@@ -20,7 +22,12 @@ export default function Page() {
         mo="Kiến thức cần thiết trước và sau khi sang Đức: thủ tục, tiếng, bảng lương, nhà ở và văn hoá làm việc."
         soLieu={[{ so: String(CAM_NANG.length), nhan: "bài viết" }]}
       />
-      <GuideHub />
+
+      {/* Thân trang SÁNG ở máy tính (app/trang-sang.css); điện thoại giữ nền cũ. */}
+      <div className="nb-sang">
+        <GuideHub />
+        <CtaCuoiTrang />
+      </div>
     </div>
   );
 }

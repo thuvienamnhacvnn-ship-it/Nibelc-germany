@@ -1,0 +1,200 @@
+/* ============================================================
+   TRANG CON — THÂN TRANG SÁNG (chỉ desktop ≥ 1024px)
+   ------------------------------------------------------------
+   Token GIỐNG HỆT app/don-hang/don-hang-sang.css (cùng nguồn
+   _w-agent/01_tra-kho-sang.md) để mọi trang con một hệ màu.
+
+   Cách dùng: bọc phần THÂN trang (sau PageHero) trong
+   <div className="nb-sang">. Banner ảnh, header, footer giữ navy.
+   Khối navy nằm trong thân (CTA…) thêm lớp .nb-toi để giữ màu tối.
+
+   Mọi ghi đè nằm trong @media (min-width:1024px): khổ điện thoại
+   (phiên mobile đang làm) giữ nguyên nền xanh biển.
+
+   Vì sao ghi đè bằng bộ chọn có phạm vi: .nb-panel/.nb-card/.nb-btn*
+   trong globals.css nằm NGOÀI @layer, utility Tailwind không thắng
+   được. Bộ chọn .nb-sang .x (không layer) có độ ưu tiên cao hơn.
+   ============================================================ */
+.nb-sang {
+  --s-page: #ffffff;
+  --s-alt: #f6f1e7;
+  --s-soft: #f8fafc;
+  --s-line: #e3e8ee;
+  --s-line-warm: #e6dcc6;
+  --s-input-line: #d5dce5;
+  --s-ink: #071525;
+  --s-body: #3d4b5c;
+  --s-mute: #5b6878;
+  --s-gold: #7a5c20;
+  --s-gold-strong: #8a6a2f;
+  --s-gold-brand: #d9b878;
+  --s-gold-brand-hover: #e3c78f;
+  --s-navy-hover: #0e2740;
+  --s-focus: #8a6a2f;
+  --s-shadow-rest: 0 1px 2px rgba(7, 21, 37, 0.05), 0 4px 12px rgba(7, 21, 37, 0.04);
+  --s-shadow-hover: 0 2px 4px rgba(7, 21, 37, 0.05), 0 12px 32px rgba(7, 21, 37, 0.1), 0 24px 48px rgba(7, 21, 37, 0.04);
+  --s-shadow-float: 0 2px 6px rgba(7, 21, 37, 0.06), 0 16px 40px rgba(7, 21, 37, 0.12);
+}
+
+@media (min-width: 1024px) {
+  .nb-sang {
+    /* Biến chữ/viền của hệ cũ đổi sang bản sáng trong phạm vi thân trang.
+       KHÔNG đổi --nb-navy-*: chúng vừa làm nền vừa làm màu chữ trên nút vàng. */
+    --nb-text: var(--s-ink);
+    --nb-text-dim: var(--s-body);
+    --nb-text-mute: var(--s-mute);
+    --nb-gold-soft: var(--s-gold);
+    --nb-gold-strong: var(--s-gold-strong);
+    --nb-line: var(--s-line-warm);
+    --nb-line-soft: var(--s-line);
+    background: var(--s-page);
+    color: var(--s-body);
+  }
+
+  /* chữ trắng của bản tối → navy */
+  .nb-sang .text-white {
+    color: var(--s-ink);
+  }
+  /* icon/chữ vàng gốc #D9B878 trên nền trắng chỉ 1.9:1 → vàng đồng */
+  .nb-sang .text-\[var\(--nb-gold\)\] {
+    color: var(--s-gold-strong);
+  }
+  .nb-sang .nb-eyebrow {
+    color: var(--s-gold);
+  }
+  .nb-sang .nb-gold-text {
+    background: none;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    color: var(--s-gold);
+  }
+
+  /* section nền phụ của bản tối → ngà ấm xen kẽ */
+  .nb-sang .bg-\[var\(--nb-navy-800\)\] {
+    background-color: var(--s-alt);
+  }
+
+  /* section muốn giữ nền trắng dù đang mang lớp nền phụ của bản tối */
+  .nb-sang .nb-nen-trang {
+    background-color: var(--s-page);
+  }
+
+  /* nhãn chữ đặt trên ảnh: nền trắng đặc, chữ navy (không phủ lớp lên ảnh) */
+  .nb-sang .nb-chip-anh {
+    background: var(--s-page);
+    border-color: var(--s-line);
+    color: var(--s-ink);
+    backdrop-filter: none;
+    box-shadow: var(--s-shadow-rest);
+  }
+
+  /* bề mặt */
+  .nb-sang .nb-panel {
+    background: var(--s-page);
+    border: 1px solid var(--s-line);
+    border-radius: 16px;
+    box-shadow: var(--s-shadow-rest);
+  }
+  .nb-sang .nb-card {
+    background: var(--s-page);
+    border: 1px solid var(--s-line);
+    border-radius: 16px;
+    box-shadow: var(--s-shadow-rest);
+    transition:
+      transform 0.2s ease-out,
+      box-shadow 0.2s ease-out,
+      border-color 0.2s ease-out;
+  }
+  .nb-sang .nb-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--s-line);
+    box-shadow: var(--s-shadow-hover);
+  }
+
+  .nb-sang .nb-input {
+    background: var(--s-page);
+    border-color: var(--s-input-line);
+    color: var(--s-ink);
+  }
+  .nb-sang .nb-input::placeholder {
+    color: var(--s-mute);
+  }
+  .nb-sang .nb-input:focus {
+    background: var(--s-page);
+    border-color: var(--s-focus);
+  }
+
+  /* nút vàng: vàng đặc một màu, chữ navy — không gradient, không quầng */
+  .nb-sang .nb-btn {
+    background: var(--s-gold-brand);
+    color: var(--s-ink);
+  }
+  .nb-sang .nb-btn:hover {
+    background: var(--s-gold-brand-hover);
+    box-shadow: none;
+    transform: none;
+  }
+  /* nút viền: nền trắng, viền mảnh, chữ navy */
+  .nb-sang .nb-btn-ghost {
+    background: var(--s-page);
+    border-color: var(--s-input-line);
+    color: var(--s-ink);
+    backdrop-filter: none;
+  }
+  .nb-sang .nb-btn-ghost:hover {
+    background: var(--s-page);
+    border-color: var(--s-ink);
+    transform: none;
+  }
+  /* nút navy đặc: navy thương hiệu, chữ trắng */
+  .nb-sang .nb-btn-solid {
+    background: var(--s-ink);
+    border-color: var(--s-ink);
+    color: #fff;
+  }
+  .nb-sang .nb-btn-solid:hover {
+    background: var(--s-navy-hover);
+  }
+
+  /* nút navy bị khoá (vd "Quay lại" ở bước 1): viền xám nhạt thay cho khối navy mờ */
+  .nb-sang .nb-btn-solid:disabled {
+    background: var(--s-page);
+    border-color: var(--s-line);
+    color: var(--s-mute);
+    opacity: 1;
+  }
+
+  .nb-sang :focus-visible {
+    outline: 2px solid var(--s-focus);
+    outline-offset: 2px;
+  }
+
+  /* ---------- khối navy nằm trong thân (CTA cuối trang…) ---------- */
+  .nb-sang .nb-toi {
+    --nb-text: #eef3fa;
+    --nb-text-dim: #b8c6da;
+    --nb-text-mute: #8fa2bd;
+    --nb-gold-soft: #f0dcb4;
+    --nb-gold-strong: #e0ac3d;
+    --nb-line: rgba(217, 184, 120, 0.3);
+    --nb-line-soft: rgba(255, 255, 255, 0.12);
+    background: var(--s-ink);
+    color: #b8c6da;
+  }
+  .nb-sang .nb-toi .text-white {
+    color: #fff;
+  }
+  .nb-sang .nb-toi .nb-eyebrow,
+  .nb-sang .nb-toi .text-\[var\(--nb-gold\)\] {
+    color: var(--s-gold-brand);
+  }
+  .nb-sang .nb-toi .nb-btn-ghost {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.35);
+    color: #fff;
+  }
+  .nb-sang .nb-toi .nb-btn-ghost:hover {
+    border-color: #fff;
+    background: transparent;
+  }
+}

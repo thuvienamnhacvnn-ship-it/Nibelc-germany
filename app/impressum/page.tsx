@@ -3,6 +3,7 @@ import { AlertTriangle } from "lucide-react";
 import { PageHero } from "@/components/ui/PageHero";
 import { NavLink } from "@/components/layout/NavLink";
 import { LEGAL, impressumComplete, impressumMissing } from "@/data/company";
+import "../trang-sang.css";
 
 export const metadata: Metadata = {
   title: "Impressum",
@@ -23,86 +24,89 @@ export default function Page() {
         mo="Angaben gemäß § 5 TMG."
       />
 
-      {/* Máy tính: cùng mép trái với banner (khung .nb-wrap 1400/32, >1440 là 1600/40)
-          thay vì một cột 820px căn giữa lệch khỏi chữ banner; dòng chữ vẫn giới hạn 820px. */}
-      <section className="mx-auto max-w-[820px] px-8 py-14 lg:max-w-[1400px] lg:py-20 lg:[&>*]:max-w-[820px] min-[1441px]:max-w-[1600px] min-[1441px]:px-10">
-        <Muc tieuDe="Diensteanbieter">
-          <address className="text-[16px] leading-[1.9] not-italic text-[var(--nb-text-dim)]">
-            {LEGAL.name}
-            <br />
-            {LEGAL.street}
-            <br />
-            {LEGAL.postalCode} {LEGAL.city}
-            <br />
-            {LEGAL.country}
-          </address>
-        </Muc>
+      {/* Thân trang SÁNG ở máy tính (app/trang-sang.css); điện thoại giữ nền cũ. */}
+      <div className="nb-sang">
+        {/* Máy tính: cùng mép trái với banner (khung .nb-wrap 1400/32, >1440 là 1600/40)
+            thay vì một cột 820px căn giữa lệch khỏi chữ banner; dòng chữ vẫn giới hạn 820px. */}
+        <section className="mx-auto max-w-[820px] px-8 py-14 lg:max-w-[1400px] lg:py-20 lg:[&>*]:max-w-[820px] min-[1441px]:max-w-[1600px] min-[1441px]:px-10">
+          <Muc tieuDe="Diensteanbieter">
+            <address className="text-[16px] leading-[1.9] not-italic text-[var(--nb-text-dim)]">
+              {LEGAL.name}
+              <br />
+              {LEGAL.street}
+              <br />
+              {LEGAL.postalCode} {LEGAL.city}
+              <br />
+              {LEGAL.country}
+            </address>
+          </Muc>
 
-        <Muc tieuDe="Kontakt">
-          <p className="text-[16px] leading-[1.9] text-[var(--nb-text-dim)]">
-            Telefon: {LEGAL.phone}
-            <br />
-            E-Mail: {LEGAL.email}
-          </p>
-        </Muc>
-
-        <Muc tieuDe="Rechtsform">
-          <p className="text-[16px] leading-[1.9] text-[var(--nb-text-dim)]">{LEGAL.rechtsform}</p>
-        </Muc>
-
-        {du ? (
-          <>
-            <Muc tieuDe="Registereintrag">
-              <p className="text-[16px] text-[var(--nb-text-dim)]">
-                {LEGAL.handelsregister} · {LEGAL.hrb}
-              </p>
-            </Muc>
-            <Muc tieuDe="Vertretungsberechtigt">
-              <p className="text-[16px] text-[var(--nb-text-dim)]">{LEGAL.geschaeftsfuehrer}</p>
-            </Muc>
-            <Muc tieuDe="Umsatzsteuer-Identifikationsnummer">
-              <p className="text-[16px] text-[var(--nb-text-dim)]">{LEGAL.ustIdNr}</p>
-            </Muc>
-          </>
-        ) : (
-          <div className="nb-panel mt-9 p-6">
-            <b className="flex items-center gap-2.5 text-[15.5px] font-semibold text-[var(--nb-gold-soft)]">
-              <AlertTriangle size={18} />
-              Registerangaben werden ergänzt
-            </b>
-            <p className="mt-3 text-[14.5px] leading-[1.8] text-[var(--nb-text-dim)]">
-              Folgende nach § 5 TMG erforderliche Angaben liegen der Redaktion dieser Website noch nicht in belegbarer
-              Form vor und werden nachgetragen, sobald sie bestätigt sind:
+          <Muc tieuDe="Kontakt">
+            <p className="text-[16px] leading-[1.9] text-[var(--nb-text-dim)]">
+              Telefon: {LEGAL.phone}
+              <br />
+              E-Mail: {LEGAL.email}
             </p>
-            <ul className="mt-3 space-y-1.5">
-              {thieu.map((x) => (
-                <li key={x} className="flex gap-2.5 text-[14.5px] text-[var(--nb-text-dim)]">
-                  <span className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--nb-gold)]" aria-hidden="true" />
-                  {x}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+          </Muc>
 
-        <Muc tieuDe="Haftung für Inhalte und Links">
-          <p className="text-[16px] leading-[1.9] text-[var(--nb-text-dim)]">
-            Die Inhalte dieser Website werden mit Sorgfalt erstellt. Angaben zu Stellen, Vergütungen und
-            Ausbildungsbedingungen geben den Stand der jeweiligen Ausschreibung wieder und ersetzen keinen Arbeits- oder
-            Ausbildungsvertrag. Für Inhalte externer Links sind deren Betreiber verantwortlich.
-          </p>
-        </Muc>
+          <Muc tieuDe="Rechtsform">
+            <p className="text-[16px] leading-[1.9] text-[var(--nb-text-dim)]">{LEGAL.rechtsform}</p>
+          </Muc>
 
-        <Muc tieuDe="Datenschutz">
-          <p className="text-[16px] leading-[1.9] text-[var(--nb-text-dim)]">
-            Informationen zur Verarbeitung personenbezogener Daten finden Sie in der{" "}
-            <NavLink href="/datenschutz" className="font-medium text-[var(--nb-gold-soft)] hover:underline">
-              Datenschutzerklärung
-            </NavLink>
-            .
-          </p>
-        </Muc>
-      </section>
+          {du ? (
+            <>
+              <Muc tieuDe="Registereintrag">
+                <p className="text-[16px] text-[var(--nb-text-dim)]">
+                  {LEGAL.handelsregister} · {LEGAL.hrb}
+                </p>
+              </Muc>
+              <Muc tieuDe="Vertretungsberechtigt">
+                <p className="text-[16px] text-[var(--nb-text-dim)]">{LEGAL.geschaeftsfuehrer}</p>
+              </Muc>
+              <Muc tieuDe="Umsatzsteuer-Identifikationsnummer">
+                <p className="text-[16px] text-[var(--nb-text-dim)]">{LEGAL.ustIdNr}</p>
+              </Muc>
+            </>
+          ) : (
+            <div className="nb-panel mt-9 p-6">
+              <b className="flex items-center gap-2.5 text-[15.5px] font-semibold text-[var(--nb-gold-soft)]">
+                <AlertTriangle size={18} />
+                Registerangaben werden ergänzt
+              </b>
+              <p className="mt-3 text-[14.5px] leading-[1.8] text-[var(--nb-text-dim)]">
+                Folgende nach § 5 TMG erforderliche Angaben liegen der Redaktion dieser Website noch nicht in belegbarer
+                Form vor und werden nachgetragen, sobald sie bestätigt sind:
+              </p>
+              <ul className="mt-3 space-y-1.5">
+                {thieu.map((x) => (
+                  <li key={x} className="flex gap-2.5 text-[14.5px] text-[var(--nb-text-dim)]">
+                    <span className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--nb-gold)]" aria-hidden="true" />
+                    {x}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <Muc tieuDe="Haftung für Inhalte und Links">
+            <p className="text-[16px] leading-[1.9] text-[var(--nb-text-dim)]">
+              Die Inhalte dieser Website werden mit Sorgfalt erstellt. Angaben zu Stellen, Vergütungen und
+              Ausbildungsbedingungen geben den Stand der jeweiligen Ausschreibung wieder und ersetzen keinen Arbeits- oder
+              Ausbildungsvertrag. Für Inhalte externer Links sind deren Betreiber verantwortlich.
+            </p>
+          </Muc>
+
+          <Muc tieuDe="Datenschutz">
+            <p className="text-[16px] leading-[1.9] text-[var(--nb-text-dim)]">
+              Informationen zur Verarbeitung personenbezogener Daten finden Sie in der{" "}
+              <NavLink href="/datenschutz" className="font-medium text-[var(--nb-gold-soft)] hover:underline">
+                Datenschutzerklärung
+              </NavLink>
+              .
+            </p>
+          </Muc>
+        </section>
+      </div>
     </div>
   );
 }

@@ -58,7 +58,9 @@ export function PageHero({
           giữa dọc (eyebrow → h1 → mô tả ≤ 2 dòng → số liệu | nút). Dùng
           min-h chứ không h cứng để trang nhiều nội dung không bị cắt. */}
       <div className="nb-wrap nb-bong-chu py-11 sm:py-16 lg:flex lg:min-h-[360px] lg:flex-col lg:justify-center lg:py-7">
-        <p className="nb-eyebrow">{nhan}</p>
+        {/* Máy tính: eyebrow 12px vàng nằm trên vùng ảnh sáng (núi tuyết /ve-chung-toi)
+            không đọc được → đặt trên nhãn nền navy đặc riêng (không phủ ảnh). */}
+        <p className="nb-eyebrow lg:self-start lg:rounded-full lg:border lg:border-[rgba(217,184,120,.35)] lg:bg-[#071525]/85 lg:px-3.5 lg:py-1.5 lg:[text-shadow:none]">{nhan}</p>
         {/* Trên điện thoại clamp() rơi về 30px cho MỌI tiêu đề, kể cả câu dài
             như "Du học nghề Đức – Học nghề – Có lương…", nên chữ tràn ra 4–5
             dòng sát mép. Hạ một bậc ở khổ hẹp rồi mới dùng clamp từ sm trở lên. */}

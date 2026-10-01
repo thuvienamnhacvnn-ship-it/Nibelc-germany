@@ -152,7 +152,7 @@ export function ConsultationWizard() {
                     on
                       ? "bg-[var(--nb-gold)] text-[var(--nb-navy-900)]"
                       : qua
-                        ? "bg-[var(--nb-navy-500)] text-[var(--nb-gold-soft)]"
+                        ? "bg-[var(--nb-navy-500)] text-[var(--nb-gold-soft)] lg:bg-[#F6F1E7]"
                         : "border border-[var(--nb-line-soft)] text-[var(--nb-text-mute)]"
                   }`}
                 >
@@ -287,7 +287,7 @@ export function ConsultationWizard() {
                 ))}
             </dl>
             {v.ghiChu && (
-              <p className="mt-4 rounded-lg bg-[var(--nb-navy-900)]/60 p-4 text-[13.5px] leading-[1.7] text-[var(--nb-text-dim)]">
+              <p className="mt-4 rounded-lg bg-[var(--nb-navy-900)]/60 p-4 lg:bg-[#F6F1E7] text-[13.5px] leading-[1.7] text-[var(--nb-text-dim)]">
                 {v.ghiChu}
               </p>
             )}

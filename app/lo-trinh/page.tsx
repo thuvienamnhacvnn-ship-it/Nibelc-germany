@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
 import { JourneyTimeline } from "@/components/journey/JourneyTimeline";
 import { CHANG } from "@/data/journey";
+import { CtaCuoiTrang } from "@/components/ui/CtaCuoiTrang";
+import "../trang-sang.css";
 
 export const metadata: Metadata = {
   title: "Lộ trình từ Việt Nam đến Đức",
@@ -20,9 +22,14 @@ export default function Page() {
         mo="Đồng hành cùng bạn trên từng bước, an toàn, minh bạch và hiệu quả."
         soLieu={[{ so: String(CHANG.length), nhan: "chặng" }]}
       />
-      <section className="nb-wrap py-10 sm:py-14 lg:py-20">
-        <JourneyTimeline />
-      </section>
+
+      {/* Thân trang SÁNG ở máy tính (app/trang-sang.css); điện thoại giữ nền cũ. */}
+      <div className="nb-sang">
+        <section className="nb-wrap py-10 sm:py-14 lg:py-20">
+          <JourneyTimeline />
+        </section>
+        <CtaCuoiTrang />
+      </div>
     </div>
   );
 }

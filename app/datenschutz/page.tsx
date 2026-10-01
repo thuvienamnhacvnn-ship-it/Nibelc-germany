@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
 import { LEGAL } from "@/data/company";
+import "../trang-sang.css";
 
 export const metadata: Metadata = {
   title: "Datenschutzerklärung",
@@ -77,34 +78,37 @@ export default function Page() {
         mo="Informationen nach Art. 13 DSGVO."
       />
 
-      {/* Máy tính: cùng mép trái với banner (khung .nb-wrap 1400/32, >1440 là 1600/40)
-          thay vì một cột 820px căn giữa lệch khỏi chữ banner; dòng chữ vẫn giới hạn 820px. */}
-      <section className="mx-auto max-w-[820px] px-8 py-14 lg:max-w-[1400px] lg:py-20 lg:[&>*]:max-w-[820px] min-[1441px]:max-w-[1600px] min-[1441px]:px-10">
-        {MUC.map((m, i) => (
-          <section key={m.h} className={i > 0 ? "mt-9" : ""}>
-            <h2 className="nb-display text-[21px] text-white">{m.h}</h2>
-            <span className="mt-3 mb-4 block h-px w-14 bg-[var(--nb-gold)]" aria-hidden="true" />
-            {m.p.map((p) => (
-              <p key={p} className="mt-3.5 text-[15.5px] leading-[1.9] text-[var(--nb-text-dim)]">
-                {p}
-              </p>
-            ))}
-            {m.ul && (
-              <ul className="mt-4 space-y-2">
-                {m.ul.map((x) => (
-                  <li key={x} className="flex gap-3 text-[15px] leading-[1.8] text-[var(--nb-text-dim)]">
-                    <span
-                      className="mt-[10px] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--nb-gold)]"
-                      aria-hidden="true"
-                    />
-                    {x}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </section>
-        ))}
-      </section>
+      {/* Thân trang SÁNG ở máy tính (app/trang-sang.css); điện thoại giữ nền cũ. */}
+      <div className="nb-sang">
+        {/* Máy tính: cùng mép trái với banner (khung .nb-wrap 1400/32, >1440 là 1600/40)
+            thay vì một cột 820px căn giữa lệch khỏi chữ banner; dòng chữ vẫn giới hạn 820px. */}
+        <section className="mx-auto max-w-[820px] px-8 py-14 lg:max-w-[1400px] lg:py-20 lg:[&>*]:max-w-[820px] min-[1441px]:max-w-[1600px] min-[1441px]:px-10">
+          {MUC.map((m, i) => (
+            <section key={m.h} className={i > 0 ? "mt-9" : ""}>
+              <h2 className="nb-display text-[21px] text-white">{m.h}</h2>
+              <span className="mt-3 mb-4 block h-px w-14 bg-[var(--nb-gold)]" aria-hidden="true" />
+              {m.p.map((p) => (
+                <p key={p} className="mt-3.5 text-[15.5px] leading-[1.9] text-[var(--nb-text-dim)]">
+                  {p}
+                </p>
+              ))}
+              {m.ul && (
+                <ul className="mt-4 space-y-2">
+                  {m.ul.map((x) => (
+                    <li key={x} className="flex gap-3 text-[15px] leading-[1.8] text-[var(--nb-text-dim)]">
+                      <span
+                        className="mt-[10px] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--nb-gold)]"
+                        aria-hidden="true"
+                      />
+                      {x}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          ))}
+        </section>
+      </div>
     </div>
   );
 }

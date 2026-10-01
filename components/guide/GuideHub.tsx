@@ -89,9 +89,9 @@ export function GuideHub() {
           max-content của hàng chip kéo ngang (11 chip whitespace-nowrap, ~1500px)
           lọt ra ngoài và nới rộng cả trang. Thiếu dòng này, khung trang phình
           quá 1024px, `lg:` bật lên, hàng chip mất overflow-x và càng phình to. */}
-      {/* Máy tính: cùng khung panel với cột "Được đọc nhiều nhất" bên phải cho cân
+      {/* Máy tính: cùng khung thẻ trắng với cột "Được đọc nhiều nhất" bên phải cho cân
           (viết bằng utility lg: thay vì .nb-panel để khổ điện thoại giữ nguyên). */}
-      <aside className="h-fit min-w-0 lg:sticky lg:top-[calc(var(--nb-header)+20px)] lg:rounded-[16px] lg:border lg:border-[var(--nb-line-soft)] lg:bg-[linear-gradient(180deg,rgba(11,28,54,.92),rgba(7,21,37,.92))] lg:p-5">
+      <aside className="h-fit min-w-0 lg:sticky lg:top-[calc(var(--nb-header)+20px)] lg:rounded-[16px] lg:border lg:border-[var(--nb-line-soft)] lg:bg-white lg:shadow-[0_1px_2px_rgba(7,21,37,.05),0_4px_12px_rgba(7,21,37,.04)] lg:p-5">
         <b className="block text-[15px] font-semibold text-white">Danh mục chủ đề</b>
         {/* Mười một chuyên mục xếp dọc ở khổ điện thoại chiếm gần 500px, đẩy bài
             viết xuống quá xa. Dưới lg thì cho chúng thành một hàng kéo ngang. */}
@@ -122,7 +122,7 @@ export function GuideHub() {
 
       {/* ---------- BÀI VIẾT ---------- */}
       <div className="min-w-0">
-        <div className="flex items-center gap-3 rounded-full border border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)]/70 px-5 py-2.5 focus-within:border-[var(--nb-gold)]">
+        <div className="flex items-center gap-3 rounded-full border border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)]/70 px-5 py-2.5 focus-within:border-[var(--nb-gold)] lg:bg-white lg:shadow-[0_1px_2px_rgba(7,21,37,.05),0_4px_12px_rgba(7,21,37,.04)]">
           <Search size={17} className="shrink-0 text-[var(--nb-gold)]" />
           <input
             value={tu}
@@ -156,7 +156,7 @@ export function GuideHub() {
                   />
                 </span>
                 <span className="flex flex-col justify-center p-5 sm:p-7">
-                    <span className="self-start rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/70 px-3 py-1 text-[12px] font-semibold text-[var(--nb-gold-soft)] sm:text-[11.5px]">
+                    <span className="self-start rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/70 px-3 py-1 text-[12px] lg:bg-[#F6F1E7] font-semibold text-[var(--nb-gold-soft)] sm:text-[11.5px]">
                       {mucCuaBai(noiBat)[0]}
                     </span>
                     <b className="nb-display mt-3 block max-w-[34ch] text-[21px] leading-tight text-white sm:text-[26px] lg:text-[24px]">
