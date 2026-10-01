@@ -45,10 +45,10 @@ export default async function Page({ params }: { params: Promise<{ nganh: string
         nhan={`Ausbildung · ${n.nam}`}
         tieuDe={`Du học nghề ${n.ten}`}
         mo={n.tomTat}
-        soLieu={[
-          { so: n.nam, nhan: "thời gian đào tạo" },
-          { so: `${n.troCap[0].toLocaleString("de-DE")} €`, nhan: "trợ cấp năm 1" },
-          { so: n.tieng.split(",")[0]!, nhan: "yêu cầu tiếng Đức" },
+        loiTat={[
+          { nhan: "Xem đơn hàng ngành này", href: `/don-hang?nganh=${n.id}` },
+          { nhan: "Đăng ký tư vấn", href: "/lien-he" },
+          { nhan: "Các ngành khác", href: "/du-hoc-nghe" },
         ]}
       />
 

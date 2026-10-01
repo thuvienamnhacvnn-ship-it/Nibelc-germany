@@ -18,7 +18,11 @@ export default function Page() {
         nhan="Hành trình kiến tạo tương lai"
         tieuDe="Lộ trình từ Việt Nam đến Đức"
         mo="Đồng hành cùng bạn trên từng bước, an toàn, minh bạch và hiệu quả."
-        soLieu={[{ so: String(CHANG.length), nhan: "chặng" }]}
+        loiTat={[
+          { nhan: "Xem đơn hàng", href: "/don-hang" },
+          { nhan: "Du học nghề", href: "/du-hoc-nghe" },
+          { nhan: "Đăng ký tư vấn", href: "/lien-he" },
+        ]}
       />
       <section className="nb-wrap py-10 sm:py-14">
         <JourneyTimeline />

@@ -18,7 +18,12 @@ export default function Page() {
         nhan="Cẩm nang kiến thức"
         tieuDe="Cẩm nang Đức"
         mo="Kiến thức cần thiết trước và sau khi sang Đức: thủ tục, tiếng, bảng lương, nhà ở và văn hoá làm việc."
-        soLieu={[{ so: String(CAM_NANG.length), nhan: "bài viết" }]}
+        loiTat={[
+          { nhan: "Tất cả bài viết", href: "/cam-nang", so: CAM_NANG.length },
+          { nhan: "Thủ tục & visa", href: "/cam-nang?muc=visa" },
+          { nhan: "Tiếng Đức", href: "/cam-nang?muc=tieng" },
+          { nhan: "Lương & thuế", href: "/cam-nang?muc=luong" },
+        ]}
       />
       <GuideHub />
     </div>

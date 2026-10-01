@@ -19,7 +19,6 @@ import { useChuyenTrang } from "@/components/layout/PageTransition";
 
 export function Header() {
   const pathname = usePathname();
-  const laTrangChu = pathname === "/";
   const [daCuon, setDaCuon] = useState(false);
   const [moTim, setMoTim] = useState(false);
 
@@ -37,9 +36,10 @@ export function Header() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        // Điện thoại: chỉ trang chủ mới có header (để logo nổi trên banner).
-        // Các trang phụ bỏ hẳn, điều hướng dồn vào menu đáy.
-        laTrangChu ? "" : "hidden lg:block"
+        // Điện thoại bỏ header ở MỌI trang, kể cả trang chủ: logo đã nằm
+        // trong banner, điều hướng dồn vào menu đáy. Cuộn xuống là không còn
+        // nền lẫn logo nào bám trên đỉnh màn hình.
+        "hidden lg:block"
       } ${
         daCuon
           ? "bg-[var(--nb-navy-800)]/92 backdrop-blur-md"

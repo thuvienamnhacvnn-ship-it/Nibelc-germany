@@ -393,6 +393,8 @@
   }
 
   :root {
+    /* dien thoai khong con header, hero chi can chua mot khoang nho */
+    --nb-dem-hero: 26px;
     --nb-navy-900: #071d3a; /* nền trang   — xanh biển đậm */
     --nb-navy-800: #0b2a52; /* nền khối    — sáng hơn một bậc */
     --nb-navy-700: #10386b; /* nền thẻ     — sáng hơn hai bậc */

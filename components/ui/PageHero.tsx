@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { NavLink } from "@/components/layout/NavLink";
 
 /**
  * Dải đầu trang con — thấp, khoảng 28% chiều cao màn hình, KHÔNG phải hero to
@@ -17,7 +18,7 @@ export function PageHero({
   nhan,
   tieuDe,
   mo,
-  soLieu,
+  loiTat,
   children,
 }: {
   anh: string;
@@ -26,7 +27,8 @@ export function PageHero({
   nhan: string;
   tieuDe: ReactNode;
   mo?: string;
-  soLieu?: { so: string; nhan: string }[];
+  /** hàng lối tắt bấm được dưới chân banner, thay cho dãy con số chỉ để ngắm */
+  loiTat?: { nhan: string; href: string; so?: number }[];
   children?: ReactNode;
 }) {
   return (
@@ -61,16 +63,33 @@ export function PageHero({
         <h1 className="nb-display mt-3 max-w-[22ch] text-[26px] leading-[1.18] text-white sm:text-[clamp(30px,3.2vw,46px)] sm:leading-[1.14]">
           {tieuDe}
         </h1>
-        {mo && <p className="mt-4 max-w-[62ch] text-[15px] leading-[1.7] text-[#d7e2f2] sm:mt-5 sm:text-[16px]">{mo}</p>}
+        {mo && (
+          /* Trên điện thoại chỉ giữ hai dòng đầu: mô tả dài đẩy phần nội dung
+             thật xuống quá sâu, người xem phải cuộn mới thấy việc cần làm. */
+          <p className="mt-4 max-w-[62ch] text-[15px] leading-[1.7] text-[#d7e2f2] [display:-webkit-box] [overflow:hidden] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] sm:mt-5 sm:text-[16px] sm:[-webkit-line-clamp:unset] sm:[display:block]">
+            {mo}
+          </p>
+        )}
 
-        {soLieu && soLieu.length > 0 && (
-          /* gap-x-10 ở khổ 390px làm hai số liệu không đủ chỗ cạnh nhau nên
-             mỗi số xuống một dòng; thu khoảng cách lại để chúng xếp thành hàng */
-          <ul className="mt-6 flex flex-wrap gap-x-7 gap-y-4 sm:mt-7 sm:gap-x-10">
-            {soLieu.map((s) => (
-              <li key={s.nhan}>
-                <b className="nb-gold-text nb-display block text-[26px] leading-none sm:text-[28px]">{s.so}</b>
-                <span className="mt-1 block text-[12.5px] text-[var(--nb-text-dim)]">{s.nhan}</span>
+        {/* Dãy con số cũ ("20 đơn hàng · 469 suất tuyển") chỉ để ngắm, bấm
+            không ra gì. Thay bằng hàng LỐI TẮT bấm được: mỗi chip đưa thẳng
+            tới kết quả đã lọc sẵn, bớt cho người xem một lượt cuộn và một
+            lượt chọn trong bảng lọc. */}
+        {loiTat && loiTat.length > 0 && (
+          <ul className="nb-no-scrollbar mt-5 flex gap-2 overflow-x-auto pb-1 sm:mt-7 sm:flex-wrap sm:overflow-x-visible">
+            {loiTat.map((t) => (
+              <li key={t.nhan} className="shrink-0">
+                <NavLink
+                  href={t.href}
+                  className="flex h-11 items-center gap-2 rounded-full border border-[var(--nb-gold)]/45 bg-[var(--nb-navy-900)]/70 px-4 text-[13.5px] font-medium whitespace-nowrap text-[var(--nb-gold-soft)] backdrop-blur-sm transition hover:border-[var(--nb-gold)] hover:bg-[var(--nb-gold)] hover:text-[var(--nb-navy-900)]"
+                >
+                  {t.nhan}
+                  {t.so !== undefined && (
+                    <span className="rounded-full bg-[var(--nb-gold)]/20 px-2 py-0.5 text-[11.5px] font-semibold">
+                      {t.so}
+                    </span>
+                  )}
+                </NavLink>
               </li>
             ))}
           </ul>
