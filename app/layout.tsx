@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter, Montserrat, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -14,6 +14,19 @@ import { PageFade, PageTransition } from "@/components/layout/PageTransition";
 const inter = Inter({
   subsets: ["latin", "latin-ext", "vietnamese"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+/**
+ * Cụm tiêu đề hero dùng Montserrat 800/900 — ảnh mẫu Sếp gửi là chữ KHÔNG
+ * CHÂN rất đậm, không phải serif. Dùng Playfair cho cụm đó thì nhìn lệch hẳn
+ * khỏi mẫu ngay từ nét chữ.
+ */
+const tieuDeHero = Montserrat({
+  subsets: ["latin", "latin-ext", "vietnamese"],
+  weight: ["700", "800", "900"],
+  style: ["normal", "italic"],
+  variable: "--font-hero",
   display: "swap",
 });
 
@@ -37,7 +50,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="vi" className={`${inter.variable} ${display.variable}`}>
+    <html lang="vi" className={`${inter.variable} ${tieuDeHero.variable} ${display.variable}`}>
       <body>
         <a
           href="#noi-dung"

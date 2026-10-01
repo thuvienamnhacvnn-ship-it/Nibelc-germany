@@ -115,22 +115,22 @@ export function Hero() {
                 />
 
                 {/* ---- CỤM 1: dòng Đức ---- */}
-                <h1 className="nb-display flex flex-wrap items-baseline justify-center gap-x-[0.28em] leading-[1.1] text-white italic">
+                <h1 className="nb-hero-chu flex flex-wrap items-baseline justify-center gap-x-[0.28em] leading-[1.1] text-white italic">
                   <span className="text-[clamp(21px,2.7vw,44px)]">Arbeiten in</span>
                   <span className="nb-vang-khoi text-[clamp(28px,4vw,64px)] not-italic">Deutschland</span>
                 </h1>
-                <p className="-mt-0.5 text-[clamp(15px,1.5vw,27px)] font-bold text-white italic">
+                <p className="nb-hero-chu -mt-0.5 text-[clamp(15px,1.5vw,27px)] text-white italic">
                   mit Nibelc Germany GmbH
                 </p>
 
                 {/* ---- CỤM 2: khẩu hiệu ---- */}
-                <p className="nb-bong-khoi nb-display mt-1 text-[clamp(32px,4.6vw,74px)] leading-[1.02] tracking-[0.01em]">
+                <p className="nb-hero-chu nb-bong-khoi mt-1 text-[clamp(32px,4.6vw,74px)] leading-[1.02] tracking-[0.005em]">
                   <span className="nb-vang-khoi">ĐỐI TÁC UY TÍN</span>
                 </p>
-                <p className="-mt-1 text-[clamp(14px,1.45vw,25px)] font-bold tracking-[0.02em] text-white">
+                <p className="nb-hero-chu -mt-1 text-[clamp(14px,1.45vw,25px)] tracking-[0.02em] text-white">
                   LỰA CHỌN TỐT NHẤT CỦA BẠN
                 </p>
-                <p className="mt-0.5 text-[clamp(11px,1.05vw,18px)] leading-[1.5] font-semibold tracking-[0.03em] text-[var(--nb-gold-soft)]">
+                <p className="nb-hero-chu mt-0.5 text-[clamp(11px,1.05vw,18px)] leading-[1.5] font-bold tracking-[0.03em] text-[var(--nb-gold-soft)]">
                   CHO VIỆC LÀM VÀ HỌC NGHỀ TẠI ĐỨC, CHÂU ÂU
                 </p>
 
