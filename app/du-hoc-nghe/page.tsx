@@ -18,7 +18,9 @@ export const metadata: Metadata = {
 const ANH: Record<string, string> = {
   // Dùng bản 16:9 của từng nghề. Bản portrait 3:4 khi ép vào ô ngang sẽ cắt
   // ngang mặt người, nhìn rất xấu.
-  "dieu-duong": "/assets/jobs/soziales/01-hero-16x9.jpg",
+  // Ảnh điều dưỡng thật (nữ điều dưỡng áo blouse xanh trong viện dưỡng lão) — trước
+  // đây trỏ nhầm ảnh nhóm Soziales là đầu bếp cắt thịt.
+  "dieu-duong": "/assets/nghe/pflege.jpg",
   "nha-hang-khach-san": "/assets/jobs/gastronomie/01-hero-16x9.jpg",
   "co-khi": "/assets/jobs/mechanik/01-hero-16x9.jpg",
   dien: "/assets/jobs/elektro/01-hero-16x9.jpg",
@@ -48,6 +50,7 @@ export default function Page() {
       <PageHero
         anh="/assets/banners/du-hoc-nghe.jpg"
         anhDoc="/assets/banners/mobile/du-hoc-nghe.jpg"
+        anhBenPhai
         nhan="Ausbildung — đào tạo kép"
         tieuDe={
           <>
@@ -59,12 +62,12 @@ export default function Page() {
         }
         mo="Đào tạo kép là mô hình riêng của nước Đức: học tại trường nghề công lập và làm thật tại doanh nghiệp, có trợ cấp hằng tháng và bằng nghề được công nhận toàn EU."
       >
-        <div className="mt-7 flex flex-wrap gap-3 sm:mt-8">
-          <NavLink href="#nganh-nghe" className="nb-btn h-12 w-full px-7 text-[15px] sm:w-auto">
+        <div className="mt-7 flex flex-wrap gap-3 sm:mt-8 lg:mt-5">
+          <NavLink href="#nganh-nghe" className="nb-btn h-12 w-full px-7 text-[15px] sm:w-auto lg:h-11 lg:px-6">
             Khám phá ngành nghề
             <ArrowRight size={16} />
           </NavLink>
-          <NavLink href="/lien-he" className="nb-btn-ghost h-12 w-full px-7 text-[15px] sm:w-auto">
+          <NavLink href="/lien-he" className="nb-btn-ghost h-12 w-full px-7 text-[15px] sm:w-auto lg:h-11 lg:px-6">
             Kiểm tra điều kiện
           </NavLink>
         </div>

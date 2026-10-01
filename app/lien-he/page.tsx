@@ -19,21 +19,16 @@ export default function Page() {
       <PageHero
         anh="/assets/banners/lien-he.jpg"
         anhDoc="/assets/banners/mobile/lien-he.jpg"
+        anhBenPhai
         nhan="Trung tâm tư vấn NIBELC"
-        tieuDe={
-          <>
-            {/* Ngắt dòng ở máy tính để h1 dừng trước bóng người lễ tân trong ảnh */}
-            Bắt đầu hành trình <br className="hidden lg:inline" />
-            của bạn tại Đức
-          </>
-        }
+        tieuDe="Bắt đầu hành trình của bạn tại Đức"
         mo="Để lại thông tin, đội ngũ NIBELC sẽ tư vấn chương trình phù hợp."
       />
 
       {/* Thân trang SÁNG ở máy tính (app/trang-sang.css); điện thoại giữ nền cũ. */}
       <div className="nb-sang">
-        {/* Máy tính: nền ngà để thẻ form + thẻ liên hệ trắng nổi lên */}
-        <section className="py-10 sm:py-14 lg:bg-[#F6F1E7] lg:py-20">
+        {/* Máy tính: dải đầu sau banner nền TRẮNG như mọi trang con (thẻ có viền + bóng) */}
+        <section className="py-10 sm:py-14 lg:bg-[var(--s-page)] lg:py-20">
           <div className="nb-wrap">
             {/* lg:items-start: cột form không bị kéo cao bằng cột phải nữa — trước
                 đây khung form trống ~400px ở đáy. */}

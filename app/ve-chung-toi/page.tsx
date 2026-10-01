@@ -31,7 +31,7 @@ export default function Page() {
         anh="/assets/home/hero-anh.jpg"
         anhDoc="/assets/banners/mobile/ve-chung-toi.jpg"
         nhan="NIBELC GROUP GERMANY"
-        tieuDe="Kết nối con người – Kiến tạo cơ hội"
+        tieuDe={"Kết nối con người – Kiến tạo cơ hội"}
         mo="Đồng hành cùng người Việt trên hành trình học tập và làm việc tại Đức, châu Âu."
       />
 

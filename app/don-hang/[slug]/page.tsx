@@ -73,7 +73,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
               </span>
             )}
             {job.isSample && (
-              <span className="rounded-full bg-[var(--nb-cyan)]/85 px-2.5 py-1 text-[11px] font-bold text-white">
+              <span className="rounded-full bg-[var(--nb-navy-800)] px-2.5 py-1 text-[11px] font-bold tracking-[0.04em] text-[var(--nb-gold)] ring-1 ring-[var(--nb-gold)]/40">
                 DỮ LIỆU MẪU
               </span>
             )}

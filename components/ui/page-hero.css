@@ -1,0 +1,54 @@
+/* ============================================================
+   BANNER TRANG CON — tấm chữ navy (components/ui/PageHero.tsx)
+   ------------------------------------------------------------
+   Chữ banner nằm trên TẤM NỀN navy riêng ôm khối chữ, không phủ
+   lớp màu lên ảnh, không bóng chữ / glow (Sếp cấm 01/10/2026).
+   Mọi trang con: cùng bề rộng, cùng mép trái (lề .nb-wrap), căn
+   giữa dọc trong dải cao 360px ở máy tính. Điện thoại: tấm full
+   bề rộng nội dung, bo góc, để eyebrow vàng + mô tả đọc được
+   trên ảnh sáng.
+   ============================================================ */
+:root {
+  --hero-cao: 360px;
+  --hero-tam-rong: 660px;
+  /* đặc (không bán trong suốt): không lộ mép ảnh / chi tiết ảnh dưới chữ */
+  --hero-tam-nen: var(--nb-navy-800);
+  --hero-tam-vien: rgba(217, 184, 120, 0.24);
+  --hero-tam-bo: 16px;
+  --hero-tam-bo-lg: 20px;
+  --hero-mo: #d7e2f2;
+}
+
+.nb-hero-tam {
+  background: var(--hero-tam-nen);
+  border: 1px solid var(--hero-tam-vien);
+  border-radius: var(--hero-tam-bo);
+  text-shadow: none;
+}
+
+@media (min-width: 1024px) {
+  .nb-hero-khung {
+    min-height: var(--hero-cao);
+  }
+  .nb-hero-tam {
+    width: var(--hero-tam-rong);
+    max-width: 100%;
+    border-radius: var(--hero-tam-bo-lg);
+  }
+}
+
+/* Ảnh nghề 16:9 có người đứng giữa/trái khung: ở máy tính ảnh chỉ phủ phần
+   phải banner (nền trái navy đặc của section), mép ảnh nằm khuất sau tấm chữ.
+   Không phủ lớp, không chuyển màu — chỉ đổi khung chứa ảnh. */
+/* Mép trái ảnh = mép phải tấm chữ lùi vào 48px (khuất sau tấm), tính theo
+   đúng lề .nb-wrap: ≤1440px khung 1400 / lề 32; >1440px khung 1600 / lề 40. */
+@media (min-width: 1024px) {
+  .nb-hero-anh-phai {
+    left: calc(max(0px, (100% - 1400px) / 2) + 32px + var(--hero-tam-rong) - 48px);
+  }
+}
+@media (min-width: 1441px) {
+  .nb-hero-anh-phai {
+    left: calc(max(0px, (100% - 1600px) / 2) + 40px + var(--hero-tam-rong) - 48px);
+  }
+}

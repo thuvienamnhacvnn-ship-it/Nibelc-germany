@@ -147,7 +147,7 @@ export function JobMarketplace() {
      token --s-* của .dh-sang (app/don-hang/don-hang-sang.css). Lớp không có
      tiền tố là giao diện điện thoại — giữ nguyên, phiên mobile đang làm. */
   return (
-    <div className="dh-sang lg:bg-[var(--s-alt)]">
+    <div className="dh-sang lg:bg-[var(--s-page)]">
       <div className="nb-wrap relative z-20 -mt-10 pb-2">
         <SearchCommandBar gt={lenh} dat={datLenh} onTim={() => setHien(9)} />
       </div>

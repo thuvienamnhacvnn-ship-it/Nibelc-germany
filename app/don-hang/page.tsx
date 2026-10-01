@@ -36,6 +36,7 @@ export default function Page() {
         tieuDe="Cơ hội nghề nghiệp tại Đức"
         mo="Tìm kiếm đơn hàng phù hợp với ngành nghề, khu vực và kinh nghiệm của bạn."
         loiTat={LOI_TAT}
+        chuaThanhTim
       />
       <Suspense fallback={<div className="nb-wrap py-20 text-[var(--nb-text-dim)]">Đang tải bộ lọc…</div>}>
         <JobMarketplace />

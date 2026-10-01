@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ nganh: st
 }
 
 const ANH: Record<string, string> = {
-  "dieu-duong": "/assets/jobs/soziales/01-hero-16x9.jpg",
+  "dieu-duong": "/assets/nghe/pflege.jpg",
   "nha-hang-khach-san": "/assets/jobs/gastronomie/01-hero-16x9.jpg",
   "co-khi": "/assets/jobs/mechanik/01-hero-16x9.jpg",
   dien: "/assets/jobs/elektro/01-hero-16x9.jpg",
@@ -45,8 +45,14 @@ export default async function Page({ params }: { params: Promise<{ nganh: string
       <PageHero
         anh={ANH[n.id] ?? "/assets/jobs/logistik/01-hero-16x9.jpg"}
         nhan={`Ausbildung · ${n.nam}`}
-        tieuDe={`Du học nghề ${n.ten}`}
+        tieuDe={
+          <>
+            Du học nghề <span className="lg:whitespace-nowrap">{n.ten}</span>
+          </>
+        }
         mo={n.tomTat}
+        anhBenPhai
+        viTriAnh="center 22%"
         loiTat={[
           { nhan: "Xem đơn hàng ngành này", href: `/don-hang?nganh=${n.id}` },
           { nhan: "Đăng ký tư vấn", href: "/lien-he" },
