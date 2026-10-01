@@ -9,6 +9,7 @@ import { FeaturedJob } from "@/components/home/FeaturedJob";
 import { SearchBar } from "@/components/home/SearchBar";
 import { HeroVideo } from "@/components/home/HeroVideo";
 import { NhomNhanVat } from "@/components/home/NhomNhanVat";
+import { CumTieuDe } from "@/components/home/CumTieuDe";
 
 /**
  * HERO TRANG CHỦ
@@ -107,24 +108,7 @@ export function Hero() {
                   transition={{ duration: 0.38, ease: [0.22, 0.61, 0.36, 1] }}
                   className="absolute inset-x-0 top-0 flex flex-col items-center"
                 >
-                  <span className="relative block w-[min(621px,80vw)]">
-                    <Image
-                      src="/assets/home/title-cum.png"
-                      alt=""
-                      width={1400}
-                      height={596}
-                      priority
-                      quality={95}
-                      sizes="(min-width:1024px) 621px, 80vw"
-                      className="h-auto w-full"
-                      style={{
-                        // Bóng ÔM SÁT nét chữ. Bán kính lớn làm bóng loang ra
-                        // cả vùng trống quanh cụm, nhìn như một mảng mờ bẩn.
-                        filter:
-                          "drop-shadow(0 0 1px rgba(4,10,20,.95)) drop-shadow(0 1px 2px rgba(4,10,20,.9)) drop-shadow(0 2px 4px rgba(4,10,20,.7))",
-                      }}
-                    />
-                  </span>
+                  <CumTieuDe className="block h-auto w-[min(700px,88vw)]" />
                 </motion.div>
               )}
             </AnimatePresence>

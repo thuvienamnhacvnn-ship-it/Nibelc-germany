@@ -1,0 +1,113 @@
+/**
+ * CỤM TIÊU ĐỀ HERO — VẼ BẰNG VECTOR
+ *
+ * Trước đây cụm này là một tấm PNG nên không chuyển ngữ được. Nay là SVG với
+ * <text> thật: đổi sang tiếng Đức hay tiếng Anh chỉ cần thay chuỗi trong
+ * `chu`, không phải vẽ lại ảnh.
+ *
+ * Hiệu ứng vàng kim loại dựng bằng:
+ *   - <linearGradient> dọc: sáng ở đỉnh, đậm ở giữa, sáng lại ở chân
+ *   - stroke nâu sẫm + paint-order="stroke" → viền vẽ TRƯỚC rồi gradient tô
+ *     đè lên, nên viền chỉ lộ ra ngoài nét chữ. SVG xử lý paint-order đúng
+ *     chuẩn, không dính mấy lỗi của background-clip bên CSS
+ *   - <feDropShadow> cho bóng khối
+ *
+ * Chữ nằm trong SVG nên máy tìm kiếm vẫn đọc được; trang vẫn giữ thêm một thẻ
+ * h1 ẩn ở Hero cho chắc.
+ */
+
+export interface ChuTieuDe {
+  dong1a: string;
+  dong1b: string;
+  dong2: string;
+  dong3: string;
+  dong4: string;
+  dong5: string;
+}
+
+export const CHU_VI: ChuTieuDe = {
+  dong1a: "Arbeiten in",
+  dong1b: "Deutschland",
+  dong2: "mit Nibelc Germany GmbH",
+  dong3: "ĐỐI TÁC UY TÍN",
+  dong4: "LỰA CHỌN TỐT NHẤT CỦA BẠN",
+  dong5: "CHO VIỆC LÀM VÀ HỌC NGHỀ TẠI ĐỨC, CHÂU ÂU",
+};
+
+export function CumTieuDe({ chu = CHU_VI, className = "" }: { chu?: ChuTieuDe; className?: string }) {
+  const F = "var(--font-hero), system-ui, sans-serif";
+
+  return (
+    <svg viewBox="0 0 1400 560" className={className} role="img" aria-label={`${chu.dong1a} ${chu.dong1b} — ${chu.dong3}`}>
+      <defs>
+        {/* vàng kim loại */}
+        <linearGradient id="nb-vang" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stopColor="#fffdf2" />
+          <stop offset="16%" stopColor="#ffeaa8" />
+          <stop offset="40%" stopColor="#ffcc55" />
+          <stop offset="58%" stopColor="#e0a32c" />
+          <stop offset="70%" stopColor="#c98a1d" />
+          <stop offset="86%" stopColor="#ffd977" />
+          <stop offset="100%" stopColor="#fff6d8" />
+        </linearGradient>
+        {/* trắng hơi ngả bạc */}
+        <linearGradient id="nb-trang" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="62%" stopColor="#f2f6fb" />
+          <stop offset="100%" stopColor="#cfd9e6" />
+        </linearGradient>
+        <filter id="nb-bong" x="-12%" y="-12%" width="124%" height="124%">
+          <feDropShadow dx="0" dy="3" stdDeviation="3" floodColor="#040a14" floodOpacity=".92" />
+          <feDropShadow dx="0" dy="7" stdDeviation="10" floodColor="#040a14" floodOpacity=".55" />
+        </filter>
+      </defs>
+
+      {/* `textLength` + `lengthAdjust` ép mỗi dòng vừa đúng bề ngang đã định.
+          Đây cũng là chỗ khiến bản vector hơn hẳn ảnh: chuyển sang tiếng Đức
+          hay tiếng Anh, chữ dài ngắn khác nhau vẫn tự co về đúng khung, không
+          tràn ra ngoài như vừa rồi. */}
+      <g filter="url(#nb-bong)" fontFamily={F} fontWeight={900} textAnchor="middle" paintOrder="stroke">
+        {/* ---- dòng 1: Arbeiten in Deutschland ---- */}
+        <text x="700" y="186" fontSize="85" fontStyle="italic" fill="url(#nb-trang)" stroke="#0b1522" strokeWidth="3">
+          {chu.dong1a}
+          <tspan
+            fill="url(#nb-vang)"
+            stroke="#3a2402"
+            strokeWidth="5"
+            fontSize="100"
+            dx="18"
+          >
+            {chu.dong1b}
+          </tspan>
+        </text>
+
+        {/* vệt cờ Đức quét chéo sau dòng 1 */}
+        <g transform="translate(1150 86) rotate(-13) scale(.78)" filter="none">
+          <path d="M0 10 C 70 0, 170 -4, 258 -10 C 246 2, 150 12, 74 20 C 46 23, 18 20, 0 10 Z" fill="#141414" />
+          <path d="M-2 40 C 72 29, 174 24, 262 18 C 250 31, 152 43, 76 50 C 46 53, 16 50, -2 40 Z" fill="#d81b1b" />
+          <path d="M2 70 C 76 58, 178 52, 266 46 C 254 60, 156 72, 80 80 C 50 83, 20 80, 2 70 Z" fill="#f6c21c" />
+        </g>
+
+        {/* ---- dòng 2 ---- */}
+        <text x="700" y="258" fontSize="69" fontStyle="italic" fill="url(#nb-trang)" stroke="#0b1522" strokeWidth="2.6">
+          {chu.dong2}
+        </text>
+
+        {/* ---- dòng 3: khẩu hiệu ---- */}
+        <text x="700" y="400" fontSize="148" fill="url(#nb-vang)" stroke="#3a2402" strokeWidth="6">
+          {chu.dong3}
+        </text>
+
+        {/* ---- dòng 4 ---- */}
+        <text x="700" y="464" fontSize="63" fill="url(#nb-trang)" stroke="#0b1522" strokeWidth="2.4">
+          {chu.dong4}
+        </text>
+
+        {/* ---- dòng 5 ---- */}
+        <text x="700" y="520" fontSize="46" fill="url(#nb-vang)" stroke="#3a2402" strokeWidth="2.2">
+          {chu.dong5}
+        </text>
+      </g>
+    </svg>
+  );
+}
