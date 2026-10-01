@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { X } from "lucide-react";
 import { useHeroJobRotation } from "@/hooks/useHeroJobRotation";
 import { IndustryRail } from "@/components/home/IndustryRail";
 import { FeaturedJob } from "@/components/home/FeaturedJob";
@@ -98,14 +97,6 @@ export function Hero() {
                   style={{ perspective: 1200 }}
                 >
                   <FeaturedJob job={hero.job} oTep={hero.oTep} doiTiep={hero.doiTiep} huong={hero.huong} />
-                  <button
-                    type="button"
-                    onClick={hero.boChon}
-                    className="nb-btn-ghost absolute top-full left-1/2 mt-3 h-10 -translate-x-1/2 px-5 text-[13.5px] whitespace-nowrap"
-                  >
-                    <X size={15} />
-                    Quay lại trang chủ
-                  </button>
                 </motion.div>
               ) : (
                 <motion.div
