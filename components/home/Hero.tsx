@@ -113,16 +113,35 @@ export function Hero() {
                   Arbeiten in Deutschland mit Nibelc Germany GmbH — ĐỐI TÁC UY TÍN, lựa chọn tốt nhất của bạn cho
                   việc làm và học nghề tại Đức, châu Âu
                 </h1>
-                <Image
-                  src="/assets/home/title-cum.png"
-                  alt=""
-                  width={1400}
-                  height={596}
-                  priority
-                  quality={95}
-                  sizes="(min-width:1024px) 860px, 92vw"
-                  className="mx-auto h-auto w-[min(860px,92vw)]"
-                />
+                <span className="relative mx-auto block w-[min(860px,92vw)]">
+                  {/* Nền tối mềm phía sau cụm chữ: phần chữ trắng đang lẫn vào
+                      mây và núi tuyết. Toả từ giữa ra nên không thành một mảng
+                      vuông đè lên ảnh. */}
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute -inset-x-10 -inset-y-8 -z-10"
+                    style={{
+                      background:
+                        "radial-gradient(58% 54% at 50% 50%, rgba(4,10,20,.62) 0%, rgba(4,10,20,.4) 46%, rgba(4,10,20,.16) 72%, transparent 100%)",
+                    }}
+                  />
+                  <Image
+                    src="/assets/home/title-cum.png"
+                    alt=""
+                    width={1400}
+                    height={596}
+                    priority
+                    quality={95}
+                    sizes="(min-width:1024px) 860px, 92vw"
+                    className="h-auto w-full"
+                    style={{
+                      // Bóng ôm sát nét chữ. Đây là ảnh thường nên drop-shadow
+                      // chạy đúng, khác hẳn chữ dùng background-clip trước đây.
+                      filter:
+                        "drop-shadow(0 1px 1px rgba(4,10,20,.95)) drop-shadow(0 3px 7px rgba(4,10,20,.85)) drop-shadow(0 10px 26px rgba(4,10,20,.6))",
+                    }}
+                  />
+                </span>
 
 
                 <div className="mx-auto mt-4 w-[min(500px,84vw)]">
