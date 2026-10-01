@@ -75,9 +75,9 @@ export function NhomNhanVat({
         }}
       />
 
-      {/* Ảnh gốc bị bè ngang, kéo cao thêm 20% cho đúng dáng người.
+      {/* Kéo cao 20% và rộng 10% cho đúng dáng người.
           Neo ở MÉP DƯỚI để chân nhân vật không rời khỏi bệ khi giãn. */}
-      <span className="relative block origin-bottom scale-y-[1.2]">
+      <span className="relative block origin-bottom scale-x-[1.1] scale-y-[1.2]">
         <Image
           src={src}
           alt=""

@@ -42,7 +42,9 @@ export function IndustryEnvelope({
       aria-label={`Ngành ${industry.titleVi}`}
       className="group relative block w-[96px] shrink-0 cursor-pointer text-left focus-visible:outline-none 2xl:w-[104px]"
       animate={{
-        opacity: moNhat ? 0.62 : 1,
+        // KHÔNG hạ độ đục của các tệp còn lại khi một tệp đang mở: làm thế
+        // thì nhìn xuyên thấu qua chúng, thấy cả nền phía sau.
+        opacity: 1,
         y: dangChon ? -14 : 0,
       }}
       whileHover={{ y: dangChon ? -14 : -10 }}

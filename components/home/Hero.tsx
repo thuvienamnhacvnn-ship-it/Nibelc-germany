@@ -76,9 +76,10 @@ export function Hero() {
       {/* ---------- KHỐI GIỮA ---------- */}
       <div
         className="relative z-20 flex min-h-[calc(100svh-var(--nb-header))] flex-col items-center lg:min-h-[calc(100vh-40px)]"
-        style={{ paddingTop: "calc(var(--nb-header) + 4vh)" }}
+        // đẩy cụm lên sát dưới header, chừa đúng chiều cao thanh menu
+        style={{ paddingTop: "var(--nb-header)" }}
       >
-        <div className="flex flex-1 flex-col items-center justify-start px-6 pt-[2vh] text-center lg:pt-[4vh]">
+        <div className="flex flex-1 flex-col items-center justify-start px-6 pt-0 text-center">
           <AnimatePresence mode="wait" custom={{ doiTiep: hero.doiTiep, huong: hero.huong }}>
             {hero.dangHienJob && hero.job ? (
               <motion.div
@@ -113,7 +114,7 @@ export function Hero() {
                   Arbeiten in Deutschland mit Nibelc Germany GmbH — ĐỐI TÁC UY TÍN, lựa chọn tốt nhất của bạn cho
                   việc làm và học nghề tại Đức, châu Âu
                 </h1>
-                <span className="relative mx-auto block w-[min(860px,92vw)]">
+                <span className="relative mx-auto block w-[min(690px,86vw)]">
                   <Image
                     src="/assets/home/title-cum.png"
                     alt=""
@@ -121,7 +122,7 @@ export function Hero() {
                     height={596}
                     priority
                     quality={95}
-                    sizes="(min-width:1024px) 860px, 92vw"
+                    sizes="(min-width:1024px) 690px, 86vw"
                     className="h-auto w-full"
                     style={{
                       // Bóng ôm sát nét chữ. Đây là ảnh thường nên drop-shadow
