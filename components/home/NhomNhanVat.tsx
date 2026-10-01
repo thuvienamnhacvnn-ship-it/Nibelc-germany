@@ -75,15 +75,7 @@ export function NhomNhanVat({
         }}
       />
 
-      <span
-        className="relative block"
-        style={{
-          // Mờ dần 18% cuối ảnh: chỗ PNG bị cắt ngang tan vào nền thay vì
-          // để lại một đường thẳng.
-          WebkitMaskImage: "linear-gradient(180deg, #000 0%, #000 82%, rgba(0,0,0,.45) 93%, transparent 100%)",
-          maskImage: "linear-gradient(180deg, #000 0%, #000 82%, rgba(0,0,0,.45) 93%, transparent 100%)",
-        }}
-      >
+      <span className="relative block">
         <Image
           src={src}
           alt=""
@@ -92,7 +84,7 @@ export function NhomNhanVat({
           priority
           quality={92}
           sizes="610px"
-          className="h-auto w-full drop-shadow-[0_30px_46px_rgba(0,0,0,.55)]"
+          className="h-auto w-full"
         />
       </span>
     </motion.div>

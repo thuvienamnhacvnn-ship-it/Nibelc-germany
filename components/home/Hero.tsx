@@ -9,6 +9,7 @@ import { FeaturedJob } from "@/components/home/FeaturedJob";
 import { SearchBar } from "@/components/home/SearchBar";
 import { HeroVideo } from "@/components/home/HeroVideo";
 import { NhomNhanVat } from "@/components/home/NhomNhanVat";
+import { CoDucBrush } from "@/components/home/CoDucBrush";
 
 /**
  * HERO TRANG CHỦ
@@ -113,7 +114,6 @@ export function Hero() {
                       Deutschland
                     </span>
                     <span className="nb-vang-khoi">Deutschland</span>
-                    <span className="nb-co-brush" aria-hidden="true" />
                   </span>
                 </h1>
                 <p className="nb-hero-chu -mt-0.5 text-[clamp(17px,2.6vw,41px)] text-white italic">
@@ -136,7 +136,9 @@ export function Hero() {
                   CHO VIỆC LÀM VÀ HỌC NGHỀ TẠI ĐỨC, CHÂU ÂU
                 </p>
 
-                <div className="mx-auto mt-5 w-[min(500px,84vw)]">
+                <CoDucBrush className="mx-auto mt-3 h-[clamp(16px,2.1vw,34px)] w-[min(360px,62vw)]" />
+
+                <div className="mx-auto mt-4 w-[min(500px,84vw)]">
                   <SearchBar />
                 </div>
               </motion.div>
