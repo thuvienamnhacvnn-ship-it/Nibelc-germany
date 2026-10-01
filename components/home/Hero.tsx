@@ -101,7 +101,7 @@ export function Hero() {
                   <button
                     type="button"
                     onClick={hero.boChon}
-                    className="nb-btn-ghost mt-4 h-10 px-5 text-[13.5px]"
+                    className="nb-btn-ghost absolute top-full left-1/2 mt-3 h-10 -translate-x-1/2 px-5 text-[13.5px] whitespace-nowrap"
                   >
                     <X size={15} />
                     Quay lại trang chủ
@@ -141,7 +141,7 @@ export function Hero() {
 
           {/* Thanh tìm kiếm đứng NGOÀI khối đổi: mở đơn hay không nó vẫn ở
               nguyên đây. */}
-          <div className="mt-4 w-[min(500px,84vw)]">
+          <div className="mt-[120px] w-[min(500px,84vw)]">
             <SearchBar />
           </div>
         </div>

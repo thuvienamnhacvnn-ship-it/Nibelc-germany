@@ -93,7 +93,7 @@ export function FeaturedJob({
       className="w-[min(450px,84vw)] overflow-hidden rounded-[20px] border border-[var(--nb-gold)]/70 bg-[var(--nb-navy-900)] text-left shadow-[0_30px_80px_-14px_rgba(0,0,0,.9),0_0_0_1px_rgba(217,184,120,.22),0_0_44px_-12px_rgba(224,172,61,.5)]"
     >
       {/* ---------- KHUNG ẢNH 16:9 ---------- */}
-      <div className="relative aspect-[21/9]">
+      <div className="relative aspect-video">
         <Image src={job.image} alt={job.title} fill priority sizes="450px" className="object-cover" />
 
         {nganh && (
