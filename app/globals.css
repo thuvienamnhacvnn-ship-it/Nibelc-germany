@@ -171,7 +171,12 @@
 }
 .nb-khoi > .nb-bong-sau {
   position: absolute;
-  inset: 0;
+  /* KHÔNG dùng inset: 0 — nó ép bản sao rộng bằng khung cha, chữ bên trong
+     ngắt dòng và căn khác đi, nên các nét thò ra ngoài chữ chính thành những
+     vạch kẻ đè lên mặt chữ vàng. Neo đúng góc trái trên và giữ một dòng. */
+  top: 0;
+  left: 0;
+  white-space: nowrap;
   color: rgba(46, 27, 2, 0.75);
   -webkit-text-fill-color: rgba(46, 27, 2, 0.75);
   transform: translate(2px, 3px);
@@ -206,8 +211,11 @@
      thì viền phủ kín nét và chữ thành một mảng tối. */
   /* đo theo em: 3px cố định thì trên điện thoại chữ 26px bị viền nuốt gần
      hết nét, nhìn bệt và mất hẳn chất vàng */
-  -webkit-text-stroke: 0.035em rgba(74, 45, 4, 0.9);
-  paint-order: stroke fill;
+  /* TUYỆT ĐỐI KHÔNG dùng -webkit-text-stroke ở đây.
+     Với Montserrat 900, viền vẽ bằng text-stroke làm các DẤU TIẾNG VIỆT —
+     dấu mũ, dấu sắc, gạch ngang của chữ Đ — bị kéo lệch khỏi thân chữ và
+     thò ra thành những vạch kẻ đè lên mặt chữ. Chữ lấy khối từ bản sao nâu
+     sẫm phía sau (.nb-bong-sau), không cần viền. */
   padding-block: 0.1em;
   margin-block: -0.1em;
 }

@@ -141,20 +141,20 @@ export function IndustryRail({
           </defs>
 
           {/* nền xanh, cạnh trên võng cong xuống giữa */}
-          <path d="M0 14 C 520 44, 1400 44, 1920 14 L1920 112 L0 112 Z" fill="url(#nb-nen-xanh)" />
+          <path d="M0 14 C 520 59, 1400 59, 1920 14 L1920 112 L0 112 Z" fill="url(#nb-nen-xanh)" />
           {/* viền vàng chạy theo đúng cạnh cong đó */}
           <path
-            d="M0 14 C 520 44, 1400 44, 1920 14"
+            d="M0 14 C 520 59, 1400 59, 1920 14"
             fill="none"
             stroke="url(#nb-line-vang)"
             strokeWidth="3"
           />
 
           {/* các dải vàng uốn lượn bên trong nền xanh */}
-          <path d="M0 56 C 470 22, 1450 22, 1920 56" fill="none" stroke="url(#nb-line-vang)" strokeWidth="2.6" opacity="1" />
-          <path d="M0 72 C 430 38, 1490 38, 1920 72" fill="none" stroke="url(#nb-line-vang)" strokeWidth="2" opacity=".8" />
-          <path d="M0 88 C 520 54, 1400 54, 1920 88" fill="none" stroke="url(#nb-line-vang)" strokeWidth="1.5" opacity=".6" />
-          <path d="M0 104 C 460 70, 1460 70, 1920 104" fill="none" stroke="url(#nb-line-vang)" strokeWidth="1.2" opacity=".42" />
+          <path d="M0 56 C 470 5, 1450 5, 1920 56" fill="none" stroke="url(#nb-line-vang)" strokeWidth="2.6" opacity="1" />
+          <path d="M0 72 C 430 21, 1490 21, 1920 72" fill="none" stroke="url(#nb-line-vang)" strokeWidth="2" opacity=".8" />
+          <path d="M0 88 C 520 37, 1400 37, 1920 88" fill="none" stroke="url(#nb-line-vang)" strokeWidth="1.5" opacity=".6" />
+          <path d="M0 104 C 460 53, 1460 53, 1920 104" fill="none" stroke="url(#nb-line-vang)" strokeWidth="1.2" opacity=".42" />
         </svg>
       </div>
 
