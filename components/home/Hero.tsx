@@ -76,71 +76,68 @@ export function Hero() {
       {/* ---------- KHỐI GIỮA ---------- */}
       <div
         className="relative z-20 flex min-h-[calc(100svh-var(--nb-header))] flex-col items-center lg:min-h-[calc(100vh-40px)]"
-        style={{ paddingTop: "calc(var(--nb-header) + 113px)" }}
+        style={{ paddingTop: "var(--nb-header)" }}
       >
         <div className="flex flex-1 flex-col items-center justify-start px-6 pt-0 text-center">
-          <AnimatePresence mode="wait" custom={{ doiTiep: hero.doiTiep, huong: hero.huong }}>
-            {hero.dangHienJob && hero.job ? (
-              <motion.div
-                key={`job-${hero.job.id}`}
-                className="mt-[189px] flex flex-col items-center"
-                style={{ perspective: 1200 }}
-              >
-                <FeaturedJob job={hero.job} oTep={hero.oTep} doiTiep={hero.doiTiep} huong={hero.huong} />
-                <button
-                  type="button"
-                  onClick={hero.boChon}
-                  className="nb-btn-ghost mt-4 h-10 px-5 text-[13.5px]"
+          {/* CỤM TIÊU ĐỀ luôn đứng nguyên chỗ. Trước đây thẻ đơn hàng thay
+              thế cả cụm này nên bấm một tệp là tiêu đề biến mất và thẻ chắn
+              giữa banner — vỡ hết bố cục. Nay chỉ phần DƯỚI tiêu đề đổi:
+              không mở đơn thì là thanh tìm kiếm, mở đơn thì là thẻ đơn. */}
+          <h1 className="sr-only">
+            Arbeiten in Deutschland mit Nibelc Germany GmbH — ĐỐI TÁC UY TÍN, lựa chọn tốt nhất của bạn cho việc
+            làm và học nghề tại Đức, châu Âu
+          </h1>
+          <span className="relative mx-auto block w-[min(621px,80vw)]">
+            <Image
+              src="/assets/home/title-cum.png"
+              alt=""
+              width={1400}
+              height={596}
+              priority
+              quality={95}
+              sizes="(min-width:1024px) 621px, 80vw"
+              className="h-auto w-full"
+              style={{
+                // Bóng ÔM SÁT nét chữ. Bán kính lớn làm bóng loang ra cả vùng
+                // trống quanh cụm, nhìn như một mảng mờ bẩn.
+                filter:
+                  "drop-shadow(0 0 1px rgba(4,10,20,.95)) drop-shadow(0 1px 2px rgba(4,10,20,.9)) drop-shadow(0 2px 4px rgba(4,10,20,.7))",
+              }}
+            />
+          </span>
+
+          <div className="relative mt-[160px] flex h-[56px] w-full flex-col items-center">
+            <AnimatePresence mode="wait" custom={{ doiTiep: hero.doiTiep, huong: hero.huong }}>
+              {hero.dangHienJob && hero.job ? (
+                <motion.div
+                  key={`job-${hero.job.id}`}
+                  className="absolute top-[-150px] left-1/2 flex -translate-x-1/2 flex-col items-center"
+                  style={{ perspective: 1200 }}
                 >
-                  <X size={15} />
-                  Quay lại trang chủ
-                </button>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="brand"
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.45, ease: [0.22, 0.61, 0.36, 1] }}
-                className="nb-bong-chu relative max-w-[min(760px,82vw)] lg:max-w-[min(820px,74vw)]"
-              >
-
-                {/* CỤM TIÊU ĐỀ là một tấm PNG nền trong suốt Sếp gửi, không
-                    dựng lại bằng chữ nữa. Vẫn giữ một thẻ h1 cho máy tìm kiếm
-                    và trình đọc màn hình, chỉ ẩn khỏi mắt thường. */}
-                <h1 className="sr-only">
-                  Arbeiten in Deutschland mit Nibelc Germany GmbH — ĐỐI TÁC UY TÍN, lựa chọn tốt nhất của bạn cho
-                  việc làm và học nghề tại Đức, châu Âu
-                </h1>
-                <span className="relative mx-auto block w-[min(621px,80vw)]">
-                  <Image
-                    src="/assets/home/title-cum.png"
-                    alt=""
-                    width={1400}
-                    height={596}
-                    priority
-                    quality={95}
-                    sizes="(min-width:1024px) 621px, 80vw"
-                    className="h-auto w-full"
-                    style={{
-                      // Bóng ôm sát nét chữ. Đây là ảnh thường nên drop-shadow
-                      // chạy đúng, khác hẳn chữ dùng background-clip trước đây.
-                      // Bóng ÔM SÁT nét chữ. Bán kính lớn làm bóng loang ra
-                      // cả vùng trống quanh cụm, nhìn như một mảng mờ bẩn.
-                      filter:
-                        "drop-shadow(0 0 1px rgba(4,10,20,.95)) drop-shadow(0 1px 2px rgba(4,10,20,.9)) drop-shadow(0 2px 4px rgba(4,10,20,.7))",
-                    }}
-                  />
-                </span>
-
-
-                <div className="mx-auto mt-[189px] w-[min(500px,84vw)]">
+                  <FeaturedJob job={hero.job} oTep={hero.oTep} doiTiep={hero.doiTiep} huong={hero.huong} />
+                  <button
+                    type="button"
+                    onClick={hero.boChon}
+                    className="nb-btn-ghost mt-4 h-10 px-5 text-[13.5px]"
+                  >
+                    <X size={15} />
+                    Quay lại trang chủ
+                  </button>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="tim"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.3, ease: [0.22, 0.61, 0.36, 1] }}
+                  className="w-[min(500px,84vw)]"
+                >
                   <SearchBar />
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
 
         {/* ---------- DẢI PHONG BÌ ---------- */}
