@@ -62,7 +62,11 @@ export function PageHero({
       <div className="nb-wrap nb-bong-chu py-11 sm:py-16 lg:flex lg:min-h-[360px] lg:flex-col lg:justify-center lg:py-7">
         {/* Máy tính: eyebrow 12px vàng nằm trên vùng ảnh sáng (núi tuyết /ve-chung-toi)
             không đọc được → đặt trên nhãn nền navy đặc riêng (không phủ ảnh). */}
-        <p className="nb-eyebrow lg:self-start lg:rounded-full lg:border lg:border-[rgba(217,184,120,.35)] lg:bg-[#071525]/85 lg:px-3.5 lg:py-1.5 lg:[text-shadow:none]">{nhan}</p>
+        {/* Máy tính: cả khối chữ nằm trên TẤM NỀN navy riêng ôm sát chữ (không phủ
+            ảnh, không glow) — Sếp cấm bóng chữ, mà ảnh banner nhiều chỗ sáng/rối
+            (máy móc, núi tuyết) nên chữ trần không đọc được. */}
+        <div className="lg:w-fit lg:max-w-[760px] lg:rounded-[20px] lg:border lg:border-[rgba(232,201,135,.22)] lg:bg-[rgba(6,17,34,.78)] lg:px-9 lg:py-7">
+        <p className="nb-eyebrow">{nhan}</p>
         {/* Trên điện thoại clamp() rơi về 30px cho MỌI tiêu đề, kể cả câu dài
             như "Du học nghề Đức – Học nghề – Có lương…", nên chữ tràn ra 4–5
             dòng sát mép. Hạ một bậc ở khổ hẹp rồi mới dùng clamp từ sm trở lên. */}
@@ -102,6 +106,7 @@ export function PageHero({
         )}
 
         {children}
+        </div>
       </div>
     </section>
   );
