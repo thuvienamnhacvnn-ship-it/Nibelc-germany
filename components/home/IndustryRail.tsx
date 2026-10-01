@@ -122,11 +122,13 @@ export function IndustryRail({
           gửi. Trước đây là một mảng toả tròn mờ dần, nhìn không ra hình khối
           nào cả. */}
       <div
-        className="pointer-events-none absolute top-[30%] bottom-0 left-1/2 w-[1640px] max-w-[94vw] -translate-x-1/2 rounded-t-[34px] border-t border-[var(--nb-gold)]/35"
+        className="pointer-events-none absolute top-[30%] bottom-0 left-1/2 w-[1640px] max-w-[94vw] -translate-x-1/2 rounded-t-[34px] border-t border-[var(--nb-gold)]/55"
         style={{
+          // Dải SÁNG champagne, không phải dải navy tối: trong mẫu chân banner
+          // là một vệt sáng cong lên hai góc, các tệp đứng trên đó.
           background:
-            "linear-gradient(180deg, rgba(5,11,22,.72) 0%, rgba(5,11,22,.9) 46%, var(--nb-navy-900) 100%)",
-          boxShadow: "0 -12px 36px rgba(0,0,0,.45)",
+            "linear-gradient(180deg, rgba(255,244,214,.3) 0%, rgba(230,182,80,.22) 30%, rgba(12,30,56,.72) 72%, var(--nb-navy-900) 100%)",
+          boxShadow: "0 -18px 48px rgba(224,172,61,.3), inset 0 1.5px 0 rgba(255,243,210,.85)",
         }}
         aria-hidden="true"
       />

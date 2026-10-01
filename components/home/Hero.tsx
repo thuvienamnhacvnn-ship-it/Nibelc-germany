@@ -77,7 +77,7 @@ export function Hero() {
         className="relative z-20 flex min-h-[calc(100svh-var(--nb-header))] flex-col items-center lg:min-h-[calc(100vh-40px)]"
         style={{ paddingTop: "calc(var(--nb-header) + 4vh)" }}
       >
-        <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
+        <div className="flex flex-1 flex-col items-center justify-start px-6 pt-[2vh] text-center lg:pt-[4vh]">
           <AnimatePresence mode="wait" custom={{ doiTiep: hero.doiTiep, huong: hero.huong }}>
             {hero.dangHienJob && hero.job ? (
               <motion.div
@@ -102,14 +102,21 @@ export function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.45, ease: [0.22, 0.61, 0.36, 1] }}
-                className="nb-bong-chu max-w-[min(760px,82vw)] lg:max-w-[min(760px,74vw)]"
+                className="nb-bong-chu relative max-w-[min(760px,82vw)] lg:max-w-[min(820px,74vw)]"
               >
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -inset-x-14 -top-10 -bottom-6 -z-10 rounded-[40px]"
+                  style={{
+                    background:
+                      "radial-gradient(70% 66% at 50% 48%, rgba(255,247,228,.5) 0%, rgba(255,240,206,.34) 42%, rgba(255,236,196,.14) 70%, transparent 100%)",
+                  }}
+                />
+
                 {/* ---- CỤM 1: dòng Đức ---- */}
-                <h1 className="nb-display text-[clamp(26px,3.6vw,58px)] leading-[1.12] text-white italic">
-                  Arbeiten in{" "}
-                  <span className="nb-bong-khoi inline-block not-italic">
-                    <span className="nb-vang-khoi">Deutschland</span>
-                  </span>
+                <h1 className="nb-display flex flex-wrap items-baseline justify-center gap-x-[0.28em] leading-[1.1] text-white italic">
+                  <span className="text-[clamp(21px,2.7vw,44px)]">Arbeiten in</span>
+                  <span className="nb-vang-khoi text-[clamp(28px,4vw,64px)] not-italic">Deutschland</span>
                 </h1>
                 <p className="mt-1 text-[clamp(15px,1.35vw,24px)] font-semibold text-white italic">
                   mit Nibelc Germany GmbH
@@ -126,15 +133,12 @@ export function Hero() {
                   CHO VIỆC LÀM VÀ HỌC NGHỀ TẠI ĐỨC, CHÂU ÂU
                 </p>
 
+                <div className="mx-auto mt-6 w-[min(620px,86vw)]">
+                  <SearchBar />
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
-        </div>
-
-        {/* Thanh tìm kiếm đứng riêng, luôn ở dưới cùng phần chữ và ngay trên
-            dải tệp — không bị thẻ đơn hàng đẩy đi đâu cả. */}
-        <div className="w-[min(620px,86vw)] px-6 pb-8 lg:pb-6">
-          <SearchBar />
         </div>
 
         {/* ---------- DẢI PHONG BÌ ---------- */}
