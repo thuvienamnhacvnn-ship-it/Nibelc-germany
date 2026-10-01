@@ -30,7 +30,7 @@ export function Footer() {
 
   return (
     <footer className="border-t border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)]">
-      <div className="nb-wrap grid gap-x-10 gap-y-12 py-14 md:grid-cols-2 xl:grid-cols-[1.6fr_1fr_1fr_1.3fr]">
+      <div className="nb-wrap grid gap-x-10 gap-y-9 py-9 md:grid-cols-2 lg:py-14 xl:grid-cols-[1.6fr_1fr_1fr_1.3fr]">
         {/* ---------- 1. Thương hiệu ---------- */}
         <div>
           <Image
@@ -40,7 +40,7 @@ export function Footer() {
             height={44}
             className="h-9 w-auto"
           />
-          <p className="mt-5 max-w-[42ch] text-[14px] leading-[1.75] text-[var(--nb-text-dim)]">
+          <p className="mt-4 max-w-[42ch] text-[13.5px] leading-[1.7] text-[var(--nb-text-dim)]">
             Kết nối lao động và học viên Việt Nam với doanh nghiệp tại Đức và châu Âu — từ tuyển chọn, đào tạo tới khi
             ổn định công việc.
           </p>
@@ -63,7 +63,7 @@ export function Footer() {
         </div>
 
         {/* ---------- 2. Điều hướng ---------- */}
-        <nav aria-label="Menu chân trang">
+        <nav aria-label="Menu chân trang" className="hidden md:block">
           <p className="nb-eyebrow">Điều hướng</p>
           <ul className="mt-4 space-y-2.5">
             {NAV.map((m) => (
@@ -80,7 +80,7 @@ export function Footer() {
         </nav>
 
         {/* ---------- 3. Nhóm ngành ---------- */}
-        <nav aria-label="Nhóm ngành nghề">
+        <nav aria-label="Nhóm ngành nghề" className="hidden md:block">
           <p className="nb-eyebrow">Nhóm ngành</p>
           <ul className="mt-4 space-y-2.5">
             {nganhChinh.map((n) => (
@@ -141,7 +141,7 @@ export function Footer() {
       </div>
 
       {/* ---------- BẢN ĐỒ VĂN PHÒNG ---------- */}
-      <div className="nb-wrap pb-14">
+      <div className="nb-wrap pb-9 lg:pb-14">
         <div className="nb-panel overflow-hidden">
           <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4">
             <p className="flex items-center gap-2.5 text-[14px] text-[var(--nb-text-dim)]">
@@ -164,7 +164,7 @@ export function Footer() {
             src={`https://www.openstreetmap.org/export/embed.html?bbox=${KHUNG_BAN_DO}&layer=mapnik`}
             loading="lazy"
             referrerPolicy="no-referrer"
-            className="block h-[280px] w-full border-0 grayscale-[.25]"
+            className="block h-[190px] w-full border-0 grayscale-[.25] lg:h-[280px]"
           />
         </div>
       </div>

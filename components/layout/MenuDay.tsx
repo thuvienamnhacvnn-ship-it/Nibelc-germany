@@ -8,11 +8,16 @@ import { NavLink } from "@/components/layout/NavLink";
 /**
  * MENU ĐÁY — CHỈ CÓ TRÊN ĐIỆN THOẠI
  *
- * Nền champagne đặc, chữ navy. Đây là thanh điều hướng chính của bản mobile,
- * thay cho menu ngang của desktop (màn hẹp không đủ chỗ cho bảy mục).
+ * Đây là thanh điều hướng DUY NHẤT của bản điện thoại: trang phụ đã bỏ hẳn
+ * header, nên mọi đường đi đều qua đây.
  *
- * Dùng NavLink chứ không phải <Link> thường, nên bấm mục nào cũng chạy đúng
- * hiệu ứng chập màn của NIBELC y như menu trên desktop.
+ * Dáng: nền xanh biển đậm trong mờ, viền champagne mảnh ở mép trên, bo góc
+ * trên và nổi cách mép màn một chút — nhìn như một thanh riêng chứ không dán
+ * bệt vào đáy. Mục đang mở được một "viên" champagne chạy tới ôm lấy, icon
+ * nhảy lên và một chấm sáng hiện dưới chân.
+ *
+ * Viên champagne dùng layoutId nên nó TRƯỢT từ mục cũ sang mục mới thay vì
+ * nhảy cóc — mắt theo được là mình vừa đi từ đâu sang đâu.
  *
  * Năm mục là trần: quá số đó thì chữ bị bóp và ngón tay bấm nhầm.
  */
@@ -34,14 +39,26 @@ export function MenuDay() {
       aria-label="Menu chính"
       data-menu-day
       className="fixed inset-x-0 bottom-0 z-50 lg:hidden"
-      style={{
-        background: "linear-gradient(180deg, var(--nb-gold-soft) 0%, var(--nb-gold) 48%, var(--nb-gold-deep) 100%)",
-        boxShadow: "0 -8px 28px rgba(0,0,0,.45)",
-        // chừa chỗ cho vạch home của iPhone
-        paddingBottom: "env(safe-area-inset-bottom, 0px)",
-      }}
+      style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
     >
-      <ul className="flex h-[62px] items-stretch">
+      {/* vệt sáng champagne chạy dọc mép trên */}
+      <span
+        aria-hidden="true"
+        className="block h-px w-full"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent, var(--nb-gold-soft) 18%, var(--nb-gold-strong) 50%, var(--nb-gold-soft) 82%, transparent)",
+        }}
+      />
+
+      <ul
+        className="flex h-[66px] items-stretch"
+        style={{
+          background: "linear-gradient(180deg, rgba(16,56,107,.96) 0%, rgba(7,29,58,.99) 100%)",
+          backdropFilter: "blur(12px)",
+          boxShadow: "0 -10px 30px rgba(3,12,26,.6)",
+        }}
+      >
         {MUC.map(({ href, label, Icon }) => {
           const on = dangMo(href);
           return (
@@ -49,23 +66,36 @@ export function MenuDay() {
               <NavLink
                 href={href}
                 aria-current={on ? "page" : undefined}
-                className="relative flex h-full flex-col items-center justify-center gap-1 px-1 text-[var(--nb-navy-900)]"
+                className="relative flex h-full flex-col items-center justify-center gap-1 px-1"
               >
                 {on && (
                   <motion.span
-                    layoutId="menu-day-on"
-                    className="absolute inset-x-2 inset-y-1.5 -z-10 rounded-xl bg-[var(--nb-navy-900)]"
-                    transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                    layoutId="menu-day-vien"
+                    className="absolute inset-x-1.5 inset-y-2 -z-10 rounded-2xl"
+                    style={{
+                      background:
+                        "linear-gradient(145deg, var(--nb-gold-soft), var(--nb-gold) 46%, var(--nb-gold-strong))",
+                      boxShadow: "0 6px 16px -6px rgba(224,172,61,.6)",
+                    }}
+                    transition={{ type: "spring", stiffness: 420, damping: 32 }}
                   />
                 )}
-                <Icon
-                  size={19}
-                  strokeWidth={on ? 2.2 : 1.9}
-                  className={on ? "text-[var(--nb-gold)]" : "text-[var(--nb-navy-900)]"}
-                />
+
+                <motion.span
+                  animate={{ y: on ? -1 : 0, scale: on ? 1.08 : 1 }}
+                  transition={{ type: "spring", stiffness: 420, damping: 26 }}
+                  className="flex items-center justify-center"
+                >
+                  <Icon
+                    size={on ? 21 : 19}
+                    strokeWidth={on ? 2.3 : 1.9}
+                    className={on ? "text-[var(--nb-navy-900)]" : "text-[var(--nb-gold-soft)]"}
+                  />
+                </motion.span>
+
                 <span
-                  className={`w-full truncate text-center text-[10.5px] leading-none font-semibold ${
-                    on ? "text-[var(--nb-gold-soft)]" : "text-[var(--nb-navy-900)]"
+                  className={`w-full truncate text-center text-[10.5px] leading-none ${
+                    on ? "font-bold text-[var(--nb-navy-900)]" : "font-medium text-[#b9cce6]"
                   }`}
                 >
                   {label}

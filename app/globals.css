@@ -372,6 +372,38 @@
   background: linear-gradient(270deg, var(--nb-navy-900) 8%, transparent 100%);
 }
 
+
+/* ============================================================
+   NỀN XANH CHO BẢN ĐIỆN THOẠI
+   ------------------------------------------------------------
+   Bản điện thoại trước đây dùng chung tông gần-đen của desktop
+   (#050b16), nhìn tối và bẹt. Trên màn nhỏ không có ảnh nền lớn
+   đỡ, cần nền XANH BIỂN ĐẬM với ba sắc độ tách bạch thì khối mới
+   nổi khỏi nhau.
+   Chỉ đổi dưới 1024px, desktop giữ nguyên.
+   ============================================================ */
+@media (max-width: 1023px) {
+  /* .nb-panel và .nb-card ghi THẲNG mã màu navy cũ chứ không dùng biến, nên
+     đổi bảng màu ở :root thôi thì chúng vẫn đen. Phải ghi đè riêng. */
+  .nb-panel {
+    background: linear-gradient(180deg, rgba(16, 56, 107, 0.92), rgba(11, 42, 82, 0.92));
+  }
+  .nb-card {
+    background: linear-gradient(180deg, rgba(23, 69, 127, 0.9), rgba(11, 42, 82, 0.95));
+  }
+
+  :root {
+    --nb-navy-900: #071d3a; /* nền trang   — xanh biển đậm */
+    --nb-navy-800: #0b2a52; /* nền khối    — sáng hơn một bậc */
+    --nb-navy-700: #10386b; /* nền thẻ     — sáng hơn hai bậc */
+    --nb-navy-600: #17457f;
+    --nb-navy-500: #1f5596;
+    /* đường kẻ ngả vàng rõ hơn để tách khối trên nền xanh */
+    --nb-line: rgba(217, 184, 120, 0.34);
+    --nb-line-soft: rgba(240, 220, 180, 0.14);
+  }
+}
+
 /* ============================================================
    TIỆN ÍCH
    ============================================================ */
@@ -417,6 +449,13 @@
    vì hero chạy full viewport và header đè lên trên. */
 .nb-duoi-header {
   padding-top: var(--nb-header);
+}
+/* Điện thoại bỏ hẳn header ở trang phụ, nên khoảng chừa này cũng phải bỏ —
+   không thì đầu trang hở một dải trống bằng chiều cao header. */
+@media (max-width: 1023px) {
+  .nb-duoi-header {
+    padding-top: 0;
+  }
 }
 
 /* Cờ Đức nhỏ trên thẻ đơn hàng — mô-típ có trên mọi thẻ trong ảnh mẫu */
