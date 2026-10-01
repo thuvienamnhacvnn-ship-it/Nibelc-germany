@@ -69,7 +69,9 @@ export function IndustryEnvelope({
             width={260}
             height={286}
             sizes="212px"
-            className="h-auto w-full drop-shadow-[0_18px_28px_rgba(0,0,0,.55)] transition-[filter] duration-300 group-hover:drop-shadow-[0_24px_34px_rgba(0,0,0,.7)]"
+            // Bóng chỉ đổ XUỐNG và rất ngắn. Bóng toả rộng của tệp này phủ lên
+            // tệp bên cạnh, thành vệt đen lộ ra ở chỗ hai tệp giao nhau.
+            className="h-auto w-full drop-shadow-[0_6px_6px_rgba(0,0,0,.4)] transition-[filter] duration-300 group-hover:drop-shadow-[0_10px_10px_rgba(0,0,0,.5)]"
           />
           {/* viền champagne sáng lên khi rê hoặc khi được chọn */}
           <motion.span
@@ -135,7 +137,7 @@ function PhongBiCss({
 
       {/* ---- lớp 2: thân phong bì, nằm TRÊN hồ sơ ---- */}
       <span
-        className="absolute inset-x-0 bottom-0 z-10 h-[72%] overflow-hidden rounded-[13px] shadow-[0_18px_28px_rgba(0,0,0,.55)]"
+        className="absolute inset-x-0 bottom-0 z-10 h-[72%] overflow-hidden rounded-[13px] shadow-[0_6px_8px_rgba(0,0,0,.4)]"
         style={{
           background: navy
             ? "linear-gradient(168deg, #24508f 0%, #12305c 52%, #08182c 100%)"
