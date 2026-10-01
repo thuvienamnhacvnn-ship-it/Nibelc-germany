@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
 import { Hero } from "@/components/home/Hero";
+import { BangChayDonHang } from "@/components/home/BangChayDonHang";
 import { NavLink } from "@/components/layout/NavLink";
 import { JobCard } from "@/components/jobs/JobCard";
-import { JOBS, TONG_SUAT } from "@/data/jobs";
-import { INDUSTRIES } from "@/data/industries";
+import { JOBS } from "@/data/jobs";
 
 export const metadata: Metadata = {
   title: "NIBELC GROUP GERMANY — Việc làm & Du học nghề tại Đức",
@@ -12,28 +12,14 @@ export const metadata: Metadata = {
 
 export default function Page() {
   const noiBat = [...JOBS].sort((a, b) => b.gallery.length - a.gallery.length).slice(0, 6);
-  const soNuoc = new Set(JOBS.map((j) => j.state)).size;
 
   return (
     <>
       <Hero />
 
-      {/* ---------- SỐ LIỆU ---------- */}
-      <section className="border-y border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)]">
-        <ul className="nb-wrap grid grid-cols-2 gap-8 py-10 lg:grid-cols-4">
-          {[
-            [String(JOBS.length), "đơn hàng đang tuyển"],
-            [String(TONG_SUAT), "suất tuyển"],
-            [String(soNuoc), "quốc gia"],
-            [String(INDUSTRIES.length), "nhóm ngành nghề"],
-          ].map(([so, nhan]) => (
-            <li key={nhan}>
-              <b className="nb-gold-text nb-display block text-[34px] leading-none">{so}</b>
-              <span className="mt-1.5 block text-[13.5px] text-[var(--nb-text-dim)]">{nhan}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
+      {/* Dãy bốn con số trước đây chỉ để ngắm. Thay bằng băng ảnh đơn hàng
+          thật chạy ngang, bấm được, rê chuột thì dừng. */}
+      <BangChayDonHang ds={noiBat} />
 
       {/* ---------- ĐƠN HÀNG NỔI BẬT ---------- */}
       <section className="nb-wrap py-20">

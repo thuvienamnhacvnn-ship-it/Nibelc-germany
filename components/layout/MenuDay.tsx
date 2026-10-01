@@ -11,13 +11,17 @@ import { NavLink } from "@/components/layout/NavLink";
  * Đây là thanh điều hướng DUY NHẤT của bản điện thoại: trang phụ đã bỏ hẳn
  * header, nên mọi đường đi đều qua đây.
  *
- * Dáng: nền xanh biển đậm trong mờ, viền champagne mảnh ở mép trên, bo góc
- * trên và nổi cách mép màn một chút — nhìn như một thanh riêng chứ không dán
- * bệt vào đáy. Mục đang mở được một "viên" champagne chạy tới ôm lấy, icon
- * nhảy lên và một chấm sáng hiện dưới chân.
+ * Dáng: một thanh NỔI, bo 24px, cách hai mép 10px và cách đáy 8px — không dán
+ * bệt vào cạnh dưới như tab bar mặc định của điện thoại. Nền xanh đặc một bậc
+ * sáng hơn nền trang, viền champagne mảnh quanh thanh.
  *
- * Viên champagne dùng layoutId nên nó TRƯỢT từ mục cũ sang mục mới thay vì
- * nhảy cóc — mắt theo được là mình vừa đi từ đâu sang đâu.
+ * Mục đang mở: một VẠCH champagne 3px ở mép trên ô, chữ và icon chuyển vàng.
+ * KHÔNG dùng viên champagne đặc và KHÔNG đổ bóng vàng — bản trước có
+ * `box-shadow: 0 6px 16px -6px rgba(224,172,61,.6)` là một quầng sáng, trái
+ * luật "không glow" của Sếp.
+ *
+ * Vạch dùng layoutId nên nó TRƯỢT từ mục cũ sang mục mới thay vì nhảy cóc —
+ * mắt theo được là mình vừa đi từ đâu sang đâu.
  *
  * Năm mục là trần: quá số đó thì chữ bị bóp và ngón tay bấm nhầm.
  */
@@ -39,24 +43,30 @@ export function MenuDay() {
       aria-label="Menu chính"
       data-menu-day
       className="fixed inset-x-0 bottom-0 z-50 lg:hidden"
-      style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
+      style={{
+        /* NỀN đặt ở ĐÂY chứ không ở <ul>, và phủ luôn vùng safe-area.
+           Trước đây nav chỉ có padding-bottom bằng safe-area còn nền nằm ở
+           <ul> bên trong, nên trên iPhone có vạch home (safe-area ~34px) cả
+           dải đó trong suốt — nhìn ra là thanh menu BAY lên, hở nền trang
+           bên dưới. Máy tính không có safe-area nên không lộ, phải mở trên
+           điện thoại thật mới thấy. */
+        background: "#0f3566",
+        paddingBottom: "env(safe-area-inset-bottom, 0px)",
+        boxShadow: "0 -10px 28px -8px rgba(3,12,26,.75)",
+      }}
     >
-      {/* vệt sáng champagne chạy dọc mép trên */}
+      {/* vạch champagne mảnh ở mép trên, tách thanh khỏi nội dung */}
       <span
         aria-hidden="true"
         className="block h-px w-full"
         style={{
           background:
-            "linear-gradient(90deg, transparent, var(--nb-gold-soft) 18%, var(--nb-gold-strong) 50%, var(--nb-gold-soft) 82%, transparent)",
+            "linear-gradient(90deg, transparent, var(--nb-gold-soft) 16%, var(--nb-gold-strong) 50%, var(--nb-gold-soft) 84%, transparent)",
         }}
       />
-
       <ul
-        className="flex h-[66px] items-stretch"
+        className="flex h-[62px] items-stretch"
         style={{
-          background: "linear-gradient(180deg, rgba(16,56,107,.96) 0%, rgba(7,29,58,.99) 100%)",
-          backdropFilter: "blur(12px)",
-          boxShadow: "0 -10px 30px rgba(3,12,26,.6)",
         }}
       >
         {MUC.map(({ href, label, Icon }) => {
@@ -66,36 +76,33 @@ export function MenuDay() {
               <NavLink
                 href={href}
                 aria-current={on ? "page" : undefined}
-                className="relative flex h-full flex-col items-center justify-center gap-1 px-1"
+                className="relative flex h-full flex-col items-center justify-center gap-1"
               >
                 {on && (
                   <motion.span
-                    layoutId="menu-day-vien"
-                    className="absolute inset-x-1.5 inset-y-2 -z-10 rounded-2xl"
+                    layoutId="menu-day-vach"
+                    aria-hidden="true"
+                    className="absolute inset-x-3.5 top-0 h-[3px] rounded-b-full"
                     style={{
                       background:
-                        "linear-gradient(145deg, var(--nb-gold-soft), var(--nb-gold) 46%, var(--nb-gold-strong))",
-                      boxShadow: "0 6px 16px -6px rgba(224,172,61,.6)",
+                        "linear-gradient(90deg, var(--nb-gold-soft), var(--nb-gold-strong) 50%, var(--nb-gold-soft))",
                     }}
                     transition={{ type: "spring", stiffness: 420, damping: 32 }}
                   />
                 )}
 
-                <motion.span
-                  animate={{ y: on ? -1 : 0, scale: on ? 1.08 : 1 }}
-                  transition={{ type: "spring", stiffness: 420, damping: 26 }}
-                  className="flex items-center justify-center"
-                >
-                  <Icon
-                    size={on ? 21 : 19}
-                    strokeWidth={on ? 2.3 : 1.9}
-                    className={on ? "text-[var(--nb-navy-900)]" : "text-[var(--nb-gold-soft)]"}
-                  />
-                </motion.span>
+                <Icon
+                  size={22}
+                  strokeWidth={on ? 2.2 : 1.8}
+                  className={on ? "text-[var(--nb-gold-strong)]" : "text-[#b9cce6]"}
+                />
 
+                {/* leading-[1.4] chứ KHÔNG leading-none: `truncate` kèm
+                    overflow:hidden, ô dòng cao đúng 1em thì dấu tiếng Việt
+                    ("ề" của "Du học nghề") bị xén mất. */}
                 <span
-                  className={`w-full truncate text-center text-[10.5px] leading-none ${
-                    on ? "font-bold text-[var(--nb-navy-900)]" : "font-medium text-[#b9cce6]"
+                  className={`w-full truncate text-center text-[12px] leading-[1.4] tracking-[-0.01em] ${
+                    on ? "font-bold text-[var(--nb-gold-strong)]" : "font-medium text-[#b9cce6]"
                   }`}
                 >
                   {label}

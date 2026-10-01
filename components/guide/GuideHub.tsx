@@ -139,9 +139,14 @@ export function GuideHub() {
           <>
             {noiBat && (
               <NavLink href={`/cam-nang/${noiBat.id}`} className="nb-card group mt-6 block overflow-hidden">
-                {/* Chữ đè lên ảnh nên ảnh phải cao hơn ở khổ hẹp, nếu không
-                    tiêu đề 26px xuống bốn dòng và tràn lên khỏi khung ảnh. */}
-                <span className="relative block h-[320px] overflow-hidden sm:h-[300px]">
+                {/* ẢNH SẠCH, CHỮ NẰM DƯỚI — không còn lớp phủ, không còn chữ
+                    đè lên ảnh.
+                    Bản cũ đặt cả cụm chữ chồng lên tấm ảnh và phải phủ một
+                    lớp màu lên toàn ảnh cho đọc được. Hai cái đều trái luật
+                    của Sếp, và trên điện thoại tiêu đề rơi đúng vào MẶT người
+                    trong ảnh. Xếp như các thẻ bài còn lại của chính trang
+                    này: ảnh trên, chữ dưới trên nền thẻ. */}
+                <span className="relative block aspect-[16/9] overflow-hidden">
                   <Image
                     src={ANH[0]!}
                     alt=""
@@ -149,25 +154,20 @@ export function GuideHub() {
                     sizes="(min-width:1024px) 720px, 100vw"
                     className="object-cover transition-transform duration-[700ms] group-hover:scale-105"
                   />
-                  <span
-                    className="absolute inset-0"
-                    style={{ background: "linear-gradient(180deg, rgba(7,21,37,.15) 35%, rgba(7,21,37,.95))" }}
-                    aria-hidden="true"
-                  />
-                  <span className="absolute inset-x-0 bottom-0 p-5 sm:p-7">
-                    <span className="rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/70 px-3 py-1 text-[12px] font-semibold text-[var(--nb-gold-soft)] sm:text-[11.5px]">
-                      {mucCuaBai(noiBat)[0]}
-                    </span>
-                    <b className="nb-display mt-3 block max-w-[34ch] text-[21px] leading-tight text-white sm:text-[26px]">
-                      {noiBat.tieuDe}
-                    </b>
-                    <span className="mt-2 block max-w-[62ch] text-[14px] text-[var(--nb-text-dim)] [display:-webkit-box] [overflow:hidden] [-webkit-box-orient:vertical] [-webkit-line-clamp:3] sm:[display:block]">
-                      {noiBat.tomTat}
-                    </span>
-                    <span className="mt-3 flex items-center gap-2 text-[12.5px] text-[var(--nb-text-mute)]">
-                      <Clock size={12} />
-                      {noiBat.phut} phút đọc
-                    </span>
+                </span>
+                <span className="block p-5 sm:p-7">
+                  <span className="rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/70 px-3 py-1 text-[12px] font-semibold text-[var(--nb-gold-soft)] sm:text-[11.5px]">
+                    {mucCuaBai(noiBat)[0]}
+                  </span>
+                  <b className="nb-display mt-3 block max-w-[34ch] text-[21px] leading-tight text-white sm:text-[26px]">
+                    {noiBat.tieuDe}
+                  </b>
+                  <span className="mt-2 block max-w-[62ch] text-[14px] text-[var(--nb-text-dim)] [display:-webkit-box] [overflow:hidden] [-webkit-box-orient:vertical] [-webkit-line-clamp:3] sm:[display:block]">
+                    {noiBat.tomTat}
+                  </span>
+                  <span className="mt-3 flex items-center gap-2 text-[12.5px] text-[var(--nb-text-mute)]">
+                    <Clock size={12} />
+                    {noiBat.phut} phút đọc
                   </span>
                 </span>
               </NavLink>
@@ -221,7 +221,7 @@ export function GuideHub() {
           {docNhieu.map((b, i) => (
             <li key={b.id}>
               <NavLink href={`/cam-nang/${b.id}`} className="group flex min-h-[44px] gap-3 lg:min-h-0">
-                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-[var(--nb-line-soft)] text-[11.5px] font-bold text-[var(--nb-gold)]">
+                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-[var(--nb-line-soft)] text-[12px] font-bold text-[var(--nb-gold)] lg:text-[11.5px]">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span className="min-w-0">

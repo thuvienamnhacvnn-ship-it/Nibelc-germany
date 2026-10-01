@@ -51,7 +51,11 @@ export function PageHero({
       {/* Dải chuyển tiếp mỏng ở đáy để banner nối liền vào nền trang */}
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[22%]"
-        style={{ background: "linear-gradient(180deg, rgba(5,11,22,0) 0%, var(--nb-navy-900) 94%)" }}
+        style={{
+          // bắt đầu từ CHÍNH màu nền ở độ trong suốt 0 — chép tay rgba(5,11,22,0)
+          // thì sau khi nền đổi sang xanh, giữa dải hiện một vệt xám bẩn
+          background: "linear-gradient(180deg, rgb(var(--nb-navy-900-rgb) / 0) 0%, var(--nb-navy-900) 94%)",
+        }}
         aria-hidden="true"
       />
 

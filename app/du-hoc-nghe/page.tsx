@@ -88,9 +88,14 @@ export default function Page() {
                     sizes="(min-width:640px) 268px, 250px"
                     className="object-cover transition-transform duration-[600ms] group-hover:scale-105"
                   />
+                  {/* Dải chuyển tiếp CHỈ Ở ĐÁY, không phủ cả tấm ảnh — xem
+                      lý do giống JobCard. */}
                   <span
-                    className="absolute inset-0"
-                    style={{ background: "linear-gradient(180deg, rgba(7,21,37,.05) 45%, rgba(7,21,37,.9))" }}
+                    className="absolute inset-x-0 bottom-0 h-[55%]"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, rgb(var(--nb-navy-900-rgb) / 0), rgb(var(--nb-navy-900-rgb) / .9))",
+                    }}
                     aria-hidden="true"
                   />
                 </span>

@@ -17,6 +17,12 @@
 :root {
   /* navy */
   --nb-navy-900: #050b16; /* nền tối nhất */
+  /* Cùng màu trên, viết dạng ba số để pha độ trong suốt được.
+     VÌ SAO cần: dải chuyển tiếp dưới chân ảnh/video phải bắt đầu từ chính
+     màu nền ở mức trong suốt 0. Nếu viết `transparent` hay chép tay mã màu
+     cũ thì trình duyệt nội suy qua ĐEN trong suốt, giữa dải hiện ra một vệt
+     xám bẩn — đúng lỗi QA bắt được sau khi nền đổi sang xanh. */
+  --nb-navy-900-rgb: 5 11 22;
   --nb-navy-800: #071525; /* primary dark navy */
   --nb-navy-700: #0b1c36; /* navy nhạt hơn, dùng cho card */
   --nb-navy-600: #122745;
@@ -384,25 +390,46 @@
    ============================================================ */
 @media (max-width: 1023px) {
   /* .nb-panel và .nb-card ghi THẲNG mã màu navy cũ chứ không dùng biến, nên
-     đổi bảng màu ở :root thôi thì chúng vẫn đen. Phải ghi đè riêng. */
+     đổi bảng màu ở :root thôi thì chúng vẫn đen. Phải ghi đè riêng.
+
+     BA BẬC PHẲNG, KHÔNG GRADIENT. Bản trước mỗi bề mặt là một dải chuyển
+     màu, nên hai bậc kề nhau chỗ thì trùng chỗ thì lệch — đo ra tương phản
+     1,18:1 và 1,23:1, dưới ngưỡng ~1,35:1 mắt phân biệt được trên màn điện
+     thoại, nên cả trang bệt thành một mảng xanh.
+     Bậc mới (tính theo công thức tương phản WCAG trên màu đặc):
+       nền trang #06193a → khối #123d78 = 1,63:1
+       khối #123d78      → nổi #1a5096  = 1,34:1
+       nền trang         → nổi          = 2,18:1 */
   .nb-panel {
-    background: linear-gradient(180deg, rgba(16, 56, 107, 0.92), rgba(11, 42, 82, 0.92));
+    background: #123d78;
   }
   .nb-card {
-    background: linear-gradient(180deg, rgba(23, 69, 127, 0.9), rgba(11, 42, 82, 0.95));
+    background: #123d78;
+  }
+  /* Ô nhập của bản cũ là rgba(7,21,37,.7) — đen hơn cả nền trang nên trên
+     trang Liên hệ nó nhìn như một cái lỗ khoét vào thẻ. Dùng bậc NỔI. */
+  .nb-input {
+    background: #1a5096;
   }
 
   :root {
     /* dien thoai khong con header, hero chi can chua mot khoang nho */
     --nb-dem-hero: 26px;
-    --nb-navy-900: #071d3a; /* nền trang   — xanh biển đậm */
-    --nb-navy-800: #0b2a52; /* nền khối    — sáng hơn một bậc */
-    --nb-navy-700: #10386b; /* nền thẻ     — sáng hơn hai bậc */
-    --nb-navy-600: #17457f;
-    --nb-navy-500: #1f5596;
+    /* Chỗ menu đáy chiếm tính từ cạnh dưới — ĐO THẬT 68px (thanh 60px + 8px
+       khoảng hở cho thanh nổi lên, chưa kể safe-area cộng thêm ở cả hai nơi).
+       Khai một chỗ rồi dùng chung cho menu, phần chừa dưới body và tấm trượt
+       lọc; trước đây chép tay hai nơi nên lệch 5px, menu ăn mất 5px cuối
+       trang. Đổi dáng menu thì ĐO LẠI rồi sửa đúng số ở đây. */
+    --nb-menu-day: 68px;
+    --nb-navy-900: #06193a; /* nền trang */
+    --nb-navy-900-rgb: 6 25 58;
+    --nb-navy-800: #123d78; /* nền khối, thẻ */
+    --nb-navy-700: #1a5096; /* bậc nổi: ô nhập, ô lọc, trạng thái hover */
+    --nb-navy-600: #215fb0;
+    --nb-navy-500: #2a6ec6;
     /* đường kẻ ngả vàng rõ hơn để tách khối trên nền xanh */
-    --nb-line: rgba(217, 184, 120, 0.34);
-    --nb-line-soft: rgba(240, 220, 180, 0.14);
+    --nb-line: rgba(240, 220, 180, 0.34);
+    --nb-line-soft: rgba(240, 220, 180, 0.22);
   }
 }
 
@@ -515,7 +542,7 @@
 /* Chừa chỗ cho menu đáy trên điện thoại, nếu không nó đè lên cuối footer */
 @media (max-width: 1023px) {
   body {
-    padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(var(--nb-menu-day) + env(safe-area-inset-bottom, 0px));
   }
 }
 
@@ -525,4 +552,36 @@
   translate: -50% 0;
   border-radius: 50%;
   pointer-events: none;
+}
+
+/* ============================================================
+   BĂNG ĐƠN HÀNG CHẠY NGANG (components/home/BangChayDonHang.tsx)
+   ------------------------------------------------------------
+   Chạy bằng CSS, không dùng JS — không tốn khung hình nào của
+   luồng chính. Danh sách đã nhân đôi trong component nên trượt
+   đúng -50% là về lại khung hình đầu, vòng lặp không thấy mối nối.
+   Dùng transform chứ không dùng left: trình duyệt chạy trên GPU,
+   không phải tính lại bố cục từng khung.
+   ============================================================ */
+@keyframes nb-chay-ngang {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+.nb-bang-chay {
+  animation: nb-chay-ngang 46s linear infinite;
+  will-change: transform;
+}
+/* rê chuột hoặc chạm thì dừng, để kịp đọc và bấm */
+.nb-bang-chay:hover,
+.nb-bang-chay:focus-within {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nb-bang-chay {
+    animation: none;
+  }
 }

@@ -47,7 +47,11 @@ export function Hero() {
           navy của phần dưới — không phải lớp phủ lên khung hình. */}
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[14%]"
-        style={{ background: "linear-gradient(180deg, rgba(5,11,22,0) 0%, var(--nb-navy-900) 92%)" }}
+        style={{
+          // bắt đầu từ CHÍNH màu nền ở độ trong suốt 0 — chép tay rgba(5,11,22,0)
+          // thì sau khi nền đổi sang xanh, giữa dải hiện một vệt xám bẩn
+          background: "linear-gradient(180deg, rgb(var(--nb-navy-900-rgb) / 0) 0%, var(--nb-navy-900) 92%)",
+        }}
         aria-hidden="true"
       />
 
@@ -88,14 +92,23 @@ export function Hero() {
             aria-label="NIBELC GERMANY — trang chủ"
             className="mb-5 block lg:hidden"
           >
-            <Image
-              src="/assets/brand/nibelc-logo.svg"
-              alt="NIBELC GERMANY"
-              width={200}
-              height={44}
-              priority
-              className="mx-auto h-14 w-auto drop-shadow-[0_2px_6px_rgba(4,10,20,.9)]"
-            />
+            {/* Chữ "NIBELC" trong logo là xanh dương #004ca0, mà nền banner
+                là TRỜI XANH — đo ra chỉ hơn 1,3:1, logo chìm hẳn vào ảnh.
+                Đổ bóng chỉ viền được nét chứ không cứu được phần ruột chữ.
+                Đặt logo trên một tấm nền sáng ôm sát: đây là tấm lót cho
+                LOGO, không phải lớp màu phủ lên ảnh — ảnh ngoài tấm này giữ
+                nguyên, không bị làm tối. Bóng là bóng TỐI, không phải quầng
+                sáng. */}
+            <span className="mx-auto block w-fit rounded-2xl bg-[#eef3fa] px-4 py-2.5 shadow-[0_6px_18px_-8px_rgba(3,12,26,.85)]">
+              <Image
+                src="/assets/brand/nibelc-logo.svg"
+                alt="NIBELC GERMANY"
+                width={200}
+                height={44}
+                priority
+                className="h-14 w-auto brightness-0 invert drop-shadow-[0_2px_8px_rgba(4,10,20,.95)]"
+              />
+            </span>
           </NavLink>
 
           <h1 className="sr-only">
