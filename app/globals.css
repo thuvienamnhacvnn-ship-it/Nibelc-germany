@@ -468,6 +468,13 @@
     --nb-line: rgba(240, 220, 180, 0.34);
     --nb-line-soft: rgba(240, 220, 180, 0.22);
   }
+
+  /* Nen o nhap o khổ nay la #2268ba, sang hon han ban may tinh, nen chu goi y
+     #a9bdd8 chi con 2,92:1 — THAP HON ca ban truoc khi sua. #e3ecf8 do duoc
+     4,69:1, dat nguong 4,5:1. */
+  .nb-input::placeholder {
+    color: #e3ecf8;
+  }
 }
 
 /* ============================================================
