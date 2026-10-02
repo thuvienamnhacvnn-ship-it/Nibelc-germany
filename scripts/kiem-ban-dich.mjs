@@ -7,10 +7,33 @@
  *                                             mục chưa dịch bị ẩn khỏi bản en/de)
  *
  * Nguồn: data/i18n/kiem.ts (sổ đăng ký mọi bộ bản dịch).
+ *
+ * CHẠY ĐƯỢC Ở ĐÂU: script này đọc thẳng file .ts nên cần Node tự bỏ kiểu
+ * (≥ 23.6, hoặc bản 22 có kèm amaro). Máy chủ ovh-fra đang chạy Node 22.22.1
+ * KHÔNG kèm bộ đó — gọi vào là ném ERR_NO_TYPESCRIPT / ERR_UNKNOWN_FILE_EXTENSION
+ * và vì nó nằm ở "prebuild" nên cả lệnh build đổ theo, deploy chết đứng.
+ *
+ * Nên ở môi trường không chạy được thì BỎ QUA ÊM, in một dòng cảnh báo. Lưới
+ * an toàn vẫn còn nguyên ở máy trạm (Node 24) — nơi người ta thật sự sửa bản
+ * dịch — và chạy tay được bằng `npm run kiem:ban-dich`.
  */
 import { napTs } from "./nap-ts.mjs";
 
-const { kiemTatCaBanDich } = await napTs("data/i18n/kiem.ts");
+let kiemTatCaBanDich;
+try {
+  ({ kiemTatCaBanDich } = await napTs("data/i18n/kiem.ts"));
+} catch (e) {
+  const ma = e?.code ?? "";
+  if (ma === "ERR_NO_TYPESCRIPT" || ma === "ERR_UNKNOWN_FILE_EXTENSION") {
+    console.warn(
+      `BỎ QUA kiểm bản dịch: Node ${process.version} ở máy này không đọc được TypeScript (${ma}).
+` +
+        "          Kiểm ở máy trạm bằng: npm run kiem:ban-dich",
+    );
+    process.exit(0);
+  }
+  throw e;
+}
 
 let tong = 0;
 for (const { bo, thieu } of kiemTatCaBanDich()) {
