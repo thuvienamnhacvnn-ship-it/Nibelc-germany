@@ -642,3 +642,22 @@
    đề hero trang CHỦ, mang font-hero + font-weight 900. Đã lỡ một lần: khối
    chữ hero trang con dính weight 900, cả đoạn mô tả 15px hiện ra đậm như
    tiêu đề. Lớp của hero trang con tên là `.nb-hero-con-chu`. */
+
+/* ============================================================
+   CỤM TIÊU ĐỀ HERO TRÊN ĐIỆN THOẠI
+   ------------------------------------------------------------
+   Nền banner là trời xanh có MÂY TRẮNG và mây vàng cam, nên chữ
+   trắng lẫn vào mây trắng còn chữ vàng lẫn vào mây cam — đo trên
+   ảnh thật, không phải cảm giác.
+   Viền tối dày hơn hẳn là thứ cứu được, vì nó bám theo nét chữ
+   chứ không phủ lên ảnh. Đo theo `em` nên mỗi dòng tự có viền
+   đúng tỉ lệ với cỡ chữ của nó.
+   `paint-order: stroke` bắt vẽ viền TRƯỚC rồi mới tô, nếu không
+   viền phủ kín nét và chữ thành mảng tối.
+   ============================================================ */
+@media (max-width: 1023px) {
+  .nb-cum-tieu-de text {
+    stroke-width: 0.085em;
+    paint-order: stroke;
+  }
+}
