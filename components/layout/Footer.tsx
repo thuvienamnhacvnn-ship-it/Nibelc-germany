@@ -4,6 +4,12 @@ import { NavLink } from "@/components/layout/NavLink";
 import { NAV } from "@/data/nav";
 import { INDUSTRIES } from "@/data/industries";
 import { LEGAL } from "@/data/company";
+import { tenNganh } from "@/data/i18n/industries";
+import { DIA_CHI_NGAN, diaChiMotDong } from "@/data/i18n/company";
+import { ChonNgonNgu } from "@/components/layout/ChonNgonNgu";
+import { getLang } from "@/lib/i18n/server";
+import { t } from "@/lib/i18n/dict";
+import { common } from "@/lib/i18n/dict/common";
 
 /**
  * CHÂN TRANG
@@ -23,9 +29,13 @@ import { LEGAL } from "@/data/company";
 /** Toạ độ Potsdamer Platz, Berlin — khung bản đồ ôm quanh địa chỉ công ty */
 const KHUNG_BAN_DO = "13.3696,52.5075,13.3816,52.5135";
 
-export function Footer() {
+export async function Footer() {
+  const lang = await getLang();
+  const tx = t(common, lang);
   const tel = LEGAL.phone.replace(/\s/g, "");
-  const diaChi = `${LEGAL.street}, ${LEGAL.postalCode} ${LEGAL.city}`;
+  const diaChi = DIA_CHI_NGAN;
+  // Khuôn Sếp chốt 02/10: "Potsdamer Platz 10, 10785 Berlin, Germany" MỘT dòng
+  const diaChiDu = diaChiMotDong(lang);
   const nganhChinh = INDUSTRIES.slice(0, 6);
 
   return (
@@ -41,8 +51,7 @@ export function Footer() {
             className="h-9 w-auto"
           />
           <p className="mt-4 max-w-[42ch] text-[13.5px] leading-[1.7] text-[var(--nb-text-dim)]">
-            Kết nối lao động và học viên Việt Nam với doanh nghiệp tại Đức và châu Âu — từ tuyển chọn, đào tạo tới khi
-            ổn định công việc.
+            {tx.footer.gioiThieu}
           </p>
 
           <div className="mt-6 flex gap-2.5">
@@ -53,7 +62,7 @@ export function Footer() {
               <span
                 key={label}
                 aria-label={label}
-                title={`${label} — chưa có đường dẫn chính thức`}
+                title={tx.footer.chuaCoLink(label)}
                 className="grid h-9 w-9 place-items-center rounded-full border border-[var(--nb-line-soft)] text-[var(--nb-text-mute)]"
               >
                 <Icon size={15} />
@@ -63,8 +72,8 @@ export function Footer() {
         </div>
 
         {/* ---------- 2. Điều hướng ---------- */}
-        <nav aria-label="Menu chân trang" className="hidden md:block">
-          <p className="nb-eyebrow">Điều hướng</p>
+        <nav aria-label={tx.footer.menuChanTrang} className="hidden md:block">
+          <p className="nb-eyebrow">{tx.footer.dieuHuong}</p>
           <ul className="mt-4 space-y-2.5">
             {NAV.map((m) => (
               <li key={m.href}>
@@ -72,7 +81,7 @@ export function Footer() {
                   href={m.href}
                   className="text-[14px] text-[var(--nb-text-dim)] transition hover:text-[var(--nb-gold-soft)]"
                 >
-                  {m.label}
+                  {m.label[lang]}
                 </NavLink>
               </li>
             ))}
@@ -80,8 +89,8 @@ export function Footer() {
         </nav>
 
         {/* ---------- 3. Nhóm ngành ---------- */}
-        <nav aria-label="Nhóm ngành nghề" className="hidden md:block">
-          <p className="nb-eyebrow">Nhóm ngành</p>
+        <nav aria-label={tx.footer.nhomNganhAria} className="hidden md:block">
+          <p className="nb-eyebrow">{tx.footer.nhomNganh}</p>
           <ul className="mt-4 space-y-2.5">
             {nganhChinh.map((n) => (
               <li key={n.id}>
@@ -89,7 +98,7 @@ export function Footer() {
                   href={`/don-hang?nganh=${n.id}`}
                   className="text-[14px] text-[var(--nb-text-dim)] transition hover:text-[var(--nb-gold-soft)]"
                 >
-                  {n.titleVi}
+                  {tenNganh(n, lang)}
                 </NavLink>
               </li>
             ))}
@@ -98,7 +107,7 @@ export function Footer() {
                 href="/don-hang"
                 className="text-[14px] font-semibold text-[var(--nb-gold-soft)] transition hover:text-[var(--nb-gold-strong)]"
               >
-                Xem tất cả ngành →
+                {tx.footer.xemTatCa}
               </NavLink>
             </li>
           </ul>
@@ -106,15 +115,13 @@ export function Footer() {
 
         {/* ---------- 4. Liên hệ ---------- */}
         <div>
-          <p className="nb-eyebrow">Liên hệ</p>
+          <p className="nb-eyebrow">{tx.footer.lienHe}</p>
           <ul className="mt-4 space-y-3.5 text-[14px] text-[var(--nb-text-dim)]">
             <li className="flex gap-3">
               <MapPin size={16} className="mt-0.5 shrink-0 text-[var(--nb-gold)]" />
               <span>
                 <b className="block font-semibold text-white">{LEGAL.name}</b>
-                {diaChi}
-                <br />
-                {LEGAL.country}
+                {diaChiDu}
               </span>
             </li>
             <li>
@@ -135,7 +142,7 @@ export function Footer() {
           </ul>
 
           <NavLink href="/lien-he" className="nb-btn mt-6 h-11 w-full px-5 text-[14px]">
-            Đăng ký tư vấn
+            {tx.footer.dangKyTuVan}
           </NavLink>
         </div>
       </div>
@@ -147,7 +154,7 @@ export function Footer() {
             <p className="flex items-center gap-2.5 text-[14px] text-[var(--nb-text-dim)]">
               <MapPin size={16} className="shrink-0 text-[var(--nb-gold)]" />
               <span>
-                <b className="font-semibold text-white">Văn phòng Berlin</b> — {diaChi}
+                <b className="font-semibold text-white">{tx.footer.vanPhong}</b> — {diaChiDu}
               </span>
             </p>
             <a
@@ -156,11 +163,11 @@ export function Footer() {
               rel="noopener noreferrer"
               className="nb-btn-ghost h-10 px-4 text-[13.5px]"
             >
-              Chỉ đường
+              {tx.footer.chiDuong}
             </a>
           </div>
           <iframe
-            title={`Bản đồ văn phòng ${LEGAL.city}`}
+            title={tx.footer.banDo(LEGAL.city)}
             src={`https://www.openstreetmap.org/export/embed.html?bbox=${KHUNG_BAN_DO}&layer=mapnik`}
             loading="lazy"
             referrerPolicy="no-referrer"
@@ -176,11 +183,14 @@ export function Footer() {
           © {new Date().getFullYear()} {LEGAL.name}
         </span>
         <NavLink href="/impressum" className="transition hover:text-[var(--nb-gold-soft)]">
-          Impressum
+          {tx.footer.impressum}
         </NavLink>
         <NavLink href="/datenschutz" className="transition hover:text-[var(--nb-gold-soft)]">
-          Datenschutz
+          {tx.footer.datenschutz}
         </NavLink>
+        {/* Đổi ngôn ngữ ở chân trang — chỗ DUY NHẤT trên điện thoại (header ẩn ở
+            mọi trang di động), và cho cả màn lg khi header chưa đủ chỗ. */}
+        <ChonNgonNgu kieu="hang" className="w-full sm:ml-auto sm:w-auto" />
       </div>
     </footer>
   );

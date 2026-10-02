@@ -1,13 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Globe, Headphones, Search, X } from "lucide-react";
+import { Headphones, Search, X } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
 import { NAV } from "@/data/nav";
 import { useChuyenTrang } from "@/components/layout/PageTransition";
+import { ChonNgonNgu } from "@/components/layout/ChonNgonNgu";
+import { useDuongDan, useLang, useLh, useT } from "@/lib/i18n/client";
+import { common } from "@/lib/i18n/dict/common";
 
 /**
  * HEADER TOÀN CỤC
@@ -18,7 +20,9 @@ import { useChuyenTrang } from "@/components/layout/PageTransition";
  */
 
 export function Header() {
-  const pathname = usePathname();
+  const pathname = useDuongDan();
+  const lang = useLang();
+  const tx = useT(common);
   const [daCuon, setDaCuon] = useState(false);
   const [moTim, setMoTim] = useState(false);
 
@@ -55,7 +59,7 @@ export function Header() {
         <span className="h-9 w-9 shrink-0 lg:hidden" aria-hidden="true" />
         <NavLink
           href="/"
-          aria-label="NIBELC GROUP — về trang chủ"
+          aria-label={tx.logoAria}
           className="mx-auto shrink-0 lg:mx-0"
         >
           <Image
@@ -68,7 +72,7 @@ export function Header() {
           />
         </NavLink>
 
-        <nav aria-label="Menu chính" className="hidden min-w-0 flex-1 items-center justify-center gap-1 lg:flex">
+        <nav aria-label={tx.menuChinh} className="hidden min-w-0 flex-1 items-center justify-center gap-1 lg:flex">
           {NAV.map((m) => {
             const on = dangMo(m.href);
             return (
@@ -80,7 +84,7 @@ export function Header() {
                   on ? "text-[var(--nb-gold-soft)]" : "text-[var(--nb-text-dim)] hover:text-white"
                 }`}
               >
-                {m.label}
+                {m.label[lang]}
                 {on && (
                   <motion.span
                     layoutId="nav-gach"
@@ -101,26 +105,19 @@ export function Header() {
           <button
             type="button"
             onClick={() => setMoTim((v) => !v)}
-            aria-label={moTim ? "Đóng tìm kiếm" : "Mở tìm kiếm"}
+            aria-label={moTim ? tx.dongTim : tx.moTim}
             aria-expanded={moTim}
             className="grid h-9 w-9 place-items-center rounded-full border border-[var(--nb-line-soft)] text-[var(--nb-text-dim)] transition hover:border-[var(--nb-line)] hover:text-[var(--nb-gold-soft)]"
           >
             {moTim ? <X size={16} /> : <Search size={16} />}
           </button>
 
-          <button
-            type="button"
-            aria-label="Chọn ngôn ngữ"
-            className="hidden h-9 items-center gap-1.5 rounded-full border border-[var(--nb-line-soft)] px-3 text-[13px] font-medium text-[var(--nb-text-dim)] transition hover:border-[var(--nb-line)] hover:text-[var(--nb-gold-soft)] xl:flex"
-          >
-            <Globe size={15} />
-            VI
-          </button>
+          <ChonNgonNgu className="hidden xl:block" />
 
           <span className="hidden lg:contents">
             <NavLink href="/lien-he" className="nb-btn h-9 px-4 text-[13.5px]">
               <Headphones size={15} />
-              Tư vấn ngay
+              {tx.tuVanNgay}
             </NavLink>
           </span>
         </div>
@@ -144,6 +141,8 @@ export function Header() {
 /** Ô tìm nhanh trong header — dùng chung bộ tìm với trang chủ */
 function TimNhanh({ dong }: { dong: () => void }) {
   const chuyen = useChuyenTrang();
+  const tx = useT(common);
+  const lhx = useLh();
   const [tu, setTu] = useState("");
   return (
     <form
@@ -151,7 +150,7 @@ function TimNhanh({ dong }: { dong: () => void }) {
       onSubmit={(e) => {
         e.preventDefault();
         dong();
-        chuyen(`/don-hang${tu.trim() ? `?q=${encodeURIComponent(tu.trim())}` : ""}`);
+        chuyen(lhx(`/don-hang${tu.trim() ? `?q=${encodeURIComponent(tu.trim())}` : ""}`));
       }}
     >
       <Search size={17} className="shrink-0 text-[var(--nb-gold)]" />
@@ -159,12 +158,12 @@ function TimNhanh({ dong }: { dong: () => void }) {
         autoFocus
         value={tu}
         onChange={(e) => setTu(e.target.value)}
-        placeholder="Tìm kiếm đơn hàng, ngành nghề, địa điểm..."
+        placeholder={tx.timGoiY}
         className="h-10 flex-1 bg-transparent text-[15px] text-white outline-none placeholder:text-[var(--nb-text-mute)]"
-        aria-label="Tìm kiếm"
+        aria-label={tx.timAria}
       />
       <button type="submit" className="nb-btn-ghost h-9 px-4 text-[13.5px]">
-        Tìm
+        {tx.nutTim}
       </button>
     </form>
   );

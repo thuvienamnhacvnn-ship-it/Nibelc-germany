@@ -4,3 +4,7 @@ out
 *.log
 .DS_Store
 _w-agent/
+
+# khoa bi mat — repo CONG KHAI
+.env*
+!.env.example

@@ -1,9 +1,11 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { BookOpen, Briefcase, GraduationCap, Home, Phone } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
+import { mucMenu } from "@/data/nav";
+import { useDuongDan, useLang, useT } from "@/lib/i18n/client";
+import { common } from "@/lib/i18n/dict/common";
 
 /**
  * MENU ĐÁY — CHỈ CÓ TRÊN ĐIỆN THOẠI
@@ -22,21 +24,24 @@ import { NavLink } from "@/components/layout/NavLink";
  * Năm mục là trần: quá số đó thì chữ bị bóp và ngón tay bấm nhầm.
  */
 
+// Nhãn lấy từ data/nav.ts (trường `ngan` — bản ngắn cho ô hẹp, đủ 3 ngôn ngữ).
 const MUC = [
-  { href: "/", label: "Trang chủ", Icon: Home },
-  { href: "/don-hang", label: "Đơn hàng", Icon: Briefcase },
-  { href: "/du-hoc-nghe", label: "Du học nghề", Icon: GraduationCap },
-  { href: "/cam-nang", label: "Cẩm nang", Icon: BookOpen },
-  { href: "/lien-he", label: "Liên hệ", Icon: Phone },
+  { ...mucMenu("/"), Icon: Home },
+  { ...mucMenu("/don-hang"), Icon: Briefcase },
+  { ...mucMenu("/du-hoc-nghe"), Icon: GraduationCap },
+  { ...mucMenu("/cam-nang"), Icon: BookOpen },
+  { ...mucMenu("/lien-he"), Icon: Phone },
 ];
 
 export function MenuDay() {
-  const pathname = usePathname();
+  const pathname = useDuongDan();
+  const lang = useLang();
+  const tx = useT(common);
   const dangMo = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   return (
     <nav
-      aria-label="Menu chính"
+      aria-label={tx.menuChinh}
       data-menu-day
       className="fixed inset-x-0 bottom-0 z-50 lg:hidden"
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
@@ -59,7 +64,8 @@ export function MenuDay() {
           boxShadow: "0 -10px 30px rgba(3,12,26,.6)",
         }}
       >
-        {MUC.map(({ href, label, Icon }) => {
+        {MUC.map(({ href, ngan, Icon }) => {
+          const label = ngan[lang];
           const on = dangMo(href);
           return (
             <li key={href} className="relative min-w-0 flex-1">

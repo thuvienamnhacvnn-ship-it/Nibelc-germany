@@ -7,7 +7,9 @@
     "build": "next build --webpack",
     "start": "next start -p 3460",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "kiem:ban-dich": "node scripts/kiem-ban-dich.mjs",
+    "kiem:ngon-ngu": "node scripts/kiem-ngon-ngu.mjs http://localhost:3496"
   },
   "dependencies": {
     "next": "16.3.5",

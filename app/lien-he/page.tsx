@@ -3,14 +3,25 @@ import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { PageHero } from "@/components/ui/PageHero";
 import { ConsultationWizard } from "@/components/contact/ConsultationWizard";
 import { LEGAL } from "@/data/company";
+import { getLang } from "@/lib/i18n/server";
+import { t } from "@/lib/i18n/dict";
+import { lienHe } from "@/lib/i18n/dict/lien-he";
+import { DIA_CHI_NGAN, diaChiMotDong } from "@/data/i18n/company";
 import "../trang-sang.css";
 
-export const metadata: Metadata = {
-  title: "Liên hệ — Bắt đầu hành trình của bạn tại Đức",
-  description: `Để lại thông tin, đội ngũ NIBELC sẽ tư vấn chương trình phù hợp. ${LEGAL.street}, ${LEGAL.postalCode} ${LEGAL.city}.`,
-};
+// MẪU ĐA NGÔN NGỮ: metadata theo ngôn ngữ → generateMetadata (không dùng
+// `export const metadata` tĩnh nữa). Không khai `alternates` — layout lo.
+export async function generateMetadata(): Promise<Metadata> {
+  const tx = t(lienHe, await getLang());
+  return {
+    title: tx.meta.tieuDe,
+    description: tx.meta.moTa(DIA_CHI_NGAN),
+  };
+}
 
-export default function Page() {
+export default async function Page() {
+  const lang = await getLang();
+  const tx = t(lienHe, lang);
   const tel = LEGAL.phone.replace(/\s/g, "");
   return (
     <div className="nb-duoi-header">
@@ -20,9 +31,9 @@ export default function Page() {
         anh="/assets/banners/lien-he.jpg"
         anhDoc="/assets/banners/mobile/lien-he.jpg"
         anhBenPhai
-        nhan="Trung tâm tư vấn NIBELC"
-        tieuDe="Bắt đầu hành trình của bạn tại Đức"
-        mo="Để lại thông tin, đội ngũ NIBELC sẽ tư vấn chương trình phù hợp."
+        nhan={tx.nhan}
+        tieuDe={tx.tieuDe}
+        mo={tx.mo}
       />
 
       {/* Thân trang SÁNG ở máy tính (app/trang-sang.css); điện thoại giữ nền cũ. */}
@@ -37,13 +48,13 @@ export default function Page() {
 
               <aside className="space-y-5 lg:space-y-6">
                 <div className="nb-panel p-5 sm:p-6">
-                  <b className="block text-[16px] font-semibold text-white">{LEGAL.name}</b>
-                  <p className="mt-2 flex gap-2.5 text-[14px] leading-[1.7] text-[var(--nb-text-dim)]">
-                    <MapPin size={16} className="mt-0.5 shrink-0 text-[var(--nb-gold)]" />
+                  {/* Khuôn Sếp chốt 02/10 (ảnh mẫu): ghim + tên công ty đậm,
+                      dưới là địa chỉ MỘT dòng có tên nước. */}
+                  <p className="flex gap-2.5 text-[14px] leading-[1.7] text-[var(--nb-text-dim)]">
+                    <MapPin size={16} className="mt-1 shrink-0 text-[var(--nb-gold)]" />
                     <span>
-                      {LEGAL.street}
-                      <br />
-                      {LEGAL.postalCode} {LEGAL.city}, {LEGAL.country}
+                      <b className="block text-[16px] font-semibold text-white">{LEGAL.name}</b>
+                      {diaChiMotDong(lang)}
                     </span>
                   </p>
 
@@ -62,7 +73,7 @@ export default function Page() {
                     </li>
                     <li className="flex items-start gap-3 py-2 leading-[1.6] text-[var(--nb-text-mute)]">
                       <MessageCircle size={15} className="mt-1 shrink-0 text-[var(--nb-gold)]" />
-                      WhatsApp / tư vấn trực tuyến — liên hệ qua số trên
+                      {tx.whatsapp}
                     </li>
                   </ul>
                 </div>
@@ -70,16 +81,14 @@ export default function Page() {
                 <div className="nb-panel overflow-hidden">
                   <div className="relative h-[220px]">
                     <iframe
-                      title={`Bản đồ ${LEGAL.street}, ${LEGAL.city}`}
+                      title={tx.banDo(`${LEGAL.street}, ${LEGAL.city}`)}
                       src={`https://www.openstreetmap.org/export/embed.html?bbox=13.368%2C52.505%2C13.383%2C52.514&layer=mapnik&marker=52.5096%2C13.3755`}
                       className="h-full w-full border-0 grayscale-[35%]"
                       loading="lazy"
                       referrerPolicy="no-referrer-when-downgrade"
                     />
                   </div>
-                  <p className="px-5 py-3 text-[12.5px] text-[var(--nb-text-mute)]">
-                    {LEGAL.street}, {LEGAL.postalCode} {LEGAL.city}
-                  </p>
+                  <p className="px-5 py-3 text-[12.5px] text-[var(--nb-text-mute)]">{diaChiMotDong(lang)}</p>
                 </div>
               </aside>
             </div>

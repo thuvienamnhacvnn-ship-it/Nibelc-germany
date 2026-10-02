@@ -5,6 +5,9 @@ import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Check, Send } from "lucide-react";
 import { INDUSTRIES } from "@/data/industries";
 import { LEGAL } from "@/data/company";
+import { tenNganh } from "@/data/i18n/industries";
+import { useLang, useT } from "@/lib/i18n/client";
+import { lienHe, MA_CHUONG_TRINH, MA_HOC_VAN, MA_THOI_GIAN, MA_TIENG } from "@/lib/i18n/dict/lien-he";
 
 /**
  * PHIẾU TƯ VẤN 4 BƯỚC
@@ -14,17 +17,12 @@ import { LEGAL } from "@/data/company";
  * giao diện nói rõ điều đó thay vì giả vờ đã gửi thành công.
  */
 
-const BUOC = [
-  { so: "01", ten: "Thông tin" },
-  { so: "02", ten: "Nhu cầu" },
-  { so: "03", ten: "Hồ sơ" },
-  { so: "04", ten: "Gửi tư vấn" },
-];
+const SO_BUOC = ["01", "02", "03", "04"] as const;
 
-const TIENG = ["Chưa học", "A1", "A2", "B1", "B2 trở lên"];
-const HOC_VAN = ["Trung học cơ sở", "Trung học phổ thông", "Trung cấp / Cao đẳng", "Đại học"];
-const THOI_GIAN = ["Càng sớm càng tốt", "Trong 6 tháng tới", "Trong 12 tháng tới", "Chưa xác định"];
-
+/**
+ * Các trường chọn lưu MÃ (vd "a1", "som") — chữ hiển thị lấy từ từ điển
+ * lib/i18n/dict/lien-he.ts theo ngôn ngữ đang xem.
+ */
 const TRONG = {
   hoTen: "",
   ngaySinh: "",
@@ -32,14 +30,22 @@ const TRONG = {
   email: "",
   noiO: "",
   hocVan: "",
-  tieng: "Chưa học",
+  tieng: "chua",
   nganh: "",
-  chuongTrinh: "Lao động",
-  thoiGian: "Càng sớm càng tốt",
+  chuongTrinh: "laoDong",
+  thoiGian: "som",
   ghiChu: "",
 };
 
 export function ConsultationWizard() {
+  const lang = useLang();
+  const tx = useT(lienHe).phieu;
+  const nhan = <M extends string>(bang: Record<M, string>, ma: string) => (ma ? (bang[ma as M] ?? "") : "");
+  const tenNganhCua = (id: string) => {
+    const n = INDUSTRIES.find((i) => i.id === id);
+    return n ? tenNganh(n, lang) : "";
+  };
+  const BUOC = SO_BUOC.map((so, i) => ({ so, ten: tx.buoc[i]! }));
   const [b, setB] = useState(0);
   const [v, setV] = useState(TRONG);
   const [loi, setLoi] = useState<Record<string, string>>({});
@@ -58,14 +64,15 @@ export function ConsultationWizard() {
   function kiem(buoc: number): boolean {
     const l: Record<string, string> = {};
     if (buoc === 0) {
-      if (!v.hoTen.trim()) l.hoTen = "Cần họ và tên";
-      if (!v.dienThoai.trim()) l.dienThoai = "Cần số điện thoại để gọi lại";
-      else if (!/^[\d\s+().-]{8,}$/.test(v.dienThoai.trim())) l.dienThoai = "Số điện thoại chưa đúng";
-      if (v.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.email.trim())) l.email = "Email chưa đúng";
-      if (v.ngaySinh.trim() && !/^\d{4}$|^\d{2}\/\d{2}\/\d{4}$/.test(v.ngaySinh.trim()))
-        l.ngaySinh = "Ghi năm sinh (VD 1998) hoặc dd/mm/yyyy";
+      if (!v.hoTen.trim()) l.hoTen = tx.loi.hoTen;
+      if (!v.dienThoai.trim()) l.dienThoai = tx.loi.dienThoai;
+      else if (!/^[\d\s+().-]{8,}$/.test(v.dienThoai.trim())) l.dienThoai = tx.loi.dienThoaiSai;
+      if (v.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.email.trim())) l.email = tx.loi.email;
+      // Chấp nhận cả dd/mm/yyyy (vi, en) lẫn dd.mm.yyyy (de)
+      if (v.ngaySinh.trim() && !/^\d{4}$|^\d{2}[/.]\d{2}[/.]\d{4}$/.test(v.ngaySinh.trim()))
+        l.ngaySinh = tx.loi.ngaySinh;
     }
-    if (buoc === 1 && !v.nganh) l.nganh = "Chọn một ngành nghề quan tâm";
+    if (buoc === 1 && !v.nganh) l.nganh = tx.loi.nganh;
     setLoi(l);
     return Object.keys(l).length === 0;
   }
@@ -75,30 +82,38 @@ export function ConsultationWizard() {
     setB((x) => Math.min(x + 1, BUOC.length - 1));
   }
 
+  /** Các dòng tóm tắt [nhãn, giá trị] đã bỏ dòng trống — dùng cho bước 4 và thân thư */
+  function tomTat(coGhiChu: boolean): [string, string][] {
+    const k = tx.tomTat;
+    const dong: [string, string][] = [
+      [k.hoTen, v.hoTen],
+      [k.ngaySinh, v.ngaySinh],
+      [k.dienThoai, v.dienThoai],
+      [k.email, v.email],
+      [k.noiO, v.noiO],
+      [k.hocVan, nhan(tx.hocVan, v.hocVan)],
+      [k.tieng, nhan(tx.tieng, v.tieng)],
+      [k.nganh, tenNganhCua(v.nganh)],
+      [k.chuongTrinh, nhan(tx.chuongTrinh, v.chuongTrinh)],
+      [k.thoiGian, nhan(tx.thoiGian, v.thoiGian)],
+    ];
+    if (coGhiChu) dong.push([k.ghiChu, v.ghiChu]);
+    return dong.filter(([, gt]) => gt.trim() !== "");
+  }
+
   function gui() {
     if (!kiem(0) || !kiem(1)) {
       setB(0);
       return;
     }
-    const nganh = INDUSTRIES.find((i) => i.id === v.nganh);
-    const than = [
-      `Họ và tên: ${v.hoTen}`,
-      v.ngaySinh && `Ngày sinh: ${v.ngaySinh}`,
-      `Điện thoại: ${v.dienThoai}`,
-      v.email && `Email: ${v.email}`,
-      v.noiO && `Nơi đang sinh sống: ${v.noiO}`,
-      v.hocVan && `Trình độ học vấn: ${v.hocVan}`,
-      `Trình độ tiếng Đức: ${v.tieng}`,
-      `Ngành nghề quan tâm: ${nganh?.titleVi ?? v.nganh}`,
-      `Chương trình: ${v.chuongTrinh}`,
-      `Thời gian mong muốn sang Đức: ${v.thoiGian}`,
-      v.ghiChu && `Ghi chú: ${v.ghiChu}`,
-    ]
-      .filter(Boolean)
+    // Thư viết bằng ngôn ngữ người dùng đang xem — họ đọc lại nó trong
+    // trình email trước khi bấm gửi.
+    const than = tomTat(true)
+      .map(([k, gt]) => `${k}: ${gt}`)
       .join("\n");
 
     window.location.href = `mailto:${LEGAL.email}?subject=${encodeURIComponent(
-      `Đăng ký tư vấn — ${v.hoTen}`
+      tx.tieuDeThu(v.hoTen)
     )}&body=${encodeURIComponent(than)}`;
     setXong(true);
   }
@@ -109,10 +124,9 @@ export function ConsultationWizard() {
         <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-[var(--nb-gold)]">
           <Check size={30} className="text-[var(--nb-navy-900)]" />
         </span>
-        <h3 className="nb-display mt-5 text-[24px] text-white">Đã mở thư gửi chuyên viên</h3>
+        <h3 className="nb-display mt-5 text-[24px] text-white">{tx.xong.tieuDe}</h3>
         <p className="mx-auto mt-3 max-w-[52ch] text-[14.5px] leading-[1.7] text-[var(--nb-text-dim)]">
-          Trình email của bạn đã mở sẵn nội dung đăng ký. Bấm gửi trong đó là chuyên viên NIBELC nhận được. Nếu thư
-          không tự mở, gọi {LEGAL.phone} hoặc gửi tới {LEGAL.email}.
+          {tx.xong.noiDung(LEGAL.phone, LEGAL.email)}
         </p>
         <button
           type="button"
@@ -123,7 +137,7 @@ export function ConsultationWizard() {
           }}
           className="nb-btn-ghost mt-7 h-11 px-6 text-[14px]"
         >
-          Điền phiếu khác
+          {tx.xong.dienLai}
         </button>
       </div>
     );
@@ -160,7 +174,7 @@ export function ConsultationWizard() {
                 </span>
                 <span className="text-left">
                   <span className="block text-[12px] tracking-wide text-[var(--nb-text-mute)] uppercase sm:text-[10.5px]">
-                    Bước {x.so}
+                    {tx.chuBuoc(x.so)}
                   </span>
                   <span className={`block text-[13.5px] font-medium ${on ? "text-white" : "text-[var(--nb-text-dim)]"}`}>
                     {x.ten}
@@ -183,19 +197,30 @@ export function ConsultationWizard() {
       >
         {b === 0 && (
           <div className="grid gap-4 sm:grid-cols-2">
-            <O nhan="Họ và tên" batBuoc gt={v.hoTen} dat={(x) => dat("hoTen", x)} loi={loi.hoTen} auto="name" />
-            <O nhan="Ngày sinh" gt={v.ngaySinh} dat={(x) => dat("ngaySinh", x)} loi={loi.ngaySinh} goiY="VD 1998" />
+            <O nhan={tx.truong.hoTen} batBuoc gt={v.hoTen} dat={(x) => dat("hoTen", x)} loi={loi.hoTen} auto="name" />
             <O
-              nhan="Số điện thoại"
+              nhan={tx.truong.ngaySinh}
+              gt={v.ngaySinh}
+              dat={(x) => dat("ngaySinh", x)}
+              loi={loi.ngaySinh}
+              goiY={tx.truong.ngaySinhGoiY}
+            />
+            <O
+              nhan={tx.truong.dienThoai}
               batBuoc
               gt={v.dienThoai}
               dat={(x) => dat("dienThoai", x)}
               loi={loi.dienThoai}
               auto="tel"
             />
-            <O nhan="Email" gt={v.email} dat={(x) => dat("email", x)} loi={loi.email} auto="email" kieu="email" />
-            <O nhan="Nơi đang sinh sống" gt={v.noiO} dat={(x) => dat("noiO", x)} />
-            <Select nhan="Trình độ học vấn" gt={v.hocVan} dat={(x) => dat("hocVan", x)} ds={["", ...HOC_VAN]} />
+            <O nhan={tx.truong.email} gt={v.email} dat={(x) => dat("email", x)} loi={loi.email} auto="email" kieu="email" />
+            <O nhan={tx.truong.noiO} gt={v.noiO} dat={(x) => dat("noiO", x)} />
+            <Select
+              nhan={tx.truong.hocVan}
+              gt={v.hocVan}
+              dat={(x) => dat("hocVan", x)}
+              ds={[{ ma: "", ten: tx.chon }, ...MA_HOC_VAN.map((ma) => ({ ma, ten: tx.hocVan[ma] }))]}
+            />
           </div>
         )}
 
@@ -203,7 +228,7 @@ export function ConsultationWizard() {
           <div className="space-y-6">
             <div>
               <p className="mb-2.5 text-[13px] font-medium text-[var(--nb-text-dim)]">
-                Ngành nghề quan tâm <b className="text-[var(--nb-gold)]">*</b>
+                {tx.truong.nganh} <b className="text-[var(--nb-gold)]">*</b>
               </p>
               <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
                 {INDUSTRIES.map((i) => (
@@ -218,7 +243,7 @@ export function ConsultationWizard() {
                           : "border-[var(--nb-line-soft)] text-[var(--nb-text-dim)] hover:border-[var(--nb-line)]"
                       }`}
                     >
-                      {i.titleVi}
+                      {tenNganh(i, lang)}
                     </button>
                   </li>
                 ))}
@@ -228,16 +253,16 @@ export function ConsultationWizard() {
 
             <div className="grid gap-4 sm:grid-cols-2">
               <Select
-                nhan="Chương trình"
+                nhan={tx.truong.chuongTrinh}
                 gt={v.chuongTrinh}
                 dat={(x) => dat("chuongTrinh", x)}
-                ds={["Lao động", "Du học nghề", "Chưa quyết định"]}
+                ds={MA_CHUONG_TRINH.map((ma) => ({ ma, ten: tx.chuongTrinh[ma] }))}
               />
               <Select
-                nhan="Thời gian mong muốn sang Đức"
+                nhan={tx.truong.thoiGian}
                 gt={v.thoiGian}
                 dat={(x) => dat("thoiGian", x)}
-                ds={THOI_GIAN}
+                ds={MA_THOI_GIAN.map((ma) => ({ ma, ten: tx.thoiGian[ma] }))}
               />
             </div>
           </div>
@@ -245,10 +270,15 @@ export function ConsultationWizard() {
 
         {b === 2 && (
           <div className="space-y-4">
-            <Select nhan="Trình độ tiếng Đức" gt={v.tieng} dat={(x) => dat("tieng", x)} ds={TIENG} />
+            <Select
+              nhan={tx.truong.tieng}
+              gt={v.tieng}
+              dat={(x) => dat("tieng", x)}
+              ds={MA_TIENG.map((ma) => ({ ma, ten: tx.tieng[ma] }))}
+            />
             <label className="block">
               <span className="mb-1.5 block text-[13px] font-medium text-[var(--nb-text-dim)]">
-                Ghi chú thêm về hồ sơ, kinh nghiệm hoặc câu hỏi của bạn
+                {tx.truong.ghiChu}
               </span>
               <textarea
                 rows={5}
@@ -262,24 +292,9 @@ export function ConsultationWizard() {
 
         {b === 3 && (
           <div>
-            <h3 className="text-[17px] font-semibold text-white">Kiểm tra lại thông tin</h3>
+            <h3 className="text-[17px] font-semibold text-white">{tx.kiemTra}</h3>
             <dl className="mt-5 grid gap-x-8 gap-y-3 sm:grid-cols-2">
-              {(
-                [
-                  ["Họ và tên", v.hoTen],
-                  ["Ngày sinh", v.ngaySinh],
-                  ["Điện thoại", v.dienThoai],
-                  ["Email", v.email],
-                  ["Nơi sinh sống", v.noiO],
-                  ["Học vấn", v.hocVan],
-                  ["Tiếng Đức", v.tieng],
-                  ["Ngành nghề", INDUSTRIES.find((i) => i.id === v.nganh)?.titleVi ?? ""],
-                  ["Chương trình", v.chuongTrinh],
-                  ["Thời gian", v.thoiGian],
-                ] as const
-              )
-                .filter(([, gt]) => gt)
-                .map(([k, gt]) => (
+              {tomTat(false).map(([k, gt]) => (
                   <div key={k} className="flex justify-between gap-4 border-b border-[var(--nb-line-soft)] pb-2">
                     <dt className="text-[13px] text-[var(--nb-text-mute)]">{k}</dt>
                     <dd className="text-right text-[13.5px] font-medium text-white">{gt}</dd>
@@ -292,8 +307,7 @@ export function ConsultationWizard() {
               </p>
             )}
             <p className="mt-5 text-[12.5px] leading-[1.65] text-[var(--nb-text-mute)]">
-              Bấm gửi sẽ mở trình email của bạn với nội dung trên. Không có dữ liệu nào được gửi đi trước khi bạn tự bấm
-              gửi trong email.
+              {tx.luuY}
             </p>
           </div>
         )}
@@ -308,17 +322,17 @@ export function ConsultationWizard() {
           className="nb-btn-solid h-12 px-4 text-[14px] disabled:opacity-35 sm:h-11 sm:px-5"
         >
           <ArrowLeft size={15} />
-          Quay lại
+          {tx.quayLai}
         </button>
 
         {b < BUOC.length - 1 ? (
           <button type="button" onClick={tiep} className="nb-btn h-12 px-6 text-[14.5px] sm:h-11 sm:px-7">
-            Tiếp tục
+            {tx.tiepTuc}
             <ArrowRight size={15} />
           </button>
         ) : (
           <button type="button" onClick={gui} className="nb-btn h-12 px-6 text-[14.5px] sm:h-11 sm:px-7">
-            Gửi thông tin tư vấn
+            {tx.gui}
             <Send size={15} />
           </button>
         )}
@@ -366,14 +380,25 @@ function O({
   );
 }
 
-function Select({ nhan, gt, dat, ds }: { nhan: string; gt: string; dat: (v: string) => void; ds: string[] }) {
+function Select({
+  nhan,
+  gt,
+  dat,
+  ds,
+}: {
+  nhan: string;
+  gt: string;
+  dat: (v: string) => void;
+  /** ma = giá trị lưu, ten = chữ hiển thị (đã dịch) */
+  ds: { ma: string; ten: string }[];
+}) {
   return (
     <label className="block">
       <span className="mb-1.5 block text-[13px] font-medium text-[var(--nb-text-dim)]">{nhan}</span>
       <select value={gt} onChange={(e) => dat(e.target.value)} className="nb-input min-h-[44px] sm:min-h-0">
         {ds.map((x) => (
-          <option key={x} value={x}>
-            {x || "— Chọn —"}
+          <option key={x.ma} value={x.ma}>
+            {x.ten}
           </option>
         ))}
       </select>

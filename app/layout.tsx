@@ -5,6 +5,11 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MenuDay } from "@/components/layout/MenuDay";
 import { PageFade, PageTransition } from "@/components/layout/PageTransition";
+import { LANGS, LOCALE, SITE_URL, urlDayDu } from "@/lib/i18n/config";
+import { getLang, getPath } from "@/lib/i18n/server";
+import { LangProvider } from "@/lib/i18n/client";
+import { t } from "@/lib/i18n/dict";
+import { common } from "@/lib/i18n/dict/common";
 
 /**
  * Hai kiểu chữ theo prompt mục 02: serif cao cấp cho tiêu đề hero, sans hiện
@@ -38,25 +43,50 @@ const display = Playfair_Display({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://www.nibelcgermany.de"),
-  title: {
-    default: "NIBELC GROUP GERMANY — Việc làm & Du học nghề tại Đức",
-    template: "%s · NIBELC GROUP",
-  },
-  description:
-    "Nền tảng tuyển dụng và du học nghề tại Đức của NIBELC GROUP GERMANY: đơn hàng đang tuyển, chương trình Ausbildung, lộ trình hồ sơ và visa.",
-};
+/**
+ * Metadata gốc theo ngôn ngữ của request (proxy.ts gắn x-nb-lang / x-nb-path).
+ *
+ * canonical + hreflang tính ở ĐÂY cho mọi trang: trang con chỉ khai title /
+ * description, KHÔNG tự khai `alternates` (khai ở trang là đè mất bộ này).
+ */
+export async function generateMetadata(): Promise<Metadata> {
+  const [lang, path] = await Promise.all([getLang(), getPath()]);
+  const tx = t(common, lang);
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: {
+      default: tx.meta.tieuDe,
+      template: "%s · NIBELC GROUP",
+    },
+    description: tx.meta.moTa,
+    alternates: {
+      canonical: urlDayDu(path, lang),
+      languages: {
+        vi: urlDayDu(path, "vi"),
+        en: urlDayDu(path, "en"),
+        de: urlDayDu(path, "de"),
+        "x-default": urlDayDu(path, "vi"),
+      },
+    },
+    openGraph: {
+      locale: LOCALE[lang].replace("-", "_"),
+      alternateLocale: LANGS.filter((l) => l !== lang).map((l) => LOCALE[l].replace("-", "_")),
+    },
+  };
+}
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const lang = await getLang();
+  const tx = t(common, lang);
   return (
-    <html lang="vi" className={`${inter.variable} ${tieuDeHero.variable} ${display.variable}`}>
+    <html lang={lang} className={`${inter.variable} ${tieuDeHero.variable} ${display.variable}`}>
       <body>
+        <LangProvider lang={lang}>
         <a
           href="#noi-dung"
           className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[110] focus:rounded-lg focus:bg-[var(--nb-gold)] focus:px-4 focus:py-2 focus:font-semibold focus:text-[var(--nb-navy-900)]"
         >
-          Tới nội dung
+          {tx.toiNoiDung}
         </a>
 
         <PageTransition>
@@ -70,6 +100,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <Footer />
           <MenuDay />
         </PageTransition>
+        </LangProvider>
       </body>
     </html>
   );
