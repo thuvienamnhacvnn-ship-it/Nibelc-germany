@@ -259,7 +259,7 @@ export function JobMarketplace() {
               setTuKhoa(e.target.value);
               setHien(9);
             }}
-            placeholder="Tìm đơn hàng, nghề…"
+            placeholder="Tìm đơn hàng…"
             aria-label="Tìm đơn hàng"
             className="h-12 min-w-0 flex-1 bg-transparent text-[14.5px] text-white outline-none placeholder:text-[var(--nb-text-mute)]"
           />
