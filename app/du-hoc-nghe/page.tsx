@@ -96,6 +96,16 @@ export default function Page() {
                       sizes="(min-width:1024px) 330px, (min-width:640px) 268px, 250px"
                       className="object-cover transition-transform duration-[600ms] group-hover:scale-105"
                     />
+                    {/* Dải chuyển tiếp CHỈ Ở ĐÁY, CHỈ Ở ĐIỆN THOẠI (phiên mobile) —
+                        máy tính bỏ hẳn theo luật cấm phủ lớp lên ảnh. */}
+                    <span
+                      className="absolute inset-x-0 bottom-0 h-[55%] lg:hidden"
+                      style={{
+                        background:
+                          "linear-gradient(180deg, rgb(var(--nb-navy-900-rgb) / 0), rgb(var(--nb-navy-900-rgb) / .9))",
+                      }}
+                      aria-hidden="true"
+                    />
                   </span>
                   <span className="block p-5">
                     <b className="block text-[17px] font-semibold text-white">{n.ten}</b>

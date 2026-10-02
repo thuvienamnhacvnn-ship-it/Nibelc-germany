@@ -49,9 +49,15 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
   return (
     <div className="nb-duoi-header dh-sang lg:[background:linear-gradient(var(--s-ink)_var(--nb-header),var(--s-page)_0)]">
+      {/* Dưới lg lưới này chỉ có MỘT cột, nhưng để `grid` trần thì cột là
+          `auto` = min-content, mà min-content của cột trái bị hàng ảnh thu nhỏ
+          cuộn ngang trong JobGallery kéo ra 806px — cả trang rộng 839px trên
+          khung 390px, tiêu đề và nút "Ứng tuyển" bị cắt mất nửa.
+          `grid-cols-[minmax(0,1fr)]` khoá cột trong khung; `min-w-0` ở article
+          chặn luôn đường còn lại (min-width:auto của chính thẻ con). */}
       <div className="nb-wrap grid grid-cols-[minmax(0,1fr)] gap-8 py-9 sm:gap-10 sm:py-12 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-12 lg:pt-10 lg:pb-20">
         {/* ---------------- TRÁI ---------------- */}
-        <article>
+        <article className="min-w-0">
           <nav aria-label="Đường dẫn" className="flex items-center gap-2 text-[13px] text-[var(--nb-text-mute)] lg:text-[var(--s-mute)]">
             {/* Chữ 13px cho vùng bấm cao 21px — ngón tay bấm trượt. Nới sàn
                 44px ở khổ điện thoại (đúng cách bảng lọc đang làm), desktop
@@ -73,7 +79,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
               </span>
             )}
             {job.isSample && (
-              <span className="rounded-full bg-[var(--nb-navy-800)] px-2.5 py-1 text-[11px] font-bold tracking-[0.04em] text-[var(--nb-gold)] ring-1 ring-[var(--nb-gold)]/40">
+              <span className="rounded-full bg-[var(--nb-navy-800)] px-2.5 py-1 text-[12px] font-bold tracking-[0.04em] text-[var(--nb-gold)] ring-1 ring-[var(--nb-gold)]/40 lg:text-[11px]">
                 DỮ LIỆU MẪU
               </span>
             )}
@@ -93,7 +99,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                   <Icon size={16} />
                 </span>
                 <span className="min-w-0">
-                  <span className="block text-[11.5px] text-[var(--nb-text-mute)] lg:text-[12px] lg:text-[var(--s-mute)]">{nhan}</span>
+                  <span className="block text-[12px] text-[var(--nb-text-mute)] lg:text-[var(--s-mute)]">{nhan}</span>
                   <b className="mt-0.5 block truncate text-[13.5px] font-semibold text-white sm:text-[14.5px] lg:text-[var(--s-ink)]">{gt}</b>
                 </span>
               </li>

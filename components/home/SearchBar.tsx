@@ -94,7 +94,9 @@ export function SearchBar() {
           if (goiY[chon]) di(goiY[chon]);
           else chuyen(`/don-hang${tu.trim() ? `?q=${encodeURIComponent(tu.trim())}` : ""}`);
         }}
-        className="flex items-center gap-3 rounded-full border border-[var(--nb-gold)]/70 bg-[#0a1b36]/92 py-2 pr-2 pl-5 backdrop-blur-md transition focus-within:border-[var(--nb-gold)]"
+        // nền dùng BIẾN chứ không chép tay #0a1b36: mã đó là nền đen của bản
+        // cũ, ở bản điện thoại nền xanh nó thành một vệt tối lạc tông
+        className="flex items-center gap-3 rounded-full border border-[var(--nb-gold)]/70 bg-[var(--nb-navy-800)]/92 py-2 pr-2 pl-5 backdrop-blur-md transition focus-within:border-[var(--nb-gold)]"
         role="search"
       >
         <Search size={18} className="shrink-0 text-white/85" />
@@ -110,7 +112,9 @@ export function SearchBar() {
           aria-label="Tìm kiếm đơn hàng, ngành nghề, địa điểm"
           aria-expanded={mo && goiY.length > 0}
           aria-autocomplete="list"
-          className="h-9 min-w-0 flex-1 bg-transparent text-[15px] text-white outline-none placeholder:text-[var(--nb-text-mute)]"
+          // h-9 = 36px, dưới ngưỡng 44px để ngón tay bấm trúng. Nút gửi cạnh
+          // bên đã là 44px rồi, ô nhập phải bằng.
+          className="h-11 min-w-0 flex-1 bg-transparent text-[15px] text-white outline-none placeholder:text-[var(--nb-text-mute)]"
         />
         <button
           type="submit"

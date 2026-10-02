@@ -144,9 +144,10 @@ export function GuideHub() {
                 href={`/cam-nang/${noiBat.id}`}
                 className="nb-card group mt-6 block overflow-hidden lg:grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]"
               >
-                {/* Không phủ lớp tối lên ảnh (luật Sếp): chữ nằm DƯỚI ảnh ở khổ
-                    hẹp, nằm BÊN PHẢI ảnh ở máy tính, trên nền thẻ. */}
-                <span className="relative block h-[220px] overflow-hidden sm:h-[260px] lg:h-auto lg:min-h-[300px]">
+                {/* ẢNH SẠCH, CHỮ NẰM DƯỚI — không lớp phủ, không chữ đè lên ảnh
+                    (luật Sếp). Điện thoại (phiên mobile): ảnh 16:9 trên, chữ dưới
+                    như các thẻ bài còn lại. Máy tính: chữ nằm BÊN PHẢI ảnh. */}
+                <span className="relative block aspect-[16/9] overflow-hidden lg:aspect-auto lg:h-auto lg:min-h-[300px]">
                   <Image
                     src={ANH[0]!}
                     alt=""
@@ -156,7 +157,7 @@ export function GuideHub() {
                   />
                 </span>
                 <span className="flex flex-col justify-center p-5 sm:p-7">
-                    <span className="self-start rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/70 px-3 py-1 text-[12px] lg:bg-[#F6F1E7] font-semibold text-[var(--nb-gold-soft)] sm:text-[11.5px]">
+                    <span className="self-start rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/70 px-3 py-1 text-[12px] lg:bg-[#F6F1E7] font-semibold text-[var(--nb-gold-soft)] lg:text-[11.5px]">
                       {mucCuaBai(noiBat)[0]}
                     </span>
                     <b className="nb-display mt-3 block max-w-[34ch] text-[21px] leading-tight text-white sm:text-[26px] lg:text-[24px]">
@@ -229,7 +230,7 @@ export function GuideHub() {
           {docNhieu.map((b, i) => (
             <li key={b.id}>
               <NavLink href={`/cam-nang/${b.id}`} className="group flex min-h-[44px] gap-3 lg:min-h-0">
-                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-[var(--nb-line-soft)] text-[11.5px] font-bold text-[var(--nb-gold)]">
+                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-[var(--nb-line-soft)] text-[12px] font-bold text-[var(--nb-gold)] lg:text-[11.5px]">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span className="min-w-0">

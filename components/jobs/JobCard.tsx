@@ -36,22 +36,33 @@ export function JobCard({ job, lon = false }: { job: JobFull; lon?: boolean }) {
           sizes={lon ? "(min-width:1280px) 840px, 100vw" : "(min-width:1280px) 420px, 100vw"}
           className="object-cover transition-transform duration-[600ms] ease-[cubic-bezier(.22,.61,.36,1)] group-hover:scale-[1.05]"
         />
+        {/* Dải chuyển tiếp CHỈ Ở ĐÁY, CHỈ Ở ĐIỆN THOẠI (phiên mobile) — để nhãn
+            ngành đáy ảnh đọc được trên thẻ hẹp. Máy tính (đội W-AGENT) bỏ hẳn:
+            luật cấm phủ lớp lên ảnh. */}
+        <span
+          className="absolute inset-x-0 bottom-0 h-[54%] lg:hidden"
+          style={{
+            background:
+              "linear-gradient(180deg, rgb(var(--nb-navy-900-rgb) / 0), rgb(var(--nb-navy-900-rgb) / .9))",
+          }}
+          aria-hidden="true"
+        />
 
         {/* góc trái: trạng thái đơn */}
         {job.isSample ? (
-          <span className="absolute top-3 left-3 rounded-full bg-[var(--nb-cyan)]/90 px-2.5 py-1 text-[10.5px] font-bold text-white">
+          <span className="absolute top-3 left-3 rounded-full bg-[var(--nb-cyan)]/90 px-2.5 py-1 text-[12px] font-bold text-white lg:text-[10.5px]">
             MẪU
           </span>
         ) : (
           lon && job.featured && (
-            <span className="absolute top-3 left-3 rounded-full bg-[var(--nb-gold)] px-2.5 py-1 text-[10.5px] font-bold tracking-[0.05em] text-[var(--nb-navy-900)]">
+            <span className="absolute top-3 left-3 rounded-full bg-[var(--nb-gold)] px-2.5 py-1 text-[12px] font-bold tracking-[0.05em] lg:text-[10.5px] text-[var(--nb-navy-900)]">
               NỔI BẬT
             </span>
           )
         )}
 
         {/* góc phải: cờ Đức + thành phố, đúng mô-típ ảnh mẫu */}
-        <span className="absolute top-3 right-3 flex items-center gap-1.5 rounded-full bg-[var(--nb-navy-900)]/80 px-2.5 py-1 text-[11.5px] font-semibold text-white backdrop-blur-sm">
+        <span className="absolute top-3 right-3 flex items-center gap-1.5 rounded-full bg-[var(--nb-navy-900)]/80 px-2.5 py-1 text-[13px] font-semibold text-white backdrop-blur-sm lg:text-[11.5px]">
           <span className="nb-co-duc h-[9px] w-[14px]" aria-hidden="true">
             <span style={{ background: "#111" }} />
             <span style={{ background: "#d00" }} />
@@ -61,7 +72,7 @@ export function JobCard({ job, lon = false }: { job: JobFull; lon?: boolean }) {
         </span>
 
         {nganh && (
-          <span className="absolute bottom-3 left-3 rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/78 px-3 py-1 text-[11.5px] font-semibold text-[var(--nb-gold-soft)] backdrop-blur-sm">
+          <span className="absolute bottom-3 left-3 rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/78 px-3 py-1 text-[13px] font-semibold text-[var(--nb-gold-soft)] backdrop-blur-sm lg:text-[11.5px]">
             {nganh.titleVi}
           </span>
         )}
@@ -101,7 +112,7 @@ export function JobCard({ job, lon = false }: { job: JobFull; lon?: boolean }) {
             {[`Tiếng ${job.languageLevel}`, job.employmentType].map((t) => (
               <span
                 key={t}
-                className="rounded-full border border-[var(--nb-line-soft)] px-2.5 py-1 text-[11.5px] text-[var(--nb-text-dim)]"
+                className="rounded-full border border-[var(--nb-line-soft)] px-2.5 py-1 text-[13px] text-[var(--nb-text-dim)] lg:text-[11.5px]"
               >
                 {t}
               </span>

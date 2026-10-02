@@ -72,7 +72,7 @@ export function CumTieuDe({ chu = CHU_VI, className = "" }: { chu?: ChuTieuDe; c
 
         {/* Tầng 2 — lớn nhất */}
         <span
-          className="mt-3 block font-bold leading-[1.08] tracking-[0.02em] text-balance text-[color:var(--td-vang)] text-[clamp(32px,4.85vw,70px)] lg:mt-3"
+          className="mt-3 block font-bold leading-[1.08] tracking-[0.02em] text-balance text-[color:var(--td-vang)] text-[clamp(34px,4.85vw,70px)] lg:mt-3"
           style={{ fontFamily: "var(--font-display)" }}
         >
           {chu.dong3}

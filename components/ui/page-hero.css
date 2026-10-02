@@ -19,10 +19,9 @@
   --hero-mo: #d7e2f2;
 }
 
+/* Điện thoại (phiên mobile): chữ nằm trên nền trang phẳng dưới ảnh, KHÔNG
+   có tấm — tấm navy chỉ bật từ lg. */
 .nb-hero-tam {
-  background: var(--hero-tam-nen);
-  border: 1px solid var(--hero-tam-vien);
-  border-radius: var(--hero-tam-bo);
   text-shadow: none;
 }
 
@@ -31,6 +30,8 @@
     min-height: var(--hero-cao);
   }
   .nb-hero-tam {
+    background: var(--hero-tam-nen);
+    border: 1px solid var(--hero-tam-vien);
     width: var(--hero-tam-rong);
     max-width: 100%;
     border-radius: var(--hero-tam-bo-lg);

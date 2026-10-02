@@ -1,8 +1,9 @@
 "use client";
 
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { Briefcase, ChevronDown, Coins, FileText, GraduationCap, Languages, LayoutGrid, List, MapPin, SlidersHorizontal, X } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Briefcase, ChevronDown, Coins, FileText, GraduationCap, Languages, LayoutGrid, List, MapPin, Search, SlidersHorizontal, X } from "lucide-react";
 import { JobCard } from "@/components/jobs/JobCard";
 import { JobRow } from "@/components/jobs/JobRow";
 import { JobCardSang, JobRowSang } from "@/components/jobs/JobCardSang";
@@ -58,10 +59,27 @@ export function JobMarketplace() {
   const [sapXep, setSapXep] = useState<"moi" | "luong-cao" | "suat-nhieu">("moi");
   const [dangLuoi, setDangLuoi] = useState(true);
   const [hien, setHien] = useState(9);
-  /** Chỉ dùng ở khổ điện thoại: bảng lọc 7 nhóm xếp TRÊN lưới kết quả, mở sẵn
-      thì phải cuộn gần hai màn hình mới thấy đơn hàng đầu tiên. Từ lg trở lên
-      bảng là cột bên nên luôn hiện, không phụ thuộc state này. */
-  const [moLoc, setMoLoc] = useState(false);
+  /** Chỉ dùng ở khổ điện thoại: bảy nhóm lọc nằm trong một TẤM TRƯỢT kéo lên
+      từ đáy. Từ lg trở lên chúng là cột bên và luôn hiện, không phụ thuộc
+      state này. */
+  const [moSheet, setMoSheet] = useState(false);
+
+  /* Mở tấm trượt thì KHOÁ cuộn nền: không khoá thì ngón tay vuốt trong tấm
+     trượt tới cuối danh sách là nền phía sau cuộn tiếp, vị trí đọc của người
+     dùng bị mất. Trả lại đúng giá trị cũ khi đóng. */
+  useEffect(() => {
+    if (!moSheet) return;
+    const cu = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const phim = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMoSheet(false);
+    };
+    window.addEventListener("keydown", phim);
+    return () => {
+      document.body.style.overflow = cu;
+      window.removeEventListener("keydown", phim);
+    };
+  }, [moSheet]);
   const nhomMo = useState<string | null>("Ngành nghề");
 
   const ketQua = useMemo(() => {
@@ -143,66 +161,13 @@ export function JobMarketplace() {
 
   const daHien = Math.min(hien, ketQua.length);
 
-  /* Desktop (≥lg) dùng thân trang SÁNG: mọi màu sáng đi bằng tiền tố `lg:` và
-     token --s-* của .dh-sang (app/don-hang/don-hang-sang.css). Lớp không có
-     tiền tố là giao diện điện thoại — giữ nguyên, phiên mobile đang làm. */
-  return (
-    <div className="dh-sang lg:bg-[var(--s-page)]">
-      <div className="nb-wrap relative z-20 -mt-10 pb-2">
-        <SearchCommandBar gt={lenh} dat={datLenh} onTim={() => setHien(9)} />
-      </div>
 
-    <div className="nb-wrap grid gap-5 py-9 sm:gap-8 sm:py-12 lg:grid-cols-[280px_minmax(0,1fr)] lg:pt-12 lg:pb-24">
-      {/* Cửa mở bảng lọc, chỉ có ở khổ hẹp. Bọc trong div lg:hidden vì
-          .nb-btn-solid nằm ngoài @layer, display:inline-flex của nó đè utility
-          lg:hidden — nút vẫn hiện ở desktop, chiếm ô lưới đầu, vỡ lưới kết quả. */}
-      <div className="lg:hidden">
-      <button
-        type="button"
-        onClick={() => setMoLoc((v) => !v)}
-        aria-expanded={moLoc}
-        className="nb-btn-solid h-12 w-full justify-between px-5 text-[14.5px] lg:hidden"
-      >
-        <span className="flex items-center gap-2.5">
-          <SlidersHorizontal size={17} className="text-[var(--nb-gold)]" />
-          Bộ lọc tìm kiếm
-          {soLoc > 0 && (
-            <span className="rounded-full bg-[var(--nb-gold)] px-2 py-0.5 text-[12px] font-bold text-[var(--nb-navy-900)]">
-              {soLoc}
-            </span>
-          )}
-        </span>
-        <ChevronDown size={17} className={`transition-transform duration-300 ${moLoc ? "rotate-180" : ""}`} />
-      </button>
-      </div>
-
-      {/* ---------------- BỘ LỌC ----------------
-          Desktop: thẻ trắng rộng cố định 280px, dính khi cuộn; quá cao thì tự
-          cuộn bên trong chứ không đẩy chân thẻ ra khỏi màn hình. */}
-      <aside
-        className={`nb-panel h-fit p-5 sm:p-6 lg:block lg:px-5 lg:py-4 ${
-          moLoc ? "block" : "hidden"
-        }`}
-        aria-label="Bộ lọc đơn hàng"
-      >
-        <NhomCtx.Provider value={nhomMo}>
-        <div className="flex items-center justify-between lg:pb-1.5">
-          <b className="flex items-center gap-2 text-[15.5px] font-semibold text-white lg:text-[15px] lg:text-[var(--s-ink)]">
-            <SlidersHorizontal size={17} className="text-[var(--nb-gold)] lg:text-[var(--s-gold)]" />
-            Bộ lọc tìm kiếm
-          </b>
-          {soLoc > 0 && (
-            <button
-              type="button"
-              onClick={xoaHet}
-              className="flex min-h-[44px] items-center gap-1 text-[12.5px] text-[var(--nb-text-mute)] transition hover:text-[var(--nb-gold-soft)] lg:min-h-0 lg:font-medium lg:text-[var(--s-gold)] lg:hover:text-[var(--s-ink)]"
-            >
-              <X size={13} />
-              Xoá ({soLoc})
-            </button>
-          )}
-        </div>
-
+  /* LÕI LỌC DÙNG CHUNG — bảy nhóm gập/mở, viết MỘT lần (phiên mobile).
+     Desktop: nằm trong cột bên trái thẻ trắng, luôn hiện (lớp lg: của đội W-AGENT).
+     Điện thoại: nằm trong tấm trượt kéo từ đáy.
+     Cả hai chỗ đọc/ghi CÙNG state ở trên, không có bộ lọc thứ hai. */
+  const nhomLoc = (
+    <NhomCtx.Provider value={nhomMo}>
         <Nhom nhan="Ngành nghề" Icon={Briefcase} moSan tomTat={nganh.length ? `${nganh.length} ngành đã chọn` : "Tất cả ngành nghề"}>
           {/* Desktop hiện ĐỦ mọi ngành, không cuộn lồng (trước bị khoá 216px nên
               chỉ thấy 6/12 ngành, "Nông nghiệp", "Ô tô"… bị giấu). */}
@@ -278,7 +243,81 @@ export function JobMarketplace() {
         <Nhom nhan="Chương trình" Icon={FileText} tomTat={ct === "Tất cả" ? "Tất cả chương trình" : ct}>
           <Chon gt={ct} dat={setCt} ds={CHUONG_TRINH} />
         </Nhom>
-        </NhomCtx.Provider>
+    </NhomCtx.Provider>
+  );
+
+  /* Desktop (≥lg) dùng thân trang SÁNG: mọi màu sáng đi bằng tiền tố `lg:` và
+     token --s-* của .dh-sang (app/don-hang/don-hang-sang.css). Lớp không có
+     tiền tố là giao diện điện thoại — giữ nguyên, phiên mobile đang làm. */
+  return (
+    <div className="dh-sang lg:bg-[var(--s-page)]">
+      {/* Thanh 5 ô ngang CHỈ còn ở desktop. Ở điện thoại nó cao 469px và
+          trùng chức năng với bảy nhóm lọc ngay bên dưới — hai bộ lọc chồng
+          nhau. Bản điện thoại thay bằng một hàng: ô tìm chữ + nút mở tấm
+          trượt. */}
+      <div className="nb-wrap relative z-20 -mt-10 hidden pb-2 lg:block">
+        <SearchCommandBar gt={lenh} dat={datLenh} onTim={() => setHien(9)} />
+      </div>
+
+    {/* `grid-cols-[minmax(0,1fr)]` cho khổ hẹp: để `grid` trần thì cột là
+        `auto` = min-content, và hàng nút "Lưới / Danh sách / Sắp xếp" bên
+        trong kéo cột ra 366px trong khung 326px — cả trang rộng thành 398px.
+        Đây là lần thứ ba cùng một bẫy trong dự án này. */}
+    <div className="nb-wrap grid grid-cols-[minmax(0,1fr)] gap-5 py-9 sm:gap-8 sm:py-12 lg:grid-cols-[280px_minmax(0,1fr)] lg:pt-12 lg:pb-24">
+      {/* ---------- HÀNG ĐIỀU KHIỂN Ở ĐIỆN THOẠI ---------- */}
+      <div className="flex gap-2.5 lg:hidden">
+        <label className="nb-panel flex min-w-0 flex-1 items-center gap-2.5 px-4">
+          <Search size={17} className="shrink-0 text-[var(--nb-gold)]" />
+          <input
+            value={tuKhoa}
+            onChange={(e) => {
+              setTuKhoa(e.target.value);
+              setHien(9);
+            }}
+            placeholder="Tìm đơn hàng, nghề, nơi làm"
+            aria-label="Tìm đơn hàng"
+            className="h-12 min-w-0 flex-1 bg-transparent text-[14.5px] text-white outline-none placeholder:text-[var(--nb-text-mute)]"
+          />
+        </label>
+
+        <button
+          type="button"
+          onClick={() => setMoSheet(true)}
+          aria-haspopup="dialog"
+          aria-expanded={moSheet}
+          className="nb-btn-solid h-12 shrink-0 gap-2 px-4 text-[14.5px]"
+        >
+          <SlidersHorizontal size={17} className="text-[var(--nb-gold)]" />
+          Bộ lọc
+          {soLoc > 0 && (
+            <span className="grid h-6 min-w-6 place-items-center rounded-full bg-[var(--nb-gold)] px-1.5 text-[12px] font-bold text-[var(--nb-navy-900)]">
+              {soLoc}
+            </span>
+          )}
+        </button>
+      </div>
+
+      {/* ---------------- BỘ LỌC (cột bên, chỉ desktop) ----------------
+          Desktop: thẻ trắng rộng cố định 280px. */}
+      <aside className="nb-panel hidden h-fit p-5 sm:p-6 lg:block lg:px-5 lg:py-4" aria-label="Bộ lọc đơn hàng">
+        <div className="flex items-center justify-between lg:pb-1.5">
+          <b className="flex items-center gap-2 text-[15.5px] font-semibold text-white lg:text-[15px] lg:text-[var(--s-ink)]">
+            <SlidersHorizontal size={17} className="text-[var(--nb-gold)] lg:text-[var(--s-gold)]" />
+            Bộ lọc tìm kiếm
+          </b>
+          {soLoc > 0 && (
+            <button
+              type="button"
+              onClick={xoaHet}
+              className="flex min-h-[44px] items-center gap-1 text-[12.5px] text-[var(--nb-text-mute)] transition hover:text-[var(--nb-gold-soft)] lg:min-h-0 lg:font-medium lg:text-[var(--s-gold)] lg:hover:text-[var(--s-ink)]"
+            >
+              <X size={13} />
+              Xoá ({soLoc})
+            </button>
+          )}
+        </div>
+
+        {nhomLoc}
       </aside>
 
       {/* ---------------- KẾT QUẢ ---------------- */}
@@ -428,6 +467,84 @@ export function JobMarketplace() {
         )}
       </div>
     </div>
+
+      {/* ---------------- TẤM TRƯỢT LỌC (chỉ điện thoại) ---------------- */}
+      {/* PHỦ KÍN menu đáy chứ không dừng ở trên nó: nút chính "Xem N đơn hàng"
+          nằm ở chân tấm trượt, để nó sát menu đáy là bấm nhầm sang menu. Khi
+          tấm trượt mở thì menu đáy cũng không còn việc gì để làm. */}
+      <AnimatePresence>
+        {moSheet && (
+          <div className="lg:hidden">
+            <motion.div
+              key="nen"
+              className="fixed inset-0 z-[60] bg-[rgb(2_8_20/.62)]"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setMoSheet(false)}
+              aria-hidden="true"
+            />
+
+            <motion.div
+              key="tam"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Bộ lọc tìm kiếm"
+              className="fixed inset-x-0 bottom-0 z-[61] flex max-h-[88dvh] flex-col rounded-t-3xl border-t border-[var(--nb-line)] bg-[var(--nb-navy-800)]"
+              style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", stiffness: 320, damping: 34 }}
+            >
+              {/* tay nắm — dấu hiệu quen thuộc "kéo xuống để đóng" */}
+              <span
+                aria-hidden="true"
+                className="mx-auto mt-2.5 block h-1 w-10 shrink-0 rounded-full bg-[var(--nb-text-mute)]"
+              />
+
+              <div className="flex shrink-0 items-center gap-3 px-5 pt-3 pb-4">
+                <b className="flex min-w-0 flex-1 items-center gap-2 text-[16px] font-semibold text-white">
+                  <SlidersHorizontal size={17} className="shrink-0 text-[var(--nb-gold)]" />
+                  Bộ lọc
+                </b>
+                {soLoc > 0 && (
+                  <button
+                    type="button"
+                    onClick={xoaHet}
+                    className="flex min-h-[44px] items-center gap-1 px-1 text-[13px] text-[var(--nb-text-dim)] transition hover:text-[var(--nb-gold-soft)]"
+                  >
+                    Xoá hết ({soLoc})
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setMoSheet(false)}
+                  aria-label="Đóng bộ lọc"
+                  className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-[var(--nb-line-soft)] text-[var(--nb-text-dim)] transition hover:text-white"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* overscroll-contain: vuốt tới cuối danh sách thì DỪNG, không
+                  truyền đà cuộn ra nền phía sau */}
+              <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5">{nhomLoc}</div>
+
+              <div className="shrink-0 border-t border-[var(--nb-line-soft)] p-4">
+                <button
+                  type="button"
+                  onClick={() => setMoSheet(false)}
+                  className="nb-btn h-12 w-full px-6 text-[15px]"
+                >
+                  Xem {ketQua.length} đơn hàng
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

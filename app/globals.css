@@ -17,6 +17,12 @@
 :root {
   /* navy */
   --nb-navy-900: #050b16; /* nền tối nhất */
+  /* Cùng màu trên, viết dạng ba số để pha độ trong suốt được.
+     VÌ SAO cần: dải chuyển tiếp dưới chân ảnh/video phải bắt đầu từ chính
+     màu nền ở mức trong suốt 0. Nếu viết `transparent` hay chép tay mã màu
+     cũ thì trình duyệt nội suy qua ĐEN trong suốt, giữa dải hiện ra một vệt
+     xám bẩn — đúng lỗi QA bắt được sau khi nền đổi sang xanh. */
+  --nb-navy-900-rgb: 5 11 22;
   --nb-navy-800: #071525; /* primary dark navy */
   --nb-navy-700: #0b1c36; /* navy nhạt hơn, dùng cho card */
   --nb-navy-600: #122745;
@@ -349,7 +355,9 @@
   transition: border-color 0.2s ease, background 0.2s ease;
 }
 .nb-input::placeholder {
-  color: var(--nb-text-mute);
+  /* `--nb-text-mute` đo trên nền ô nhập chỉ 3,21:1 — chữ gợi ý mờ, người
+     dùng không đọc được ô này để làm gì. Dùng bậc sáng hơn riêng cho nó. */
+  color: #a9bdd8;
 }
 .nb-input:focus {
   outline: none;
@@ -361,7 +369,15 @@
    RAIL PHONG BÌ — nền phải THẲNG, không bệ cong, không sân khấu
    ============================================================ */
 .nb-rail-floor {
-  background: linear-gradient(180deg, rgba(5, 11, 22, 0) 0%, rgba(5, 11, 22, 0.72) 42%, var(--nb-navy-900) 100%);
+  /* dùng biến chứ không chép tay rgba(5,11,22,…): chặng đầu phải là CHÍNH màu
+     nền ở độ trong suốt 0, không thì sau khi nền đổi sang xanh, giữa dải hiện
+     một vệt xám bẩn */
+  background: linear-gradient(
+    180deg,
+    rgb(var(--nb-navy-900-rgb) / 0) 0%,
+    rgb(var(--nb-navy-900-rgb) / 0.72) 42%,
+    var(--nb-navy-900) 100%
+  );
 }
 
 /* che hai mép rail để phong bì trôi ra ngoài không bị cắt cứng */
@@ -384,25 +400,73 @@
    ============================================================ */
 @media (max-width: 1023px) {
   /* .nb-panel và .nb-card ghi THẲNG mã màu navy cũ chứ không dùng biến, nên
-     đổi bảng màu ở :root thôi thì chúng vẫn đen. Phải ghi đè riêng. */
+     đổi bảng màu ở :root thôi thì chúng vẫn đen. Phải ghi đè riêng.
+
+     BA BẬC PHẲNG, KHÔNG GRADIENT. Bản trước mỗi bề mặt là một dải chuyển
+     màu, nên hai bậc kề nhau chỗ thì trùng chỗ thì lệch — đo ra tương phản
+     1,18:1 và 1,23:1, dưới ngưỡng ~1,35:1 mắt phân biệt được trên màn điện
+     thoại, nên cả trang bệt thành một mảng xanh.
+     CHỐT BẢNG MÀU (có hai bản từng tồn tại song song, đo cả hai rồi chọn):
+       bản A (tối hơn):  #06193a → #123d78 = 1,63:1 · → #1a5096 = 1,34:1
+       bản B (sáng hơn): #0a2d5e → #14457f = 1,41:1 · → #1d5aa0 = 1,38:1
+     Bản B sáng hơn — đúng hướng Sếp muốn — nhưng bậc 1 của nó chỉ 1,41:1.
+     Bản A tách bậc tốt hơn nhưng tối. Chốt bản C: giữ NỀN sáng của bản B,
+     nâng hai bậc trên cho tách hẳn ra:
+       nền trang #0a2d5e → khối #17508f = 1,66:1
+       khối #17508f      → nổi  #2268ba = 1,46:1
+       nền trang         → nổi          = 2,42:1
+     Cả ba bậc đều trên ngưỡng ~1,35:1 mắt phân biệt được trên màn điện thoại.
+     KHÔNG gradient: bản trước mỗi bề mặt là một dải chuyển màu nên hai bậc
+     kề nhau chỗ thì trùng chỗ thì lệch, cả trang bệt thành một mảng xanh. */
   .nb-panel {
-    background: linear-gradient(180deg, rgba(16, 56, 107, 0.92), rgba(11, 42, 82, 0.92));
+    background: #17508f;
   }
   .nb-card {
-    background: linear-gradient(180deg, rgba(23, 69, 127, 0.9), rgba(11, 42, 82, 0.95));
+    background: #17508f;
+  }
+  /* Ô nhập của bản cũ là rgba(7,21,37,.7) — đen hơn cả nền trang nên trên
+     trang Liên hệ nó nhìn như một cái lỗ khoét vào thẻ. Dùng bậc NỔI. */
+  .nb-input {
+    background: #2268ba;
+  }
+  /* Lúc bấm vào, bản gốc đổi nền sang rgba(11,28,54,.9) = navy ĐEN của bản cũ
+     — ô nhập đang sáng bỗng tối sầm ngay khi người ta chạm vào nó. Giữ bậc
+     nổi, chỉ đổi viền sang vàng (viền đã có sẵn ở quy tắc gốc). */
+  .nb-input:focus {
+    background: #2a74c8;
+  }
+  /* Nút viền vàng nền trong: bản gốc là rgba(11,28,54,.55) — trên nền xanh
+     sáng nó thành một mảng tối lạc tông. Dùng bậc KHỐI. */
+  .nb-btn-ghost {
+    background: #17508f;
+  }
+  .nb-btn-ghost:hover {
+    background: #2268ba;
   }
 
   :root {
     /* dien thoai khong con header, hero chi can chua mot khoang nho */
     --nb-dem-hero: 26px;
-    --nb-navy-900: #071d3a; /* nền trang   — xanh biển đậm */
-    --nb-navy-800: #0b2a52; /* nền khối    — sáng hơn một bậc */
-    --nb-navy-700: #10386b; /* nền thẻ     — sáng hơn hai bậc */
-    --nb-navy-600: #17457f;
-    --nb-navy-500: #1f5596;
+    /* Chỗ menu đáy chiếm tính từ cạnh dưới — ĐO THẬT 63px (thanh 62px + 1px
+       vạch champagne mép trên; safe-area cộng thêm ở cả hai nơi).
+       Khai một chỗ rồi dùng chung cho menu, phần chừa dưới body và tấm trượt
+       lọc; trước đây chép tay hai nơi nên lệch 5px, menu ăn mất 5px cuối
+       trang. Đổi dáng menu thì ĐO LẠI rồi sửa đúng số ở đây. */
+    --nb-menu-day: 63px;
+    --nb-navy-900: #0a2d5e; /* nền trang */
+    --nb-navy-900-rgb: 10 45 94;
+    --nb-navy-800: #17508f; /* nền khối, thẻ */
+    --nb-navy-700: #2268ba; /* bậc nổi: ô nhập, ô lọc, trạng thái hover */
+    --nb-navy-600: #2d77cc;
+    --nb-navy-500: #3a88dd;
+    /* Nền sáng lên thì chữ phụ phải sáng theo, không thì nó chìm vào thẻ.
+       Đo trên nền khối #17508f: bản cũ #9fb0c8 = 3,69:1 và #6c7f9a = 1,99:1
+       (quá thấp để đọc). Bản mới: #c3d2e6 = 5,30:1 và #b3c6de = 4,67:1. */
+    --nb-text-dim: #c3d2e6;
+    --nb-text-mute: #b3c6de;
     /* đường kẻ ngả vàng rõ hơn để tách khối trên nền xanh */
-    --nb-line: rgba(217, 184, 120, 0.34);
-    --nb-line-soft: rgba(240, 220, 180, 0.14);
+    --nb-line: rgba(240, 220, 180, 0.34);
+    --nb-line-soft: rgba(240, 220, 180, 0.22);
   }
 }
 
@@ -513,7 +577,7 @@
 /* Chừa chỗ cho menu đáy trên điện thoại, nếu không nó đè lên cuối footer */
 @media (max-width: 1023px) {
   body {
-    padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(var(--nb-menu-day) + env(safe-area-inset-bottom, 0px));
   }
 }
 
@@ -523,4 +587,77 @@
   translate: -50% 0;
   border-radius: 50%;
   pointer-events: none;
+}
+
+/* ============================================================
+   BĂNG ĐƠN HÀNG CHẠY NGANG (components/home/BangChayDonHang.tsx)
+   ------------------------------------------------------------
+   Chạy bằng CSS, không dùng JS — không tốn khung hình nào của
+   luồng chính. Danh sách đã nhân đôi trong component nên trượt
+   đúng -50% là về lại khung hình đầu, vòng lặp không thấy mối nối.
+   Dùng transform chứ không dùng left: trình duyệt chạy trên GPU,
+   không phải tính lại bố cục từng khung.
+   ============================================================ */
+@keyframes nb-chay-ngang {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+.nb-bang-chay {
+  animation: nb-chay-ngang 46s linear infinite;
+  will-change: transform;
+}
+/* rê chuột hoặc chạm thì dừng, để kịp đọc và bấm */
+.nb-bang-chay:hover,
+.nb-bang-chay:focus-within {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nb-bang-chay {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   HERO TRANG CON — chữ nằm DƯỚI ảnh ở khổ điện thoại
+   ------------------------------------------------------------
+   Ở điện thoại `PageHero` tách làm hai: ảnh banner là một khối cao 220px
+   KHÔNG có chữ, rồi khối chữ nằm dưới trên nền trang phẳng. Lúc đó bóng chữ
+   (.nb-bong-chu) không còn tác dụng gì ngoài việc làm chữ nhoè bẩn, nên tắt
+   hẳn. Từ 1024px trở lên chữ mới nằm đè lên ảnh và bóng mới cần thiết.
+   Quy tắc này phải nằm NGOÀI @layer — `.nb-bong-chu` cũng ngoài layer, mọi
+   lớp tiện ích Tailwind đều thua nó.
+   ============================================================ */
+@media (max-width: 1023px) {
+  .nb-hero-con-chu,
+  .nb-hero-con-chu * {
+    text-shadow: none;
+  }
+}
+
+/* ĐỪNG đặt tên lớp mới trùng `.nb-hero-chu` (dòng ~142): lớp đó là cụm tiêu
+   đề hero trang CHỦ, mang font-hero + font-weight 900. Đã lỡ một lần: khối
+   chữ hero trang con dính weight 900, cả đoạn mô tả 15px hiện ra đậm như
+   tiêu đề. Lớp của hero trang con tên là `.nb-hero-con-chu`. */
+
+/* ============================================================
+   CỤM TIÊU ĐỀ HERO TRÊN ĐIỆN THOẠI
+   ------------------------------------------------------------
+   Nền banner là trời xanh có MÂY TRẮNG và mây vàng cam, nên chữ
+   trắng lẫn vào mây trắng còn chữ vàng lẫn vào mây cam — đo trên
+   ảnh thật, không phải cảm giác.
+   Viền tối dày hơn hẳn là thứ cứu được, vì nó bám theo nét chữ
+   chứ không phủ lên ảnh. Đo theo `em` nên mỗi dòng tự có viền
+   đúng tỉ lệ với cỡ chữ của nó.
+   `paint-order: stroke` bắt vẽ viền TRƯỚC rồi mới tô, nếu không
+   viền phủ kín nét và chữ thành mảng tối.
+   ============================================================ */
+@media (max-width: 1023px) {
+  .nb-cum-tieu-de text {
+    stroke-width: 0.085em;
+    paint-order: stroke;
+  }
 }
