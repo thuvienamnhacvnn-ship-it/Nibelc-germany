@@ -51,7 +51,7 @@ export default function Page() {
           <>
             Du học nghề Đức
             <span className="mt-2 block text-[15px] font-normal text-[var(--nb-gold-soft)] sm:text-[0.52em]">
-              Học nghề – Có lương – Xây dựng tương lai tại châu Âu
+              Học nghề – Có lương – Xây dựng tương lai tại châu Âu
             </span>
           </>
         }

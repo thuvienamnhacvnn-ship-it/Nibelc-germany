@@ -76,7 +76,7 @@ export function BangChayDonHang({ ds }: { ds: JobFull[] }) {
                 <span className="nb-display truncate text-[14.5px] font-bold text-[var(--nb-gold-strong)]">
                   {chuoiLuong(j)}
                 </span>
-                <span className="flex shrink-0 items-center gap-1 text-[11.5px] text-[#c2d3e8]">
+                <span className="flex shrink-0 items-center gap-1 text-[12.5px] text-[#c2d3e8]">
                   <MapPin size={12} className="text-[var(--nb-gold)]" />
                   {noiLamViec(j).split(",")[0]}
                 </span>

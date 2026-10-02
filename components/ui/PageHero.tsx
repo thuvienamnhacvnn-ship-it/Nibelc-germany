@@ -72,7 +72,10 @@ export function PageHero({
         {/* Trên điện thoại clamp() rơi về 30px cho MỌI tiêu đề, kể cả câu dài
             như "Du học nghề Đức – Học nghề – Có lương…", nên chữ tràn ra 4–5
             dòng sát mép. Hạ một bậc ở khổ hẹp rồi mới dùng clamp từ sm trở lên. */}
-        <h1 className="nb-display mt-3 max-w-[22ch] text-[26px] leading-[1.18] text-white sm:text-[clamp(30px,3.2vw,46px)] sm:leading-[1.14]">
+        {/* text-balance: ở khổ điện thoại mấy tiêu đề này hay rớt ĐÚNG MỘT
+            chữ xuống dòng cuối ("… tại châu / Âu"), nhìn như lỗi. Cân dòng
+            thì trình duyệt chia đều các dòng, không để lại chữ mồ côi. */}
+        <h1 className="nb-display mt-3 max-w-[22ch] text-[26px] leading-[1.18] text-balance text-white sm:text-[clamp(30px,3.2vw,46px)] sm:leading-[1.14]">
           {tieuDe}
         </h1>
         {mo && (

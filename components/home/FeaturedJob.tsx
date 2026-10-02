@@ -99,7 +99,7 @@ export function FeaturedJob({
         <Image src={job.image} alt={job.title} fill priority sizes="612px" className="object-cover" />
 
         {nganh && (
-          <span className="absolute top-3 left-3 rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/80 px-3 py-1 text-[11.5px] font-semibold text-[var(--nb-gold-soft)] backdrop-blur-sm">
+          <span className="absolute top-3 left-3 rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/80 px-3 py-1 text-[12.5px] font-semibold text-[var(--nb-gold-soft)] backdrop-blur-sm">
             {nganh.titleVi}
           </span>
         )}
@@ -133,7 +133,7 @@ export function FeaturedJob({
               <Users size={13} className="shrink-0 text-[var(--nb-gold)]" />
               {job.vacancies} suất
             </span>
-            <span className="rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/6 px-2 py-0.5 text-[11.5px] text-[#d2dded]">
+            <span className="rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/6 px-2 py-0.5 text-[12.5px] text-[#d2dded]">
               Tiếng {job.languageLevel}
             </span>
           </div>

@@ -55,7 +55,8 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           chặn luôn đường còn lại (min-width:auto của chính thẻ con). */}
       <div className="nb-wrap grid grid-cols-[minmax(0,1fr)] gap-8 py-9 sm:gap-10 sm:py-12 lg:grid-cols-[minmax(0,65fr)_minmax(0,35fr)]">
         {/* ---------------- TRÁI ---------------- */}
-        <article className="min-w-0">
+        {/* ---------------- TRÁI, PHẦN TRÊN ---------------- */}
+        <article className="min-w-0 lg:col-start-1 lg:row-start-1">
           <nav aria-label="Đường dẫn" className="flex items-center gap-2 text-[13px] text-[var(--nb-text-mute)]">
             {/* Chữ 13px cho vùng bấm cao 21px — ngón tay bấm trượt. Nới sàn
                 44px ở khổ điện thoại (đúng cách bảng lọc đang làm), desktop
@@ -76,6 +77,9 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                 {nganh.titleVi} · {nganh.titleDe}
               </span>
             )}
+            <span className="rounded-full border border-[var(--nb-line)] px-3 py-1 text-[12px] text-[var(--nb-text-dim)]">
+              Kinh nghiệm: {job.experience}
+            </span>
             {job.isSample && (
               <span className="rounded-full bg-[var(--nb-cyan)]/85 px-2.5 py-1 text-[12px] font-bold text-white">
                 DỮ LIỆU MẪU
@@ -90,20 +94,71 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             <JobGallery anh={job.gallery.length ? job.gallery : [job.image]} ten={job.title} />
           </div>
 
-          <ul className="mt-7 grid gap-2.5 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3">
+          {/* HAI cột ngay từ khổ điện thoại. Để một cột thì sáu ô này ngốn
+              hơn 900px chiều dọc — gần một màn hình rưỡi chỉ để đọc sáu dòng
+              thông tin ngắn, mà thẻ ứng tuyển lại nằm ngay sau. */}
+          <ul className="mt-7 grid grid-cols-2 gap-2.5 sm:gap-3 lg:grid-cols-3">
             {THONG_TIN.map(({ Icon, nhan, gt }) => (
-              <li key={nhan} className="nb-panel flex items-center gap-2.5 p-3 sm:gap-3 sm:p-4">
-                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-[var(--nb-line)] text-[var(--nb-gold)]">
+              <li key={nhan} className="nb-panel flex items-center gap-2.5 p-2.5 sm:gap-3 sm:p-4">
+                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-[var(--nb-line)] text-[var(--nb-gold)] sm:h-9 sm:w-9">
                   <Icon size={16} />
                 </span>
                 <span className="min-w-0">
                   <span className="block text-[12px] text-[var(--nb-text-mute)]">{nhan}</span>
-                  <b className="mt-0.5 block truncate text-[13.5px] font-semibold text-white sm:text-[14.5px]">{gt}</b>
+                  <b className="mt-0.5 block truncate text-[13px] font-semibold text-white sm:text-[14.5px]">{gt}</b>
                 </span>
               </li>
             ))}
           </ul>
+        </article>
 
+        {/* ---------------- THẺ ỨNG TUYỂN ----------------
+            Ở khổ điện thoại thẻ này nằm NGAY sau lưới thông tin, trước phần
+            mô tả dài. Trước đây nó là khối cuối cùng của trang: đọc xong tiêu
+            đề, lương, nơi làm mà muốn ứng tuyển thì phải vuốt qua hết mô tả,
+            vị trí tuyển, yêu cầu, quyền lợi, quy trình mới thấy nút — đo ra
+            hơn 2.600px. Ở khổ máy tính nó vẫn là cột phải dính theo trang
+            như cũ, nhờ đặt hàng/cột tường minh trong lưới.
+
+            Đã BỎ bảng <dl> 5 dòng trong thẻ này: Nơi làm việc / Số suất /
+            Tiếng Đức / Chương trình đã nằm nguyên trong lưới 6 thẻ phía
+            trên, đọc hai lần cùng một thông tin cách nhau một màn hình. Dòng
+            duy nhất không trùng là Kinh nghiệm, đã đưa lên hàng nhãn cạnh
+            tiêu đề. Thẻ này nay chỉ còn việc của nó: tiền và nút bấm. */}
+        <aside className="lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:sticky lg:top-[calc(var(--nb-header)+20px)] lg:h-fit">
+          <div className="nb-panel overflow-hidden">
+            <div className="nb-gold-rule" aria-hidden="true" />
+            <div className="p-5 sm:p-6">
+              <p className="text-[12.5px] text-[var(--nb-text-mute)]">Thu nhập</p>
+              <b className="nb-gold-text nb-display mt-1 block text-[27px] sm:text-[30px]">{chuoiLuong(job)}</b>
+
+              <span className="mt-1 block text-[13px] text-[var(--nb-text-mute)]">
+                {job.vacancies} suất · {noiLamViec(job)}
+              </span>
+
+              <NavLink href="/lien-he" className="nb-btn mt-6 h-12 w-full px-6 text-[15px]">
+                ỨNG TUYỂN NGAY
+                <ArrowRight size={16} />
+              </NavLink>
+
+              <a
+                href={`tel:${LEGAL.phone.replace(/\s/g, "")}`}
+                className="nb-btn-ghost mt-2.5 h-11 w-full px-5 text-[13.5px]"
+              >
+                Gọi {LEGAL.phone}
+              </a>
+
+              <p className="mt-4 text-[12px] leading-[1.6] text-[var(--nb-text-mute)]">
+                Thông tin trong trang lấy theo thông báo tuyển dụng của đơn hàng. Điều kiện cuối cùng nằm trong hợp đồng
+                lao động bạn ký với chủ sử dụng.
+              </p>
+            </div>
+          </div>
+        </aside>
+
+        {/* ---------------- TRÁI, PHẦN DƯỚI ---------------- */}
+        {/* section đầu tiên bỏ lề trên, khoảng cách đã do gap của lưới lo */}
+        <article className="min-w-0 lg:col-start-1 lg:row-start-2 [&>section:first-of-type]:mt-0">
           {job.description && (
             <Khoi tieuDe="Mô tả công việc">
               <p className="text-[14.5px] leading-[1.8] text-[var(--nb-text-dim)] sm:text-[15px]">{job.description}</p>
@@ -166,49 +221,6 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             </ol>
           </Khoi>
         </article>
-
-        {/* ---------------- PHẢI ---------------- */}
-        <aside className="lg:sticky lg:top-[calc(var(--nb-header)+20px)] lg:h-fit">
-          <div className="nb-panel overflow-hidden">
-            <div className="nb-gold-rule" aria-hidden="true" />
-            <div className="p-5 sm:p-6">
-              <p className="text-[12.5px] text-[var(--nb-text-mute)]">Thu nhập</p>
-              <b className="nb-gold-text nb-display mt-1 block text-[27px] sm:text-[30px]">{chuoiLuong(job)}</b>
-
-              <dl className="mt-5 space-y-3 border-t border-[var(--nb-line-soft)] pt-5 text-[14px]">
-                {[
-                  ["Nơi làm việc", noiLamViec(job)],
-                  ["Số suất", `${job.vacancies}`],
-                  ["Tiếng Đức", job.languageLevel],
-                  ["Kinh nghiệm", job.experience],
-                  ["Chương trình", job.programType],
-                ].map(([k, v]) => (
-                  <div key={k} className="flex justify-between gap-4">
-                    <dt className="text-[var(--nb-text-mute)]">{k}</dt>
-                    <dd className="text-right font-medium text-white">{v}</dd>
-                  </div>
-                ))}
-              </dl>
-
-              <NavLink href="/lien-he" className="nb-btn mt-6 h-12 w-full px-6 text-[15px]">
-                ỨNG TUYỂN NGAY
-                <ArrowRight size={16} />
-              </NavLink>
-
-              <a
-                href={`tel:${LEGAL.phone.replace(/\s/g, "")}`}
-                className="nb-btn-ghost mt-2.5 h-11 w-full px-5 text-[13.5px]"
-              >
-                Gọi {LEGAL.phone}
-              </a>
-
-              <p className="mt-4 text-[12px] leading-[1.6] text-[var(--nb-text-mute)]">
-                Thông tin trong trang lấy theo thông báo tuyển dụng của đơn hàng. Điều kiện cuối cùng nằm trong hợp đồng
-                lao động bạn ký với chủ sử dụng.
-              </p>
-            </div>
-          </div>
-        </aside>
       </div>
 
       {lienQuan.length > 0 && (
