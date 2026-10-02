@@ -126,7 +126,7 @@ export const NHAN_DON_HANG = tuDien<{
   },
   de: {
     hinhThuc: { "Toàn thời gian": "Vollzeit", "Thời vụ": "Saisonarbeit", "Ca kíp": "Schichtarbeit" },
-    chuongTrinh: { "Lao động": "Arbeitsstelle", "Du học nghề": "Ausbildung" },
+    chuongTrinh: { "Lao động": "Arbeit", "Du học nghề": "Ausbildung" },
     ky: { tháng: "Monat", giờ: "Stunde" },
   },
 });

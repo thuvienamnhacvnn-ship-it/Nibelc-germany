@@ -4,7 +4,11 @@ import { ArrowLeft, ArrowRight, Clock, Lightbulb } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
 import { PageHero } from "@/components/ui/PageHero";
 import { CtaCuoiTrang } from "@/components/ui/CtaCuoiTrang";
-import { CAM_NANG, baiTheoId } from "@/data/articles";
+import { CAM_NANG } from "@/data/articles";
+import { getArticle, getArticles } from "@/data/i18n/articles";
+import { getLang } from "@/lib/i18n/server";
+import { t } from "@/lib/i18n/dict";
+import { camNang } from "@/lib/i18n/dict/cam-nang";
 import "../../trang-sang.css";
 
 export const dynamicParams = false;
@@ -15,7 +19,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ bai: string }> }): Promise<Metadata> {
   const { bai } = await params;
-  const b = baiTheoId(bai);
+  const b = getArticle(bai, await getLang());
   return b ? { title: b.tieuDe, description: b.tomTat } : {};
 }
 
@@ -27,16 +31,18 @@ export async function generateMetadata({ params }: { params: Promise<{ bai: stri
  */
 export default async function Page({ params }: { params: Promise<{ bai: string }> }) {
   const { bai } = await params;
-  const b = baiTheoId(bai);
+  const lang = await getLang();
+  const tx = t(camNang, lang);
+  const b = getArticle(bai, lang);
   if (!b) notFound();
-  const khac = CAM_NANG.filter((x) => x.id !== b.id).slice(0, 4);
+  const khac = getArticles(lang).filter((x) => x.id !== b.id).slice(0, 4);
 
   return (
     <div className="nb-duoi-header">
       <PageHero
         anh="/assets/banners/cam-nang.jpg"
         anhDoc="/assets/banners/mobile/cam-nang.jpg"
-        nhan={b.nhom}
+        nhan={tx.nhom[b.nhom]}
         tieuDe={b.tieuDe}
       >
         <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13.5px] text-[var(--hero-mo)]">
@@ -45,11 +51,11 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
             className="inline-flex min-h-[44px] items-center gap-2 transition hover:text-[var(--nb-gold-soft)] lg:min-h-0"
           >
             <ArrowLeft size={15} />
-            Cẩm nang
+            {tx.bai.quayLai}
           </NavLink>
           <span className="inline-flex items-center gap-2">
             <Clock size={14} />
-            {b.phut} phút đọc
+            {tx.phutDoc(b.phut)}
           </span>
         </div>
       </PageHero>
@@ -94,7 +100,7 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
                   <p className="mt-6 flex gap-3 rounded-[14px] border border-[var(--nb-line)] bg-[var(--nb-navy-700)] p-4 text-[15px] leading-[1.75] text-[var(--nb-text-dim)] sm:gap-3.5 sm:p-5 lg:border-[var(--s-line-warm)] lg:bg-[var(--s-alt)] lg:px-6 lg:text-[16px]">
                     <Lightbulb size={19} className="mt-0.5 shrink-0 text-[var(--nb-gold)]" />
                     <span>
-                      <b className="mr-1.5 font-semibold text-[var(--nb-gold-soft)]">Lưu ý:</b>
+                      <b className="mr-1.5 font-semibold text-[var(--nb-gold-soft)]">{tx.bai.luuY}</b>
                       {k.luuY}
                     </span>
                   </p>
@@ -104,14 +110,14 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
 
             {/* Điện thoại: "Đọc tiếp" ở cuối bài như cũ (máy tính nằm ở cột phải). */}
             <div className="mt-14 border-t border-[var(--nb-line-soft)] pt-8 lg:hidden">
-              <b className="block text-[17px] font-semibold text-white">Đọc tiếp</b>
+              <b className="block text-[17px] font-semibold text-white">{tx.bai.docTiep}</b>
               <ul className="mt-4 grid gap-3 sm:grid-cols-2">
                 {khac.map((x) => (
                   <li key={x.id}>
                     <NavLink href={`/cam-nang/${x.id}`} className="nb-card block p-4">
                       <b className="block text-[14.5px] leading-snug font-medium text-white">{x.tieuDe}</b>
                       <span className="mt-1 block text-[12px] text-[var(--nb-text-mute)]">
-                        {x.nhom} · {x.phut} phút
+                        {tx.nhom[x.nhom]} · {tx.phut(x.phut)}
                       </span>
                     </NavLink>
                   </li>
@@ -123,8 +129,8 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
           {/* Máy tính: cột phải dính khi cuộn — mục lục (từ tiêu đề các khối) + đọc tiếp */}
           <aside className="hidden lg:block">
             <div className="sticky top-[calc(var(--nb-header)+24px)] space-y-6">
-              <nav className="nb-panel p-6" aria-label="Mục lục">
-                <b className="nb-eyebrow block">Mục lục</b>
+              <nav className="nb-panel p-6" aria-label={tx.bai.mucLuc}>
+                <b className="nb-eyebrow block">{tx.bai.mucLuc}</b>
                 <ol className="mt-4 space-y-1">
                   {b.khoi.map((k, i) => (
                     <li key={k.tieuDe}>
@@ -141,7 +147,7 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
               </nav>
 
               <div className="nb-panel p-6">
-                <b className="nb-eyebrow block">Đọc tiếp</b>
+                <b className="nb-eyebrow block">{tx.bai.docTiep}</b>
                 <ul className="mt-3 divide-y divide-[var(--s-line)]">
                   {khac.map((x) => (
                     <li key={x.id}>
@@ -150,7 +156,7 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
                           {x.tieuDe}
                         </b>
                         <span className="mt-1 block text-[12.5px] text-[var(--nb-text-mute)]">
-                          {x.nhom} · {x.phut} phút
+                          {tx.nhom[x.nhom]} · {tx.phut(x.phut)}
                         </span>
                       </NavLink>
                     </li>
@@ -160,7 +166,7 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
                   href="/cam-nang"
                   className="mt-2 inline-flex items-center gap-2 text-[13.5px] font-semibold text-[var(--nb-gold-soft)] hover:underline"
                 >
-                  Cẩm nang
+                  {tx.bai.quayLai}
                   <ArrowRight size={14} />
                 </NavLink>
               </div>

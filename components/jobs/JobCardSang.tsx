@@ -1,8 +1,14 @@
+"use client";
+
 import Image from "next/image";
 import { ArrowRight, MapPin, Users } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
 import { chuoiLuong, noiLamViec } from "@/types/job";
 import { industryById } from "@/data/industries";
+import { tenNganh } from "@/data/i18n/industries";
+import { NHAN_DON_HANG } from "@/data/i18n/jobs";
+import { useLang, useT } from "@/lib/i18n/client";
+import { donHang } from "@/lib/i18n/dict/don-hang";
 import type { JobFull } from "@/data/jobs";
 
 /**
@@ -18,7 +24,7 @@ import type { JobFull } from "@/data/jobs";
  */
 
 /** Có tên công ty thì ghi kèm; không thì chỉ nơi làm việc — tránh lặp
-    "Đối tác tại Graz · Graz, Áo". Không bịa tên công ty. */
+    "Đối tác tại Graz · Graz, Áo". Không bịa tên công ty. (city/state đã dịch) */
 function diaDiem(job: JobFull) {
   return job.company ? `${job.company} · ${noiLamViec(job)}` : noiLamViec(job);
 }
@@ -33,18 +39,20 @@ function Chip({ children }: { children: React.ReactNode }) {
 
 function NhanTren({ job }: { job: JobFull }) {
   const nganh = industryById(job.industryId);
+  const lang = useLang();
+  const tx = useT(donHang);
   return (
     <span className="flex min-w-0 items-center gap-2">
       {nganh && (
         <span className="min-w-0 truncate text-[11.5px] font-semibold tracking-[0.08em] text-[var(--s-gold)] uppercase">
-          {nganh.titleVi}
+          {tenNganh(nganh, lang)}
         </span>
       )}
       {/* Không gắn "NỔI BẬT": dữ liệu hiện tại đơn nào cũng featured, gắn
           cả lưới thì nhãn mất nghĩa. Chỉ báo đơn MẪU. */}
       {job.isSample && (
         <span className="shrink-0 rounded-full bg-[var(--s-soft)] px-2 py-0.5 text-[10.5px] font-bold tracking-[0.05em] text-[var(--s-mute)] ring-1 ring-[var(--s-line)]">
-          MẪU
+          {tx.mau}
         </span>
       )}
     </span>
@@ -52,11 +60,14 @@ function NhanTren({ job }: { job: JobFull }) {
 }
 
 export function JobCardSang({ job }: { job: JobFull }) {
+  const lang = useLang();
+  const tx = useT(donHang);
+  const nhanMa = useT(NHAN_DON_HANG);
   return (
     <NavLink
       href={`/don-hang/${job.slug}`}
       className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--s-line)] bg-[var(--s-page)] shadow-[var(--s-shadow-rest)] transition duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[var(--s-shadow-hover)]"
-      aria-label={`${job.title} tại ${job.city}`}
+      aria-label={tx.tai(job.title, job.city)}
     >
       <span className="relative block aspect-[16/10] overflow-hidden bg-[var(--s-soft)]">
         <Image
@@ -71,7 +82,7 @@ export function JobCardSang({ job }: { job: JobFull }) {
       <span className="flex flex-1 flex-col p-5">
         <NhanTren job={job} />
 
-        <b className="mt-2 block min-h-[2.7em] text-[17px] leading-[1.35] font-semibold text-[var(--s-ink)] [display:-webkit-box] [overflow:hidden] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]">
+        <b className="mt-2 min-h-[2.7em] text-[17px] leading-[1.35] font-semibold text-[var(--s-ink)] [display:-webkit-box] [overflow:hidden] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]">
           {job.title}
         </b>
         <span className="mt-1.5 flex items-center gap-1.5 text-[13px] text-[var(--s-mute)]">
@@ -82,24 +93,24 @@ export function JobCardSang({ job }: { job: JobFull }) {
         </span>
 
         <span className="mt-4 block">
-          <span className="block text-[11.5px] text-[var(--s-mute)]">Thu nhập</span>
-          <b className="mt-0.5 block text-[20px] leading-tight font-bold text-[var(--s-ink)]">{chuoiLuong(job)}</b>
+          <span className="block text-[11.5px] text-[var(--s-mute)]">{tx.thuNhap}</span>
+          <b className="mt-0.5 block text-[20px] leading-tight font-bold text-[var(--s-ink)]">{chuoiLuong(job, lang)}</b>
         </span>
 
         <span className="mt-3.5 mb-5 flex flex-wrap gap-1.5">
           <Chip>
             <Users size={12} strokeWidth={1.75} />
-            {job.vacancies} người
+            {tx.soNguoi(job.vacancies)}
           </Chip>
-          <Chip>Tiếng {job.languageLevel}</Chip>
+          <Chip>{tx.tiengDuc(job.languageLevel)}</Chip>
         </span>
 
         <span className="mt-auto flex items-center justify-between gap-3 border-t border-[var(--s-line)] pt-4">
           <span className="min-w-0 truncate text-[12.5px] text-[var(--s-mute)]">
-            {job.programType} · {job.employmentType}
+            {nhanMa.chuongTrinh[job.programType]} · {nhanMa.hinhThuc[job.employmentType]}
           </span>
           <span className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border whitespace-nowrap border-[var(--s-ink)] px-4 text-[13px] font-semibold text-[var(--s-ink)] transition group-hover:bg-[var(--s-ink)] group-hover:text-white">
-            Xem chi tiết
+            {tx.xemChiTiet}
             <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-0.5" />
           </span>
         </span>
@@ -110,11 +121,14 @@ export function JobCardSang({ job }: { job: JobFull }) {
 
 /** Chế độ "Danh sách" — hàng ngang gọn, ảnh nhỏ bên trái. */
 export function JobRowSang({ job }: { job: JobFull }) {
+  const lang = useLang();
+  const tx = useT(donHang);
+  const nhanMa = useT(NHAN_DON_HANG);
   return (
     <NavLink
       href={`/don-hang/${job.slug}`}
       className="group grid grid-cols-[200px_minmax(0,1fr)_auto] items-stretch gap-5 rounded-2xl border border-[var(--s-line)] bg-[var(--s-page)] p-3.5 shadow-[var(--s-shadow-rest)] transition duration-200 ease-out hover:shadow-[var(--s-shadow-hover)]"
-      aria-label={`${job.title} tại ${job.city}`}
+      aria-label={tx.tai(job.title, job.city)}
     >
       <span className="relative block aspect-[16/10] overflow-hidden rounded-xl bg-[var(--s-soft)]">
         <Image src={job.image} alt="" fill sizes="200px" className="object-cover" />
@@ -132,23 +146,23 @@ export function JobRowSang({ job }: { job: JobFull }) {
         <span className="mt-3 flex flex-wrap gap-1.5">
           <Chip>
             <Users size={12} strokeWidth={1.75} />
-            {job.vacancies} người
+            {tx.soNguoi(job.vacancies)}
           </Chip>
-          <Chip>Tiếng {job.languageLevel}</Chip>
-          <Chip>{job.employmentType}</Chip>
-          <Chip>{job.programType}</Chip>
+          <Chip>{tx.tiengDuc(job.languageLevel)}</Chip>
+          <Chip>{nhanMa.hinhThuc[job.employmentType]}</Chip>
+          <Chip>{nhanMa.chuongTrinh[job.programType]}</Chip>
         </span>
       </span>
 
       <span className="flex min-w-[190px] flex-col items-end justify-between border-l border-[var(--s-line)] py-1 pr-1.5 pl-5">
         <span className="text-right">
-          <span className="block text-[11.5px] text-[var(--s-mute)]">Thu nhập</span>
+          <span className="block text-[11.5px] text-[var(--s-mute)]">{tx.thuNhap}</span>
           <b className="mt-0.5 block text-[18px] leading-tight font-bold whitespace-nowrap text-[var(--s-ink)]">
-            {chuoiLuong(job)}
+            {chuoiLuong(job, lang)}
           </b>
         </span>
         <span className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border whitespace-nowrap border-[var(--s-ink)] px-4 text-[13px] font-semibold text-[var(--s-ink)] transition group-hover:bg-[var(--s-ink)] group-hover:text-white">
-          Xem chi tiết
+          {tx.xemChiTiet}
           <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-0.5" />
         </span>
       </span>

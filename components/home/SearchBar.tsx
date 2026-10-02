@@ -3,14 +3,18 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowRight, Briefcase, MapPin, Search, Tag } from "lucide-react";
 import { useChuyenTrang } from "@/components/layout/PageTransition";
-import { JOBS } from "@/data/jobs";
-import { INDUSTRIES } from "@/data/industries";
+import type { DonGoiY } from "@/components/home/du-lieu";
+import type { NganhTim } from "@/components/home/Hero";
+import { useLh, useT } from "@/lib/i18n/client";
+import { home } from "@/lib/i18n/dict/home";
 
 /**
  * Ô TÌM KIẾM TRANG CHỦ
  *
  * Tìm ngay trên dữ liệu trong máy, chưa cần máy chủ. Gợi ý gồm ba loại: tên
  * đơn hàng, nhóm ngành và thành phố — mỗi loại có icon riêng để phân biệt.
+ *
+ * Đơn và ngành nhận qua props, đã dịch theo ngôn ngữ trang (server dựng sẵn).
  */
 
 type Goi = { loai: "job" | "nganh" | "noi"; nhan: string; phu: string; href: string };
@@ -23,8 +27,10 @@ function bo(s: string) {
     .toLowerCase();
 }
 
-export function SearchBar() {
+export function SearchBar({ don, nganh }: { don: DonGoiY[]; nganh: NganhTim[] }) {
   const chuyen = useChuyenTrang();
+  const lhx = useLh();
+  const tx = useT(home).tim;
   const [tu, setTu] = useState("");
   const [mo, setMo] = useState(false);
   const [chon, setChon] = useState(0);
@@ -35,24 +41,26 @@ export function SearchBar() {
     if (q.length < 2) return [];
     const ra: Goi[] = [];
 
-    for (const i of INDUSTRIES) {
-      if (bo(i.titleVi).includes(q) || bo(i.titleDe).includes(q)) {
-        ra.push({ loai: "nganh", nhan: i.titleVi, phu: i.titleDe, href: `/don-hang?industry=${i.id}` });
+    for (const i of nganh) {
+      if (bo(i.ten).includes(q) || bo(i.tenVi).includes(q) || bo(i.tenDe).includes(q)) {
+        // bản vi giữ dòng phụ là tên ngành tiếng Đức như cũ; en/de ghi "Sector"/"Branche"
+        const phu = i.ten === i.tenVi ? i.tenDe : tx.nhanNganh;
+        ra.push({ loai: "nganh", nhan: i.ten, phu, href: `/don-hang?industry=${i.id}` });
       }
     }
-    for (const j of JOBS) {
+    for (const j of don) {
       if (bo(j.title).includes(q)) {
         ra.push({ loai: "job", nhan: j.title, phu: `${j.city}, ${j.state}`, href: `/don-hang/${j.slug}` });
       }
     }
-    for (const c of [...new Set(JOBS.map((j) => j.city))]) {
+    for (const c of [...new Set(don.map((j) => j.city))]) {
       if (bo(c).includes(q)) {
-        const n = JOBS.filter((j) => j.city === c).length;
-        ra.push({ loai: "noi", nhan: c, phu: `${n} đơn hàng`, href: `/don-hang?city=${encodeURIComponent(c)}` });
+        const n = don.filter((j) => j.city === c).length;
+        ra.push({ loai: "noi", nhan: c, phu: tx.soDon(n), href: `/don-hang?city=${encodeURIComponent(c)}` });
       }
     }
     return ra.slice(0, 7);
-  }, [tu]);
+  }, [tu, don, nganh, tx]);
 
   useEffect(() => setChon(0), [tu]);
 
@@ -68,7 +76,7 @@ export function SearchBar() {
   function di(g: Goi) {
     setMo(false);
     setTu("");
-    chuyen(g.href);
+    chuyen(lhx(g.href));
   }
 
   function phim(e: React.KeyboardEvent) {
@@ -92,7 +100,7 @@ export function SearchBar() {
         onSubmit={(e) => {
           e.preventDefault();
           if (goiY[chon]) di(goiY[chon]);
-          else chuyen(`/don-hang${tu.trim() ? `?q=${encodeURIComponent(tu.trim())}` : ""}`);
+          else chuyen(lhx(`/don-hang${tu.trim() ? `?q=${encodeURIComponent(tu.trim())}` : ""}`));
         }}
         // nền dùng BIẾN chứ không chép tay #0a1b36: mã đó là nền đen của bản
         // cũ, ở bản điện thoại nền xanh nó thành một vệt tối lạc tông
@@ -108,8 +116,8 @@ export function SearchBar() {
           }}
           onFocus={() => setMo(true)}
           onKeyDown={phim}
-          placeholder="Tìm kiếm đơn hàng, ngành nghề, địa điểm..."
-          aria-label="Tìm kiếm đơn hàng, ngành nghề, địa điểm"
+          placeholder={tx.goiY}
+          aria-label={tx.aria}
           aria-expanded={mo && goiY.length > 0}
           aria-autocomplete="list"
           // h-9 = 36px, dưới ngưỡng 44px để ngón tay bấm trúng. Nút gửi cạnh
@@ -118,7 +126,7 @@ export function SearchBar() {
         />
         <button
           type="submit"
-          aria-label="Tìm"
+          aria-label={tx.nut}
           className="nb-btn h-11 w-11 shrink-0 p-0 text-[13.5px]"
         >
           <ArrowRight size={18} />
@@ -128,7 +136,7 @@ export function SearchBar() {
       {mo && goiY.length > 0 && (
         <ul
           role="listbox"
-          aria-label="Gợi ý tìm kiếm"
+          aria-label={tx.dsGoiY}
           className="absolute inset-x-0 top-[calc(100%+8px)] z-30 overflow-hidden rounded-2xl border border-[var(--nb-line)] bg-[var(--nb-navy-800)]/96 py-1.5 text-left backdrop-blur-xl"
           style={{ boxShadow: "0 30px 60px -28px rgba(0,0,0,.95)" }}
         >

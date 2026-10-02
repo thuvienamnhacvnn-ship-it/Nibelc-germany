@@ -3,16 +3,18 @@ import type { Metadata } from "next";
 import { ArrowRight, BadgeCheck, Banknote, Clock, GraduationCap, Languages } from "lucide-react";
 import { PageHero } from "@/components/ui/PageHero";
 import { NavLink } from "@/components/layout/NavLink";
-import { NGANH_HOC } from "@/data/ausbildung";
-import { industryById } from "@/data/industries";
+import { getNganhHoc } from "@/data/i18n/ausbildung";
 import { CtaCuoiTrang } from "@/components/ui/CtaCuoiTrang";
+import { getLang } from "@/lib/i18n/server";
+import { t } from "@/lib/i18n/dict";
+import { duHocNghe } from "@/lib/i18n/dict/du-hoc-nghe";
+import { khoangTien } from "@/lib/i18n/format";
 import "../trang-sang.css";
 
-export const metadata: Metadata = {
-  title: "Du học nghề Đức — Học nghề, có lương, xây dựng tương lai tại châu Âu",
-  description:
-    "Chương trình đào tạo kép tại Đức: học nghề ba năm, nhận trợ cấp hằng tháng, bằng nghề được công nhận toàn EU. Mười ngành đào tạo và bốn bước tham gia.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const tx = t(duHocNghe, await getLang());
+  return { title: tx.meta.tieuDe, description: tx.meta.moTa };
+}
 
 /** Ảnh minh hoạ cho từng ngành đào tạo, lấy trong kho ảnh nghề đã có */
 const ANH: Record<string, string> = {
@@ -30,45 +32,40 @@ const ANH: Record<string, string> = {
   cntt: "/assets/jobs/it/01-hero-16x9.jpg",
 };
 
-const BUOC = [
-  { so: "01", ten: "Học tiếng", mo: "Đạt trình độ tiếng Đức theo yêu cầu của ngành, thường là B1 hoặc B2." },
-  { so: "02", ten: "Chuẩn bị hồ sơ", mo: "Dịch thuật, công nhận bằng cấp và hoàn thiện bộ hồ sơ theo mẫu Đức." },
-  { so: "03", ten: "Ký hợp đồng Ausbildung", mo: "Phỏng vấn với doanh nghiệp đào tạo và nhận hợp đồng học nghề." },
-  { so: "04", ten: "Sang Đức học và làm", mo: "Nhập học, bắt đầu đào tạo kép và nhận trợ cấp hằng tháng." },
-];
+/** Icon cho 4 lợi ích — chữ ở lib/i18n/dict/du-hoc-nghe.ts (viSao.loiIch), cùng thứ tự */
+const ICON_LOI_ICH = [GraduationCap, Banknote, BadgeCheck, Languages];
 
-const LOI_ICH = [
-  { Icon: GraduationCap, ten: "Học lý thuyết + thực hành", mo: "70% thời gian làm thật tại doanh nghiệp, 30% học tại trường nghề công lập." },
-  { Icon: Banknote, ten: "Nhận lương hàng tháng", mo: "Doanh nghiệp trả trợ cấp trong suốt thời gian đào tạo, không đóng học phí." },
-  { Icon: BadgeCheck, ten: "Bằng nghề Đức", mo: "Chứng chỉ do IHK hoặc HWK cấp, được công nhận trong toàn khối EU." },
-  { Icon: Languages, ten: "Cơ hội sau tốt nghiệp", mo: "Ở lại làm việc đúng nghề, thu nhập cao hơn và thuận lợi cho cư trú lâu dài." },
-];
+export default async function Page() {
+  const lang = await getLang();
+  const tx = t(duHocNghe, lang);
+  const NGANH_HOC = getNganhHoc(lang);
+  // tenDuc là tên nghề tiếng Đức: ở bản vi/en đánh dấu lang="de"
+  const langTenDuc = lang === "de" ? undefined : "de";
 
-export default function Page() {
   return (
     <div className="nb-duoi-header">
       <PageHero
         anh="/assets/banners/du-hoc-nghe.jpg"
         anhDoc="/assets/banners/mobile/du-hoc-nghe.jpg"
         anhBenPhai
-        nhan="Ausbildung — đào tạo kép"
+        nhan={tx.hero.nhan}
         tieuDe={
           <>
-            Du học nghề Đức
+            {tx.hero.tieuDe}
             <span className="mt-2 block text-[15px] font-normal text-[var(--nb-gold-soft)] sm:text-[0.52em]">
-              Học nghề – Có lương – Xây dựng tương lai tại châu Âu
+              {tx.hero.phuDe}
             </span>
           </>
         }
-        mo="Đào tạo kép là mô hình riêng của nước Đức: học tại trường nghề công lập và làm thật tại doanh nghiệp, có trợ cấp hằng tháng và bằng nghề được công nhận toàn EU."
+        mo={tx.hero.mo}
       >
         <div className="mt-7 flex flex-wrap gap-3 sm:mt-8 lg:mt-5">
           <NavLink href="#nganh-nghe" className="nb-btn h-12 w-full px-7 text-[15px] sm:w-auto lg:h-11 lg:px-6">
-            Khám phá ngành nghề
+            {tx.hero.khamPha}
             <ArrowRight size={16} />
           </NavLink>
           <NavLink href="/lien-he" className="nb-btn-ghost h-12 w-full px-7 text-[15px] sm:w-auto lg:h-11 lg:px-6">
-            Kiểm tra điều kiện
+            {tx.hero.kiemTra}
           </NavLink>
         </div>
       </PageHero>
@@ -77,10 +74,9 @@ export default function Page() {
       <div className="nb-sang">
         {/* ---------- EXPLORER NGÀNH ---------- */}
         <section id="nganh-nghe" className="nb-wrap py-11 sm:py-16 lg:py-20">
-          <h2 className="nb-display text-[24px] text-white sm:text-[30px] lg:text-[32px]">Khám phá ngành nghề du học nghề Đức</h2>
+          <h2 className="nb-display text-[24px] text-white sm:text-[30px] lg:text-[32px]">{tx.nganh.tieuDe}</h2>
           <p className="mt-3 max-w-[70ch] text-[14.5px] leading-[1.7] text-[var(--nb-text-dim)] sm:text-[15px]">
-            Trợ cấp ghi dưới đây là khoảng tham khảo theo mặt bằng ngành, tính theo lương gộp mỗi tháng. Mức thật ghi
-            trong hợp đồng học nghề của từng doanh nghiệp.
+            {tx.nganh.ghiChu}
           </p>
 
           {/* Máy tính: lưới 4 cột x 2 hàng, đủ 8 ngành, không còn hàng cuộn bị cắt mép phải */}
@@ -108,26 +104,29 @@ export default function Page() {
                     />
                   </span>
                   <span className="block p-5">
-                    <b className="block text-[17px] font-semibold text-white">{n.ten}</b>
-                    <span className="mt-0.5 block text-[12px] text-[var(--nb-text-mute)] italic">{n.tenDuc}</span>
+                    {/* break-words: tên ngành tiếng Đức có từ ghép dài */}
+                    <b className="block text-[17px] font-semibold break-words text-white">{n.ten}</b>
+                    <span lang={langTenDuc} className="mt-0.5 block text-[12px] text-[var(--nb-text-mute)] italic">
+                      {n.tenDuc}
+                    </span>
 
                     <span className="mt-4 space-y-2 border-t border-[var(--nb-line-soft)] pt-3.5 text-[13px]">
                       <span className="flex items-center gap-2 text-[var(--nb-text-dim)]">
-                        <Clock size={13} className="text-[var(--nb-gold)]" />
+                        <Clock size={13} className="shrink-0 text-[var(--nb-gold)]" />
                         {n.nam}
                       </span>
                       <span className="flex items-center gap-2 text-[var(--nb-text-dim)]">
-                        <Banknote size={13} className="text-[var(--nb-gold)]" />
-                        {n.troCap[0].toLocaleString("de-DE")} – {n.troCap[2].toLocaleString("de-DE")} €/tháng
+                        <Banknote size={13} className="shrink-0 text-[var(--nb-gold)]" />
+                        {khoangTien(n.troCap[0], n.troCap[2], lang)}
                       </span>
                       <span className="flex items-center gap-2 text-[var(--nb-text-dim)]">
-                        <Languages size={13} className="text-[var(--nb-gold)]" />
+                        <Languages size={13} className="shrink-0 text-[var(--nb-gold)]" />
                         {n.tieng}
                       </span>
                     </span>
 
                     <span className="mt-4 flex items-center gap-1.5 text-[13px] font-semibold text-[var(--nb-gold-soft)]">
-                      Xem chi tiết
+                      {tx.nganh.xemChiTiet}
                       <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
                     </span>
                   </span>
@@ -140,9 +139,9 @@ export default function Page() {
         {/* ---------- BỐN BƯỚC ---------- */}
         <section className="border-y border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] py-11 sm:py-16 lg:py-20">
           <div className="nb-wrap">
-            <h2 className="nb-display text-[24px] text-white sm:text-[30px] lg:text-[32px]">Du học nghề Đức hoạt động như thế nào?</h2>
+            <h2 className="nb-display text-[24px] text-white sm:text-[30px] lg:text-[32px]">{tx.buoc.tieuDe}</h2>
             <ol className="mt-7 grid gap-4 sm:mt-9 sm:gap-5 md:grid-cols-2 lg:gap-6 xl:grid-cols-4">
-              {BUOC.map((b) => (
+              {tx.buoc.ds.map((b) => (
                 <li key={b.so} className="nb-panel p-5 sm:p-6">
                   <b className="nb-gold-text nb-display block text-[27px] leading-none sm:text-[30px]">{b.so}</b>
                   <b className="mt-3 block text-[17px] font-semibold text-white">{b.ten}</b>
@@ -158,7 +157,7 @@ export default function Page() {
           <span className="relative block aspect-[4/3] overflow-hidden rounded-[16px] border border-[var(--nb-line-soft)]">
             <Image
               src="/assets/jobs/mechanik/03-portrait-team-3x4.jpg"
-              alt="Học viên thực hành tại xưởng đào tạo"
+              alt={tx.viSao.altAnh}
               fill
               sizes="(min-width:1024px) 640px, 100vw"
               className="object-cover"
@@ -166,23 +165,26 @@ export default function Page() {
           </span>
 
           <div>
-            <p className="nb-eyebrow">Vì sao chọn đào tạo kép</p>
-            <h2 className="nb-display mt-3 text-[24px] text-white sm:text-[30px] lg:text-[32px]">Ba năm học nghề, cả đời có nghề</h2>
+            <p className="nb-eyebrow">{tx.viSao.nhan}</p>
+            <h2 className="nb-display mt-3 text-[24px] text-white sm:text-[30px] lg:text-[32px]">{tx.viSao.tieuDe}</h2>
             <ul className="mt-6 space-y-5 sm:mt-7">
-              {LOI_ICH.map(({ Icon, ten, mo }) => (
-                <li key={ten} className="flex gap-4">
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-[var(--nb-line)] text-[var(--nb-gold)]">
-                    <Icon size={19} />
-                  </span>
-                  <span>
-                    <b className="block text-[16px] font-semibold text-white">{ten}</b>
-                    <span className="mt-1 block text-[14px] leading-[1.7] text-[var(--nb-text-dim)]">{mo}</span>
-                  </span>
-                </li>
-              ))}
+              {tx.viSao.loiIch.map(({ ten, mo }, i) => {
+                const Icon = ICON_LOI_ICH[i] ?? GraduationCap;
+                return (
+                  <li key={ten} className="flex gap-4">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-[var(--nb-line)] text-[var(--nb-gold)]">
+                      <Icon size={19} />
+                    </span>
+                    <span>
+                      <b className="block text-[16px] font-semibold text-white">{ten}</b>
+                      <span className="mt-1 block text-[14px] leading-[1.7] text-[var(--nb-text-dim)]">{mo}</span>
+                    </span>
+                  </li>
+                );
+              })}
             </ul>
             <NavLink href="/lien-he" className="nb-btn mt-8 h-12 w-full px-6 text-center text-[15px] sm:w-auto sm:px-7">
-              Đăng ký tư vấn du học nghề
+              {tx.viSao.nut}
               <ArrowRight size={16} />
             </NavLink>
           </div>

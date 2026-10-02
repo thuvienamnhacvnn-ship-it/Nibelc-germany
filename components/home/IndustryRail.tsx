@@ -5,6 +5,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { INDUSTRIES } from "@/data/industries";
 import { IndustryEnvelope } from "@/components/home/IndustryEnvelope";
 import type { ViTriTep } from "@/hooks/useHeroJobRotation";
+import { useT } from "@/lib/i18n/client";
+import { home } from "@/lib/i18n/dict/home";
 
 /**
  * DẢI PHONG BÌ NGÀNH NGHỀ
@@ -29,6 +31,7 @@ export function IndustryRail({
   onChon: (id: string, tep: ViTriTep) => void;
   onHover: (v: boolean) => void;
 }) {
+  const tx = useT(home).rail;
   const boc = useRef<HTMLDivElement>(null);
   const [keo, setKeo] = useState(false);
   const keoRef = useRef({ dang: false, batDauX: 0, batDauScroll: 0, daDiChuyen: 0 });
@@ -169,7 +172,7 @@ export function IndustryRail({
           keo ? "cursor-grabbing" : "cursor-grab"
         }`}
         role="group"
-        aria-label="Danh mục ngành nghề"
+        aria-label={tx.aria}
       >
         {ds.map((ind, i) => (
           <IndustryEnvelope
@@ -194,8 +197,8 @@ export function IndustryRail({
           màn, không còn gì trôi ra ngoài để phải che. */}
 
       {[
-        { huong: -1 as const, Icon: ChevronLeft, lop: "left-[max(6px,calc(50%-568px))]", nhan: "Xem ngành phía trước" },
-        { huong: 1 as const, Icon: ChevronRight, lop: "right-[max(6px,calc(50%-568px))]", nhan: "Xem ngành tiếp theo" },
+        { huong: -1 as const, Icon: ChevronLeft, lop: "left-[max(6px,calc(50%-568px))]", nhan: tx.truoc },
+        { huong: 1 as const, Icon: ChevronRight, lop: "right-[max(6px,calc(50%-568px))]", nhan: tx.sau },
       ].map(({ huong, Icon, lop, nhan }) => (
         <button
           key={huong}

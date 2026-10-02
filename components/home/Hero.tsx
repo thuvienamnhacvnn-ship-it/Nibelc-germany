@@ -11,6 +11,18 @@ import { HeroVideo } from "@/components/home/HeroVideo";
 import { NhomNhanVat } from "@/components/home/NhomNhanVat";
 import { CumTieuDe } from "@/components/home/CumTieuDe";
 import { NavLink } from "@/components/layout/NavLink";
+import type { JobFull } from "@/data/jobs";
+import type { DonGoiY } from "@/components/home/du-lieu";
+import { useT } from "@/lib/i18n/client";
+import { home } from "@/lib/i18n/dict/home";
+
+/** Ngành cho ô tìm kiếm: tên theo ngôn ngữ trang + tên vi/de để tìm được cả hai */
+export interface NganhTim {
+  id: string;
+  ten: string;
+  tenVi: string;
+  tenDe: string;
+}
 
 /**
  * HERO TRANG CHỦ
@@ -24,8 +36,18 @@ import { NavLink } from "@/components/layout/NavLink";
  *   - bấm một tệp ngành: video và hai nhân vật nhường chỗ cho BANNER ĐƠN HÀNG
  *     phủ kín hero, còn dải tệp vẫn nằm nguyên dưới chân
  */
-export function Hero() {
-  const hero = useHeroJobRotation();
+export function Hero({
+  donTheoNganh,
+  goiYDon,
+  nganh,
+}: {
+  /** đơn hiện trên thẻ hero theo từng ngành — đã dịch sẵn phía server */
+  donTheoNganh: Record<string, JobFull>;
+  goiYDon: DonGoiY[];
+  nganh: NganhTim[];
+}) {
+  const hero = useHeroJobRotation(donTheoNganh);
+  const tx = useT(home);
 
   // Bấm 'Trang chủ' trong khi banner đơn hàng đang mở thì đóng banner lại,
   // vì điều hướng tới chính trang đang xem sẽ không làm gì cả.
@@ -89,7 +111,7 @@ export function Hero() {
               và trôi theo khi cuộn — không có thanh nào bám đỉnh màn hình. */}
           <NavLink
             href="/"
-            aria-label="NIBELC GERMANY — trang chủ"
+            aria-label={tx.logoAria}
             className="mb-5 block lg:hidden"
           >
             {/* Sếp chốt: giữ NGUYÊN logo gốc, chỉ đổi màu CHỮ sang trắng, và
@@ -133,7 +155,7 @@ export function Hero() {
                   transition={{ duration: 0.38, ease: [0.22, 0.61, 0.36, 1] }}
                   className="absolute inset-x-0 top-0 flex flex-col items-center"
                 >
-                  <CumTieuDe className="lg:-mt-8 lg:w-max lg:max-w-[min(860px,60vw)]" />
+                  <CumTieuDe chu={tx.hero} langDong1={tx.dong1De ? "de" : undefined} className="lg:-mt-8 lg:w-max lg:max-w-[min(860px,60vw)]" />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -142,7 +164,7 @@ export function Hero() {
           {/* Thanh tìm kiếm đứng NGOÀI khối đổi: mở đơn hay không nó vẫn ở
               nguyên đây. */}
           <div className="mt-[120px] w-[min(500px,84vw)]">
-            <SearchBar />
+            <SearchBar don={goiYDon} nganh={nganh} />
           </div>
         </div>
 

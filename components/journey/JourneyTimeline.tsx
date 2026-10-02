@@ -4,7 +4,9 @@ import Image from "next/image";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, ChevronRight, Clock } from "lucide-react";
-import { CHANG } from "@/data/journey";
+import type { Chang } from "@/data/journey";
+import { useT } from "@/lib/i18n/client";
+import { loTrinh } from "@/lib/i18n/dict/lo-trinh";
 
 /**
  * TIMELINE LỘ TRÌNH — có tương tác, không phải ảnh infographic chết.
@@ -12,9 +14,10 @@ import { CHANG } from "@/data/journey";
  * Chọn một chặng thì bảng chi tiết bên dưới đổi nội dung. Cột phải là bộ chọn
  * "Bạn đang ở bước nào?" — chọn ở đâu cũng đồng bộ với timeline.
  */
-export function JourneyTimeline() {
+export function JourneyTimeline({ chang: CHANG }: { chang: Chang[] }) {
+  const tx = useT(loTrinh).timeline;
   const [mo, setMo] = useState(0);
-  const chang = CHANG[mo]!;
+  const chang = CHANG[mo] ?? CHANG[0]!;
 
   return (
     <>
@@ -47,8 +50,10 @@ export function JourneyTimeline() {
                   >
                     {daQua ? <Check size={14} /> : c.so}
                   </span>
+                  {/* hyphens-auto + break-words: từ ghép tiếng Đức (Vorstellungsgespräch)
+                      dài hơn cột ~150px của lưới 9 chặng — để trần thì chữ bị cắt mép */}
                   <span
-                    className={`text-[13.5px] leading-tight font-semibold lg:text-[13px] ${on ? "text-white" : "text-[var(--nb-text-dim)]"}`}
+                    className={`max-w-full text-[13.5px] leading-tight font-semibold break-words hyphens-auto lg:text-[13px] ${on ? "text-white" : "text-[var(--nb-text-dim)]"}`}
                   >
                     {c.ten}
                   </span>
@@ -107,10 +112,10 @@ export function JourneyTimeline() {
 
             <div className="grid gap-6 p-5 sm:p-6 md:grid-cols-2">
               {[
-                { ten: "Công việc cần làm", ds: chang.viec },
-                { ten: "Giấy tờ cần chuẩn bị", ds: chang.giay },
-                { ten: "NIBELC hỗ trợ", ds: chang.hoTro },
-                { ten: "Kết quả của bước này", ds: chang.ketQua },
+                { ten: tx.viec, ds: chang.viec },
+                { ten: tx.giay, ds: chang.giay },
+                { ten: tx.hoTro, ds: chang.hoTro },
+                { ten: tx.ketQua, ds: chang.ketQua },
               ].map((k) => (
                 <div key={k.ten}>
                   <b className="block text-[14px] font-semibold text-[var(--nb-gold-soft)]">{k.ten}</b>
@@ -130,7 +135,7 @@ export function JourneyTimeline() {
 
         {/* ---------- BẠN ĐANG Ở BƯỚC NÀO ---------- */}
         <aside className="nb-panel h-fit p-5 lg:sticky lg:top-[calc(var(--nb-header)+20px)]">
-          <b className="block text-[15.5px] font-semibold text-white">Bạn đang ở bước nào?</b>
+          <b className="block text-[15.5px] font-semibold text-white">{tx.banDangO}</b>
           <ul className="mt-4 space-y-1">
             {CHANG.map((c, i) => (
               <li key={c.so}>

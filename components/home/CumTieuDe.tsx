@@ -15,7 +15,7 @@ import type { CSSProperties } from "react";
  * Mọi cỡ chữ co theo vw (clamp) để ở 1280px cụm chữ không đè đầu hai nhóm
  * nhân vật, và trên 390px vẫn gọn trong khung.
  *
- * Chuyển ngữ: chỉ thay chuỗi trong `chu`, chữ dài ngắn khác nhau tự xuống dòng
+ * Chuyển ngữ: bản en/de nằm ở lib/i18n/dict/home.ts (khoá `hero`); chỉ thay chuỗi trong `chu`, chữ dài ngắn khác nhau tự xuống dòng
  * cân đối nhờ text-balance.
  */
 
@@ -49,7 +49,23 @@ const TOKEN = {
   "--td-bong": "none", // Sếp cấm glow/bóng chữ
 } as CSSProperties;
 
-export function CumTieuDe({ chu = CHU_VI, className = "" }: { chu?: ChuTieuDe; className?: string }) {
+/** Cỡ chữ tầng 2: giữ nguyên cỡ gốc tới 15 ký tự, dài hơn thì co tỉ lệ nghịch */
+function coDong3(s: string): string {
+  const k = Math.min(1, 15 / Math.max(1, s.length));
+  const r = (n: number) => Math.round(n * k * 100) / 100;
+  return `clamp(${r(34)}px, ${r(4.85)}vw, ${r(70)}px)`;
+}
+
+export function CumTieuDe({
+  chu = CHU_VI,
+  className = "",
+  langDong1,
+}: {
+  chu?: ChuTieuDe;
+  className?: string;
+  /** dòng 1–2 là câu ngoại ngữ cố ý giữ (bản vi giữ câu tiếng Đức) → "de" */
+  langDong1?: string;
+}) {
   return (
     <div
       className={`flex w-fit max-w-full shrink-0 flex-col items-center rounded-[20px] border border-[color:var(--td-vien)] bg-[color:var(--td-nen)] px-5 py-6 text-center [text-shadow:var(--td-bong)] sm:px-10 lg:rounded-[24px] lg:px-12 lg:py-7 ${className}`}
@@ -60,20 +76,24 @@ export function CumTieuDe({ chu = CHU_VI, className = "" }: { chu?: ChuTieuDe; c
         <span
           className="block font-semibold leading-[1.15] text-[color:var(--td-trang)] text-[clamp(21px,2.3vw,34px)]"
           style={{ fontFamily: "var(--font-display)" }}
+          lang={langDong1}
         >
           {chu.dong1a} <span className="text-[color:var(--td-vang)]">{chu.dong1b}</span>
         </span>
         <span
           className="mt-1.5 block font-medium leading-[1.3] text-[color:var(--td-trang-phu)] text-[clamp(13.5px,1.25vw,18px)] lg:mt-2"
           style={{ fontFamily: "var(--font-inter)" }}
+          lang={langDong1}
         >
           {chu.dong2}
         </span>
 
-        {/* Tầng 2 — lớn nhất */}
+        {/* Tầng 2 — lớn nhất. Cỡ gốc clamp(34px,4.85vw,70px) cho câu ~15 ký tự
+            ("ĐỐI TÁC UY TÍN"); câu dài hơn (en/de) co theo tỉ lệ để vẫn MỘT
+            dòng — xuống hai dòng thì khung chữ cao thêm và đè lên mặt nhân vật. */}
         <span
-          className="mt-3 block font-bold leading-[1.08] tracking-[0.02em] text-balance text-[color:var(--td-vang)] text-[clamp(34px,4.85vw,70px)] lg:mt-3"
-          style={{ fontFamily: "var(--font-display)" }}
+          className="mt-3 block font-bold leading-[1.08] tracking-[0.02em] text-balance text-[color:var(--td-vang)] lg:mt-3"
+          style={{ fontFamily: "var(--font-display)", fontSize: coDong3(chu.dong3) }}
         >
           {chu.dong3}
         </span>

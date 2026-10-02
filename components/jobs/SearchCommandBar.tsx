@@ -2,7 +2,11 @@
 
 import { Briefcase, Coins, FileText, Languages, MapPin, Search } from "lucide-react";
 import { INDUSTRIES } from "@/data/industries";
-import { allCities } from "@/data/jobs";
+import { tenNganh } from "@/data/i18n/industries";
+import { NHAN_DON_HANG } from "@/data/i18n/jobs";
+import { useLang, useT } from "@/lib/i18n/client";
+import { donHang } from "@/lib/i18n/dict/don-hang";
+import type { ProgramType } from "@/types/job";
 
 /**
  * THANH TÌM KIẾM 5 Ô — nằm ngay dưới banner trang Đơn hàng, đúng như mẫu.
@@ -19,23 +23,24 @@ export interface BoLoc {
   tieng: string;
 }
 
-const LUONG = [
-  { nhan: "Mức lương", gt: 0 },
-  { nhan: "Từ 1.000 €", gt: 1000 },
-  { nhan: "Từ 1.500 €", gt: 1500 },
-  { nhan: "Từ 2.000 €", gt: 2000 },
-  { nhan: "Từ 2.500 €", gt: 2500 },
-];
+const LUONG = [0, 1000, 1500, 2000, 2500];
+const CHUONG_TRINH: ProgramType[] = ["Lao động", "Du học nghề"];
 
 export function SearchCommandBar({
   gt,
   dat,
   onTim,
+  thanhPho,
 }: {
   gt: BoLoc;
   dat: (v: Partial<BoLoc>) => void;
   onTim: () => void;
+  /** thành phố đang có đơn: gt = tên GỐC (khớp dữ liệu), nhan = tên theo ngôn ngữ */
+  thanhPho: { gt: string; nhan: string }[];
 }) {
+  const lang = useLang();
+  const tx = useT(donHang);
+  const nhanMa = useT(NHAN_DON_HANG);
   return (
     <form
       onSubmit={(e) => {
@@ -44,76 +49,79 @@ export function SearchCommandBar({
       }}
       className="nb-panel dh-thanh-tim flex flex-wrap items-stretch gap-px overflow-hidden p-px"
       role="search"
-      aria-label="Tìm đơn hàng"
+      aria-label={tx.thanh.aria}
     >
-      <O Icon={Briefcase} nhan="Tìm ngành nghề">
+      <O Icon={Briefcase} nhan={tx.thanh.timNganh}>
         <select
           value={gt.nganh}
           onChange={(e) => dat({ nganh: e.target.value })}
-          aria-label="Ngành nghề"
+          aria-label={tx.thanh.nganhAria}
           className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto lg:cursor-pointer lg:font-medium lg:text-[var(--s-ink)]"
         >
-          <option value="">Tất cả ngành nghề</option>
+          <option value="">{tx.loc.tatCaNganh}</option>
           {INDUSTRIES.map((i) => (
             <option key={i.id} value={i.id}>
-              {i.titleVi}
+              {tenNganh(i, lang)}
             </option>
           ))}
         </select>
       </O>
 
-      <O Icon={MapPin} nhan="Thành phố / Bang">
+      <O Icon={MapPin} nhan={tx.thanh.thanhPhoBang}>
         <select
           value={gt.thanhPho}
           onChange={(e) => dat({ thanhPho: e.target.value })}
-          aria-label="Thành phố"
+          aria-label={tx.thanh.thanhPhoAria}
           className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto lg:cursor-pointer lg:font-medium lg:text-[var(--s-ink)]"
         >
-          <option value="">Tất cả địa điểm</option>
-          {allCities().map((c) => (
-            <option key={c} value={c}>
-              {c}
+          <option value="">{tx.thanh.tatCaDiaDiem}</option>
+          {thanhPho.map((c) => (
+            <option key={c.gt} value={c.gt}>
+              {c.nhan}
             </option>
           ))}
         </select>
       </O>
 
-      <O Icon={Coins} nhan="Mức lương">
+      <O Icon={Coins} nhan={tx.thanh.mucLuong}>
         <select
           value={gt.luongMin}
           onChange={(e) => dat({ luongMin: Number(e.target.value) })}
-          aria-label="Mức lương tối thiểu"
+          aria-label={tx.thanh.luongAria}
           className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto lg:cursor-pointer lg:font-medium lg:text-[var(--s-ink)]"
         >
           {LUONG.map((l) => (
-            <option key={l.gt} value={l.gt}>
-              {l.nhan}
+            <option key={l} value={l}>
+              {l > 0 ? tx.loc.tuMuc(l) : tx.thanh.mucLuong}
             </option>
           ))}
         </select>
       </O>
 
-      <O Icon={FileText} nhan="Loại chương trình">
+      <O Icon={FileText} nhan={tx.thanh.loaiChuongTrinh}>
         <select
           value={gt.chuongTrinh}
           onChange={(e) => dat({ chuongTrinh: e.target.value })}
-          aria-label="Loại chương trình"
+          aria-label={tx.thanh.loaiChuongTrinh}
           className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto lg:cursor-pointer lg:font-medium lg:text-[var(--s-ink)]"
         >
-          <option value="">Tất cả chương trình</option>
-          <option value="Lao động">Lao động</option>
-          <option value="Du học nghề">Du học nghề</option>
+          <option value="">{tx.loc.tatCaChuongTrinh}</option>
+          {CHUONG_TRINH.map((c) => (
+            <option key={c} value={c}>
+              {nhanMa.chuongTrinh[c]}
+            </option>
+          ))}
         </select>
       </O>
 
-      <O Icon={Languages} nhan="Trình độ tiếng Đức">
+      <O Icon={Languages} nhan={tx.thanh.trinhDo}>
         <select
           value={gt.tieng}
           onChange={(e) => dat({ tieng: e.target.value })}
-          aria-label="Trình độ tiếng Đức"
+          aria-label={tx.thanh.trinhDo}
           className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto lg:cursor-pointer lg:font-medium lg:text-[var(--s-ink)]"
         >
-          <option value="">Tất cả trình độ</option>
+          <option value="">{tx.loc.tatCaTrinhDo}</option>
           {["A2 – B1", "B1", "B1 – B2", "B2"].map((t) => (
             <option key={t} value={t}>
               {t}
@@ -131,7 +139,7 @@ export function SearchCommandBar({
         className="nb-btn m-1.5 h-12 w-full basis-full px-7 text-[15px] lg:h-auto lg:w-auto lg:min-w-[168px] lg:flex-1 lg:basis-0"
       >
         <Search size={17} />
-        Tìm kiếm
+        {tx.thanh.timKiem}
       </button>
     </form>
   );

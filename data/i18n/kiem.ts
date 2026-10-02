@@ -1,5 +1,8 @@
 import { choThieuDonHang } from "./jobs";
 import { choThieuNganh } from "./industries";
+import { choThieuAusbildung } from "./ausbildung";
+import { choThieuLoTrinh } from "./journey";
+import { choThieuBaiViet } from "./articles";
 
 /**
  * Sổ đăng ký mọi bộ bản dịch dữ liệu. Thêm bộ mới (articles, ausbildung,
@@ -9,6 +12,9 @@ import { choThieuNganh } from "./industries";
 export function kiemTatCaBanDich(): { bo: string; thieu: string[] }[] {
   return [
     { bo: "industries", thieu: choThieuNganh() },
+    { bo: "ausbildung", thieu: choThieuAusbildung() },
+    { bo: "journey", thieu: choThieuLoTrinh() },
     { bo: "jobs", thieu: choThieuDonHang() },
+    { bo: "articles", thieu: choThieuBaiViet() },
   ];
 }

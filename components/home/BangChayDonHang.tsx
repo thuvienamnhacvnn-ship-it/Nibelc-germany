@@ -3,7 +3,10 @@
 import Image from "next/image";
 import { MapPin } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
-import { chuoiLuong, noiLamViec } from "@/types/job";
+import { noiLamViec } from "@/types/job";
+import { luongHienThi } from "@/components/home/luong";
+import { useLang, useT } from "@/lib/i18n/client";
+import { home } from "@/lib/i18n/dict/home";
 import type { JobFull } from "@/data/jobs";
 
 /**
@@ -22,12 +25,14 @@ import type { JobFull } from "@/data/jobs";
  * Rê chuột hoặc chạm thì dừng, để người xem kịp đọc và bấm.
  */
 export function BangChayDonHang({ ds }: { ds: JobFull[] }) {
+  const lang = useLang();
+  const tx = useT(home);
   if (ds.length === 0) return null;
   const doi = [...ds, ...ds];
 
   return (
     <section
-      aria-label="Đơn hàng đang tuyển"
+      aria-label={tx.bang.aria}
       className="relative overflow-hidden border-y border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] py-5 lg:py-7"
     >
       {/* mờ hai mép để thẻ trôi vào và ra khỏi khung mềm mại */}
@@ -48,7 +53,7 @@ export function BangChayDonHang({ ds }: { ds: JobFull[] }) {
             <NavLink
               href={`/don-hang/${j.slug}`}
               className="nb-card group block overflow-hidden"
-              aria-label={i < ds.length ? `${j.title} tại ${j.city}` : undefined}
+              aria-label={i < ds.length ? tx.bang.donTai(j.title, j.city) : undefined}
               aria-hidden={i >= ds.length ? "true" : undefined}
             >
               <span className="relative block aspect-video overflow-hidden">
@@ -71,7 +76,7 @@ export function BangChayDonHang({ ds }: { ds: JobFull[] }) {
 
               <span className="flex items-center justify-between gap-2 px-3 py-2.5">
                 <span className="nb-display truncate text-[14.5px] font-bold text-[var(--nb-gold-strong)]">
-                  {chuoiLuong(j)}
+                  {luongHienThi(j, lang, tx.the.thoaThuan)}
                 </span>
                 <span className="flex shrink-0 items-center gap-1 text-[11.5px] text-[#c2d3e8]">
                   <MapPin size={12} className="text-[var(--nb-gold)]" />

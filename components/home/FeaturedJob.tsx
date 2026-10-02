@@ -5,7 +5,11 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight, MapPin, Send, Users } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
-import { chuoiLuong, noiLamViec } from "@/types/job";
+import { noiLamViec } from "@/types/job";
+import { luongHienThi } from "@/components/home/luong";
+import { tenNganh } from "@/data/i18n/industries";
+import { useLang, useT } from "@/lib/i18n/client";
+import { home } from "@/lib/i18n/dict/home";
 import type { JobFull } from "@/data/jobs";
 import type { ViTriTep } from "@/hooks/useHeroJobRotation";
 import { industryById } from "@/data/industries";
@@ -38,6 +42,8 @@ export function FeaturedJob({
   huong: 1 | -1;
 }) {
   const nganh = industryById(job.industryId);
+  const lang = useLang();
+  const tx = useT(home).the;
 
   // Giữ đúng cái tệp đã mở RA thẻ này. Khi bấm sang ngành khác, `oTep` ở hook
   // đã đổi sang tệp mới ngay; đọc thẳng thì thẻ cũ bay về tệp của đơn MỚI.
@@ -100,11 +106,11 @@ export function FeaturedJob({
 
         {nganh && (
           <span className="absolute top-3 left-3 rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/80 px-3 py-1 text-[11.5px] font-semibold text-[var(--nb-gold-soft)] backdrop-blur-sm">
-            {nganh.titleVi}
+            {tenNganh(nganh, lang)}
           </span>
         )}
         <span className="absolute top-3 right-3 rounded-full bg-[var(--nb-gold)] px-3 py-1 text-[11px] font-bold tracking-[0.05em] text-[var(--nb-navy-900)]">
-          ĐANG TUYỂN
+          {tx.dangTuyen}
         </span>
 
         <div className="absolute inset-x-0 bottom-0 border-t border-[var(--nb-gold)]/35 bg-[var(--nb-navy-900)]/94 px-5 pt-3 pb-4">
@@ -114,7 +120,7 @@ export function FeaturedJob({
 
           <div className="mt-2 flex flex-wrap items-center gap-x-3.5 gap-y-1.5">
             <span className="nb-display rounded-lg border border-[var(--nb-gold)]/55 bg-[var(--nb-navy-900)]/85 px-3 py-1 text-[clamp(16px,1.3vw,21px)] leading-none font-bold text-[var(--nb-gold-strong)]">
-              {chuoiLuong(job)}
+              {luongHienThi(job, lang, tx.thoaThuan)}
             </span>
             <span className="flex items-center gap-1.5 text-[12.5px] text-[#d2dded]">
               <MapPin size={13} className="shrink-0 text-[var(--nb-gold)]" />
@@ -122,21 +128,21 @@ export function FeaturedJob({
             </span>
             <span className="flex items-center gap-1.5 text-[12.5px] text-[#d2dded]">
               <Users size={13} className="shrink-0 text-[var(--nb-gold)]" />
-              {job.vacancies} suất
+              {tx.soSuat(job.vacancies)}
             </span>
             <span className="rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/6 px-2 py-0.5 text-[11.5px] text-[#d2dded]">
-              Tiếng {job.languageLevel}
+              {tx.tiengDuc(job.languageLevel)}
             </span>
           </div>
 
           <div className="mt-3 flex gap-2">
             <NavLink href={`/don-hang/${job.slug}`} className="nb-btn h-10 flex-1 px-4 text-[13.5px]">
-              Xem đơn hàng
+              {tx.xemDon}
               <ArrowRight size={14} />
             </NavLink>
             <NavLink href="/lien-he" className="nb-btn-ghost h-10 px-4 text-[13.5px]">
               <Send size={13} />
-              Ứng tuyển
+              {tx.ungTuyen}
             </NavLink>
           </div>
         </div>

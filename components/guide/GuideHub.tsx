@@ -4,7 +4,9 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 import { ArrowRight, Clock, Flame, Search } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
-import { CAM_NANG, type Bai } from "@/data/articles";
+import type { Bai } from "@/data/articles";
+import { useT } from "@/lib/i18n/client";
+import { CHUYEN_MUC, camNang, type ChuyenMuc } from "@/lib/i18n/dict/cam-nang";
 
 /**
  * TRUNG TÂM CẨM NANG
@@ -13,37 +15,8 @@ import { CAM_NANG, type Bai } from "@/data/articles";
  * đọc nhiều nhất" bên phải. Lọc và tìm chạy ngay trên dữ liệu có sẵn.
  */
 
-/** Mười chuyên mục theo KIT, ánh xạ sang nhóm bài đang có */
-const CHUYEN_MUC = [
-  "Tất cả bài viết",
-  "Visa & hồ sơ",
-  "Học tiếng Đức",
-  "Du học nghề",
-  "Việc làm tại Đức",
-  "Cuộc sống tại Đức",
-  "Nhà ở",
-  "Bảo hiểm",
-  "Thuế & lương",
-  "Văn hóa Đức",
-  "Kinh nghiệm phỏng vấn",
-];
-
-/** Bài nào thuộc chuyên mục nào — suy từ nội dung, không gán tay từng bài */
-function mucCuaBai(b: Bai): string[] {
-  const t = `${b.tieuDe} ${b.tomTat}`.toLowerCase();
-  const ra: string[] = [];
-  if (/visa|hồ sơ|giấy tờ|lãnh sự/.test(t)) ra.push("Visa & hồ sơ");
-  if (/tiếng đức|a1|b1|b2/.test(t)) ra.push("Học tiếng Đức");
-  if (/học nghề|ausbildung/.test(t)) ra.push("Du học nghề");
-  if (/việc làm|công việc|nghề/.test(t)) ra.push("Việc làm tại Đức");
-  if (/cuộc sống|sinh hoạt|tháng đầu|hành lý/.test(t)) ra.push("Cuộc sống tại Đức");
-  if (/nhà ở|thuê nhà|anmeldung/.test(t)) ra.push("Nhà ở");
-  if (/bảo hiểm/.test(t)) ra.push("Bảo hiểm");
-  if (/lương|thuế|tiền|thu nhập/.test(t)) ra.push("Thuế & lương");
-  if (/văn hoá|văn hóa|đúng giờ/.test(t)) ra.push("Văn hóa Đức");
-  if (/phỏng vấn/.test(t)) ra.push("Kinh nghiệm phỏng vấn");
-  return ra.length ? ra : ["Cuộc sống tại Đức"];
-}
+/** Bài đã dịch theo ngôn ngữ trang + mã chuyên mục (suy từ bản gốc, data/i18n/articles.ts) */
+export type BaiHub = Bai & { muc: ChuyenMuc[] };
 
 /** Ảnh minh hoạ cho bài, xoay vòng trong kho ảnh nghề đã có */
 const ANH = [
@@ -65,18 +38,19 @@ function bo(s: string) {
     .toLowerCase();
 }
 
-export function GuideHub() {
-  const [muc, setMuc] = useState(CHUYEN_MUC[0]!);
+export function GuideHub({ bai: CAM_NANG }: { bai: BaiHub[] }) {
+  const tx = useT(camNang);
+  const [muc, setMuc] = useState<ChuyenMuc>(CHUYEN_MUC[0]);
   const [tu, setTu] = useState("");
 
   const ds = useMemo(() => {
     const q = bo(tu.trim());
     return CAM_NANG.filter((b) => {
-      if (muc !== CHUYEN_MUC[0] && !mucCuaBai(b).includes(muc)) return false;
+      if (muc !== CHUYEN_MUC[0] && !b.muc.includes(muc)) return false;
       if (q && !bo(`${b.tieuDe} ${b.tomTat}`).includes(q)) return false;
       return true;
     });
-  }, [muc, tu]);
+  }, [CAM_NANG, muc, tu]);
 
   const noiBat = ds[0];
   const conLai = ds.slice(1);
@@ -92,12 +66,12 @@ export function GuideHub() {
       {/* Máy tính: cùng khung thẻ trắng với cột "Được đọc nhiều nhất" bên phải cho cân
           (viết bằng utility lg: thay vì .nb-panel để khổ điện thoại giữ nguyên). */}
       <aside className="h-fit min-w-0 lg:sticky lg:top-[calc(var(--nb-header)+20px)] lg:rounded-[16px] lg:border lg:border-[var(--nb-line-soft)] lg:bg-white lg:shadow-[0_1px_2px_rgba(7,21,37,.05),0_4px_12px_rgba(7,21,37,.04)] lg:p-5">
-        <b className="block text-[15px] font-semibold text-white">Danh mục chủ đề</b>
+        <b className="block text-[15px] font-semibold text-white">{tx.danhMuc}</b>
         {/* Mười một chuyên mục xếp dọc ở khổ điện thoại chiếm gần 500px, đẩy bài
             viết xuống quá xa. Dưới lg thì cho chúng thành một hàng kéo ngang. */}
         <ul className="nb-no-scrollbar mt-4 flex max-w-full gap-2 overflow-x-auto pb-1 lg:block lg:max-w-none lg:space-y-1 lg:overflow-x-visible lg:pb-0">
           {CHUYEN_MUC.map((m) => {
-            const so = m === CHUYEN_MUC[0] ? CAM_NANG.length : CAM_NANG.filter((b) => mucCuaBai(b).includes(m)).length;
+            const so = m === CHUYEN_MUC[0] ? CAM_NANG.length : CAM_NANG.filter((b) => b.muc.includes(m)).length;
             const on = muc === m;
             return (
               <li key={m} className="shrink-0 lg:shrink">
@@ -111,7 +85,7 @@ export function GuideHub() {
                       : "border-[var(--nb-line-soft)] text-[var(--nb-text-dim)] hover:bg-white/5"
                   }`}
                 >
-                  <span className="min-w-0 lg:truncate">{m}</span>
+                  <span className="min-w-0 lg:truncate">{tx.chuyenMuc[m]}</span>
                   <span className="text-[12px] text-[var(--nb-text-mute)] lg:text-[11.5px]">{so}</span>
                 </button>
               </li>
@@ -127,15 +101,15 @@ export function GuideHub() {
           <input
             value={tu}
             onChange={(e) => setTu(e.target.value)}
-            placeholder="Tìm kiếm trong cẩm nang..."
-            aria-label="Tìm kiếm trong cẩm nang"
+            placeholder={tx.timGoiY}
+            aria-label={tx.timAria}
             className="h-11 min-w-0 flex-1 bg-transparent text-[14.5px] text-white outline-none placeholder:text-[var(--nb-text-mute)] lg:h-8"
           />
         </div>
 
         {ds.length === 0 ? (
           <p className="nb-panel mt-6 p-8 text-center text-[14.5px] text-[var(--nb-text-dim)] sm:p-12">
-            Không có bài viết nào khớp. Thử từ khoá khác hoặc chọn “Tất cả bài viết”.
+            {tx.khongCo(tx.chuyenMuc[CHUYEN_MUC[0]])}
           </p>
         ) : (
           <>
@@ -158,7 +132,7 @@ export function GuideHub() {
                 </span>
                 <span className="flex flex-col justify-center p-5 sm:p-7">
                     <span className="self-start rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/70 px-3 py-1 text-[12px] lg:bg-[#F6F1E7] font-semibold text-[var(--nb-gold-soft)] lg:text-[11.5px]">
-                      {mucCuaBai(noiBat)[0]}
+                      {tx.chuyenMuc[noiBat.muc[0]!]}
                     </span>
                     <b className="nb-display mt-3 block max-w-[34ch] text-[21px] leading-tight text-white sm:text-[26px] lg:text-[24px]">
                       {noiBat.tieuDe}
@@ -168,7 +142,7 @@ export function GuideHub() {
                     </span>
                     <span className="mt-3 flex items-center gap-2 text-[12.5px] text-[var(--nb-text-mute)]">
                       <Clock size={12} />
-                      {noiBat.phut} phút đọc
+                      {tx.phutDoc(noiBat.phut)}
                     </span>
                 </span>
               </NavLink>
@@ -196,7 +170,7 @@ export function GuideHub() {
                     </span>
                     <span className="flex flex-1 flex-col p-5">
                       <span className="text-[12px] font-semibold tracking-wide text-[var(--nb-gold)] uppercase lg:text-[11.5px]">
-                        {mucCuaBai(b)[0]}
+                        {tx.chuyenMuc[b.muc[0]!]}
                       </span>
                       <b className="mt-2 block text-[16.5px] leading-snug font-semibold text-white">{b.tieuDe}</b>
                       <span className="mt-2 block text-[13.5px] leading-[1.6] text-[var(--nb-text-dim)]">
@@ -204,7 +178,7 @@ export function GuideHub() {
                       </span>
                       <span className="mt-auto flex items-center gap-2 pt-4 text-[12.5px] text-[var(--nb-text-mute)]">
                         <Clock size={12} />
-                        {b.phut} phút đọc
+                        {tx.phutDoc(b.phut)}
                         <ArrowRight
                           size={13}
                           className="ml-auto text-[var(--nb-gold)] transition-transform duration-300 group-hover:translate-x-1"
@@ -224,7 +198,7 @@ export function GuideHub() {
       <aside className="nb-panel h-fit min-w-0 p-5 lg:sticky lg:top-[calc(var(--nb-header)+20px)]">
         <b className="flex items-center gap-2 text-[15px] font-semibold text-white">
           <Flame size={16} className="text-[var(--nb-gold)]" />
-          Được đọc nhiều nhất
+          {tx.docNhieu}
         </b>
         <ol className="mt-4 space-y-3">
           {docNhieu.map((b, i) => (
@@ -237,7 +211,7 @@ export function GuideHub() {
                   <span className="block text-[13px] leading-snug font-medium text-[var(--nb-text)] transition group-hover:text-[var(--nb-gold-soft)]">
                     {b.tieuDe}
                   </span>
-                  <span className="mt-0.5 block text-[12px] text-[var(--nb-text-mute)] lg:text-[11.5px]">{b.phut} phút đọc</span>
+                  <span className="mt-0.5 block text-[12px] text-[var(--nb-text-mute)] lg:text-[11.5px]">{tx.phutDoc(b.phut)}</span>
                 </span>
               </NavLink>
             </li>

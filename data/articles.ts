@@ -15,17 +15,19 @@ export interface Khoi {
   luuY?: string;
 }
 
+/** Nhóm bài — giá trị tiếng Việt dùng làm MÃ; nhãn theo ngôn ngữ ở lib/i18n/dict/cam-nang.ts */
+export const NHOM_BAI = ["Chuẩn bị", "Sống ở Đức", "Tiền bạc", "Lâu dài"] as const;
+export type NhomBai = (typeof NHOM_BAI)[number];
+
 export interface Bai {
   id: string;
-  nhom: string;
+  nhom: NhomBai;
   icon: string;
   tieuDe: string;
   tomTat: string;
   phut: number;
   khoi: Khoi[];
 }
-
-export const NHOM_BAI = ["Chuẩn bị", "Sống ở Đức", "Tiền bạc", "Lâu dài"] as const;
 
 export const CAM_NANG: Bai[] = [
   {

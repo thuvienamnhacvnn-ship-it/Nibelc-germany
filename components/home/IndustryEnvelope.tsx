@@ -4,6 +4,9 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import * as Icons from "lucide-react";
 import type { Industry } from "@/types/industry";
+import { tenNganh } from "@/data/i18n/industries";
+import { useLang, useT } from "@/lib/i18n/client";
+import { home } from "@/lib/i18n/dict/home";
 
 /**
  * MỘT PHONG BÌ NGÀNH NGHỀ
@@ -15,6 +18,10 @@ import type { Industry } from "@/types/industry";
  *
  * Rê chuột: nâng 8–12px, viền vàng sáng hơn, mấy tờ hồ sơ bên trong nhô lên.
  * Không phóng to nhiều.
+ *
+ * ĐA NGÔN NGỮ: tám ảnh phong bì có chữ tiếng Việt in sẵn trong ảnh
+ * ("Điều dưỡng"...). Bản en/de dùng phong bì CSS cùng dáng, tên ngành theo
+ * ngôn ngữ trang — tới khi có bộ ảnh phong bì en/de thì đổi lại.
  */
 
 export function IndustryEnvelope({
@@ -33,13 +40,19 @@ export function IndustryEnvelope({
 }) {
   const Icon = (Icons[industry.icon as keyof typeof Icons] ?? Icons.Briefcase) as Icons.LucideIcon;
   const navyChan = index % 2 === 0; // xen kẽ navy / kem đúng như dải Sếp gửi
+  const lang = useLang();
+  const tx = useT(home).rail;
+  const ten = tenNganh(industry, lang);
+  const tenNgan = tx.phongBi[industry.id] ?? ten;
+  // ảnh phong bì có chữ Việt in sẵn → chỉ dùng ở bản vi
+  const dungAnh = industry.envelope && lang === "vi";
 
   return (
     <motion.button
       type="button"
       onClick={(e) => onChon(e.currentTarget.getBoundingClientRect())}
       aria-pressed={dangChon}
-      aria-label={`Ngành ${industry.titleVi}`}
+      aria-label={tx.nganh(ten)}
       className="group relative block w-[96px] shrink-0 cursor-pointer text-left focus-visible:outline-none 2xl:w-[104px]"
       animate={{
         // KHÔNG hạ độ đục của các tệp còn lại khi một tệp đang mở: làm thế
@@ -61,7 +74,7 @@ export function IndustryEnvelope({
         }}
       />
 
-      {industry.envelope ? (
+      {dungAnh && industry.envelope ? (
         <span className="relative block">
           <Image
             src={industry.envelope}
@@ -83,10 +96,14 @@ export function IndustryEnvelope({
           />
         </span>
       ) : (
-        <PhongBiCss ten={industry.titleVi} anh={industry.cover} Icon={Icon} navy={navyChan} dangChon={dangChon} />
+        <PhongBiCss ten={tenNgan} anh={industry.cover} Icon={Icon} navy={navyChan} dangChon={dangChon} />
       )}
 
-      <span className="sr-only">{industry.titleDe}</span>
+      {lang === "vi" && (
+        <span className="sr-only" lang="de">
+          {industry.titleDe}
+        </span>
+      )}
     </motion.button>
   );
 }
@@ -179,7 +196,7 @@ function PhongBiCss({
         <span className="absolute inset-x-0 bottom-[11%] flex flex-col items-center gap-1.5 px-2.5">
           <Icon size={22} className={navy ? "text-[var(--nb-gold)]" : "text-[var(--nb-gold-deep)]"} strokeWidth={1.9} />
           <span
-            className={`text-center text-[12.5px] leading-tight font-semibold ${navy ? "text-white" : "text-[#3a2c10]"}`}
+            className={`text-center text-[12.5px] leading-tight font-semibold hyphens-auto [overflow-wrap:break-word] ${navy ? "text-white" : "text-[#3a2c10]"}`}
           >
             {ten}
           </span>

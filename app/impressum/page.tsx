@@ -2,26 +2,35 @@ import type { Metadata } from "next";
 import { AlertTriangle } from "lucide-react";
 import { PageHero } from "@/components/ui/PageHero";
 import { NavLink } from "@/components/layout/NavLink";
-import { LEGAL, impressumComplete, impressumMissing } from "@/data/company";
+import { LEGAL, impressumComplete } from "@/data/company";
+import { getLang } from "@/lib/i18n/server";
+import { lh } from "@/lib/i18n/config";
+import { t } from "@/lib/i18n/dict";
+import { impressum, type TruongThieu } from "@/lib/i18n/dict/phap-ly";
 import "../trang-sang.css";
 
-export const metadata: Metadata = {
-  title: "Impressum",
-  description: "Angaben gemäß § 5 TMG für NIBELC Germany GmbH, Berlin.",
-  robots: { index: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const tx = t(impressum, await getLang());
+  return { title: tx.meta.tieuDe, description: tx.meta.moTa, robots: { index: false } };
+}
 
-export default function Page() {
+// Cổng chặn giữ nguyên: impressumComplete() là thứ duy nhất quyết định có hiện
+// mục đăng ký hay không. Danh sách thiếu suy từ cùng các trường null trong LEGAL
+// (cùng thứ tự với impressumMissing()), nhãn theo ngôn ngữ.
+const TRUONG: TruongThieu[] = ["handelsregister", "hrb", "geschaeftsfuehrer", "ustIdNr"];
+
+export default async function Page() {
+  const tx = t(impressum, await getLang());
   const du = impressumComplete();
-  const thieu = impressumMissing();
+  const thieu = TRUONG.filter((k) => LEGAL[k] === null).map((k) => tx.thieu[k]);
 
   return (
     <div className="nb-duoi-header">
       <PageHero
         anh="/assets/banners/lien-he.jpg"
-        nhan="Rechtliches"
-        tieuDe="Impressum"
-        mo="Angaben gemäß § 5 TMG."
+        nhan={tx.hero.nhan}
+        tieuDe={tx.hero.tieuDe}
+        mo={tx.hero.mo}
       />
 
       {/* Thân trang SÁNG ở máy tính (app/trang-sang.css); điện thoại giữ nền cũ. */}
@@ -29,7 +38,21 @@ export default function Page() {
         {/* Máy tính: cùng mép trái với banner (khung .nb-wrap 1400/32, >1440 là 1600/40)
             thay vì một cột 820px căn giữa lệch khỏi chữ banner; dòng chữ vẫn giới hạn 820px. */}
         <section className="mx-auto max-w-[820px] px-8 py-14 lg:max-w-[1400px] lg:py-20 lg:[&>*]:max-w-[820px] min-[1441px]:max-w-[1600px] min-[1441px]:px-10">
-          <Muc tieuDe="Diensteanbieter">
+          {tx.ghiChu && (
+            <p className="mb-9 rounded-[12px] border border-[var(--nb-line)] px-4 py-3 text-[14.5px] leading-[1.7] text-[var(--nb-text-dim)]">
+              {tx.ghiChu.mo}{" "}
+              {/* Sang bản tiếng Đức: <a> thường (tải lại trang) vì NavLink luôn giữ ngôn ngữ đang xem */}
+              <a
+                href={lh("/impressum", "de")}
+                hrefLang="de"
+                lang="de"
+                className="font-medium text-[var(--nb-gold-soft)] hover:underline"
+              >
+                {tx.ghiChu.link}
+              </a>
+            </p>
+          )}
+          <Muc tieuDe={tx.anbieter}>
             <address className="text-[16px] leading-[1.9] not-italic text-[var(--nb-text-dim)]">
               {LEGAL.name}
               <br />
@@ -41,29 +64,29 @@ export default function Page() {
             </address>
           </Muc>
 
-          <Muc tieuDe="Kontakt">
+          <Muc tieuDe={tx.kontakt}>
             <p className="text-[16px] leading-[1.9] text-[var(--nb-text-dim)]">
-              Telefon: {LEGAL.phone}
+              {tx.telefon}: {LEGAL.phone}
               <br />
-              E-Mail: {LEGAL.email}
+              {tx.email}: {LEGAL.email}
             </p>
           </Muc>
 
-          <Muc tieuDe="Rechtsform">
-            <p className="text-[16px] leading-[1.9] text-[var(--nb-text-dim)]">{LEGAL.rechtsform}</p>
+          <Muc tieuDe={tx.rechtsform}>
+            <p className="text-[16px] leading-[1.9] text-[var(--nb-text-dim)]">{tx.rechtsformWert}</p>
           </Muc>
 
           {du ? (
             <>
-              <Muc tieuDe="Registereintrag">
+              <Muc tieuDe={tx.register}>
                 <p className="text-[16px] text-[var(--nb-text-dim)]">
                   {LEGAL.handelsregister} · {LEGAL.hrb}
                 </p>
               </Muc>
-              <Muc tieuDe="Vertretungsberechtigt">
+              <Muc tieuDe={tx.vertretung}>
                 <p className="text-[16px] text-[var(--nb-text-dim)]">{LEGAL.geschaeftsfuehrer}</p>
               </Muc>
-              <Muc tieuDe="Umsatzsteuer-Identifikationsnummer">
+              <Muc tieuDe={tx.ust}>
                 <p className="text-[16px] text-[var(--nb-text-dim)]">{LEGAL.ustIdNr}</p>
               </Muc>
             </>
@@ -71,11 +94,10 @@ export default function Page() {
             <div className="nb-panel mt-9 p-6">
               <b className="flex items-center gap-2.5 text-[15.5px] font-semibold text-[var(--nb-gold-soft)]">
                 <AlertTriangle size={18} />
-                Registerangaben werden ergänzt
+                {tx.ergaenzt.tieuDe}
               </b>
               <p className="mt-3 text-[14.5px] leading-[1.8] text-[var(--nb-text-dim)]">
-                Folgende nach § 5 TMG erforderliche Angaben liegen der Redaktion dieser Website noch nicht in belegbarer
-                Form vor und werden nachgetragen, sobald sie bestätigt sind:
+                {tx.ergaenzt.mo}
               </p>
               <ul className="mt-3 space-y-1.5">
                 {thieu.map((x) => (
@@ -88,21 +110,19 @@ export default function Page() {
             </div>
           )}
 
-          <Muc tieuDe="Haftung für Inhalte und Links">
+          <Muc tieuDe={tx.haftung.tieuDe}>
             <p className="text-[16px] leading-[1.9] text-[var(--nb-text-dim)]">
-              Die Inhalte dieser Website werden mit Sorgfalt erstellt. Angaben zu Stellen, Vergütungen und
-              Ausbildungsbedingungen geben den Stand der jeweiligen Ausschreibung wieder und ersetzen keinen Arbeits- oder
-              Ausbildungsvertrag. Für Inhalte externer Links sind deren Betreiber verantwortlich.
+              {tx.haftung.mo}
             </p>
           </Muc>
 
-          <Muc tieuDe="Datenschutz">
+          <Muc tieuDe={tx.datenschutz.tieuDe}>
             <p className="text-[16px] leading-[1.9] text-[var(--nb-text-dim)]">
-              Informationen zur Verarbeitung personenbezogener Daten finden Sie in der{" "}
+              {tx.datenschutz.truoc}{" "}
               <NavLink href="/datenschutz" className="font-medium text-[var(--nb-gold-soft)] hover:underline">
-                Datenschutzerklärung
+                {tx.datenschutz.link}
               </NavLink>
-              .
+              {tx.datenschutz.sau}
             </p>
           </Muc>
         </section>

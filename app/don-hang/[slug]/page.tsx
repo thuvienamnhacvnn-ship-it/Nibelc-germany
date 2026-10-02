@@ -6,10 +6,16 @@ import { NavLink } from "@/components/layout/NavLink";
 import { JobCard } from "@/components/jobs/JobCard";
 import { JobCardSang } from "@/components/jobs/JobCardSang";
 import { JobGallery } from "@/components/jobs/JobGallery";
-import { JOBS, jobBySlug, jobsByIndustry } from "@/data/jobs";
+import { JOBS } from "@/data/jobs";
+import { getJobBySlug, getJobs, NHAN_DON_HANG } from "@/data/i18n/jobs";
 import { industryById } from "@/data/industries";
+import { tenNganh } from "@/data/i18n/industries";
 import { chuoiLuong, noiLamViec, tenNhaTuyenDung } from "@/types/job";
 import { LEGAL } from "@/data/company";
+import { getLang } from "@/lib/i18n/server";
+import { t } from "@/lib/i18n/dict";
+import { donHang } from "@/lib/i18n/dict/don-hang";
+import { tien } from "@/lib/i18n/format";
 import "../don-hang-sang.css";
 
 export const dynamicParams = false;
@@ -20,31 +26,36 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const j = jobBySlug(slug);
+  const lang = await getLang();
+  const j = getJobBySlug(slug, lang);
   if (!j) return {};
+  const tx = t(donHang, lang);
   return {
-    title: `${j.title} — ${j.city}`,
-    description: `${j.title} tại ${j.city}, ${j.state}. ${chuoiLuong(j)}, ${j.vacancies} suất, tiếng Đức ${j.languageLevel}.`,
+    title: tx.meta.chiTietTieuDe(j.title, j.city),
+    description: tx.meta.chiTietMoTa(j.title, noiLamViec(j), chuoiLuong(j, lang), j.vacancies, j.languageLevel),
   };
 }
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const job = jobBySlug(slug);
+  const lang = await getLang();
+  const job = getJobBySlug(slug, lang);
   if (!job) notFound();
+  const tx = t(donHang, lang);
+  const nhanMa = t(NHAN_DON_HANG, lang);
 
   const nganh = industryById(job.industryId);
-  const lienQuan = jobsByIndustry(job.industryId)
-    .filter((j) => j.id !== job.id)
+  const lienQuan = getJobs(lang)
+    .filter((j) => j.industryId === job.industryId && j.id !== job.id)
     .slice(0, 3);
 
   const THONG_TIN = [
-    { Icon: MapPin, nhan: "Nơi làm việc", gt: noiLamViec(job) },
-    { Icon: Users, nhan: "Số lượng", gt: `${job.vacancies} suất` },
-    { Icon: GraduationCap, nhan: "Tiếng Đức", gt: job.languageLevel },
-    { Icon: Briefcase, nhan: "Chương trình", gt: job.programType },
-    { Icon: Clock, nhan: "Giờ làm", gt: job.hours ? `${job.hours} giờ / tuần` : "Theo hợp đồng" },
-    { Icon: CalendarClock, nhan: "Hình thức", gt: job.employmentType },
+    { Icon: MapPin, nhan: tx.ct.noiLamViec, gt: noiLamViec(job) },
+    { Icon: Users, nhan: tx.ct.soLuong, gt: tx.soSuat(job.vacancies) },
+    { Icon: GraduationCap, nhan: tx.ct.tiengDuc, gt: job.languageLevel },
+    { Icon: Briefcase, nhan: tx.ct.chuongTrinh, gt: nhanMa.chuongTrinh[job.programType] },
+    { Icon: Clock, nhan: tx.ct.gioLam, gt: job.hours ? tx.ct.gioTuan(job.hours) : tx.ct.theoHopDong },
+    { Icon: CalendarClock, nhan: tx.ct.hinhThuc, gt: nhanMa.hinhThuc[job.employmentType] },
   ];
 
   return (
@@ -58,7 +69,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       <div className="nb-wrap grid grid-cols-[minmax(0,1fr)] gap-8 py-9 sm:gap-10 sm:py-12 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-12 lg:pt-10 lg:pb-20">
         {/* ---------------- TRÁI ---------------- */}
         <article className="min-w-0">
-          <nav aria-label="Đường dẫn" className="flex items-center gap-2 text-[13px] text-[var(--nb-text-mute)] lg:text-[var(--s-mute)]">
+          <nav aria-label={tx.ct.duongDan} className="flex items-center gap-2 text-[13px] text-[var(--nb-text-mute)] lg:text-[var(--s-mute)]">
             {/* Chữ 13px cho vùng bấm cao 21px — ngón tay bấm trượt. Nới sàn
                 44px ở khổ điện thoại (đúng cách bảng lọc đang làm), desktop
                 giữ nguyên dòng mảnh. */}
@@ -66,7 +77,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
               href="/don-hang"
               className="inline-flex min-h-[44px] items-center transition hover:text-[var(--nb-gold-soft)] lg:min-h-0 lg:font-medium lg:text-[var(--s-gold)] lg:hover:text-[var(--s-ink)]"
             >
-              Đơn hàng
+              {tx.ct.donHang}
             </NavLink>
             <span>/</span>
             <span className="truncate text-[var(--nb-text-dim)] lg:text-[var(--s-body)]">{job.title}</span>
@@ -75,18 +86,24 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           <div className="mt-4 flex flex-wrap items-center gap-2">
             {nganh && (
               <span className="rounded-full border border-[var(--nb-line)] px-3 py-1 text-[12px] text-[var(--nb-gold-soft)] lg:border-[var(--s-line-warm)] lg:bg-[var(--s-alt)] lg:font-semibold lg:text-[var(--s-gold)]">
-                {nganh.titleVi} · {nganh.titleDe}
+                {lang === "vi" ? (
+                  <>
+                    {nganh.titleVi} · <span lang="de">{nganh.titleDe}</span>
+                  </>
+                ) : (
+                  tenNganh(nganh, lang)
+                )}
               </span>
             )}
             {job.isSample && (
               <span className="rounded-full bg-[var(--nb-navy-800)] px-2.5 py-1 text-[12px] font-bold tracking-[0.04em] text-[var(--nb-gold)] ring-1 ring-[var(--nb-gold)]/40 lg:text-[11px]">
-                DỮ LIỆU MẪU
+                {tx.ct.duLieuMau}
               </span>
             )}
           </div>
 
           <h1 className="nb-display mt-3 text-[23px] leading-[1.2] text-white sm:text-[clamp(26px,2.6vw,38px)] sm:leading-[1.15] lg:text-[38px] lg:text-balance lg:text-[var(--s-ink)]">{job.title}</h1>
-          <p className="mt-2 text-[14.5px] text-[var(--nb-text-mute)] lg:text-[15px] lg:text-[var(--s-mute)]">{tenNhaTuyenDung(job)}</p>
+          <p className="mt-2 text-[14.5px] text-[var(--nb-text-mute)] lg:text-[15px] lg:text-[var(--s-mute)]">{tenNhaTuyenDung(job, lang)}</p>
 
           <div className="mt-7">
             <JobGallery anh={job.gallery.length ? job.gallery : [job.image]} ten={job.title} />
@@ -107,13 +124,13 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           </ul>
 
           {job.description && (
-            <Khoi tieuDe="Mô tả công việc">
+            <Khoi tieuDe={tx.ct.moTa}>
               <p className="text-[14.5px] leading-[1.8] text-[var(--nb-text-dim)] sm:text-[15px] lg:max-w-[72ch] lg:text-[16px] lg:text-[var(--s-body)]">{job.description}</p>
             </Khoi>
           )}
 
           {job.positions.length > 0 && (
-            <Khoi tieuDe="Vị trí tuyển dụng">
+            <Khoi tieuDe={tx.ct.viTri}>
               <ul className="overflow-hidden rounded-xl border border-[var(--nb-line-soft)] lg:border-[var(--s-line)]">
                 {job.positions.map((v, i) => (
                   <li
@@ -122,13 +139,14 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                       i % 2 ? "bg-white/[.02] lg:bg-[var(--s-soft)]" : ""
                     }`}
                   >
-                    <span className="min-w-0 flex-1 text-[14.5px] text-[var(--nb-text)] lg:text-[15px] lg:text-[var(--s-ink)]">{v.name}</span>
+                    <span className="min-w-0 flex-1 basis-full text-[14.5px] text-[var(--nb-text)] sm:basis-0 lg:text-[15px] lg:text-[var(--s-ink)]">{v.name}</span>
                     <span className="flex shrink-0 items-center gap-4 text-[13.5px]">
-                      {v.count !== null && <span className="text-[var(--nb-text-dim)] lg:text-[var(--s-body)]">{v.count} suất</span>}
+                      {v.count !== null && <span className="text-[var(--nb-text-dim)] lg:text-[var(--s-body)]">{tx.soSuat(v.count)}</span>}
                       {v.salaryFrom !== null && (
                         <b className="nb-gold-text font-semibold">
-                          {v.salaryFrom.toLocaleString("de-DE")}
-                          {v.salaryTo && v.salaryTo !== v.salaryFrom ? ` – ${v.salaryTo.toLocaleString("de-DE")}` : ""} €
+                          {v.salaryTo && v.salaryTo !== v.salaryFrom
+                            ? `${tien(v.salaryFrom, lang)} – ${tien(v.salaryTo, lang)}`
+                            : tien(v.salaryFrom, lang)}
                         </b>
                       )}
                     </span>
@@ -139,25 +157,20 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           )}
 
           {job.requirements.length > 0 && (
-            <Khoi tieuDe="Yêu cầu">
+            <Khoi tieuDe={tx.ct.yeuCau}>
               <DanhSach ds={job.requirements} />
             </Khoi>
           )}
 
           {job.benefits.length > 0 && (
-            <Khoi tieuDe="Quyền lợi">
+            <Khoi tieuDe={tx.ct.quyenLoi}>
               <DanhSach ds={job.benefits} />
             </Khoi>
           )}
 
-          <Khoi tieuDe="Quy trình tham gia">
+          <Khoi tieuDe={tx.ct.quyTrinh}>
             <ol className="grid gap-2.5 sm:grid-cols-2 sm:gap-3">
-              {[
-                "Gửi hồ sơ và được chuyên viên đánh giá",
-                "Học tiếng Đức tới trình độ đơn hàng yêu cầu",
-                "Phỏng vấn với chủ sử dụng lao động",
-                "Ký hợp đồng, nộp hồ sơ visa và xuất cảnh",
-              ].map((b, i) => (
+              {tx.ct.buoc.map((b, i) => (
                 <li key={b} className="nb-panel flex gap-3 p-3.5 sm:p-4">
                   <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[var(--nb-gold)] text-[12px] font-bold text-[var(--nb-navy-900)] lg:bg-[var(--s-ink)] lg:text-white">
                     {i + 1}
@@ -174,16 +187,16 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           <div className="nb-panel overflow-hidden">
             <div className="nb-gold-rule lg:hidden" aria-hidden="true" />
             <div className="p-5 sm:p-6 lg:p-7">
-              <p className="text-[12.5px] text-[var(--nb-text-mute)] lg:text-[13px] lg:text-[var(--s-mute)]">Thu nhập</p>
-              <b className="nb-gold-text nb-display mt-1 block text-[27px] sm:text-[30px] lg:text-[28px] lg:leading-tight">{chuoiLuong(job)}</b>
+              <p className="text-[12.5px] text-[var(--nb-text-mute)] lg:text-[13px] lg:text-[var(--s-mute)]">{tx.thuNhap}</p>
+              <b className="nb-gold-text nb-display mt-1 block text-[27px] sm:text-[30px] lg:text-[28px] lg:leading-tight">{chuoiLuong(job, lang)}</b>
 
               <dl className="mt-5 space-y-3 border-t border-[var(--nb-line-soft)] pt-5 text-[14px] lg:border-[var(--s-line)]">
                 {[
-                  ["Nơi làm việc", noiLamViec(job)],
-                  ["Số suất", `${job.vacancies}`],
-                  ["Tiếng Đức", job.languageLevel],
-                  ["Kinh nghiệm", job.experience],
-                  ["Chương trình", job.programType],
+                  [tx.ct.noiLamViec, noiLamViec(job)],
+                  [tx.ct.soSuat, `${job.vacancies}`],
+                  [tx.ct.tiengDuc, job.languageLevel],
+                  [tx.ct.kinhNghiem, job.experience],
+                  [tx.ct.chuongTrinh, nhanMa.chuongTrinh[job.programType]],
                 ].map(([k, v]) => (
                   <div key={k} className="flex justify-between gap-4">
                     <dt className="text-[var(--nb-text-mute)] lg:text-[var(--s-mute)]">{k}</dt>
@@ -193,7 +206,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
               </dl>
 
               <NavLink href="/lien-he" className="nb-btn mt-6 h-12 w-full px-6 text-[15px]">
-                ỨNG TUYỂN NGAY
+                {tx.ct.ungTuyen}
                 <ArrowRight size={16} />
               </NavLink>
 
@@ -201,12 +214,11 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                 href={`tel:${LEGAL.phone.replace(/\s/g, "")}`}
                 className="nb-btn-ghost mt-2.5 h-11 w-full px-5 text-[13.5px]"
               >
-                Gọi {LEGAL.phone}
+                {tx.ct.goi(LEGAL.phone)}
               </a>
 
               <p className="mt-4 text-[12px] leading-[1.6] text-[var(--nb-text-mute)] lg:text-[var(--s-mute)]">
-                Thông tin trong trang lấy theo thông báo tuyển dụng của đơn hàng. Điều kiện cuối cùng nằm trong hợp đồng
-                lao động bạn ký với chủ sử dụng.
+                {tx.ct.ghiChu}
               </p>
             </div>
           </div>
@@ -216,7 +228,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       {lienQuan.length > 0 && (
         <section className="border-t border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] py-11 sm:py-16 lg:border-[var(--s-line-warm)] lg:bg-[var(--s-alt)] lg:py-20">
           <div className="nb-wrap">
-            <h2 className="nb-display text-[22px] text-white sm:text-[26px] lg:text-[32px] lg:text-[var(--s-ink)]">Đơn hàng cùng ngành</h2>
+            <h2 className="nb-display text-[22px] text-white sm:text-[26px] lg:text-[32px] lg:text-[var(--s-ink)]">{tx.ct.cungNganh}</h2>
             <ul className="mt-6 grid gap-5 sm:mt-7 sm:gap-6 md:grid-cols-2 xl:grid-cols-3 lg:hidden">
               {lienQuan.map((j) => (
                 <li key={j.id}>

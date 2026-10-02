@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
-import { featuredJobOf, type JobFull } from "@/data/jobs";
+import type { JobFull } from "@/data/jobs";
 
 /**
  * TRẠNG THÁI THẺ ĐƠN HÀNG TRÊN HERO
@@ -13,6 +13,9 @@ import { featuredJobOf, type JobFull } from "@/data/jobs";
  *
  * `oTep` giữ vị trí tệp vừa bấm (toạ độ trên màn hình) để thẻ đơn hàng biết
  * phải bay ra từ đâu.
+ *
+ * `donTheoNganh`: đơn hiện trên thẻ của từng ngành, server đã chọn (theo
+ * featuredJobOf) và dịch sẵn theo ngôn ngữ trang — xem components/home/du-lieu.ts.
  */
 
 export interface ViTriTep {
@@ -39,7 +42,7 @@ export interface HeroState {
   tamDung: (v: boolean) => void;
 }
 
-export function useHeroJobRotation(): HeroState {
+export function useHeroJobRotation(donTheoNganh: Record<string, JobFull>): HeroState {
   const [industryId, setIndustryId] = useState<string | null>(null);
   const [oTep, setOTep] = useState<ViTriTep | null>(null);
   const [doiTiep, setDoiTiep] = useState(false);
@@ -64,7 +67,10 @@ export function useHeroJobRotation(): HeroState {
   }, []);
   const tamDung = useCallback(() => {}, []);
 
-  const job = useMemo(() => (industryId ? (featuredJobOf(industryId) ?? null) : null), [industryId]);
+  const job = useMemo(
+    () => (industryId ? (donTheoNganh[industryId] ?? null) : null),
+    [industryId, donTheoNganh],
+  );
 
   return {
     industryId,
