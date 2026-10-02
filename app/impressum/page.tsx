@@ -6,7 +6,7 @@ import { LEGAL, impressumComplete, impressumMissing } from "@/data/company";
 
 export const metadata: Metadata = {
   title: "Impressum",
-  description: "Angaben gemäß § 5 TMG für NIBELC Germany GmbH, Berlin.",
+  description: `Angaben gemäß § 5 TMG für ${LEGAL.name}, ${LEGAL.city}.`,
   robots: { index: false },
 };
 

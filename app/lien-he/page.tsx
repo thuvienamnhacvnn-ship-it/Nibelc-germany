@@ -2,7 +2,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { ConsultationWizard } from "@/components/contact/ConsultationWizard";
-import { LEGAL } from "@/data/company";
+import { KHUNG_BAN_DO, LEGAL, TOA_DO } from "@/data/company";
 
 export const metadata: Metadata = {
   title: "Liên hệ — Bắt đầu hành trình của bạn tại Đức",
@@ -29,7 +29,7 @@ export default function Page() {
             <span className="relative block aspect-[16/9] overflow-hidden rounded-[16px] border border-[var(--nb-line-soft)]">
               <Image
                 src="/assets/banners/lien-he.jpg"
-                alt="Văn phòng NIBELC tại Berlin"
+                alt="Văn phòng NIBELC Germany GmbH"
                 fill
                 sizes="(min-width:1024px) 520px, 100vw"
                 className="object-cover"
@@ -69,7 +69,7 @@ export default function Page() {
               <div className="relative h-[220px]">
                 <iframe
                   title={`Bản đồ ${LEGAL.street}, ${LEGAL.city}`}
-                  src={`https://www.openstreetmap.org/export/embed.html?bbox=13.368%2C52.505%2C13.383%2C52.514&layer=mapnik&marker=52.5096%2C13.3755`}
+                  src={`https://www.openstreetmap.org/export/embed.html?bbox=${encodeURIComponent(KHUNG_BAN_DO)}&layer=mapnik&marker=${TOA_DO.lat}%2C${TOA_DO.lon}`}
                   className="h-full w-full border-0 grayscale-[35%]"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
