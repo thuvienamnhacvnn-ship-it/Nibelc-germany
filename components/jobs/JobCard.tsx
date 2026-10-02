@@ -36,18 +36,9 @@ export function JobCard({ job, lon = false }: { job: JobFull; lon?: boolean }) {
           sizes={lon ? "(min-width:1280px) 840px, 100vw" : "(min-width:1280px) 420px, 100vw"}
           className="object-cover transition-transform duration-[600ms] ease-[cubic-bezier(.22,.61,.36,1)] group-hover:scale-[1.05]"
         />
-        {/* Dải chuyển tiếp CHỈ Ở ĐÁY, không phủ cả tấm ảnh: luật của Sếp là
-            không đặt lớp màu lên ảnh. Bản cũ dùng `inset-0` nên nửa trên ảnh
-            vẫn bị một lớp 4% phủ lên, lại ghi thẳng mã màu đen cũ nên sau khi
-            nền đổi sang xanh thì lạc tông. */}
-        <span
-          className="absolute inset-x-0 bottom-0 h-[54%]"
-          style={{
-            background:
-              "linear-gradient(180deg, rgb(var(--nb-navy-900-rgb) / 0), rgb(var(--nb-navy-900-rgb) / .9))",
-          }}
-          aria-hidden="true"
-        />
+        {/* KHÔNG phủ lớp màu lên ảnh — luật của Sếp. Tiêu đề thẻ nằm DƯỚI
+            ảnh, còn mấy nhãn góc đều đã có nền viên riêng của chúng, nên dải
+            chuyển tiếp phủ 54% tấm ảnh là thừa. */}
 
         {/* góc trái: trạng thái đơn */}
         {job.isSample ? (

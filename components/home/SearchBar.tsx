@@ -108,7 +108,11 @@ export function SearchBar() {
           }}
           onFocus={() => setMo(true)}
           onKeyDown={phim}
-          placeholder="Tìm kiếm đơn hàng, ngành nghề, địa điểm..."
+          // Chữ gợi ý NGẮN: ở 390px ô nhập chỉ rộng ~244px, câu dài "Tìm kiếm
+          // đơn hàng, ngành nghề, địa điểm..." bị xén giữa chữ thành "ngành ng|"
+          // — đọc ra như lỗi chính tả. Câu đầy đủ vẫn nằm ở aria-label cho
+          // trình đọc màn hình.
+          placeholder="Tìm đơn hàng, ngành nghề…"
           aria-label="Tìm kiếm đơn hàng, ngành nghề, địa điểm"
           aria-expanded={mo && goiY.length > 0}
           aria-autocomplete="list"

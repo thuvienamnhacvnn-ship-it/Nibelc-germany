@@ -62,17 +62,38 @@ export function JobMarketplace() {
 
   /* Mở tấm trượt thì KHOÁ cuộn nền: không khoá thì ngón tay vuốt trong tấm
      trượt tới cuối danh sách là nền phía sau cuộn tiếp, vị trí đọc của người
-     dùng bị mất. Trả lại đúng giá trị cũ khi đóng. */
+     dùng bị mất.
+
+     PHẢI khoá cả <html>, không chỉ <body>. Bản trước chỉ đặt
+     `body.style.overflow = "hidden"` và nó KHÔNG chặn được gì: thuộc tính
+     overflow của khung nhìn lấy từ thẻ GỐC (<html>), <html> vẫn là visible
+     nên trang vẫn cuộn — body chỉ tự thành khung cuộn riêng mà chiều cao lại
+     bằng chiều cao nội dung nên chẳng clip gì cả. Đo ra: mở tấm trượt rồi
+     lăn chuột, scrollY đi từ 0 lên 600.
+
+     Khoá <html> trên máy tính thì thanh cuộn biến mất → trang giật ngang một
+     nhịp, nên bù đúng bề rộng thanh cuộn vào padding-right. Trên điện thoại
+     bề rộng đó là 0 nên không ảnh hưởng. */
   useEffect(() => {
     if (!moSheet) return;
-    const cu = document.body.style.overflow;
+    const html = document.documentElement;
+    const cuHtml = html.style.overflow;
+    const cuBody = document.body.style.overflow;
+    const cuPad = html.style.paddingRight;
+    const buThanhCuon = window.innerWidth - html.clientWidth;
+
+    html.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
+    if (buThanhCuon > 0) html.style.paddingRight = `${buThanhCuon}px`;
+
     const phim = (e: KeyboardEvent) => {
       if (e.key === "Escape") setMoSheet(false);
     };
     window.addEventListener("keydown", phim);
     return () => {
-      document.body.style.overflow = cu;
+      html.style.overflow = cuHtml;
+      document.body.style.overflow = cuBody;
+      html.style.paddingRight = cuPad;
       window.removeEventListener("keydown", phim);
     };
   }, [moSheet]);
@@ -238,7 +259,7 @@ export function JobMarketplace() {
               setTuKhoa(e.target.value);
               setHien(9);
             }}
-            placeholder="Tìm đơn hàng, nghề, nơi làm"
+            placeholder="Tìm đơn hàng, nghề…"
             aria-label="Tìm đơn hàng"
             className="h-12 min-w-0 flex-1 bg-transparent text-[14.5px] text-white outline-none placeholder:text-[var(--nb-text-mute)]"
           />

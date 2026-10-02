@@ -659,7 +659,10 @@
    ============================================================ */
 @media (max-width: 1023px) {
   .nb-cum-tieu-de text {
-    stroke-width: 0.085em;
+    /* 0.085em chưa đủ: thu cả cụm 1400px xuống khung 358px là tỉ lệ 0.26,
+       viền mỏng đi theo. Nới lên 0.105em thì ở khổ điện thoại mỗi nét chữ
+       có một đường navy thấy rõ, chữ tách hẳn khỏi mây. */
+    stroke-width: 0.105em;
     paint-order: stroke;
   }
 }
