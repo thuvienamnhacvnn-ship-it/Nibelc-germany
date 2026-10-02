@@ -39,7 +39,7 @@ const display = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nibelc-germany.de"),
+  metadataBase: new URL("https://www.nibelcgermany.de"),
   title: {
     default: "NIBELC GROUP GERMANY — Việc làm & Du học nghề tại Đức",
     template: "%s · NIBELC GROUP",

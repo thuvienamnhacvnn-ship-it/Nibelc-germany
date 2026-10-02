@@ -38,7 +38,7 @@ export const LEGAL: LegalEntity = {
   postalCode: "10785",
   city: "Berlin",
   country: "Deutschland",
-  email: "info@nibelc-germany.de",
+  email: "info@nibelcgermany.de",
   phone: "+49 30 263 987 650",
   groupWebsite: "https://www.nibelcgroup.com.vn",
 
