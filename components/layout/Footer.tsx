@@ -3,7 +3,7 @@ import { Facebook, Mail, MapPin, Phone, Youtube } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
 import { NAV } from "@/data/nav";
 import { INDUSTRIES } from "@/data/industries";
-import { LEGAL } from "@/data/company";
+import { KHUNG_BAN_DO, LEGAL } from "@/data/company";
 import { tenNganh } from "@/data/i18n/industries";
 import { DIA_CHI_NGAN, diaChiMotDong } from "@/data/i18n/company";
 import { ChonNgonNgu } from "@/components/layout/ChonNgonNgu";
@@ -26,8 +26,7 @@ import { common } from "@/lib/i18n/dict/common";
  * phép, số nhân sự... chưa có dữ liệu thì KHÔNG bịa ra cho đẹp.
  */
 
-/** Toạ độ Potsdamer Platz, Berlin — khung bản đồ ôm quanh địa chỉ công ty */
-const KHUNG_BAN_DO = "13.3696,52.5075,13.3816,52.5135";
+/* Khung bản đồ lấy từ data/company.ts — xem ghi chú TOA_DO ở đó. */
 
 export async function Footer() {
   const lang = await getLang();
@@ -170,8 +169,8 @@ export async function Footer() {
       </div>
 
       {/* ---------- BẢN ĐỒ VĂN PHÒNG ---------- */}
-      {/* Chỉ từ lg. Ở điện thoại khối này chiếm gần 300px (thẻ "Văn phòng
-          Berlin" lặp lại đúng địa chỉ vừa ghi ngay phía trên + bản đồ nhúng
+      {/* Chỉ từ lg. Ở điện thoại khối này chiếm gần 300px (thẻ "Trụ sở"
+          lặp lại đúng địa chỉ vừa ghi ngay phía trên + bản đồ nhúng
           190px), mà trang /lien-he đã có sẵn một bản đồ y hệt — chân trang
           lặp trên MỌI trang nên tốn gấp bảy lần chỗ cho cùng một thông tin. */}
       <div className="nb-wrap hidden pb-9 lg:block lg:pb-14">

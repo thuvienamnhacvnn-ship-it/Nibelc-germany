@@ -3,6 +3,7 @@ import { AlertTriangle } from "lucide-react";
 import { PageHero } from "@/components/ui/PageHero";
 import { NavLink } from "@/components/layout/NavLink";
 import { LEGAL, impressumComplete } from "@/data/company";
+import { QUOC_GIA } from "@/data/i18n/company";
 import { getLang } from "@/lib/i18n/server";
 import { lh } from "@/lib/i18n/config";
 import { t } from "@/lib/i18n/dict";
@@ -60,7 +61,10 @@ export default async function Page() {
               <br />
               {LEGAL.postalCode} {LEGAL.city}
               <br />
-              {LEGAL.country}
+              {/* Văn bản §5 TMG là tiếng Đức nên tên nước phải là
+                  "Deutschland". LEGAL.country nay là "Germany" — đúng cho
+                  dòng địa chỉ chung nhưng sai chỗ này. */}
+              {QUOC_GIA.de}
             </address>
           </Muc>
 

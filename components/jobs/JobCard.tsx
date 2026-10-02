@@ -1,14 +1,8 @@
-"use client";
-
 import Image from "next/image";
 import { ArrowRight, MapPin } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
 import { chuoiLuong, noiLamViec, tenNhaTuyenDung } from "@/types/job";
 import { industryById } from "@/data/industries";
-import { tenNganh } from "@/data/i18n/industries";
-import { NHAN_DON_HANG } from "@/data/i18n/jobs";
-import { useLang, useT } from "@/lib/i18n/client";
-import { donHang } from "@/lib/i18n/dict/don-hang";
 import type { JobFull } from "@/data/jobs";
 
 /**
@@ -24,21 +18,15 @@ import type { JobFull } from "@/data/jobs";
  *
  * Nhãn: NỔI BẬT góc trái, cờ Đức + thành phố góc phải — không chồng hai nhãn
  * lên nhau ở cùng một góc như bản trước.
- *
- * Client component vì đọc ngôn ngữ qua useLang(); `job` truyền vào phải là
- * đơn đã dịch (getJobs(lang)).
  */
 export function JobCard({ job, lon = false }: { job: JobFull; lon?: boolean }) {
   const nganh = industryById(job.industryId);
-  const lang = useLang();
-  const tx = useT(donHang);
-  const nhanMa = useT(NHAN_DON_HANG);
 
   return (
     <NavLink
       href={`/don-hang/${job.slug}`}
       className="nb-card group flex h-full flex-col overflow-hidden"
-      aria-label={tx.tai(job.title, job.city)}
+      aria-label={`${job.title} tại ${job.city}`}
     >
       <span className={`relative block overflow-hidden ${lon ? "aspect-[21/9]" : "aspect-video"}`}>
         <Image
@@ -48,33 +36,25 @@ export function JobCard({ job, lon = false }: { job: JobFull; lon?: boolean }) {
           sizes={lon ? "(min-width:1280px) 840px, 100vw" : "(min-width:1280px) 420px, 100vw"}
           className="object-cover transition-transform duration-[600ms] ease-[cubic-bezier(.22,.61,.36,1)] group-hover:scale-[1.05]"
         />
-        {/* Dải chuyển tiếp CHỈ Ở ĐÁY, CHỈ Ở ĐIỆN THOẠI (phiên mobile) — để nhãn
-            ngành đáy ảnh đọc được trên thẻ hẹp. Máy tính (đội W-AGENT) bỏ hẳn:
-            luật cấm phủ lớp lên ảnh. */}
-        <span
-          className="absolute inset-x-0 bottom-0 h-[54%] lg:hidden"
-          style={{
-            background:
-              "linear-gradient(180deg, rgb(var(--nb-navy-900-rgb) / 0), rgb(var(--nb-navy-900-rgb) / .9))",
-          }}
-          aria-hidden="true"
-        />
+        {/* KHÔNG phủ lớp màu lên ảnh — luật của Sếp. Tiêu đề thẻ nằm DƯỚI
+            ảnh, còn mấy nhãn góc đều đã có nền viên riêng của chúng, nên dải
+            chuyển tiếp phủ 54% tấm ảnh là thừa. */}
 
         {/* góc trái: trạng thái đơn */}
         {job.isSample ? (
-          <span className="absolute top-3 left-3 rounded-full bg-[var(--nb-cyan)]/90 px-2.5 py-1 text-[12px] font-bold text-white lg:text-[10.5px]">
-            {tx.mau}
+          <span className="absolute top-3 left-3 rounded-full bg-[var(--nb-cyan)]/90 px-2.5 py-1 text-[12px] font-bold text-white">
+            MẪU
           </span>
         ) : (
           lon && job.featured && (
-            <span className="absolute top-3 left-3 rounded-full bg-[var(--nb-gold)] px-2.5 py-1 text-[12px] font-bold tracking-[0.05em] lg:text-[10.5px] text-[var(--nb-navy-900)]">
-              {tx.noiBat}
+            <span className="absolute top-3 left-3 rounded-full bg-[var(--nb-gold)] px-2.5 py-1 text-[12px] font-bold tracking-[0.05em] text-[var(--nb-navy-900)]">
+              NỔI BẬT
             </span>
           )
         )}
 
         {/* góc phải: cờ Đức + thành phố, đúng mô-típ ảnh mẫu */}
-        <span className="absolute top-3 right-3 flex items-center gap-1.5 rounded-full bg-[var(--nb-navy-900)]/80 px-2.5 py-1 text-[13px] font-semibold text-white backdrop-blur-sm lg:text-[11.5px]">
+        <span className="absolute top-3 right-3 flex items-center gap-1.5 rounded-full bg-[var(--nb-navy-900)]/80 px-2.5 py-1 text-[13px] font-semibold text-white backdrop-blur-sm">
           <span className="nb-co-duc h-[9px] w-[14px]" aria-hidden="true">
             <span style={{ background: "#111" }} />
             <span style={{ background: "#d00" }} />
@@ -84,32 +64,32 @@ export function JobCard({ job, lon = false }: { job: JobFull; lon?: boolean }) {
         </span>
 
         {nganh && (
-          <span className="absolute bottom-3 left-3 rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/78 px-3 py-1 text-[13px] font-semibold text-[var(--nb-gold-soft)] backdrop-blur-sm lg:text-[11.5px]">
-            {tenNganh(nganh, lang)}
+          <span className="absolute bottom-3 left-3 rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/78 px-3 py-1 text-[13px] font-semibold text-[var(--nb-gold-soft)] backdrop-blur-sm">
+            {nganh.titleVi}
           </span>
         )}
       </span>
 
       <span className="flex flex-1 flex-col p-5">
         <b
-          className={`leading-snug font-semibold text-white ${
+          className={`block leading-snug font-semibold text-white ${
             lon ? "text-[21px]" : "min-h-[2.6em] text-[16.5px]"
           } [display:-webkit-box] [overflow:hidden] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]`}
         >
           {job.title}
         </b>
         <span className="mt-1 block truncate text-[12.5px] text-[var(--nb-text-mute)]">
-          {tenNhaTuyenDung(job, lang)}
+          {tenNhaTuyenDung(job)}
         </span>
 
         {/* Mức lương bên trái, số suất bên phải — đúng bố cục ảnh mẫu */}
         <span className="mt-3 flex items-end justify-between gap-3">
           <b className="nb-display block text-[19px] leading-none font-bold text-[var(--nb-gold-strong)]">
-            {chuoiLuong(job, lang)}
+            {chuoiLuong(job)}
           </b>
           <span className="shrink-0 text-right leading-tight">
-            <span className="block text-[12px] text-[var(--nb-text-mute)] lg:text-[11px]">{tx.soLuong}</span>
-            <b className="block text-[14px] font-semibold text-white">{tx.soNguoi(job.vacancies)}</b>
+            <span className="block text-[12px] text-[var(--nb-text-mute)] lg:text-[11px]">Số lượng</span>
+            <b className="block text-[14px] font-semibold text-white">{job.vacancies} người</b>
           </span>
         </span>
 
@@ -121,17 +101,17 @@ export function JobCard({ job, lon = false }: { job: JobFull; lon?: boolean }) {
         {/* Hàng nút luôn ở đáy: các thẻ cùng hàng kết thúc thẳng nhau */}
         <span className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-4">
           <span className="flex flex-wrap gap-1.5">
-            {[tx.tiengDuc(job.languageLevel), nhanMa.hinhThuc[job.employmentType]].map((t) => (
+            {[`Tiếng ${job.languageLevel}`, job.employmentType].map((t) => (
               <span
                 key={t}
-                className="rounded-full border border-[var(--nb-line-soft)] px-2.5 py-1 text-[13px] text-[var(--nb-text-dim)] lg:text-[11.5px]"
+                className="rounded-full border border-[var(--nb-line-soft)] px-2.5 py-1 text-[13px] text-[var(--nb-text-dim)]"
               >
                 {t}
               </span>
             ))}
           </span>
           <span className="flex items-center gap-1.5 rounded-full border border-[var(--nb-gold)]/55 px-3.5 py-1.5 text-[12.5px] font-semibold text-[var(--nb-gold-soft)] transition group-hover:bg-[var(--nb-gold)] group-hover:text-[var(--nb-navy-900)]">
-            {tx.xemChiTiet}
+            Xem chi tiết
             <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-0.5" />
           </span>
         </span>

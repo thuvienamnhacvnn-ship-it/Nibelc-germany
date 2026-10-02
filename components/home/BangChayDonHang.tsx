@@ -64,23 +64,34 @@ export function BangChayDonHang({ ds }: { ds: JobFull[] }) {
                   sizes="290px"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                <span
-                  className="absolute inset-x-0 bottom-0 h-[58%]"
-                  style={{ background: "linear-gradient(180deg, transparent, rgba(6,22,46,.94))" }}
-                  aria-hidden="true"
-                />
-                <b className="nb-display absolute inset-x-0 bottom-0 px-3 pb-2 text-[14px] leading-tight font-semibold text-white">
-                  <span className="line-clamp-1">{j.title}</span>
+              </span>
+
+              {/* Tiêu đề nằm DƯỚI ảnh, không đè lên.
+                  Trước đây tôi phủ một dải navy .94 lên 58% ảnh rồi đặt chữ
+                  trắng lên trên — vi phạm hai luật của Sếp cùng lúc: phủ lớp
+                  màu lên ảnh, và chữ đè lên mặt người (ảnh đơn hàng nào cũng
+                  có người). Ảnh giờ để sạch hoàn toàn. */}
+              <span className="block px-3 pt-2.5">
+                <b className="nb-display line-clamp-1 block text-[14px] leading-tight font-semibold text-white">
+                  {j.title}
                 </b>
               </span>
 
-              <span className="flex items-center justify-between gap-2 px-3 py-2.5">
-                <span className="nb-display truncate text-[14.5px] font-bold text-[var(--nb-gold-strong)]">
+              {/* Giá một dòng RIÊNG, nơi làm một dòng dưới.
+                  Bản trước xếp hai thứ chung một hàng: nơi làm là shrink-0 nên
+                  nó ăn trước, giá còn lại bao nhiêu thì co vào đó. Với
+                  "Berlin và các vùng lân cận" thì giá chỉ còn 25px trên 140px
+                  cần thiết — "1.700 – 2.900 €/tháng" hiện ra đúng "1.…".
+                  Giá là thứ người ta mở trang để xem, không được phép cắt;
+                  nơi làm cắt đuôi thì vẫn đoán ra. Tiếng Đức và tiếng Anh
+                  chuỗi còn dài hơn tiếng Việt nên càng không được xếp chung. */}
+              <span className="block px-3 pt-1.5 pb-2.5">
+                <span className="nb-display block text-[14.5px] font-bold whitespace-nowrap text-[var(--nb-gold-strong)]">
                   {luongHienThi(j, lang, tx.the.thoaThuan)}
                 </span>
-                <span className="flex shrink-0 items-center gap-1 text-[11.5px] text-[#c2d3e8]">
-                  <MapPin size={12} className="text-[var(--nb-gold)]" />
-                  {noiLamViec(j).split(",")[0]}
+                <span className="mt-1 flex items-center gap-1 text-[12.5px] text-[#c2d3e8]">
+                  <MapPin size={12} className="shrink-0 text-[var(--nb-gold)]" />
+                  <span className="truncate">{noiLamViec(j).split(",")[0]}</span>
                 </span>
               </span>
             </NavLink>

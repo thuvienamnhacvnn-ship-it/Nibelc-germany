@@ -1,6 +1,15 @@
 /**
  * (Chuyển sang từ dự án nibel-de — cùng một pháp nhân.)
- * Dữ liệu pháp nhân, lấy từ ấn phẩm chính thức của công ty
+ *
+ * ĐỊA CHỈ, EMAIL, ĐIỆN THOẠI: Sếp chốt ngày 02/10/2026, thay cho bộ cũ lấy
+ * từ poster (Potsdamer Platz 10, 10785 Berlin, +49 30 263 987 650). Trụ sở
+ * nay ở Ahrensfelde-Lindenberg thuộc Brandenburg, KHÔNG còn là Berlin — mọi
+ * chỗ chép tay chữ "Berlin" đã bỏ hết.
+ * Số điện thoại Sếp gửi liền một mạch "+49 15775675555"; ở đây tách nhóm
+ * theo cách Đức hay viết cho số di động (đầu số 1577). Link tel: tự bỏ dấu
+ * cách nên bấm vẫn ra đúng số.
+ *
+ * Phần còn lại (tên pháp nhân, khẩu hiệu) vẫn lấy từ ấn phẩm chính thức
  * (E:\Works\itw\Nibelc DE\3fc212dc-…jpg — poster "Arbeiten in Deutschland
  * mit Nibelc Germany GmbH", và ba tin tuyển dụng cùng bộ).
  *
@@ -34,12 +43,12 @@ export interface LegalEntity {
 export const LEGAL: LegalEntity = {
   name: "NIBELC Germany GmbH",
   rechtsform: "Gesellschaft mit beschränkter Haftung (GmbH)",
-  street: "Potsdamer Platz 10",
-  postalCode: "10785",
-  city: "Berlin",
-  country: "Deutschland",
+  street: "Dietrichstraße 16",
+  postalCode: "16356",
+  city: "Ahrensfelde-Lindenberg",
+  country: "Germany",
   email: "info@nibelcgermany.de",
-  phone: "+49 30 263 987 650",
+  phone: "+49 1577 5675555",
   groupWebsite: "https://www.nibelcgroup.com.vn",
 
   handelsregister: null,
@@ -47,6 +56,23 @@ export const LEGAL: LegalEntity = {
   geschaeftsfuehrer: null,
   ustIdNr: null,
 };
+
+/**
+ * TOẠ ĐỘ TRỤ SỞ — để ở ĐÂY, ngay cạnh địa chỉ, không rải trong component.
+ *
+ * Toạ độ là SỐ TRẦN: đổi địa chỉ xong grep chữ sạch bong mà bản đồ vẫn chỉ
+ * sang chỗ cũ, vì trong chuỗi bbox không có chữ "Berlin" hay "Potsdamer" nào
+ * để mà bắt. Đã dính đúng một lần ngày 02/10/2026: mọi chữ đã đổi sang
+ * Ahrensfelde-Lindenberg nhưng bản đồ /lien-he vẫn cắm cờ ở Potsdamer Platz.
+ *
+ * Tra từ OpenStreetMap Nominatim, way 397158792 — "16, Dietrichstraße,
+ * Lindenberg, Ahrensfelde, Barnim, Brandenburg, 16356". KHÔNG tự đoán.
+ * Đổi địa chỉ thì phải tra lại cả hai hằng số dưới đây.
+ */
+export const TOA_DO = { lat: 52.5970657, lon: 13.5587157 } as const;
+
+/** Khung bản đồ "tây,nam,đông,bắc" ôm quanh trụ sở. */
+export const KHUNG_BAN_DO = "13.5527,52.5941,13.5647,52.6001";
 
 /** Khẩu hiệu trên ấn phẩm chính thức. */
 export const BRAND_CLAIMS = {

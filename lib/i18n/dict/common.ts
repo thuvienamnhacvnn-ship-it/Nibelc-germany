@@ -21,6 +21,23 @@ export const common = tuDien({
     tuVanNgay: "Tư vấn ngay",
     ngonNgu: "Ngôn ngữ",
     chonNgonNgu: "Chọn ngôn ngữ",
+    /* MENU ĐẦY ĐỦ — tấm trượt mở từ nút ba chấm ở góc phải banner.
+       Nhãn trang KHÔNG để ở đây mà lấy từ data/nav.ts, để một chỗ duy nhất
+       giữ tên trang cho cả header, menu đáy lẫn menu này. */
+    menuDayDu: {
+      nhan: "Menu",
+      dong: "Đóng menu",
+      goiY: "Tìm đơn hàng, ngành nghề…",
+      nhomViec: "Việc làm & học nghề",
+      nhomHieu: "Tìm hiểu",
+      nhomLienHe: "Liên hệ",
+      theoNganh: "Chọn theo ngành nghề",
+      soDon: (d: number, s: number) => `${d} đơn · ${s.toLocaleString("de-DE")} suất`,
+      soNganh: (n: number) => `${n} ngành đào tạo`,
+      moLoTrinh: "Từ hồ sơ tới ngày bay",
+      soBai: (n: number) => `${n} bài`,
+      dangKy: "Đăng ký tư vấn",
+    },
     footer: {
       gioiThieu:
         "Kết nối lao động và học viên Việt Nam với doanh nghiệp tại Đức và châu Âu — từ tuyển chọn, đào tạo tới khi ổn định công việc.",
@@ -55,6 +72,23 @@ export const common = tuDien({
     tuVanNgay: "Get advice",
     ngonNgu: "Language",
     chonNgonNgu: "Choose language",
+    /* MENU ĐẦY ĐỦ — tấm trượt mở từ nút ba chấm ở góc phải banner.
+       Nhãn trang KHÔNG để ở đây mà lấy từ data/nav.ts, để một chỗ duy nhất
+       giữ tên trang cho cả header, menu đáy lẫn menu này. */
+    menuDayDu: {
+      nhan: "Menu",
+      dong: "Close menu",
+      goiY: "Search jobs, occupations…",
+      nhomViec: "Jobs & training",
+      nhomHieu: "Learn more",
+      nhomLienHe: "Contact",
+      theoNganh: "Browse by occupation",
+      soDon: (d: number, s: number) => `${d} jobs · ${s.toLocaleString("en-GB")} positions`,
+      soNganh: (n: number) => `${n} training programmes`,
+      moLoTrinh: "From application to departure",
+      soBai: (n: number) => `${n} articles`,
+      dangKy: "Request advice",
+    },
     footer: {
       gioiThieu:
         "Connecting workers and trainees from Vietnam with employers in Germany and across Europe — from selection and training through to settling into the job.",
@@ -89,6 +123,23 @@ export const common = tuDien({
     tuVanNgay: "Beratung anfragen",
     ngonNgu: "Sprache",
     chonNgonNgu: "Sprache wählen",
+    /* MENU ĐẦY ĐỦ — tấm trượt mở từ nút ba chấm ở góc phải banner.
+       Nhãn trang KHÔNG để ở đây mà lấy từ data/nav.ts, để một chỗ duy nhất
+       giữ tên trang cho cả header, menu đáy lẫn menu này. */
+    menuDayDu: {
+      nhan: "Menü",
+      dong: "Menü schließen",
+      goiY: "Stellen, Berufe suchen…",
+      nhomViec: "Arbeit & Ausbildung",
+      nhomHieu: "Mehr erfahren",
+      nhomLienHe: "Kontakt",
+      theoNganh: "Nach Berufsfeld",
+      soDon: (d: number, s: number) => `${d} Stellen · ${s.toLocaleString("de-DE")} Plätze`,
+      soNganh: (n: number) => `${n} Ausbildungsberufe`,
+      moLoTrinh: "Vom Antrag bis zum Abflug",
+      soBai: (n: number) => `${n} Beiträge`,
+      dangKy: "Beratung anfordern",
+    },
     footer: {
       gioiThieu:
         "Wir verbinden Fachkräfte und Auszubildende aus Vietnam mit Unternehmen in Deutschland und Europa – von der Auswahl über die Qualifizierung bis zum erfolgreichen Start im Job.",

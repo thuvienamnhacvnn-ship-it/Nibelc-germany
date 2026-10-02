@@ -14,10 +14,19 @@ import { useChuyenTrang } from "@/components/layout/PageTransition";
  * Tên ngôn ngữ viết bằng chính ngôn ngữ đó và mang thuộc tính lang riêng —
  * trình đọc màn hình đọc đúng giọng, script kiểm lẫn ngôn ngữ bỏ qua.
  *
- *   kieu="menu"  → nút tròn + danh sách thả xuống (Header máy tính)
- *   kieu="hang"  → ba nút VI · EN · DE nằm ngang (Footer, mọi khổ màn)
+ *   kieu="menu"    → nút tròn + danh sách thả xuống (Header máy tính)
+ *   kieu="hang"    → ba nút VI · EN · DE nằm ngang (Footer, mọi khổ màn)
+ *   kieu="banner"  → như "menu" nhưng viên 44px, viền champagne, nền navy mờ
+ *                    để đứng được TRÊN ẢNH banner ở khổ điện thoại; khay mở
+ *                    sang PHẢI vì nút nằm ở góc trái màn hình.
  */
-export function ChonNgonNgu({ kieu = "menu", className = "" }: { kieu?: "menu" | "hang"; className?: string }) {
+export function ChonNgonNgu({
+  kieu = "menu",
+  className = "",
+}: {
+  kieu?: "menu" | "hang" | "banner";
+  className?: string;
+}) {
   const lang = useLang();
   const tx = useT(common);
   const duongDan = useDuongDan();
@@ -83,18 +92,26 @@ export function ChonNgonNgu({ kieu = "menu", className = "" }: { kieu?: "menu" |
         aria-label={tx.chonNgonNgu}
         aria-haspopup="menu"
         aria-expanded={mo}
-        className="flex h-9 items-center gap-1.5 rounded-full border border-[var(--nb-line-soft)] px-3 text-[13px] font-medium text-[var(--nb-text-dim)] transition hover:border-[var(--nb-line)] hover:text-[var(--nb-gold-soft)]"
+        className={
+          kieu === "banner"
+            ? "flex h-11 items-center gap-1.5 rounded-full border border-[var(--nb-gold)]/60 bg-[var(--nb-navy-900)]/55 px-3.5 text-[13.5px] font-semibold text-white backdrop-blur-md transition active:scale-95"
+            : "flex h-9 items-center gap-1.5 rounded-full border border-[var(--nb-line-soft)] px-3 text-[13px] font-medium text-[var(--nb-text-dim)] transition hover:border-[var(--nb-line)] hover:text-[var(--nb-gold-soft)]"
+        }
       >
-        <Globe size={15} />
+        <Globe size={kieu === "banner" ? 16 : 15} className={kieu === "banner" ? "shrink-0 text-[var(--nb-gold-strong)]" : ""} />
         {TEN_NGON_NGU[lang].ma}
-        <ChevronDown size={13} className={`transition-transform ${mo ? "rotate-180" : ""}`} />
+        <ChevronDown size={kieu === "banner" ? 14 : 13} className={`transition-transform ${mo ? "rotate-180" : ""}`} />
       </button>
 
       {mo && (
         <ul
           role="menu"
           aria-label={tx.chonNgonNgu}
-          className="absolute right-0 top-[calc(100%+8px)] z-10 min-w-[170px] overflow-hidden rounded-xl border border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] py-1.5 shadow-[0_18px_40px_-12px_rgba(3,12,26,.7)]"
+          className={`absolute top-[calc(100%+8px)] z-10 min-w-[180px] overflow-hidden rounded-2xl border bg-[var(--nb-navy-800)] py-1.5 shadow-[0_18px_40px_-12px_rgba(3,12,26,.7)] ${
+            kieu === "banner"
+              ? "left-0 border-[var(--nb-line)] backdrop-blur-xl"
+              : "right-0 border-[var(--nb-line-soft)]"
+          }`}
         >
           {LANGS.map((l) => {
             const on = l === lang;
@@ -106,7 +123,9 @@ export function ChonNgonNgu({ kieu = "menu", className = "" }: { kieu?: "menu" |
                   aria-checked={on}
                   lang={l}
                   onClick={() => doi(l)}
-                  className={`flex w-full items-center gap-3 px-4 py-2.5 text-left text-[13.5px] transition ${
+                  className={`flex w-full items-center gap-3 px-4 text-left text-[13.5px] transition ${
+                    kieu === "banner" ? "min-h-[44px] py-0" : "py-2.5"
+                  } ${
                     on ? "text-[var(--nb-gold-soft)]" : "text-[var(--nb-text-dim)] hover:bg-white/5 hover:text-white"
                   }`}
                 >

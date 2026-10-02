@@ -105,7 +105,7 @@ export function FeaturedJob({
         <Image src={job.image} alt={job.title} fill priority sizes="612px" className="object-cover" />
 
         {nganh && (
-          <span className="absolute top-3 left-3 rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/80 px-3 py-1 text-[11.5px] font-semibold text-[var(--nb-gold-soft)] backdrop-blur-sm">
+          <span className="absolute top-3 left-3 rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/80 px-3 py-1 text-[12.5px] font-semibold text-[var(--nb-gold-soft)] backdrop-blur-sm">
             {tenNganh(nganh, lang)}
           </span>
         )}
@@ -130,7 +130,8 @@ export function FeaturedJob({
               <Users size={13} className="shrink-0 text-[var(--nb-gold)]" />
               {tx.soSuat(job.vacancies)}
             </span>
-            <span className="rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/6 px-2 py-0.5 text-[11.5px] text-[#d2dded]">
+            {/* 12,5px: dưới 12px là dưới sàn đọc được (QA vòng 2). */}
+            <span className="rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/6 px-2 py-0.5 text-[12.5px] text-[#d2dded]">
               {tx.tiengDuc(job.languageLevel)}
             </span>
           </div>

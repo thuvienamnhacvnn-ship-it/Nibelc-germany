@@ -129,7 +129,14 @@ export function Hero({
               />
             </span>
           </NavLink>
-          {/* h1 nằm trong CumTieuDe (chữ HTML thật), không cần bản sr-only nữa. */}
+          {/* Cụm tiêu đề là SVG. SVG có <text> thật nên máy tìm kiếm đọc được,
+              nhưng vẫn giữ một <h1> ẩn cho chắc — và để trình đọc màn hình
+              gặp đúng một tiêu đề cấp 1 trên trang. Chữ lấy theo ngôn ngữ
+              đang xem, không chép tay. */}
+          <h1 className="sr-only">
+            {tx.hero.dong1a} {tx.hero.dong1b} {tx.hero.dong2} — {tx.hero.dong3},{" "}
+            {tx.hero.dong4} {tx.hero.dong5}
+          </h1>
 
           {/* Bấm một tệp thì CẢ CỤM tiêu đề nhường chỗ cho thẻ đơn — đúng
               quy luật Sếp đặt từ đầu.
@@ -155,7 +162,11 @@ export function Hero({
                   transition={{ duration: 0.38, ease: [0.22, 0.61, 0.36, 1] }}
                   className="absolute inset-x-0 top-0 flex flex-col items-center"
                 >
-                  <CumTieuDe chu={tx.hero} langDong1={tx.dong1De ? "de" : undefined} className="lg:-mt-8 lg:w-max lg:max-w-[min(860px,60vw)]" />
+                  <CumTieuDe
+                    chu={tx.hero}
+                    deDong1={tx.dong1De}
+                    className="lg:-mt-8 lg:w-max lg:max-w-[min(860px,60vw)]"
+                  />
                 </motion.div>
               )}
             </AnimatePresence>

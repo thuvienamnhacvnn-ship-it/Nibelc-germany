@@ -468,6 +468,13 @@
     --nb-line: rgba(240, 220, 180, 0.34);
     --nb-line-soft: rgba(240, 220, 180, 0.22);
   }
+
+  /* Nen o nhap o khổ nay la #2268ba, sang hon han ban may tinh, nen chu goi y
+     #a9bdd8 chi con 2,92:1 — THAP HON ca ban truoc khi sua. #e3ecf8 do duoc
+     4,69:1, dat nguong 4,5:1. */
+  .nb-input::placeholder {
+    color: #e3ecf8;
+  }
 }
 
 /* ============================================================
@@ -521,6 +528,19 @@
 @media (max-width: 1023px) {
   .nb-duoi-header {
     padding-top: 0;
+  }
+}
+
+/* Trang KHÔNG CÓ BANNER tự chừa chỗ cho hai nút ở đỉnh (ngôn ngữ bên trái,
+   ba chấm bên phải). Trang có banner không cần: ảnh banner đủ cao để hai nút
+   nổi lên trên nó.
+   Đo ra mới thấy cần: ở /lien-he hai nút đè đúng lên dòng nhãn "Trung tâm tư
+   vấn NIBELC", ở trang chi tiết đơn hàng thì đè lên đường dẫn "Đơn hàng /
+   …". Nút cao 44px + 12px lề trên + 12px thở = 68px.
+   Chỉ áp ở khổ điện thoại; từ lg hai nút đã ẩn và header thật quay lại. */
+@media (max-width: 1023px) {
+  .nb-chua-cho-nut {
+    padding-top: 68px;
   }
 }
 
@@ -657,7 +677,10 @@
    ============================================================ */
 @media (max-width: 1023px) {
   .nb-cum-tieu-de text {
-    stroke-width: 0.085em;
+    /* 0.085em chưa đủ: thu cả cụm 1400px xuống khung 358px là tỉ lệ 0.26,
+       viền mỏng đi theo. Nới lên 0.105em thì ở khổ điện thoại mỗi nét chữ
+       có một đường navy thấy rõ, chữ tách hẳn khỏi mây. */
+    stroke-width: 0.105em;
     paint-order: stroke;
   }
 }

@@ -37,8 +37,10 @@ export function JobRow({ job }: { job: JobFull }) {
 
       <span className="flex min-w-0 flex-1 flex-col">
         <span className="flex flex-wrap items-center gap-2">
+          {/* 12,5px chứ không 11,5px: dưới 12px là dưới sàn đọc được, QA bắt
+              ở vòng 2. Tên ngành lấy theo ngôn ngữ đang xem. */}
           {nganh && (
-            <span className="rounded-full border border-[var(--nb-line)] px-2.5 py-0.5 text-[11.5px] text-[var(--nb-gold-soft)]">
+            <span className="rounded-full border border-[var(--nb-line)] px-2.5 py-0.5 text-[12.5px] text-[var(--nb-gold-soft)]">
               {tenNganh(nganh, lang)}
             </span>
           )}

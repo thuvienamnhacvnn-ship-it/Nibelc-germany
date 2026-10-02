@@ -72,7 +72,7 @@ export const home = tuDien<{
     dong1De: true,
     logoAria: "NIBELC GERMANY — trang chủ",
     tim: {
-      goiY: "Tìm kiếm đơn hàng, ngành nghề, địa điểm...",
+      goiY: "Tìm đơn hàng, ngành nghề…",
       aria: "Tìm kiếm đơn hàng, ngành nghề, địa điểm",
       nut: "Tìm",
       dsGoiY: "Gợi ý tìm kiếm",
@@ -138,7 +138,7 @@ export const home = tuDien<{
     dong1De: false,
     logoAria: "NIBELC GERMANY — homepage",
     tim: {
-      goiY: "Search jobs, occupations, locations…",
+      goiY: "Search jobs, occupations…",
       aria: "Search jobs, occupations and locations",
       nut: "Search",
       dsGoiY: "Search suggestions",
@@ -217,7 +217,7 @@ export const home = tuDien<{
     dong1De: false,
     logoAria: "NIBELC GERMANY – Startseite",
     tim: {
-      goiY: "Stellen, Berufe oder Orte suchen …",
+      goiY: "Stellen, Berufe suchen…",
       aria: "Stellen, Berufe oder Orte suchen",
       nut: "Suchen",
       dsGoiY: "Suchvorschläge",
