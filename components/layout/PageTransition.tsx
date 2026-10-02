@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
 import type { Route } from "next";
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
@@ -8,15 +8,16 @@ import { createContext, useCallback, useContext, useEffect, useRef, useState, ty
 /**
  * CHUYỂN TRANG — CHỮ KÝ CỦA NIBELC
  *
- * Bấm menu không nhảy trang ngay. Hai tấm navy chạy từ mép trái và mép phải
- * vào giữa, gặp nhau thì hiện một vạch sáng champagne mảnh, rồi mở ngược ra
- * hai phía để lộ trang mới.
+ * Quy trình Sếp chốt 02/10/2026, BA NHỊP NỐI TIẾP, không chồng lên nhau:
+ *   1. CHẬP VÀO — hai tấm navy chạy từ hai mép vào giữa, phủ KÍN 100% màn
+ *      hình đang xem (đục hoàn toàn, không nhìn xuyên).
+ *   2. ĐỔI TRANG — chỉ khi đã phủ kín mới router.push; đợi trang mới thật sự
+ *      vẽ xong (pathname đổi + 2 khung hình) rồi giữ thêm một nhịp ngắn.
+ *   3. MỞ RA — hai tấm rút ngược ra hai mép, lộ trang mới.
  *
- * Vì sao tự điều khiển điều hướng thay vì bọc AnimatePresence quanh children:
- * App Router thay children ngay khi route đổi, nên nếu chỉ bọc thì trang mới
- * đã hiện trước lúc tấm che đóng lại. Ở đây nút bấm gọi `chuyenTrang()`, tấm
- * đóng xong mới `router.push`, nên thứ tự luôn đúng kể cả khi route tải rất
- * nhanh.
+ * Bản cũ push route NGAY khi bấm (để giảm trễ) và mở tấm theo giờ cố định,
+ * nên trang mới lộ ra trước khi màn chập kín — trái quy trình trên.
+ * Trễ tải được bù bằng prefetch (NavLink nạp trước khi rê chuột).
  *
  * Người dùng bật "giảm chuyển động" thì bỏ qua hoạt ảnh, điều hướng thẳng.
  */
@@ -32,17 +33,22 @@ export function useChuyenTrang(): Ham {
   return f ?? ((href: string) => router.push(href as Route));
 }
 
-// Sếp chốt: màn chuyển trang phải NHANH và phải thấy được trang phía sau.
-// Tấm che để 60% đục, và cả chu kỳ rút từ ~1,3 giây xuống dưới 0,7 giây.
-const DONG = 0.34; // giây, hai tấm chạy vào
-const GIU = 0.22; // giây, giữ màn khép kín trước khi mở ra
-const MO = 0.34; // giây, nội dung trang mới hiện ra
-const DUC = 0.8; // độ đục của tấm che — Sếp chốt 80%
+const DONG = 0.42; // giây, hai tấm chập vào tới khi kín
+const GIU = 0.12; // giây, giữ kín sau khi trang mới đã vẽ xong
+const MO = 0.42; // giây, hai tấm mở ra
+const TRAN = 5000; // ms, trang mới chậm quá thì vẫn mở để không kẹt màn
+const NHIP = [0.76, 0, 0.24, 1] as const;
+
+type Pha = "nghi" | "dong" | "cho" | "mo";
+
+const duongDan = (href: string) => href.split(/[?#]/)[0] || "/";
 
 export function PageTransition({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const [dangChe, setDangChe] = useState(false);
+  const [pha, setPha] = useState<Pha>("nghi");
+  const dich = useRef<string | null>(null);
+  const cungTrang = useRef(false);
   const giamChuyenDong = useRef(false);
 
   useEffect(() => {
@@ -51,10 +57,8 @@ export function PageTransition({ children }: { children: ReactNode }) {
 
   const chuyenTrang = useCallback(
     (href: string) => {
-      // Bấm đúng trang đang mở: không điều hướng, nhưng phải báo cho trang
-      // biết để nó tự đóng những lớp đang che nội dung chính (ví dụ banner
-      // đơn hàng trên trang chủ). Không có chỗ này thì người dùng bấm
-      // "Trang chủ" mà màn hình không đổi gì — tưởng web hỏng.
+      // Bấm đúng trang đang mở: không điều hướng, chỉ báo trang tự đóng các
+      // lớp đang che nội dung chính và cuộn về đầu.
       if (href === pathname) {
         window.dispatchEvent(new CustomEvent("nibelc:ve-trang-hien-tai"));
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -64,73 +68,86 @@ export function PageTransition({ children }: { children: ReactNode }) {
         router.push(href as Route);
         return;
       }
-      setDangChe(true);
-      // Đẩy route NGAY, không đợi tấm khép. Trước đây phải đợi hết hoạt ảnh
-      // rồi mới push, nên thời gian tải trang nối tiếp sau thời gian hoạt
-      // ảnh — cộng lại thành cái "delay khá nặng". Giờ hai việc chạy song
-      // song: tấm đang khép thì Next đã tải trang rồi.
-      router.push(href as Route);
+      if (pha !== "nghi") return; // đang chuyển dở — bỏ cú bấm thứ hai
+      dich.current = href;
+      cungTrang.current = duongDan(href) === pathname; // chỉ đổi ?query
+      router.prefetch(href as Route);
+      setPha("dong");
     },
-    [pathname, router]
+    [pathname, pha, router]
   );
 
-  // NHỊP CHE CỐ ĐỊNH, không phụ thuộc route.
-  //
-  // Bản trước mở tấm ngay khi `pathname` đổi. Trên máy trạm route chậm nên
-  // nhìn có vẻ ổn, nhưng trên tên miền thật trang tĩnh đổi gần như tức thì:
-  // đo được tấm chỉ khép kín 80ms rồi mở — chớp một cái là xong. Trang nào
-  // tải chậm thì nó lại đứng chờ tới trần, thành ra lúc nhanh quá lúc kẹt.
-  //
-  // Giờ thời gian che luôn là DONG + GIU, dù route về sau bao lâu. Route
-  // thường đã xong trước đó nhờ prefetch; nếu chưa thì người xem thoáng thấy
-  // trang cũ vài khung hình, đổi lại nhịp lúc nào cũng đều.
+  // Nhịp 1 xong (tấm đã kín) → nhịp 2: đổi trang dưới màn che.
+  const daKin = useCallback(() => {
+    if (pha !== "dong" || !dich.current) return;
+    setPha("cho");
+    window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+    router.push(dich.current as Route);
+  }, [pha, router]);
+
+  // Nhịp 2 → 3: trang mới đã vẽ (pathname khớp đích + 2 khung hình) thì giữ
+  // thêm GIU rồi mở. Đổi mỗi ?query thì pathname không đổi → đợi cố định.
   useEffect(() => {
-    if (!dangChe) return;
-    const t = setTimeout(() => setDangChe(false), (DONG + GIU) * 1000);
-    return () => clearTimeout(t);
-  }, [dangChe]);
+    if (pha !== "cho" || !dich.current) return;
+    let huy = false;
+    const mo = () => {
+      if (!huy) setPha("mo");
+    };
+    const tran = setTimeout(mo, TRAN);
+    let t: ReturnType<typeof setTimeout> | undefined;
+    if (cungTrang.current) {
+      t = setTimeout(mo, 300 + GIU * 1000);
+    } else if (pathname === duongDan(dich.current)) {
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        t = setTimeout(mo, GIU * 1000);
+      }));
+    }
+    return () => {
+      huy = true;
+      clearTimeout(tran);
+      if (t) clearTimeout(t);
+    };
+  }, [pha, pathname]);
+
+  const daMo = useCallback(() => {
+    if (pha !== "mo") return;
+    dich.current = null;
+    setPha("nghi");
+  }, [pha]);
+
+  const kin = pha === "dong" || pha === "cho";
 
   return (
     <Ctx.Provider value={chuyenTrang}>
       {children}
 
-      <AnimatePresence>
-        {dangChe && (
-          <div className="pointer-events-none fixed inset-0 z-[100]" aria-hidden="true">
-            {/* tấm trái */}
-            <motion.div
-              className="absolute inset-y-0 left-0 w-1/2 bg-[var(--nb-navy-800)]"
-              initial={{ x: "-100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "-100%" }}
-              transition={{ duration: DONG, ease: [0.76, 0, 0.24, 1] }}
-              style={{ opacity: DUC, boxShadow: "8px 0 28px rgba(0,0,0,.45)" }}
-            />
-            {/* tấm phải */}
-            <motion.div
-              className="absolute inset-y-0 right-0 w-1/2 bg-[var(--nb-navy-800)]"
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ duration: DONG, ease: [0.76, 0, 0.24, 1] }}
-              style={{ opacity: DUC, boxShadow: "-8px 0 28px rgba(0,0,0,.45)" }}
-            />
-            {/* vạch sáng champagne ở đường nối */}
-            <motion.span
-              className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2"
-              initial={{ opacity: 0, scaleY: 0.2 }}
-              animate={{ opacity: 1, scaleY: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3, delay: DONG * 0.7 }}
-              style={{
-                background:
-                  "linear-gradient(180deg, transparent, var(--nb-gold-soft) 18%, var(--nb-gold-strong) 50%, var(--nb-gold-soft) 82%, transparent)",
-                boxShadow: "0 0 18px 2px rgba(224,172,61,.55)",
-              }}
-            />
-          </div>
-        )}
-      </AnimatePresence>
+      {pha !== "nghi" && (
+        // Chặn bấm trong lúc chuyển để không có cú điều hướng chen ngang.
+        <div className="fixed inset-0 z-[100]" aria-hidden="true">
+          {/* tấm trái — đục 100% */}
+          <motion.div
+            className="absolute inset-y-0 left-0 w-1/2 bg-[var(--nb-navy-800)]"
+            initial={{ x: "-100%" }}
+            animate={{ x: kin ? 0 : "-100%" }}
+            transition={{ duration: kin ? DONG : MO, ease: NHIP }}
+            onAnimationComplete={() => (kin ? daKin() : daMo())}
+          />
+          {/* tấm phải */}
+          <motion.div
+            className="absolute inset-y-0 right-0 w-1/2 bg-[var(--nb-navy-800)]"
+            initial={{ x: "100%" }}
+            animate={{ x: kin ? 0 : "100%" }}
+            transition={{ duration: kin ? DONG : MO, ease: NHIP }}
+          />
+          {/* vạch vàng mảnh ở đường nối — chỉ hiện khi đã kín, KHÔNG glow */}
+          <motion.span
+            className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-[var(--nb-gold)]"
+            initial={{ opacity: 0, scaleY: 0.3 }}
+            animate={pha === "cho" ? { opacity: 0.9, scaleY: 1 } : { opacity: 0, scaleY: 0.3 }}
+            transition={{ duration: 0.2 }}
+          />
+        </div>
+      )}
     </Ctx.Provider>
   );
 }
