@@ -173,7 +173,7 @@ export function ConsultationWizard() {
                   {qua ? <Check size={14} /> : x.so}
                 </span>
                 <span className="text-left">
-                  <span className="block text-[12px] tracking-wide text-[var(--nb-text-mute)] uppercase sm:text-[10.5px]">
+                  <span className="block text-[12px] tracking-wide text-[var(--nb-text-mute)] uppercase sm:text-[12px]">
                     {tx.chuBuoc(x.so)}
                   </span>
                   <span className={`block text-[13.5px] font-medium ${on ? "text-white" : "text-[var(--nb-text-dim)]"}`}>

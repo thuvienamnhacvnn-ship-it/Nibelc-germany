@@ -263,7 +263,13 @@
   gap: 0.55rem;
   border-radius: 999px;
   font-weight: 600;
-  white-space: nowrap;
+  /* KHÔNG để white-space: nowrap ở khổ hẹp. Nhãn tiếng Đức dài hơn tiếng
+     Việt nhiều ("Stellenangebote ansehen"), nút không xuống dòng được thì nó
+     phình quá bề ngang màn và kéo cả trang rộng ra — đo ở 320px bản /de ra
+     329px. Từ sm trở lên giữ nowrap như cũ vì chỗ đã đủ rộng và nút một dòng
+     đẹp hơn. */
+  white-space: normal;
+  text-align: center;
   transition:
     transform 0.25s cubic-bezier(0.22, 0.61, 0.36, 1),
     box-shadow 0.25s ease,
@@ -542,6 +548,41 @@
   .nb-chua-cho-nut {
     padding-top: 68px;
   }
+}
+
+@media (min-width: 640px) {
+  .nb-btn,
+  .nb-btn-ghost,
+  .nb-btn-solid {
+    white-space: nowrap;
+  }
+}
+
+/* ============================================================
+   TỪ GHÉP TIẾNG ĐỨC — PHẢI CHO NGẮT DÒNG
+   ------------------------------------------------------------
+   Tiếng Đức ghép từ thành một chữ rất dài: "Arbeitsverträge",
+   "Ausbildungsbetrieb", "Fachinformatiker". Một chữ dài hơn bề
+   ngang dòng thì nó KHÔNG xuống dòng được, và min-content của
+   khối cha phình ra bằng đúng chữ đó — cả trang rộng hơn màn
+   hình. Đo ở 320px: bản /de trang chủ ra 362px, /de/du-hoc-nghe
+   ra 354px, trong khi bản tiếng Việt vừa khít.
+
+   overflow-wrap: break-word chỉ ra tay KHI từ dài quá dòng, chữ
+   bình thường không đổi gì. hyphens: auto thêm gạch nối đúng
+   chỗ cho tiếng Đức và tiếng Anh (trình duyệt tra từ điển theo
+   thuộc tính lang, mà <html lang> đã đặt đúng theo URL).
+   ============================================================ */
+:where(h1, h2, h3, h4, p, li, b, dt, dd, figcaption) {
+  overflow-wrap: break-word;
+}
+:where(h1, h2, h3, h4, p, li) {
+  hyphens: auto;
+}
+/* Tiếng Việt không ghép từ nên không cần gạch nối, mà bật lên thì
+   chữ có dấu dễ bị cắt chỗ không ai mong. */
+:where(:lang(vi)) :where(h1, h2, h3, h4, p, li) {
+  hyphens: manual;
 }
 
 /* Cờ Đức nhỏ trên thẻ đơn hàng — mô-típ có trên mọi thẻ trong ảnh mẫu */

@@ -235,7 +235,7 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
                       {on && <span className="h-[7px] w-[7px] rounded-[1px] bg-[var(--nb-navy-900)] lg:bg-white" />}
                     </span>
                     <span className="min-w-0 flex-1 truncate lg:whitespace-normal lg:leading-snug">{tenNganh(i, lang)}</span>
-                    <span className="text-[12px] text-[var(--nb-text-mute)] lg:min-w-[22px] lg:rounded-full lg:bg-[var(--s-soft)] lg:px-1.5 lg:py-px lg:text-center lg:text-[11.5px] lg:text-[var(--s-mute)] lg:ring-1 lg:ring-[var(--s-line)]">
+                    <span className="text-[12px] text-[var(--nb-text-mute)] lg:min-w-[22px] lg:rounded-full lg:bg-[var(--s-soft)] lg:px-1.5 lg:py-px lg:text-center lg:text-[12.5px] lg:text-[var(--s-mute)] lg:ring-1 lg:ring-[var(--s-line)]">
                       {so}
                     </span>
                   </button>

@@ -128,7 +128,7 @@ export function PageHero({
                   >
                     {t.nhan}
                     {t.so !== undefined && (
-                      <span className="rounded-full bg-[var(--nb-gold)]/20 px-2 py-0.5 text-[12px] font-semibold lg:text-[11.5px]">
+                      <span className="rounded-full bg-[var(--nb-gold)]/20 px-2 py-0.5 text-[12px] font-semibold lg:text-[12.5px]">
                         {t.so}
                       </span>
                     )}

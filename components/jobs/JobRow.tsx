@@ -45,7 +45,7 @@ export function JobRow({ job }: { job: JobFull }) {
             </span>
           )}
           {job.isSample && (
-            <span className="rounded-full bg-[var(--nb-cyan)]/85 px-2 py-0.5 text-[10.5px] font-bold text-white">{tx.mau}</span>
+            <span className="rounded-full bg-[var(--nb-cyan)]/85 px-2 py-0.5 text-[12px] font-bold text-white">{tx.mau}</span>
           )}
         </span>
 

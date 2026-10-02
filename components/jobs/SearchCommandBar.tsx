@@ -172,7 +172,7 @@ function O({
             "TIM NGANH NGHE". Để dòng rộng 1.45em và không chặn tràn.
             Nhãn dài nhất ("TRÌNH ĐỘ TIẾNG ĐỨC" ≈ 145px) vẫn vừa một dòng
             trong 191px chỗ trống ở khổ hẹp nhất (320px). */}
-        <span className="block text-[11px] leading-[1.45] tracking-[0.1em] text-[var(--nb-text-mute)] uppercase lg:text-[10.5px] lg:font-semibold lg:text-[var(--s-mute)]">
+        <span className="block text-[12px] leading-[1.45] tracking-[0.1em] text-[var(--nb-text-mute)] uppercase lg:text-[12px] lg:font-semibold lg:text-[var(--s-mute)]">
           {nhan}
         </span>
         {children}

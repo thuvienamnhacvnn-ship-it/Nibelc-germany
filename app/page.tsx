@@ -59,9 +59,15 @@ export default async function Page() {
 
       {/* ---------- HAI CHƯƠNG TRÌNH ---------- */}
       <section className="border-t border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] py-20">
-        <div className="nb-wrap grid gap-6 lg:grid-cols-2">
+        {/* grid-cols-[minmax(0,1fr)] chứ KHÔNG để `grid` trần: dưới lg lưới
+            này chỉ có một cột, mà cột mặc định là `auto` = min-content — nó
+            phình ra bằng chữ dài nhất bên trong. Bản tiếng Việt vừa khít nên
+            không lộ, bản tiếng Đức có "Arbeitsverträge" thì cả trang rộng
+            362px trên màn 320px. `min-w-0` ở thẻ con chặn nốt đường còn lại
+            (min-width:auto của chính nó). */}
+        <div className="nb-wrap grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
           {tx.chuongTrinh.map((c, i) => (
-            <div key={HREF_CHUONG_TRINH[i]} className="nb-panel p-8">
+            <div key={HREF_CHUONG_TRINH[i]} className="nb-panel min-w-0 p-8">
               <p className="nb-eyebrow">{c.nhan}</p>
               <h3 className="nb-display mt-3 text-[26px] text-white">{c.tieuDe}</h3>
               <p className="mt-3 text-[15px] leading-[1.7] text-[var(--nb-text-dim)]">{c.mo}</p>

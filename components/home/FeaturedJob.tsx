@@ -109,7 +109,7 @@ export function FeaturedJob({
             {tenNganh(nganh, lang)}
           </span>
         )}
-        <span className="absolute top-3 right-3 rounded-full bg-[var(--nb-gold)] px-3 py-1 text-[11px] font-bold tracking-[0.05em] text-[var(--nb-navy-900)]">
+        <span className="absolute top-3 right-3 rounded-full bg-[var(--nb-gold)] px-3 py-1 text-[12px] font-bold tracking-[0.05em] text-[var(--nb-navy-900)]">
           {tx.dangTuyen}
         </span>
 

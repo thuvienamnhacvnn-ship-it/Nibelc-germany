@@ -92,16 +92,10 @@ export default async function Page() {
                       sizes="(min-width:1024px) 330px, (min-width:640px) 268px, 250px"
                       className="object-cover transition-transform duration-[600ms] group-hover:scale-105"
                     />
-                    {/* Dải chuyển tiếp CHỈ Ở ĐÁY, CHỈ Ở ĐIỆN THOẠI (phiên mobile) —
-                        máy tính bỏ hẳn theo luật cấm phủ lớp lên ảnh. */}
-                    <span
-                      className="absolute inset-x-0 bottom-0 h-[55%] lg:hidden"
-                      style={{
-                        background:
-                          "linear-gradient(180deg, rgb(var(--nb-navy-900-rgb) / 0), rgb(var(--nb-navy-900-rgb) / .9))",
-                      }}
-                      aria-hidden="true"
-                    />
+                    {/* KHÔNG phủ lớp màu lên ảnh — luật của Sếp. Tên ngành nằm
+                        DƯỚI ảnh (khối p-5 ngay sau), không có chữ nào đè lên
+                        tấm hình, nên dải phủ 55% chỉ làm tối ảnh chứ không
+                        giúp đọc gì. Thẻ đơn hàng đã gỡ y như vậy. */}
                   </span>
                   <span className="block p-5">
                     {/* break-words: tên ngành tiếng Đức có từ ghép dài */}

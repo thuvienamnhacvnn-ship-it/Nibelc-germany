@@ -69,7 +69,7 @@ export function JourneyTimeline({ chang: CHANG }: { chang: Chang[] }) {
                   />
                 </span>
 
-                <span className="flex items-center gap-1.5 px-4 py-2.5 text-[12px] text-[var(--nb-text-mute)] lg:mt-auto lg:items-start lg:px-3 lg:text-[11.5px] lg:leading-snug">
+                <span className="flex items-center gap-1.5 px-4 py-2.5 text-[12px] text-[var(--nb-text-mute)] lg:mt-auto lg:items-start lg:px-3 lg:text-[12.5px] lg:leading-snug">
                   <Clock size={12} className="shrink-0 text-[var(--nb-gold)] lg:mt-[2px]" />
                   {c.thoiGian}
                 </span>
@@ -150,7 +150,7 @@ export function JourneyTimeline({ chang: CHANG }: { chang: Chang[] }) {
                   }`}
                 >
                   <span
-                    className={`grid h-6 w-6 shrink-0 place-items-center rounded-full text-[12px] font-bold lg:text-[11px] ${
+                    className={`grid h-6 w-6 shrink-0 place-items-center rounded-full text-[12px] font-bold lg:text-[12px] ${
                       i === mo
                         ? "bg-[var(--nb-gold)] text-[var(--nb-navy-900)]"
                         : "border border-[var(--nb-line-soft)] text-[var(--nb-text-mute)]"

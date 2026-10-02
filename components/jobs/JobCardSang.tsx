@@ -44,14 +44,14 @@ function NhanTren({ job }: { job: JobFull }) {
   return (
     <span className="flex min-w-0 items-center gap-2">
       {nganh && (
-        <span className="min-w-0 truncate text-[11.5px] font-semibold tracking-[0.08em] text-[var(--s-gold)] uppercase">
+        <span className="min-w-0 truncate text-[12.5px] font-semibold tracking-[0.08em] text-[var(--s-gold)] uppercase">
           {tenNganh(nganh, lang)}
         </span>
       )}
       {/* Không gắn "NỔI BẬT": dữ liệu hiện tại đơn nào cũng featured, gắn
           cả lưới thì nhãn mất nghĩa. Chỉ báo đơn MẪU. */}
       {job.isSample && (
-        <span className="shrink-0 rounded-full bg-[var(--s-soft)] px-2 py-0.5 text-[10.5px] font-bold tracking-[0.05em] text-[var(--s-mute)] ring-1 ring-[var(--s-line)]">
+        <span className="shrink-0 rounded-full bg-[var(--s-soft)] px-2 py-0.5 text-[12px] font-bold tracking-[0.05em] text-[var(--s-mute)] ring-1 ring-[var(--s-line)]">
           {tx.mau}
         </span>
       )}
@@ -93,7 +93,7 @@ export function JobCardSang({ job }: { job: JobFull }) {
         </span>
 
         <span className="mt-4 block">
-          <span className="block text-[11.5px] text-[var(--s-mute)]">{tx.thuNhap}</span>
+          <span className="block text-[12.5px] text-[var(--s-mute)]">{tx.thuNhap}</span>
           <b className="mt-0.5 block text-[20px] leading-tight font-bold text-[var(--s-ink)]">{chuoiLuong(job, lang)}</b>
         </span>
 
@@ -156,7 +156,7 @@ export function JobRowSang({ job }: { job: JobFull }) {
 
       <span className="flex min-w-[190px] flex-col items-end justify-between border-l border-[var(--s-line)] py-1 pr-1.5 pl-5">
         <span className="text-right">
-          <span className="block text-[11.5px] text-[var(--s-mute)]">{tx.thuNhap}</span>
+          <span className="block text-[12.5px] text-[var(--s-mute)]">{tx.thuNhap}</span>
           <b className="mt-0.5 block text-[18px] leading-tight font-bold whitespace-nowrap text-[var(--s-ink)]">
             {chuoiLuong(job, lang)}
           </b>
