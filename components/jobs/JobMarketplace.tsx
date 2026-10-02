@@ -166,7 +166,7 @@ export function JobMarketplace() {
                   {on && <span className="h-[7px] w-[7px] rounded-[1px] bg-[var(--nb-navy-900)]" />}
                 </span>
                 <span className="min-w-0 flex-1 truncate">{i.titleVi}</span>
-                <span className="text-[12px] text-[var(--nb-text-mute)] lg:text-[11.5px]">{so}</span>
+                <span className="text-[12px] text-[var(--nb-text-mute)] lg:text-[12px]">{so}</span>
               </button>
             </li>
           );

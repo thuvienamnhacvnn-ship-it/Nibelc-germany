@@ -110,7 +110,7 @@ export function GuideHub() {
                   }`}
                 >
                   <span className="min-w-0 lg:truncate">{m}</span>
-                  <span className="text-[12px] text-[var(--nb-text-mute)] lg:text-[11.5px]">{so}</span>
+                  <span className="text-[12px] text-[var(--nb-text-mute)] lg:text-[12px]">{so}</span>
                 </button>
               </li>
             );
@@ -156,7 +156,7 @@ export function GuideHub() {
                   />
                 </span>
                 <span className="block p-5 sm:p-7">
-                  <span className="rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/70 px-3 py-1 text-[12px] font-semibold text-[var(--nb-gold-soft)] sm:text-[11.5px]">
+                  <span className="rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/70 px-3 py-1 text-[12px] font-semibold text-[var(--nb-gold-soft)] sm:text-[12px]">
                     {mucCuaBai(noiBat)[0]}
                   </span>
                   <b className="nb-display mt-3 block max-w-[34ch] text-[21px] leading-tight text-white sm:text-[26px]">
@@ -187,7 +187,7 @@ export function GuideHub() {
                       />
                     </span>
                     <span className="flex flex-1 flex-col p-5">
-                      <span className="text-[12px] font-semibold tracking-wide text-[var(--nb-gold)] uppercase lg:text-[11.5px]">
+                      <span className="text-[12px] font-semibold tracking-wide text-[var(--nb-gold)] uppercase lg:text-[12px]">
                         {mucCuaBai(b)[0]}
                       </span>
                       <b className="mt-2 block text-[16.5px] leading-snug font-semibold text-white">{b.tieuDe}</b>
@@ -221,14 +221,14 @@ export function GuideHub() {
           {docNhieu.map((b, i) => (
             <li key={b.id}>
               <NavLink href={`/cam-nang/${b.id}`} className="group flex min-h-[44px] gap-3 lg:min-h-0">
-                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-[var(--nb-line-soft)] text-[12px] font-bold text-[var(--nb-gold)] lg:text-[11.5px]">
+                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-[var(--nb-line-soft)] text-[12px] font-bold text-[var(--nb-gold)] lg:text-[12px]">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span className="min-w-0">
                   <span className="block text-[13px] leading-snug font-medium text-[var(--nb-text)] transition group-hover:text-[var(--nb-gold-soft)]">
                     {b.tieuDe}
                   </span>
-                  <span className="mt-0.5 block text-[12px] text-[var(--nb-text-mute)] lg:text-[11.5px]">{b.phut} phút đọc</span>
+                  <span className="mt-0.5 block text-[12px] text-[var(--nb-text-mute)] lg:text-[12px]">{b.phut} phút đọc</span>
                 </span>
               </NavLink>
             </li>

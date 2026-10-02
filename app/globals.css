@@ -355,7 +355,9 @@
   transition: border-color 0.2s ease, background 0.2s ease;
 }
 .nb-input::placeholder {
-  color: var(--nb-text-mute);
+  /* `--nb-text-mute` đo trên nền ô nhập chỉ 3,21:1 — chữ gợi ý mờ, người
+     dùng không đọc được ô này để làm gì. Dùng bậc sáng hơn riêng cho nó. */
+  color: #a9bdd8;
 }
 .nb-input:focus {
   outline: none;
