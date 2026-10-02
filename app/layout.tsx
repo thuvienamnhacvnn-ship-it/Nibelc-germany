@@ -3,6 +3,7 @@ import { Inter, Montserrat, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { DinhBanner } from "@/components/layout/DinhBanner";
 import { MenuDay } from "@/components/layout/MenuDay";
 import { PageFade, PageTransition } from "@/components/layout/PageTransition";
 
@@ -64,7 +65,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           {/* KHÔNG chừa chỗ cho header ở đây: hero trang chủ phải chạy full
               viewport và header nằm đè lên nó. Trang phụ tự chừa bằng lớp
               .nb-duoi-header. */}
-          <main id="noi-dung">
+          {/* `relative` để hai nút ở đỉnh banner neo được vào đây.
+              Đặt DinhBanner ở ĐÂY chứ không trong Hero/PageHero: ba trang
+              (/lien-he, chi tiết đơn hàng, chi tiết bài cẩm nang) không có
+              banner nào cả, để trong banner thì đúng ba trang đó mất sạch
+              đường vào menu — mà menu đáy lại chỉ chứa nổi năm mục.
+              Nằm NGOÀI PageFade nên lúc chuyển trang hai nút đứng yên thay vì
+              nhấp nháy theo nội dung. */}
+          <main id="noi-dung" className="relative">
+            <DinhBanner />
             <PageFade>{children}</PageFade>
           </main>
           <Footer />

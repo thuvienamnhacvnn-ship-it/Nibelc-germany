@@ -46,7 +46,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   ];
 
   return (
-    <div className="nb-duoi-header">
+    <div className="nb-duoi-header nb-chua-cho-nut">
       {/* Dưới lg lưới này chỉ có MỘT cột, nhưng để `grid` trần thì cột là
           `auto` = min-content, mà min-content của cột trái bị hàng ảnh thu nhỏ
           cuộn ngang trong JobGallery kéo ra 806px — cả trang rộng 839px trên

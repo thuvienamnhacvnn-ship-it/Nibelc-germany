@@ -531,6 +531,19 @@
   }
 }
 
+/* Trang KHÔNG CÓ BANNER tự chừa chỗ cho hai nút ở đỉnh (ngôn ngữ bên trái,
+   ba chấm bên phải). Trang có banner không cần: ảnh banner đủ cao để hai nút
+   nổi lên trên nó.
+   Đo ra mới thấy cần: ở /lien-he hai nút đè đúng lên dòng nhãn "Trung tâm tư
+   vấn NIBELC", ở trang chi tiết đơn hàng thì đè lên đường dẫn "Đơn hàng /
+   …". Nút cao 44px + 12px lề trên + 12px thở = 68px.
+   Chỉ áp ở khổ điện thoại; từ lg hai nút đã ẩn và header thật quay lại. */
+@media (max-width: 1023px) {
+  .nb-chua-cho-nut {
+    padding-top: 68px;
+  }
+}
+
 /* Cờ Đức nhỏ trên thẻ đơn hàng — mô-típ có trên mọi thẻ trong ảnh mẫu */
 .nb-co-duc {
   display: inline-flex;

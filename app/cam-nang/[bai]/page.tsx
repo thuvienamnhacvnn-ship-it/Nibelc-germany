@@ -23,7 +23,7 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
   const khac = CAM_NANG.filter((x) => x.id !== b.id).slice(0, 4);
 
   return (
-    <div className="nb-duoi-header">
+    <div className="nb-duoi-header nb-chua-cho-nut">
       <article className="mx-auto max-w-[860px] px-5 py-10 sm:px-8 sm:py-14">
         <NavLink
           href="/cam-nang"

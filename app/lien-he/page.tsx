@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function Page() {
   const tel = LEGAL.phone.replace(/\s/g, "");
   return (
-    <div className="nb-duoi-header">
+    <div className="nb-duoi-header nb-chua-cho-nut">
       <section className="nb-wrap py-10 sm:py-14">
         <p className="nb-eyebrow">Trung tâm tư vấn NIBELC</p>
         <h1 className="nb-display mt-3 text-[26px] leading-[1.18] text-white sm:text-[clamp(30px,3.2vw,44px)] sm:leading-[1.15]">
