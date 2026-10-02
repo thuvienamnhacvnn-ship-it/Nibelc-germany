@@ -129,14 +129,8 @@ export function Footer() {
               <MapPin size={16} className="mt-0.5 shrink-0 text-[var(--nb-gold)]" />
               <span>
                 <b className="block font-semibold text-white">{LEGAL.name}</b>
-                {diaChi}
-                {/* "Deutschland" chỉ hiện từ lg: ở điện thoại đã có "Berlin"
-                    ngay dòng trên, thêm một dòng nữa là thừa một dòng trên
-                    MỌI trang. */}
-                <span className="hidden lg:inline">
-                  <br />
-                  {LEGAL.country}
-                </span>
+                {/* Sếp chốt 02/10: địa chỉ MỘT dòng, có tên nước sau thành phố */}
+                {diaChi}, {LEGAL.country}
               </span>
             </li>
             {/* Hai dòng này là số điện thoại và email thật — bấm nhầm là gọi

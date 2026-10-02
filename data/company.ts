@@ -37,8 +37,8 @@ export const LEGAL: LegalEntity = {
   street: "Potsdamer Platz 10",
   postalCode: "10785",
   city: "Berlin",
-  country: "Deutschland",
-  email: "info@nibelc-germany.de",
+  country: "Germany",
+  email: "info@nibelcgermany.de",
   phone: "+49 30 263 987 650",
   groupWebsite: "https://www.nibelcgroup.com.vn",
 

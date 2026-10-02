@@ -41,9 +41,7 @@ export default function Page() {
               <p className="mt-2 flex gap-2.5 text-[14px] leading-[1.7] text-[var(--nb-text-dim)]">
                 <MapPin size={16} className="mt-0.5 shrink-0 text-[var(--nb-gold)]" />
                 <span>
-                  {LEGAL.street}
-                  <br />
-                  {LEGAL.postalCode} {LEGAL.city}, {LEGAL.country}
+                  {LEGAL.street}, {LEGAL.postalCode} {LEGAL.city}, {LEGAL.country}
                 </span>
               </p>
 
