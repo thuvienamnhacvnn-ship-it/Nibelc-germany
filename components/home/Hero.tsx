@@ -92,21 +92,18 @@ export function Hero() {
             aria-label="NIBELC GERMANY — trang chủ"
             className="mb-5 block lg:hidden"
           >
-            {/* Chữ "NIBELC" trong logo là xanh dương #004ca0, mà nền banner
-                là TRỜI XANH — đo ra chỉ hơn 1,3:1, logo chìm hẳn vào ảnh.
-                Đổ bóng chỉ viền được nét chứ không cứu được phần ruột chữ.
-                Đặt logo trên một tấm nền sáng ôm sát: đây là tấm lót cho
-                LOGO, không phải lớp màu phủ lên ảnh — ảnh ngoài tấm này giữ
-                nguyên, không bị làm tối. Bóng là bóng TỐI, không phải quầng
-                sáng. */}
-            <span className="mx-auto block w-fit rounded-2xl bg-[#eef3fa] px-4 py-2.5 shadow-[0_6px_18px_-8px_rgba(3,12,26,.85)]">
+            {/* Sếp chốt: giữ NGUYÊN logo gốc, chỉ đổi màu CHỮ sang trắng, và
+                TUYỆT ĐỐI không thêm nền. Bản nibelc-logo-trang.svg đổi đúng ba
+                mã màu xanh của phần chữ; cánh cung cam/đỏ/vàng/đen giữ nguyên
+                100%. Không bộ lọc, không bóng, không tấm lót. */}
+            <span className="mx-auto block w-fit">
               <Image
-                src="/assets/brand/nibelc-logo.svg"
+                src="/assets/brand/nibelc-logo-trang.svg"
                 alt="NIBELC GERMANY"
                 width={200}
                 height={44}
                 priority
-                className="h-14 w-auto brightness-0 invert drop-shadow-[0_2px_8px_rgba(4,10,20,.95)]"
+                className="h-14 w-auto"
               />
             </span>
           </NavLink>
