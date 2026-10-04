@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { ArrowRight, MapPin, Users } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
-import { chuoiLuong, noiLamViec } from "@/types/job";
+import { chuoiLuong, noiLamViec, nhanNgonNgu } from "@/types/job";
 import { industryById } from "@/data/industries";
 import { tenNganh } from "@/data/i18n/industries";
 import { NHAN_DON_HANG } from "@/data/i18n/jobs";
@@ -102,7 +102,8 @@ export function JobCardSang({ job }: { job: JobFull }) {
             <Users size={12} strokeWidth={1.75} />
             {tx.soNguoi(job.vacancies)}
           </Chip>
-          <Chip>{tx.tiengDuc(job.languageLevel)}</Chip>
+          {/* ẩn khi chưa biết đơn cần tiếng gì — xem nhanNgonNgu() */}
+          {nhanNgonNgu(job, lang) && <Chip>{nhanNgonNgu(job, lang)}</Chip>}
         </span>
 
         <span className="mt-auto flex items-center justify-between gap-3 border-t border-[var(--s-line)] pt-4">
@@ -148,7 +149,7 @@ export function JobRowSang({ job }: { job: JobFull }) {
             <Users size={12} strokeWidth={1.75} />
             {tx.soNguoi(job.vacancies)}
           </Chip>
-          <Chip>{tx.tiengDuc(job.languageLevel)}</Chip>
+          {nhanNgonNgu(job, lang) && <Chip>{nhanNgonNgu(job, lang)}</Chip>}
           <Chip>{nhanMa.hinhThuc[job.employmentType]}</Chip>
           <Chip>{nhanMa.chuongTrinh[job.programType]}</Chip>
         </span>

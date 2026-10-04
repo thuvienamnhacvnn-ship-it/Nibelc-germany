@@ -1,4 +1,4 @@
-import type { EmploymentType, Job, ProgramType } from "@/types/job";
+import type { EmploymentType, Job, NgonNguDon, ProgramType } from "@/types/job";
 import thatSu from "./jobs-that.json";
 
 /**
@@ -70,8 +70,28 @@ function anhCua(j: Tho, thu: "image" | "thumbnail"): string {
   return j[thu] ?? j.image ?? ANH_NGANH[j.industryId] ?? "/assets/jobs/logistik/01-hero-16x9.jpg";
 }
 
+/**
+ * NƯỚC LÀM VIỆC → NGÔN NGỮ CHẮC CHẮN CẦN.
+ *
+ * Chỉ Đức và Áo mới suy ra tiếng Đức. Hy Lạp, Albania, Litva thì tờ đơn gốc
+ * KHÔNG nói đơn cần tiếng gì, nên để trống và giao diện bỏ hẳn nhãn ngôn ngữ
+ * — thà thiếu còn hơn ghi sai (trước đây mọi thẻ đều in "tiếng Đức", sai ở
+ * 13 trên 16 đơn).
+ *
+ * Tra bằng tên nước TIẾNG VIỆT và chỉ tra ĐÚNG MỘT LẦN ở đây: sau khi đơn đi
+ * qua getJobs(lang) thì `state` đã thành "Griechenland"/"Greece", tra lúc
+ * hiển thị là trượt hết.
+ *
+ * Sếp gửi thông tin ngôn ngữ thật của mấy nước kia thì thêm vào bảng này.
+ */
+const NGON_NGU_THEO_NUOC: Record<string, NgonNguDon> = {
+  "Đức": "de",
+  "Áo": "de",
+};
+
 const THAT: JobFull[] = (thatSu as Tho[]).map((j) => ({
   ...j,
+  language: NGON_NGU_THEO_NUOC[j.state] ?? null,
   salaryType: j.salaryType as Job["salaryType"],
   employmentType: j.employmentType as EmploymentType,
   programType: j.programType as ProgramType,
@@ -100,6 +120,8 @@ const MAU: JobFull[] = [
     employmentType: "Ca kíp",
     programType: "Lao động",
     languageLevel: "B1 – B2",
+    // Đơn mẫu đều đặt ở Đức (yêu cầu ghi rõ "Tiếng Đức B1") nên tiếng Đức.
+    language: "de" as const,
     experience: "Có bằng điều dưỡng",
     image: ANH_NGANH.pflege!,
     thumbnail: ANH_NGANH.pflege!,
@@ -127,6 +149,8 @@ const MAU: JobFull[] = [
     employmentType: "Toàn thời gian",
     programType: "Lao động",
     languageLevel: "B1",
+    // Đơn mẫu đều đặt ở Đức (yêu cầu ghi rõ "Tiếng Đức B1") nên tiếng Đức.
+    language: "de" as const,
     experience: "Tối thiểu 2 năm",
     image: ANH_NGANH.mechanik!,
     thumbnail: "/assets/jobs/mechanik/02-portrait-work-3x4.jpg",
@@ -153,6 +177,8 @@ const MAU: JobFull[] = [
     employmentType: "Toàn thời gian",
     programType: "Lao động",
     languageLevel: "B2",
+    // Đơn mẫu đều đặt ở Đức (yêu cầu ghi rõ "Tiếng Đức B1") nên tiếng Đức.
+    language: "de" as const,
     experience: "Tối thiểu 1 năm",
     image: ANH_NGANH.it!,
     thumbnail: "/assets/jobs/it/02-portrait-work-3x4.jpg",
@@ -179,6 +205,8 @@ const MAU: JobFull[] = [
     employmentType: "Ca kíp",
     programType: "Lao động",
     languageLevel: "B1",
+    // Đơn mẫu đều đặt ở Đức (yêu cầu ghi rõ "Tiếng Đức B1") nên tiếng Đức.
+    language: "de" as const,
     experience: "Không yêu cầu",
     image: ANH_NGANH.handel!,
     thumbnail: "/assets/jobs/handel/03-portrait-team-3x4.jpg",

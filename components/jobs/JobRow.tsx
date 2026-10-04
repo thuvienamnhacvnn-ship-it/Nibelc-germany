@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { ArrowRight, MapPin, Users } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
-import { chuoiLuong, noiLamViec, tenNhaTuyenDung } from "@/types/job";
+import { chuoiLuong, noiLamViec, tenNhaTuyenDung, nhanNgonNgu } from "@/types/job";
 import { industryById } from "@/data/industries";
 import { tenNganh } from "@/data/i18n/industries";
 import { NHAN_DON_HANG } from "@/data/i18n/jobs";
@@ -64,7 +64,8 @@ export function JobRow({ job }: { job: JobFull }) {
             <Users size={13} className="text-[var(--nb-gold)]" />
             {tx.soSuat(job.vacancies)}
           </span>
-          <span>{tx.tiengDuc(job.languageLevel)}</span>
+          {/* ẩn khi chưa biết đơn cần tiếng gì — xem nhanNgonNgu() */}
+          {nhanNgonNgu(job, lang) && <span>{nhanNgonNgu(job, lang)}</span>}
           <span>{nhanMa.chuongTrinh[job.programType]}</span>
         </span>
       </span>

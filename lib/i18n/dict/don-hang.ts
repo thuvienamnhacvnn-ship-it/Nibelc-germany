@@ -19,6 +19,8 @@ export const donHang = tuDien<{
     tieuDe: string;
     moTa: string;
     chiTietTieuDe: (ten: string, noi: string) => string;
+    /** `tieng` là nhãn ngôn ngữ ĐÃ dựng sẵn ("Tiếng Đức A2 – B1"), hoặc
+        chuỗi rỗng khi chưa biết đơn cần tiếng gì — khi đó bỏ hẳn mệnh đề. */
     chiTietMoTa: (ten: string, noi: string, luong: string, suat: number, tieng: string) => string;
   };
   hero: { nhan: string; tieuDe: string; mo: string; tatCa: string };
@@ -29,7 +31,10 @@ export const donHang = tuDien<{
   theoThoaThuan: string;
   soNguoi: (n: number) => string;
   soSuat: (n: number) => string;
+  /** nhãn trên thẻ khi đơn cần tiếng ĐỨC — "Tiếng Đức A2 – B1" */
   tiengDuc: (trinhDo: string) => string;
+  /** nhãn trên thẻ khi đơn cần tiếng ANH */
+  tiengAnh: (trinhDo: string) => string;
   xemChiTiet: string;
   tai: (ten: string, thanhPho: string) => string;
   mau: string;
@@ -107,6 +112,9 @@ export const donHang = tuDien<{
     noiLamViec: string;
     soLuong: string;
     tiengDuc: string;
+    tiengAnh: string;
+    /** nhãn ô thông tin khi chưa biết đơn cần tiếng gì */
+    ngoaiNgu: string;
     chuongTrinh: string;
     gioLam: string;
     gioTuan: (h: number) => string;
@@ -131,7 +139,8 @@ export const donHang = tuDien<{
       tieuDe: "Đơn hàng — Cơ hội nghề nghiệp tại Đức",
       moTa: "Tìm kiếm đơn hàng phù hợp với ngành nghề, khu vực và kinh nghiệm của bạn. Lọc theo ngành, thành phố, mức lương và trình độ tiếng Đức.",
       chiTietTieuDe: (ten, noi) => `${ten} — ${noi}`,
-      chiTietMoTa: (ten, noi, luong, suat, tieng) => `${ten} tại ${noi}. ${luong}, ${suat} suất, tiếng Đức ${tieng}.`,
+      chiTietMoTa: (ten, noi, luong, suat, tieng) =>
+        `${ten} tại ${noi}. ${luong}, ${suat} suất${tieng ? `, ${tieng}` : ""}.`,
     },
     hero: {
       nhan: "Sàn đơn hàng",
@@ -145,7 +154,8 @@ export const donHang = tuDien<{
     theoThoaThuan: "Theo thoả thuận",
     soNguoi: (n) => `${n} người`,
     soSuat: (n) => `${n} suất`,
-    tiengDuc: (td) => `Tiếng ${td}`,
+    tiengDuc: (td) => `Tiếng Đức ${td}`,
+    tiengAnh: (td) => `Tiếng Anh ${td}`,
     xemChiTiet: "Xem chi tiết",
     tai: (ten, tp) => `${ten} tại ${tp}`,
     mau: "MẪU",
@@ -159,7 +169,7 @@ export const donHang = tuDien<{
       thanhPho: "Thành phố",
       quocGia: "Quốc gia / Bang",
       luong: "Mức lương tối thiểu",
-      tieng: "Trình độ tiếng Đức",
+      tieng: "Trình độ ngoại ngữ",
       kinhNghiem: "Kinh nghiệm",
       chuongTrinh: "Chương trình",
       tatCaNganh: "Tất cả ngành nghề",
@@ -209,7 +219,7 @@ export const donHang = tuDien<{
       mucLuong: "Mức lương",
       luongAria: "Mức lương tối thiểu",
       loaiChuongTrinh: "Loại chương trình",
-      trinhDo: "Trình độ tiếng Đức",
+      trinhDo: "Trình độ ngoại ngữ",
       timKiem: "Tìm kiếm",
     },
 
@@ -220,6 +230,8 @@ export const donHang = tuDien<{
       noiLamViec: "Nơi làm việc",
       soLuong: "Số lượng",
       tiengDuc: "Tiếng Đức",
+      tiengAnh: "Tiếng Anh",
+      ngoaiNgu: "Ngoại ngữ",
       chuongTrinh: "Chương trình",
       gioLam: "Giờ làm",
       gioTuan: (h) => `${h} giờ / tuần`,
@@ -252,7 +264,7 @@ export const donHang = tuDien<{
       moTa: "Find vacancies that match your occupation, preferred region and experience. Filter by sector, city, salary and level of German.",
       chiTietTieuDe: (ten, noi) => `${ten} — ${noi}`,
       chiTietMoTa: (ten, noi, luong, suat, tieng) =>
-        `${ten} in ${noi}. ${luong}, ${suat} ${suat === 1 ? "position" : "positions"}, German ${tieng}.`,
+        `${ten} in ${noi}. ${luong}, ${suat} ${suat === 1 ? "position" : "positions"}${tieng ? `, ${tieng}` : ""}.`,
     },
     hero: {
       nhan: "Vacancy board",
@@ -267,6 +279,7 @@ export const donHang = tuDien<{
     soNguoi: (n) => `${n} ${n === 1 ? "person" : "people"}`,
     soSuat: (n) => `${n} ${n === 1 ? "position" : "positions"}`,
     tiengDuc: (td) => `German ${td}`,
+    tiengAnh: (td) => `English ${td}`,
     xemChiTiet: "View details",
     tai: (ten, tp) => `${ten} in ${tp}`,
     mau: "SAMPLE",
@@ -280,7 +293,7 @@ export const donHang = tuDien<{
       thanhPho: "City",
       quocGia: "Country / State",
       luong: "Minimum salary",
-      tieng: "German level",
+      tieng: "Language level",
       kinhNghiem: "Experience",
       chuongTrinh: "Programme",
       tatCaNganh: "All sectors",
@@ -341,6 +354,8 @@ export const donHang = tuDien<{
       noiLamViec: "Location",
       soLuong: "Openings",
       tiengDuc: "German",
+      tiengAnh: "English",
+      ngoaiNgu: "Language",
       chuongTrinh: "Programme",
       gioLam: "Working hours",
       gioTuan: (h) => `${h} hours / week`,
@@ -373,7 +388,7 @@ export const donHang = tuDien<{
       moTa: "Finden Sie Stellenangebote passend zu Ihrem Beruf, Ihrer Wunschregion und Ihrer Erfahrung. Filtern Sie nach Branche, Stadt, Gehalt und Deutschniveau.",
       chiTietTieuDe: (ten, noi) => `${ten} – ${noi}`,
       chiTietMoTa: (ten, noi, luong, suat, tieng) =>
-        `${ten} in ${noi}. ${luong}, ${suat} ${suat === 1 ? "Stelle" : "Stellen"}, Deutsch ${tieng}.`,
+        `${ten} in ${noi}. ${luong}, ${suat} ${suat === 1 ? "Stelle" : "Stellen"}${tieng ? `, ${tieng}` : ""}.`,
     },
     hero: {
       nhan: "Stellenbörse",
@@ -388,6 +403,7 @@ export const donHang = tuDien<{
     soNguoi: (n) => `${n} ${n === 1 ? "Person" : "Personen"}`,
     soSuat: (n) => `${n} ${n === 1 ? "Stelle" : "Stellen"}`,
     tiengDuc: (td) => `Deutsch ${td}`,
+    tiengAnh: (td) => `Englisch ${td}`,
     xemChiTiet: "Zur Stelle",
     tai: (ten, tp) => `${ten} in ${tp}`,
     mau: "MUSTER",
@@ -401,7 +417,7 @@ export const donHang = tuDien<{
       thanhPho: "Stadt",
       quocGia: "Land / Bundesland",
       luong: "Mindestgehalt",
-      tieng: "Deutschniveau",
+      tieng: "Sprachniveau",
       kinhNghiem: "Berufserfahrung",
       chuongTrinh: "Programm",
       tatCaNganh: "Alle Branchen",
@@ -462,6 +478,8 @@ export const donHang = tuDien<{
       noiLamViec: "Arbeitsort",
       soLuong: "Anzahl",
       tiengDuc: "Deutsch",
+      tiengAnh: "Englisch",
+      ngoaiNgu: "Sprache",
       chuongTrinh: "Programm",
       gioLam: "Arbeitszeit",
       gioTuan: (h) => `${h} Std. / Woche`,

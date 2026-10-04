@@ -2,6 +2,22 @@ import type { Lang } from "@/lib/i18n/config";
 import { khoangTien } from "@/lib/i18n/format";
 import { donHang } from "@/lib/i18n/dict/don-hang";
 
+/**
+ * NGÔN NGỮ YÊU CẦU CỦA ĐƠN.
+ *
+ * Sếp hỏi ngày 04/10/2026: "tại sao đơn Hy Lạp lại yêu cầu biết tiếng Đức".
+ * Đúng, và lỗi nằm ở giao diện: trường `languageLevel` chỉ ghi MỨC ("A2 – B1")
+ * còn tên ngôn ngữ thì mọi thẻ đều in cứng là tiếng Đức. Kho đơn hiện có 10
+ * đơn Hy Lạp, 2 Albania, 2 Áo, 1 Litva và đúng 1 đơn Đức — chữ "tiếng Đức"
+ * sai ở 13 trên 16 đơn.
+ *
+ * null = CHƯA BIẾT đơn cần tiếng gì, và giao diện không hiện nhãn nào cả.
+ * Đọc lại 16 tờ đơn gốc trong data/jobs-that.json thì phần yêu cầu chung
+ * không nhắc tới ngôn ngữ nào; chỉ riêng mấy vị trí "Quản lý" mới ghi
+ * "(Biết Tiếng Anh)". Thà thiếu còn hơn ghi sai — không bịa.
+ */
+export type NgonNguDon = "de" | "en" | null;
+
 /** Loại chương trình: đi làm việc hay du học nghề */
 export type ProgramType = "Lao động" | "Du học nghề";
 
@@ -28,8 +44,16 @@ export interface Job {
   vacancies: number;
   employmentType: EmploymentType;
   programType: ProgramType;
-  /** Trình độ tiếng Đức yêu cầu */
+  /**
+   * MỨC ngoại ngữ yêu cầu ("A2 – B1"), KHÔNG kèm tên ngôn ngữ — xem `language`.
+   */
   languageLevel: string;
+  /**
+   * NGÔN NGỮ đơn này cần. Tính MỘT LẦN lúc dựng JOBS trong data/jobs.ts theo
+   * nước làm việc, KHÔNG suy lại lúc hiển thị: đơn đi qua getJobs(lang) thì
+   * `state` đã thành "Griechenland"/"Greece", tra theo tên tiếng Việt là hỏng.
+   */
+  language: NgonNguDon;
   /** Yêu cầu kinh nghiệm, rút gọn */
   experience: string;
   image: string;
@@ -67,6 +91,16 @@ export function chuoiLuong(j: Job, lang: Lang = "vi"): string {
  * Nơi làm việc; bỏ phần lặp khi thành phố trùng tên nước (ví dụ "Áo, Áo").
  * Đơn đã qua getJobs(lang) thì city/state đã là bản dịch.
  */
+/**
+ * Nhãn ngôn ngữ trên thẻ: "Tiếng Đức A2 – B1" / "German A2 – B1" / "Deutsch…".
+ * Trả null khi chưa biết đơn cần tiếng gì — nơi gọi phải bỏ hẳn nhãn đi.
+ */
+export function nhanNgonNgu(j: Job, lang: Lang = "vi"): string | null {
+  if (!j.language) return null;
+  const tx = donHang[lang];
+  return j.language === "de" ? tx.tiengDuc(j.languageLevel) : tx.tiengAnh(j.languageLevel);
+}
+
 export function noiLamViec(j: Job): string {
   return j.city === j.state ? j.city : `${j.city}, ${j.state}`;
 }

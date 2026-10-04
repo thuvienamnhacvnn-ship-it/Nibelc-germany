@@ -120,7 +120,10 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
       if (thanhPho && j.goc.city !== thanhPho) return false;
       if (bang && j.goc.state !== bang) return false;
       if (j.salary.max < luongMin) return false;
-      if (tieng && j.languageLevel !== tieng) return false;
+      /* Đơn CHƯA BIẾT cần tiếng gì thì không khớp bộ lọc trình độ nào cả —
+         không thể nói nó đạt mức A2–B1 của thứ tiếng không rõ. 13 trên 16 đơn
+         đang ở tình trạng này (Hy Lạp, Albania, Litva). */
+      if (tieng && (!j.language || j.languageLevel !== tieng)) return false;
       if (kn && j.goc.experience !== kn) return false;
       if (ct && j.programType !== ct) return false;
       if (q && !bo(`${j.title} ${j.city} ${j.state} ${j.goc.city} ${j.goc.state}`).includes(q)) return false;
@@ -191,7 +194,7 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
     ...(thanhPho ? [{ nhan: nhanCua(DS_THANH_PHO, thanhPho), bo: () => setThanhPho("") }] : []),
     ...(bang ? [{ nhan: nhanCua(DS_QUOC_GIA, bang), bo: () => setBang("") }] : []),
     ...(luongMin > 0 ? [{ nhan: tx.loc.tuMuc(luongMin), bo: () => setLuongMin(0) }] : []),
-    ...(tieng ? [{ nhan: tx.tiengDuc(tieng), bo: () => setTieng("") }] : []),
+    ...(tieng ? [{ nhan: `${tx.ct.ngoaiNgu} ${tieng}`, bo: () => setTieng("") }] : []),
     ...(kn ? [{ nhan: nhanKn(kn), bo: () => setKn("") }] : []),
     ...(ct ? [{ nhan: nhanMa.chuongTrinh[ct as ProgramType] ?? ct, bo: () => setCt("") }] : []),
     ...(tuKhoa.trim() ? [{ nhan: `“${tuKhoa.trim()}”`, bo: () => setTuKhoa("") }] : []),

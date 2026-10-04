@@ -10,7 +10,7 @@ import { JOBS } from "@/data/jobs";
 import { getJobBySlug, getJobs, NHAN_DON_HANG } from "@/data/i18n/jobs";
 import { industryById } from "@/data/industries";
 import { tenNganh } from "@/data/i18n/industries";
-import { chuoiLuong, noiLamViec, tenNhaTuyenDung } from "@/types/job";
+import { chuoiLuong, noiLamViec, tenNhaTuyenDung, nhanNgonNgu } from "@/types/job";
 import { LEGAL } from "@/data/company";
 import { getLang } from "@/lib/i18n/server";
 import { t } from "@/lib/i18n/dict";
@@ -32,7 +32,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const tx = t(donHang, lang);
   return {
     title: tx.meta.chiTietTieuDe(j.title, j.city),
-    description: tx.meta.chiTietMoTa(j.title, noiLamViec(j), chuoiLuong(j, lang), j.vacancies, j.languageLevel),
+    description: tx.meta.chiTietMoTa(
+      j.title,
+      noiLamViec(j),
+      chuoiLuong(j, lang),
+      j.vacancies,
+      nhanNgonNgu(j, lang) ?? "",
+    ),
   };
 }
 
@@ -52,7 +58,18 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const THONG_TIN = [
     { Icon: MapPin, nhan: tx.ct.noiLamViec, gt: noiLamViec(job) },
     { Icon: Users, nhan: tx.ct.soLuong, gt: tx.soSuat(job.vacancies) },
-    { Icon: GraduationCap, nhan: tx.ct.tiengDuc, gt: job.languageLevel },
+    /* Ô ngôn ngữ chỉ có khi biết đơn cần tiếng gì. Nhãn đi theo đúng ngôn
+       ngữ đó ("Tiếng Đức" / "Tiếng Anh"), không còn in cứng tiếng Đức cho cả
+       10 đơn Hy Lạp như trước. */
+    ...(job.language
+      ? [
+          {
+            Icon: GraduationCap,
+            nhan: job.language === "de" ? tx.ct.tiengDuc : tx.ct.tiengAnh,
+            gt: job.languageLevel,
+          },
+        ]
+      : []),
     { Icon: Briefcase, nhan: tx.ct.chuongTrinh, gt: nhanMa.chuongTrinh[job.programType] },
     { Icon: Clock, nhan: tx.ct.gioLam, gt: job.hours ? tx.ct.gioTuan(job.hours) : tx.ct.theoHopDong },
     { Icon: CalendarClock, nhan: tx.ct.hinhThuc, gt: nhanMa.hinhThuc[job.employmentType] },
@@ -194,7 +211,9 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                 {[
                   [tx.ct.noiLamViec, noiLamViec(job)],
                   [tx.ct.soSuat, `${job.vacancies}`],
-                  [tx.ct.tiengDuc, job.languageLevel],
+                  ...(job.language
+                    ? [[job.language === "de" ? tx.ct.tiengDuc : tx.ct.tiengAnh, job.languageLevel] as const]
+                    : []),
                   [tx.ct.kinhNghiem, job.experience],
                   [tx.ct.chuongTrinh, nhanMa.chuongTrinh[job.programType]],
                 ].map(([k, v]) => (

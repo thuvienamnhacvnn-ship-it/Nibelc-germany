@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { ArrowRight, MapPin } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
-import { chuoiLuong, noiLamViec, tenNhaTuyenDung } from "@/types/job";
+import { chuoiLuong, noiLamViec, tenNhaTuyenDung, nhanNgonNgu } from "@/types/job";
 import { industryById } from "@/data/industries";
 import { tenNganh } from "@/data/i18n/industries";
 import { NHAN_DON_HANG } from "@/data/i18n/jobs";
@@ -114,7 +114,10 @@ export function JobCard({ job, lon = false }: { job: JobFull; lon?: boolean }) {
         {/* Hàng nút luôn ở đáy: các thẻ cùng hàng kết thúc thẳng nhau */}
         <span className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-4">
           <span className="flex flex-wrap gap-1.5">
-            {[tx.tiengDuc(job.languageLevel), nhanMa.hinhThuc[job.employmentType]].map((t) => (
+            {/* Nhãn ngôn ngữ BỎ HẲN khi chưa biết đơn cần tiếng gì. Trước đây
+                mọi thẻ đều in "tiếng Đức", kể cả 10 đơn Hy Lạp và 2 đơn
+                Albania — Sếp bắt đúng ngày 04/10/2026. */}
+            {[nhanNgonNgu(job, lang), nhanMa.hinhThuc[job.employmentType]].filter(Boolean).map((t) => (
               <span
                 key={t}
                 className="rounded-full border border-[var(--nb-line-soft)] px-2.5 py-1 text-[13px] text-[var(--nb-text-dim)] lg:text-[11.5px]"

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight, MapPin, Send, Users } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
-import { noiLamViec } from "@/types/job";
+import { noiLamViec, nhanNgonNgu } from "@/types/job";
 import { luongHienThi } from "@/components/home/luong";
 import { tenNganh } from "@/data/i18n/industries";
 import { useLang, useT } from "@/lib/i18n/client";
@@ -130,10 +130,13 @@ export function FeaturedJob({
               <Users size={13} className="shrink-0 text-[var(--nb-gold)]" />
               {tx.soSuat(job.vacancies)}
             </span>
-            {/* 12,5px: dưới 12px là dưới sàn đọc được (QA vòng 2). */}
-            <span className="rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/6 px-2 py-0.5 text-[12.5px] text-[#d2dded]">
-              {tx.tiengDuc(job.languageLevel)}
-            </span>
+            {/* 12,5px: dưới 12px là dưới sàn đọc được (QA vòng 2).
+                Ẩn hẳn khi chưa biết đơn cần tiếng gì. */}
+            {nhanNgonNgu(job, lang) && (
+              <span className="rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/6 px-2 py-0.5 text-[12.5px] text-[#d2dded]">
+                {nhanNgonNgu(job, lang)}
+              </span>
+            )}
           </div>
 
           <div className="mt-3 flex gap-2">
