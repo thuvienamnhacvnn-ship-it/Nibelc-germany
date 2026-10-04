@@ -137,7 +137,7 @@ export const donHang = tuDien<{
   vi: {
     meta: {
       tieuDe: "Đơn hàng — Cơ hội nghề nghiệp tại Đức",
-      moTa: "Tìm kiếm đơn hàng phù hợp với ngành nghề, khu vực và kinh nghiệm của bạn. Lọc theo ngành, thành phố, mức lương và trình độ tiếng Đức.",
+      moTa: "Tìm kiếm đơn hàng phù hợp với ngành nghề, khu vực và kinh nghiệm của bạn. Lọc theo ngành, thành phố, mức lương và trình độ ngoại ngữ.",
       chiTietTieuDe: (ten, noi) => `${ten} — ${noi}`,
       chiTietMoTa: (ten, noi, luong, suat, tieng) =>
         `${ten} tại ${noi}. ${luong}, ${suat} suất${tieng ? `, ${tieng}` : ""}.`,
@@ -244,7 +244,7 @@ export const donHang = tuDien<{
       quyTrinh: "Quy trình tham gia",
       buoc: [
         "Gửi hồ sơ và được chuyên viên đánh giá",
-        "Học tiếng Đức tới trình độ đơn hàng yêu cầu",
+        "Học ngoại ngữ tới trình độ đơn hàng yêu cầu",
         "Phỏng vấn với chủ sử dụng lao động",
         "Ký hợp đồng, nộp hồ sơ visa và xuất cảnh",
       ],
@@ -343,7 +343,7 @@ export const donHang = tuDien<{
       mucLuong: "Salary",
       luongAria: "Minimum salary",
       loaiChuongTrinh: "Programme type",
-      trinhDo: "German level",
+      trinhDo: "Language level",
       timKiem: "Search",
     },
 
@@ -368,7 +368,7 @@ export const donHang = tuDien<{
       quyTrinh: "How it works",
       buoc: [
         "Submit your application and have it assessed by an adviser",
-        "Learn German to the level this vacancy requires",
+        "Learn the language to the level this vacancy requires",
         "Interview with the employer",
         "Sign the contract, apply for your visa and travel",
       ],
@@ -385,7 +385,7 @@ export const donHang = tuDien<{
   de: {
     meta: {
       tieuDe: "Stellenangebote – Berufliche Chancen in Deutschland",
-      moTa: "Finden Sie Stellenangebote passend zu Ihrem Beruf, Ihrer Wunschregion und Ihrer Erfahrung. Filtern Sie nach Branche, Stadt, Gehalt und Deutschniveau.",
+      moTa: "Finden Sie Stellenangebote passend zu Ihrem Beruf, Ihrer Wunschregion und Ihrer Erfahrung. Filtern Sie nach Branche, Stadt, Gehalt und Sprachniveau.",
       chiTietTieuDe: (ten, noi) => `${ten} – ${noi}`,
       chiTietMoTa: (ten, noi, luong, suat, tieng) =>
         `${ten} in ${noi}. ${luong}, ${suat} ${suat === 1 ? "Stelle" : "Stellen"}${tieng ? `, ${tieng}` : ""}.`,
@@ -467,7 +467,7 @@ export const donHang = tuDien<{
       mucLuong: "Gehalt",
       luongAria: "Mindestgehalt",
       loaiChuongTrinh: "Programmart",
-      trinhDo: "Deutschniveau",
+      trinhDo: "Sprachniveau",
       timKiem: "Suchen",
     },
 
@@ -492,7 +492,7 @@ export const donHang = tuDien<{
       quyTrinh: "Ablauf",
       buoc: [
         "Unterlagen einreichen und von unseren Beratern prüfen lassen",
-        "Deutsch bis zum geforderten Niveau lernen",
+        "Die Sprache bis zum geforderten Niveau lernen",
         "Vorstellungsgespräch mit dem Arbeitgeber",
         "Vertrag unterschreiben, Visum beantragen und die Reise antreten",
       ],
