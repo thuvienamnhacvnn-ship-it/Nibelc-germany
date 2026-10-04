@@ -37,7 +37,17 @@ const NhomCtx = createContext<[string | null | undefined, (v: string | null) => 
 
 const MUC_LUONG = [0, 1000, 1500, 2000, 2500];
 
-const TIENG = ["A2 – B1", "B1", "B1 – B2", "B2"];
+/**
+ * Mức ngoại ngữ SINH TỪ DỮ LIỆU THẬT, không chép tay.
+ *
+ * Bản cũ ghi cứng ["A2 – B1", "B1", "B1 – B2", "B2"] — nay chỉ đơn ở Đức mới
+ * có yêu cầu ngoại ngữ (Sếp chốt 04/10/2026: Áo, Hy Lạp, Albania không cần
+ * tiếng Đức), nên danh sách cứng sinh ra mấy mức chẳng lọc ra đơn nào. Sinh
+ * từ kho thì thêm hay bớt đơn là bộ lọc tự khớp.
+ */
+function mucNgoaiNgu(ds: JobFull[]): string[] {
+  return [...new Set(ds.filter((j) => j.language && j.languageLevel).map((j) => j.languageLevel))].sort();
+}
 const CHUONG_TRINH: ProgramType[] = ["Lao động", "Du học nghề"];
 
 /** Một lựa chọn trong nhóm lọc: giá trị (khớp dữ liệu) + nhãn (theo ngôn ngữ) */
@@ -70,6 +80,7 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
 
   const DS_THANH_PHO = useMemo(() => luaChonTu(jobs, (j) => [j.goc.city, j.city], locale), [jobs, locale]);
   const DS_QUOC_GIA = useMemo(() => luaChonTu(jobs, (j) => [j.goc.state, j.state], locale), [jobs, locale]);
+  const MUC_NGOAI_NGU = useMemo(() => mucNgoaiNgu(jobs), [jobs]);
 
   const [nganh, setNganh] = useState<string[]>(() => {
     const v = sp.get("industry") ?? sp.get("nganh");
@@ -275,9 +286,17 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
           </div>
         </Nhom>
 
-        <Nhom ma="tieng" nhan={tx.loc.tieng} Icon={Languages} tomTat={tieng || tx.loc.tatCaTrinhDo}>
-          <Chon gt={tieng} dat={setTieng} ds={[{ gt: "", nhan: tx.loc.tatCa }, ...TIENG.map((x) => ({ gt: x, nhan: x }))]} />
-        </Nhom>
+        {/* Ẩn hẳn nhóm lọc khi kho không còn đơn nào có yêu cầu ngoại ngữ —
+            một nhóm lọc rỗng chỉ tổ làm người dùng bấm vào rồi chẳng thấy gì. */}
+        {MUC_NGOAI_NGU.length > 0 && (
+          <Nhom ma="tieng" nhan={tx.loc.tieng} Icon={Languages} tomTat={tieng || tx.loc.tatCaTrinhDo}>
+            <Chon
+              gt={tieng}
+              dat={setTieng}
+              ds={[{ gt: "", nhan: tx.loc.tatCa }, ...MUC_NGOAI_NGU.map((x) => ({ gt: x, nhan: x }))]}
+            />
+          </Nhom>
+        )}
         <Nhom ma="kinhNghiem" nhan={tx.loc.kinhNghiem} Icon={GraduationCap} tomTat={kn ? nhanKn(kn) : tx.loc.tatCaKinhNghiem}>
           <Chon
             gt={kn}

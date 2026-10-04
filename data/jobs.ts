@@ -71,22 +71,26 @@ function anhCua(j: Tho, thu: "image" | "thumbnail"): string {
 }
 
 /**
- * NƯỚC LÀM VIỆC → NGÔN NGỮ CHẮC CHẮN CẦN.
+ * NƯỚC LÀM VIỆC → NGÔN NGỮ YÊU CẦU Ở CẤP ĐƠN HÀNG.
  *
- * Chỉ Đức và Áo mới suy ra tiếng Đức. Hy Lạp, Albania, Litva thì tờ đơn gốc
- * KHÔNG nói đơn cần tiếng gì, nên để trống và giao diện bỏ hẳn nhãn ngôn ngữ
- * — thà thiếu còn hơn ghi sai (trước đây mọi thẻ đều in "tiếng Đức", sai ở
- * 13 trên 16 đơn).
+ * Sếp chốt 04/10/2026: "Các thông báo tuyển Albania và Hy Lạp + Áo sẽ đăng
+ * trên WorkInEU và lưu ý cũng không cần trình độ tiếng Đức A2-B1."
+ *
+ * Nên CHỈ đơn ở Đức mới có yêu cầu tiếng Đức — ÁO CŨNG KHÔNG. Đọc lại 16
+ * thông báo tuyển gốc thì khớp đúng: chỉ đơn "Phụ bếp nhà hàng tại Đức" ghi
+ * "tối thiểu tiếng Đức A1, ưu tiên A2"; 15 đơn còn lại (Áo, Hy Lạp, Albania,
+ * Litva) không nhắc ngoại ngữ nào ở mức toàn đơn.
+ *
+ * Yêu cầu tiếng Anh của mấy vị trí Quản lý / Trưởng nhóm nằm ở CẤP VỊ TRÍ,
+ * không phải cấp đơn — giữ nguyên văn trong `positions` ("Quản lý (Biết
+ * Tiếng Anh)"), KHÔNG kéo lên thành yêu cầu của cả đơn.
  *
  * Tra bằng tên nước TIẾNG VIỆT và chỉ tra ĐÚNG MỘT LẦN ở đây: sau khi đơn đi
  * qua getJobs(lang) thì `state` đã thành "Griechenland"/"Greece", tra lúc
  * hiển thị là trượt hết.
- *
- * Sếp gửi thông tin ngôn ngữ thật của mấy nước kia thì thêm vào bảng này.
  */
 const NGON_NGU_THEO_NUOC: Record<string, NgonNguDon> = {
   "Đức": "de",
-  "Áo": "de",
 };
 
 const THAT: JobFull[] = (thatSu as Tho[]).map((j) => ({
