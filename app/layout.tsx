@@ -1,16 +1,20 @@
 import type { Metadata } from "next";
 import { Inter, Montserrat, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { DinhBanner } from "@/components/layout/DinhBanner";
-import { MenuDay } from "@/components/layout/MenuDay";
-import { PageFade, PageTransition } from "@/components/layout/PageTransition";
-import { LANGS, LOCALE, SITE_URL, urlDayDu } from "@/lib/i18n/config";
-import { getLang, getPath } from "@/lib/i18n/server";
-import { LangProvider } from "@/lib/i18n/client";
-import { t } from "@/lib/i18n/dict";
-import { common } from "@/lib/i18n/dict/common";
+import { SITE_URL } from "@/lib/i18n/config";
+import { getLang } from "@/lib/i18n/server";
+
+/**
+ * KHUNG GỐC — chỉ dựng <html> và <body>, nạp phông và biến CSS.
+ *
+ * Header, Footer, menu đáy và hiệu ứng chuyển trang KHÔNG nằm ở đây mà ở
+ * `app/(web)/layout.tsx`. Lý do: trang quản trị /quan-tri cũng đi qua khung
+ * gốc, mà nó không được mang header của web công khai — để chung thì thanh
+ * menu navy đè lên form đăng nhập, đúng lỗi nhìn thấy khi dựng xong chặng 1.
+ *
+ * `(web)` là route group: có dấu ngoặc nên KHÔNG xuất hiện trong đường dẫn —
+ * trang chủ vẫn là "/", không phải "/web".
+ */
 
 /**
  * Hai kiểu chữ theo prompt mục 02: serif cao cấp cho tiêu đề hero, sans hiện
@@ -44,73 +48,18 @@ const display = Playfair_Display({
   display: "swap",
 });
 
-/**
- * Metadata gốc theo ngôn ngữ của request (proxy.ts gắn x-nb-lang / x-nb-path).
- *
- * canonical + hreflang tính ở ĐÂY cho mọi trang: trang con chỉ khai title /
- * description, KHÔNG tự khai `alternates` (khai ở trang là đè mất bộ này).
- */
-export async function generateMetadata(): Promise<Metadata> {
-  const [lang, path] = await Promise.all([getLang(), getPath()]);
-  const tx = t(common, lang);
-  return {
-    metadataBase: new URL(SITE_URL),
-    title: {
-      default: tx.meta.tieuDe,
-      template: "%s · NIBELC GROUP",
-    },
-    description: tx.meta.moTa,
-    alternates: {
-      canonical: urlDayDu(path, lang),
-      languages: {
-        vi: urlDayDu(path, "vi"),
-        en: urlDayDu(path, "en"),
-        de: urlDayDu(path, "de"),
-        "x-default": urlDayDu(path, "vi"),
-      },
-    },
-    openGraph: {
-      locale: LOCALE[lang].replace("-", "_"),
-      alternateLocale: LANGS.filter((l) => l !== lang).map((l) => LOCALE[l].replace("-", "_")),
-    },
-  };
-}
+/** Chỉ phần dùng chung. Tiêu đề, mô tả và hreflang theo ngôn ngữ ở (web). */
+export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+};
 
-export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function KhungGoc({ children }: Readonly<{ children: React.ReactNode }>) {
+  /* Trang quản trị không đi qua bộ định tuyến ngôn ngữ nên không có header
+     x-nb-lang; getLang() trả "vi", đúng cho cả hai nhánh. */
   const lang = await getLang();
-  const tx = t(common, lang);
   return (
     <html lang={lang} className={`${inter.variable} ${tieuDeHero.variable} ${display.variable}`}>
-      <body>
-        <LangProvider lang={lang}>
-        <a
-          href="#noi-dung"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[110] focus:rounded-lg focus:bg-[var(--nb-gold)] focus:px-4 focus:py-2 focus:font-semibold focus:text-[var(--nb-navy-900)]"
-        >
-          {tx.toiNoiDung}
-        </a>
-
-        <PageTransition>
-          <Header />
-          {/* KHÔNG chừa chỗ cho header ở đây: hero trang chủ phải chạy full
-              viewport và header nằm đè lên nó. Trang phụ tự chừa bằng lớp
-              .nb-duoi-header. */}
-          {/* `relative` để hai nút ở đỉnh banner neo được vào đây.
-              Đặt DinhBanner ở ĐÂY chứ không trong Hero/PageHero: ba trang
-              (/lien-he, chi tiết đơn hàng, chi tiết bài cẩm nang) không có
-              banner nào cả, để trong banner thì đúng ba trang đó mất sạch
-              đường vào menu — mà menu đáy lại chỉ chứa nổi năm mục.
-              Nằm NGOÀI PageFade nên lúc chuyển trang hai nút đứng yên thay vì
-              nhấp nháy theo nội dung. */}
-          <main id="noi-dung" className="relative">
-            <DinhBanner />
-            <PageFade>{children}</PageFade>
-          </main>
-          <Footer />
-          <MenuDay />
-        </PageTransition>
-        </LangProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
