@@ -1,0 +1,269 @@
+/* ============================================================
+   TRANG QUẢN TRỊ — nền sáng, tách hẳn hệ màu navy của web công khai.
+   ------------------------------------------------------------
+   Mọi thứ bọc trong `.qt` nên không rò ra ngoài trang công khai.
+   Dùng CSS thuần chứ không Tailwind cho phần này: các lớp tiện ích
+   của dự án (.nb-btn, .nb-panel…) nằm NGOÀI @layer nên đè mọi lớp
+   Tailwind — trộn vào đây là mất hàng giờ đi tìm vì sao nút không
+   đổi màu.
+   ============================================================ */
+.qt {
+  --qt-nen: #f4f6f9;
+  --qt-tam: #ffffff;
+  --qt-muc: #15213a;
+  --qt-mo: #5b6b85;
+  --qt-vien: #dde3ec;
+  --qt-xanh: #1a4f93;
+  --qt-xanh-dam: #123a6e;
+  --qt-vang: #c8921f;
+  --qt-do: #c0392b;
+  --qt-luc: #1e8449;
+
+  min-height: 100svh;
+  background: var(--qt-nen);
+  color: var(--qt-muc);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+.qt * {
+  box-sizing: border-box;
+}
+
+/* ---------- bố cục ---------- */
+.qt-khung {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 20px 16px 64px;
+}
+.qt-giua {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 48px 16px;
+}
+
+.qt-dinh {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--qt-xanh-dam);
+  color: #fff;
+}
+.qt-dinh a {
+  color: #cfe0f5;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+.qt-dinh a:hover,
+.qt-dinh a[aria-current="page"] {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+}
+.qt-dinh .qt-ten {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-right: 6px;
+}
+.qt-dinh .qt-phai {
+  margin-left: auto;
+}
+
+/* ---------- tấm ---------- */
+.qt-tam {
+  background: var(--qt-tam);
+  border: 1px solid var(--qt-vien);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 1px 2px rgba(15, 33, 58, 0.04);
+}
+.qt-tam + .qt-tam {
+  margin-top: 16px;
+}
+
+.qt h1 {
+  font-size: 24px;
+  margin: 0 0 4px;
+}
+.qt h2 {
+  font-size: 18px;
+  margin: 0 0 12px;
+}
+.qt .qt-phu {
+  color: var(--qt-mo);
+  font-size: 14px;
+  margin: 0 0 18px;
+}
+
+/* ---------- form ---------- */
+.qt label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--qt-mo);
+  margin-bottom: 5px;
+}
+.qt input[type="text"],
+.qt input[type="password"],
+.qt input[type="number"],
+.qt input[type="search"],
+.qt select,
+.qt textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--qt-vien);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--qt-muc);
+  font: inherit;
+  /* 16px ở khổ điện thoại: dưới 16px là Safari tự phóng to cả trang khi
+     người dùng chạm vào ô nhập, nhảy bố cục rất khó chịu. */
+  font-size: 16px;
+}
+@media (min-width: 640px) {
+  .qt input,
+  .qt select,
+  .qt textarea {
+    font-size: 15px;
+  }
+}
+.qt input:focus,
+.qt select:focus,
+.qt textarea:focus {
+  outline: 2px solid var(--qt-xanh);
+  outline-offset: 1px;
+  border-color: var(--qt-xanh);
+}
+.qt textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+.qt .qt-o + .qt-o {
+  margin-top: 14px;
+}
+
+/* ---------- nút ---------- */
+.qt button,
+.qt .qt-nut {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid var(--qt-vien);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--qt-muc);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+.qt button:hover,
+.qt .qt-nut:hover {
+  border-color: #c3ccdb;
+}
+.qt .qt-chinh {
+  background: var(--qt-xanh);
+  border-color: var(--qt-xanh);
+  color: #fff;
+}
+.qt .qt-chinh:hover {
+  background: var(--qt-xanh-dam);
+  border-color: var(--qt-xanh-dam);
+}
+.qt .qt-nguy {
+  color: var(--qt-do);
+  border-color: #e9c4bf;
+}
+.qt .qt-nguy:hover {
+  background: #fdf3f2;
+}
+.qt button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ---------- lời báo ---------- */
+.qt .qt-loi,
+.qt .qt-xong {
+  padding: 10px 13px;
+  border-radius: 10px;
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+.qt .qt-loi {
+  background: #fdf0ee;
+  border: 1px solid #f0c8c2;
+  color: #93271b;
+}
+.qt .qt-xong {
+  background: #eef8f1;
+  border: 1px solid #bfe3ca;
+  color: #15663a;
+}
+
+/* ---------- bảng ---------- */
+.qt-bang {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.qt-bang th {
+  text-align: left;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--qt-mo);
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--qt-vien);
+  white-space: nowrap;
+}
+.qt-bang td {
+  padding: 11px 10px;
+  border-bottom: 1px solid #eef1f6;
+  vertical-align: middle;
+}
+.qt-bang tr:hover td {
+  background: #fafbfd;
+}
+
+/* Bảng rộng hơn màn điện thoại thì cho CUỘN NGANG trong khung riêng, chứ
+   KHÔNG để nó đẩy cả trang rộng ra — bẫy đã dính nhiều lần ở web công khai. */
+.qt-cuon {
+  overflow-x: auto;
+  margin: 0 -20px;
+  padding: 0 20px;
+}
+
+.qt-nhan {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.qt-nhan.hien {
+  background: #e7f5ec;
+  color: var(--qt-luc);
+}
+.qt-nhan.an {
+  background: #f0f2f6;
+  color: var(--qt-mo);
+}
+
+.qt-hang-nut {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
