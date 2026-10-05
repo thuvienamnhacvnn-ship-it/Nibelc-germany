@@ -19,7 +19,7 @@ const HREF_CHUONG_TRINH = ["/don-hang", "/du-hoc-nghe"];
 export default async function Page() {
   const lang = await getLang();
   const tx = t(home, lang);
-  const ds = donHangTheoNgonNgu(lang);
+  const ds = await donHangTheoNgonNgu(lang);
   const noiBat = [...ds].sort((a, b) => b.gallery.length - a.gallery.length).slice(0, 6);
 
   return (

@@ -6,6 +6,7 @@ import { MenuDay } from "@/components/layout/MenuDay";
 import { PageFade, PageTransition } from "@/components/layout/PageTransition";
 import { LANGS, LOCALE, SITE_URL, urlDayDu } from "@/lib/i18n/config";
 import { getLang, getPath } from "@/lib/i18n/server";
+import { demKho } from "@/data/nguon";
 import { LangProvider } from "@/lib/i18n/client";
 import { t } from "@/lib/i18n/dict";
 import { common } from "@/lib/i18n/dict/common";
@@ -48,7 +49,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function KhungWeb({ children }: Readonly<{ children: React.ReactNode }>) {
-  const lang = await getLang();
+  const [lang, dem] = await Promise.all([getLang(), demKho()]);
   const tx = t(common, lang);
   return (    <>
         <LangProvider lang={lang}>
@@ -72,7 +73,7 @@ export default async function KhungWeb({ children }: Readonly<{ children: React.
               Nằm NGOÀI PageFade nên lúc chuyển trang hai nút đứng yên thay vì
               nhấp nháy theo nội dung. */}
           <main id="noi-dung" className="relative">
-            <DinhBanner />
+            <DinhBanner dem={dem} />
             <PageFade>{children}</PageFade>
           </main>
           <Footer />

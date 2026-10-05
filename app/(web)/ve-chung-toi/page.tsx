@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
 import { PageHero } from "@/components/ui/PageHero";
 import { NavLink } from "@/components/layout/NavLink";
-import { JOBS, TONG_SUAT } from "@/data/jobs";
+import { demKho, layDonHang } from "@/data/nguon";
 import { INDUSTRIES } from "@/data/industries";
 import { LEGAL } from "@/data/company";
 import { CtaCuoiTrang } from "@/components/ui/CtaCuoiTrang";
@@ -20,7 +20,10 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Page() {
   const tx = t(veChungToi, await getLang());
   // Con số đếm trên dữ liệu gốc — giống nhau ở mọi ngôn ngữ.
-  const soNuoc = new Set(JOBS.map((j) => j.state)).size;
+  /* Đếm trong CSDL chứ không cộng tay: nhân viên thêm hay ẩn đơn là mấy con
+     số này tự đúng, không bao giờ lệch với kho. */
+  const [dem, dsGoc] = await Promise.all([demKho(), layDonHang("vi")]);
+  const soNuoc = new Set(dsGoc.map((j) => j.state)).size;
 
   return (
     <div className="nb-duoi-header">
@@ -101,8 +104,8 @@ export default async function Page() {
             <h2 className="nb-display text-[24px] text-white sm:text-[28px] lg:text-[32px]">{tx.conSo.tieuDe}</h2>
             <ul className="mt-7 grid gap-7 sm:mt-9 sm:grid-cols-2 sm:gap-8 lg:grid-cols-4">
               {[
-                { so: String(JOBS.length), nhan: tx.conSo.don.ten, mo: tx.conSo.don.mo },
-                { so: String(TONG_SUAT), nhan: tx.conSo.suat.ten, mo: tx.conSo.suat.mo },
+                { so: String(dem.don), nhan: tx.conSo.don.ten, mo: tx.conSo.don.mo },
+                { so: String(dem.suat), nhan: tx.conSo.suat.ten, mo: tx.conSo.suat.mo },
                 { so: String(soNuoc), nhan: tx.conSo.nuoc.ten, mo: tx.conSo.nuoc.mo },
                 { so: String(INDUSTRIES.length), nhan: tx.conSo.nhomNganh.ten, mo: tx.conSo.nhomNganh.mo },
               ].map((x) => (

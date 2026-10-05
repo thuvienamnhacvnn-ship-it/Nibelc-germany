@@ -2,9 +2,8 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
 import { JobMarketplace } from "@/components/jobs/JobMarketplace";
-import { JOBS } from "@/data/jobs";
+import { layDonHang } from "@/data/nguon";
 import { INDUSTRIES } from "@/data/industries";
-import { getJobs } from "@/data/i18n/jobs";
 import { tenNganh } from "@/data/i18n/industries";
 import { getLang } from "@/lib/i18n/server";
 import type { Lang } from "@/lib/i18n/config";
@@ -19,13 +18,13 @@ export async function generateMetadata(): Promise<Metadata> {
 
 /* Bốn nhóm ngành đang có nhiều đơn nhất — bấm là ra ngay kết quả đã lọc,
    thay cho hai con số trước đây chỉ để ngắm. */
-function loiTat(lang: Lang) {
+function loiTat(lang: Lang, ds: { industryId: string }[]) {
   return [
     { nhan: t(donHang, lang).hero.tatCa, href: "/don-hang" },
     ...INDUSTRIES.map((n) => ({
       nhan: tenNganh(n, lang),
       href: `/don-hang?nganh=${n.id}`,
-      so: JOBS.filter((j) => j.industryId === n.id).length,
+      so: ds.filter((j) => j.industryId === n.id).length,
     }))
       .filter((x) => x.so > 0)
       .sort((a, b) => b.so - a.so)
@@ -36,11 +35,15 @@ function loiTat(lang: Lang) {
 export default async function Page() {
   const lang = await getLang();
   const tx = t(donHang, lang);
-  // Đơn đã dịch theo ngôn ngữ + vài trường GỐC (thành phố, nước, kinh nghiệm)
-  // để bộ lọc so theo giá trị dữ liệu chứ không theo chữ hiển thị.
-  const goc = new Map(JOBS.map((j) => [j.id, j]));
-  const jobs = getJobs(lang).map((j) => {
-    const g = goc.get(j.id)!;
+  /* Đơn đã dịch theo ngôn ngữ + vài trường GỐC (thành phố, nước, kinh nghiệm)
+     để bộ lọc so theo GIÁ TRỊ dữ liệu chứ không theo chữ hiển thị — bản /de
+     lọc "Griechenland" vẫn phải ra đúng mấy đơn mà dữ liệu ghi "Hy Lạp".
+     Đọc thẳng CSDL: nhân viên sửa trong trang quản trị là trang này đổi theo,
+     không cần ai build lại. */
+  const [ban, banGoc] = await Promise.all([layDonHang(lang), layDonHang("vi")]);
+  const goc = new Map(banGoc.map((j) => [j.id, j]));
+  const jobs = ban.map((j) => {
+    const g = goc.get(j.id) ?? j;
     return { ...j, goc: { city: g.city, state: g.state, experience: g.experience } };
   });
   return (
@@ -51,7 +54,7 @@ export default async function Page() {
         nhan={tx.hero.nhan}
         tieuDe={tx.hero.tieuDe}
         mo={tx.hero.mo}
-        loiTat={loiTat(lang)}
+        loiTat={loiTat(lang, banGoc)}
         chuaThanhTim
       />
       <Suspense fallback={<div className="nb-wrap py-20 text-[var(--nb-text-dim)]">{tx.dangTaiLoc}</div>}>

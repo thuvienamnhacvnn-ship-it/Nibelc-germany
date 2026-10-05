@@ -6,8 +6,8 @@ import { NavLink } from "@/components/layout/NavLink";
 import { JobCard } from "@/components/jobs/JobCard";
 import { JobCardSang } from "@/components/jobs/JobCardSang";
 import { JobGallery } from "@/components/jobs/JobGallery";
-import { JOBS } from "@/data/jobs";
-import { getJobBySlug, getJobs, NHAN_DON_HANG } from "@/data/i18n/jobs";
+import { layDonHang, layDonTheoSlug, moiSlugDonHang } from "@/data/nguon";
+import { NHAN_DON_HANG } from "@/data/i18n/jobs";
 import { industryById } from "@/data/industries";
 import { tenNganh } from "@/data/i18n/industries";
 import { chuoiLuong, noiLamViec, tenNhaTuyenDung, nhanNgonNgu } from "@/types/job";
@@ -18,16 +18,19 @@ import { donHang } from "@/lib/i18n/dict/don-hang";
 import { tien } from "@/lib/i18n/format";
 import "../don-hang-sang.css";
 
-export const dynamicParams = false;
+/* true chứ KHÔNG false: nhân viên thêm đơn mới trong trang quản trị thì
+   đường dẫn của nó chưa có trong danh sách dựng sẵn. Để false là đơn mới
+   trả 404 cho tới lần build sau — đúng thứ mà luồng admin sinh ra để tránh. */
+export const dynamicParams = true;
 
-export function generateStaticParams() {
-  return JOBS.map((j) => ({ slug: j.slug }));
+export async function generateStaticParams() {
+  return (await moiSlugDonHang()).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const lang = await getLang();
-  const j = getJobBySlug(slug, lang);
+  const j = await layDonTheoSlug(slug, lang);
   if (!j) return {};
   const tx = t(donHang, lang);
   return {
@@ -45,13 +48,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const lang = await getLang();
-  const job = getJobBySlug(slug, lang);
+  const job = await layDonTheoSlug(slug, lang);
   if (!job) notFound();
   const tx = t(donHang, lang);
   const nhanMa = t(NHAN_DON_HANG, lang);
 
   const nganh = industryById(job.industryId);
-  const lienQuan = getJobs(lang)
+  const lienQuan = (await layDonHang(lang))
     .filter((j) => j.industryId === job.industryId && j.id !== job.id)
     .slice(0, 3);
 

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { MoreHorizontal } from "lucide-react";
 import { ChonNgonNgu } from "@/components/layout/ChonNgonNgu";
-import { MenuDayDu } from "@/components/layout/MenuDayDu";
+import { MenuDayDu, type DemKho } from "@/components/layout/MenuDayDu";
 
 /**
  * ĐỈNH BANNER — hai nút nổi ở hai góc trên của banner, CHỈ khổ điện thoại.
@@ -24,7 +24,7 @@ import { MenuDayDu } from "@/components/layout/MenuDayDu";
  * đa ngữ; nay đã có nên khay giả đó bỏ hẳn, không để hai bộ chọn song song
  * mà chỉ một bộ chạy thật.
  */
-export function DinhBanner() {
+export function DinhBanner({ dem }: { dem: DemKho }) {
   const [moMenu, setMoMenu] = useState(false);
 
   return (
@@ -45,7 +45,7 @@ export function DinhBanner() {
         </button>
       </div>
 
-      <MenuDayDu mo={moMenu} dong={() => setMoMenu(false)} />
+      <MenuDayDu mo={moMenu} dong={() => setMoMenu(false)} dem={dem} />
     </>
   );
 }

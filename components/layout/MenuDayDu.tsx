@@ -26,9 +26,7 @@ import { LEGAL } from "@/data/company";
 import { DIA_CHI_NGAN } from "@/data/i18n/company";
 import { INDUSTRIES } from "@/data/industries";
 import { tenNganh } from "@/data/i18n/industries";
-import { JOBS, TONG_SUAT } from "@/data/jobs";
 import { NGANH_HOC } from "@/data/ausbildung";
-import { CAM_NANG } from "@/data/articles";
 import { useDuongDan, useLang, useLh, useT } from "@/lib/i18n/client";
 import { common } from "@/lib/i18n/dict/common";
 
@@ -49,8 +47,9 @@ import { common } from "@/lib/i18n/dict/common";
  * rồi mới tới khối liên hệ và dòng pháp lý ở chân.
  *
  * ── "Thông minh" nghĩa là gì ở đây ─────────────────────────────────────────
- * Mỗi mục kèm CON SỐ THẬT đếm từ dữ liệu (`JOBS.length`, `TONG_SUAT`,
- * `NGANH_HOC.length`, `CAM_NANG.length`) — không ai bịa ra "hàng nghìn đơn".
+ * Mỗi mục kèm CON SỐ THẬT đếm trong CSDL — không ai bịa ra "hàng nghìn đơn".
+ * Đây là client component nên KHÔNG đọc CSDL được; số đi xuống bằng props từ
+ * khung web (server). Nhân viên ẩn một đơn là số ở menu đổi theo ngay.
  * Số tự đổi theo kho, nên không bao giờ lệch. Ô tìm ở đầu tấm đi thẳng tới
  * kết quả thay vì bắt người ta vào trang đơn hàng rồi gõ lại.
  *
@@ -67,7 +66,9 @@ import { common } from "@/lib/i18n/dict/common";
 /** tra nhãn trang theo href, dùng chung nguồn với header và menu đáy */
 const nhanTrang = (href: string) => NAV.find((m) => m.href === href)?.label;
 
-export function MenuDayDu({ mo, dong }: { mo: boolean; dong: () => void }) {
+export type DemKho = { don: number; suat: number; bai: number };
+
+export function MenuDayDu({ mo, dong, dem }: { mo: boolean; dong: () => void; dem: DemKho }) {
   const pathname = useDuongDan();
   const lang = useLang();
   const tx = useT(common).menuDayDu;
@@ -93,7 +94,7 @@ export function MenuDayDu({ mo, dong }: { mo: boolean; dong: () => void }) {
     {
       ten: tx.nhomViec,
       muc: [
-        { href: "/don-hang", Icon: Briefcase, phu: tx.soDon(JOBS.length, TONG_SUAT) },
+        { href: "/don-hang", Icon: Briefcase, phu: tx.soDon(dem.don, dem.suat) },
         { href: "/du-hoc-nghe", Icon: GraduationCap, phu: tx.soNganh(NGANH_HOC.length) },
         { href: "/lo-trinh", Icon: RouteIcon, phu: tx.moLoTrinh },
       ],
@@ -101,7 +102,7 @@ export function MenuDayDu({ mo, dong }: { mo: boolean; dong: () => void }) {
     {
       ten: tx.nhomHieu,
       muc: [
-        { href: "/cam-nang", Icon: BookOpen, phu: tx.soBai(CAM_NANG.length) },
+        { href: "/cam-nang", Icon: BookOpen, phu: tx.soBai(dem.bai) },
         { href: "/ve-chung-toi", Icon: Building2, phu: LEGAL.name },
       ],
     },

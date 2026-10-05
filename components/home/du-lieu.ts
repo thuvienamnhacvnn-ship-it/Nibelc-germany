@@ -1,6 +1,6 @@
-import { JOBS, featuredJobOf, type JobFull } from "@/data/jobs";
+import { featuredJobOf, type JobFull } from "@/data/jobs";
+import { layDonHang } from "@/data/nguon";
 import { INDUSTRIES, industryById } from "@/data/industries";
-import { getJobs } from "@/data/i18n/jobs";
 import { tenNganh } from "@/data/i18n/industries";
 import type { Lang } from "@/lib/i18n/config";
 
@@ -13,42 +13,23 @@ import type { Lang } from "@/lib/i18n/config";
  * `tamThoi()` không còn chạy nữa — xoá đi được.
  */
 
-const RE_VIET = /[ăâđêôơưĂÂĐÊÔƠƯĩũỳĨŨỲẠ-ỹàáèéìíòóùúýÀÁÈÉÌÍÒÓÙÚÝ]/;
-
-/** Tên nước trong dữ liệu gốc (vi) → en/de. Chỉ dùng cho bản tạm thời. */
-const NUOC: Record<string, { en: string; de: string }> = {
-  "Đức": { en: "Germany", de: "Deutschland" },
-  "Áo": { en: "Austria", de: "Österreich" },
-  "Hy Lạp": { en: "Greece", de: "Griechenland" },
-  "Litva": { en: "Lithuania", de: "Litauen" },
-  Albania: { en: "Albania", de: "Albanien" },
-};
+/* Bản dịch tạm (đoán tên nước, lấy tên ngành thay tên đơn) ĐÃ BỎ.
+   Luật nay là THIẾU THÌ ẨN (Sếp chốt 05/10/2026): đoán chữ hộ nhân viên chỉ
+   tổ đẻ ra bản dịch sai mà không ai biết để sửa. */
 
 /**
- * Bản tạm khi chưa có bản dịch đơn: tên đơn = tên ngành, nơi làm việc =
- * thành phố nếu tên không có chữ Việt, không thì lấy tên nước. KHÔNG hiện
- * chữ Việt, KHÔNG tự dịch tiêu đề đơn (việc của nhóm B).
+ * Đơn hàng cho trang chủ, đọc thẳng CSDL.
+ *
+ * CHỈ GỌI Ở PHÍA MÁY CHỦ (app/(web)/page.tsx) rồi truyền xuống client bằng
+ * props. Hàm cũ đọc mảng JOBS tĩnh nên nhân viên sửa trong trang quản trị
+ * thì trang chủ vẫn trả nội dung cũ.
+ *
+ * Nhánh dự phòng `tamThoi()` đã bỏ: nó dịch máy mấy tên nước khi bản dịch
+ * còn thiếu. Nay luật là THIẾU THÌ ẨN (Sếp chốt 05/10/2026), đoán chữ hộ
+ * nhân viên chỉ tổ đẻ ra bản dịch sai mà không ai biết để sửa.
  */
-function tamThoi(lang: "en" | "de"): JobFull[] {
-  return JOBS.map((j) => {
-    const nganh = industryById(j.industryId);
-    const nuoc = NUOC[j.state]?.[lang] ?? j.state;
-    return {
-      ...j,
-      title: nganh ? tenNganh(nganh, lang) : j.title,
-      state: nuoc,
-      city: RE_VIET.test(j.city) ? nuoc : j.city,
-    };
-  });
-}
-
-export function donHangTheoNgonNgu(lang: Lang): JobFull[] {
-  if (lang === "vi") return JOBS;
-  try {
-    return getJobs(lang);
-  } catch {
-    return tamThoi(lang);
-  }
+export async function donHangTheoNgonNgu(lang: Lang): Promise<JobFull[]> {
+  return layDonHang(lang);
 }
 
 /**
