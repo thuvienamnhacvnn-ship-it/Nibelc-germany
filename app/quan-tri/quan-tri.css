@@ -267,3 +267,17 @@
   gap: 8px;
   align-items: center;
 }
+
+/* ------------------------------------------------------------
+   TRẢ LẠI MÀU CHO TIÊU ĐỀ.
+   globals.css đặt `h1,h2,h3,h4 { color: var(--nb-white) }` cho cả
+   trang — hợp lý với web công khai nền navy, nhưng ở đây nền
+   trắng nên tiêu đề thành trắng trên trắng, biến mất hẳn. Chụp
+   màn hình mới thấy: form hiện đủ mà thiếu dòng "Đặt mật khẩu".
+   ------------------------------------------------------------ */
+.qt h1,
+.qt h2,
+.qt h3,
+.qt h4 {
+  color: var(--qt-muc);
+}
