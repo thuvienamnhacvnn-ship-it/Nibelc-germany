@@ -13,15 +13,17 @@
     "kiem:ngon-ngu": "node scripts/kiem-ngon-ngu.mjs http://localhost:3496"
   },
   "dependencies": {
-    "next": "16.3.5",
-    "react": "19.2.0",
-    "react-dom": "19.2.0",
     "framer-motion": "^12.23.12",
-    "lucide-react": "^0.544.0"
+    "lucide-react": "^0.544.0",
+    "next": "16.3.5",
+    "pg": "^8.23.1",
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.3.3",
     "@types/node": "24.5.2",
+    "@types/pg": "^8.23.1",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.1",
     "sharp": "^0.34.0",

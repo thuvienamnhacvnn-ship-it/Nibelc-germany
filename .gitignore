@@ -8,3 +8,4 @@ _w-agent/
 # khoa bi mat — repo CONG KHAI
 .env*
 !.env.example
+_xuat-csdl.json
