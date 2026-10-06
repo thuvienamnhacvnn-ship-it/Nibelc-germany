@@ -291,7 +291,7 @@ export function FormDonHang({
         <button type="submit" className="qt-chinh" disabled={dangChay}>
           {dangChay ? "Đang lưu…" : "Lưu"}
         </button>
-        <Link href="/quan-tri" className="qt-nut">
+        <Link href="/admin" className="qt-nut">
           Quay lại danh sách
         </Link>
         {!moi && d.slug && (

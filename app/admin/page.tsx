@@ -46,7 +46,7 @@ export default async function TrangQuanTri() {
 
         <div className="qt-tam">
           <div className="qt-hang-nut" style={{ marginBottom: 14 }}>
-            <Link href="/quan-tri/don-hang/moi" className="qt-nut qt-chinh">
+            <Link href="/admin/don-hang/moi" className="qt-nut qt-chinh">
               + Thêm đơn hàng
             </Link>
           </div>

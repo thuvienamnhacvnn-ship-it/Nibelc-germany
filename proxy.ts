@@ -41,9 +41,9 @@ export function proxy(req: NextRequest) {
 export const config = {
   matcher: [
     /* Bỏ qua tài nguyên tĩnh, ảnh tối ưu, file có đuôi (ảnh, svg, xml, txt…),
-       và BỎ QUA CẢ /quan-tri: trang quản trị chỉ có tiếng Việt, cho nó đi qua
+       và BỎ QUA CẢ /admin: trang quản trị chỉ có tiếng Việt, cho nó đi qua
        bộ định tuyến ngôn ngữ thì mọi đường dẫn bên trong bị thêm tiền tố và
        form gửi về sai chỗ. */
-    "/((?!_next/|api/|assets/|quan-tri|.*\\.[a-zA-Z0-9]+$).*)",
+    "/((?!_next/|api/|assets/|admin|.*\\.[a-zA-Z0-9]+$).*)",
   ],
 };

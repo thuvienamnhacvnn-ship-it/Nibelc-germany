@@ -10,7 +10,7 @@ import { hoi, hoiMot } from "@/lib/db";
  * có bước duyệt. Nên ở đây không có bảng người dùng — chỉ một mật khẩu.
  *
  * MẬT KHẨU DO SẾP TỰ ĐẶT, TÔI KHÔNG BIẾT NÓ.
- * Lần đầu vào /quan-tri, chưa có mật khẩu thì trang hiện form "đặt mật khẩu".
+ * Lần đầu vào /admin, chưa có mật khẩu thì trang hiện form "đặt mật khẩu".
  * Tôi không sinh sẵn rồi nhắn cho Sếp — mật khẩu đi qua chat là coi như lộ.
  *
  * Lưu bằng scrypt + muối ngẫu nhiên, KHÔNG lưu mật khẩu thô. CSDL có bị đọc
@@ -104,7 +104,7 @@ export async function ra() {
   c.delete(TEN_COOKIE);
 }
 
-/** true khi phiên còn hiệu lực. Dùng ở mọi trang và mọi API của /quan-tri. */
+/** true khi phiên còn hiệu lực. Dùng ở mọi trang và mọi API của /admin. */
 export async function daVao(): Promise<boolean> {
   const ma = (await cookies()).get(TEN_COOKIE)?.value;
   if (!ma) return false;

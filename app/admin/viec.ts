@@ -36,18 +36,18 @@ export async function viecDatMatKhau(_truoc: unknown, form: FormData) {
   const r = await datMatKhauLanDau(mk);
   if (!r.ok) return { loi: r.loi! };
   await vao(mk);
-  redirect("/quan-tri");
+  redirect("/admin");
 }
 
 export async function viecVao(_truoc: unknown, form: FormData) {
   const r = await vao(String(form.get("mat_khau") ?? ""));
   if (!r.ok) return { loi: r.loi! };
-  redirect("/quan-tri");
+  redirect("/admin");
 }
 
 export async function viecRa() {
   await ra();
-  redirect("/quan-tri");
+  redirect("/admin");
 }
 
 export async function viecDoiMatKhau(_truoc: unknown, form: FormData) {

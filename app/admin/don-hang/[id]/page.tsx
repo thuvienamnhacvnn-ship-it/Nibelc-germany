@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
  * là hai bản form phải sửa song song, kiểu gì cũng có ngày lệch.
  */
 export default async function SuaDonHang({ params }: { params: Promise<{ id: string }> }) {
-  if (!(await daVao())) redirect("/quan-tri");
+  if (!(await daVao())) redirect("/admin");
   const { id } = await params;
 
   const moi = id === "moi";

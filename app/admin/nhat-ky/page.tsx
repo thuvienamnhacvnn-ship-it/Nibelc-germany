@@ -23,7 +23,7 @@ type Muc = {
  * TRƯỚC khi sửa, nên xoá nhầm hay gõ sai giá vẫn lấy lại được.
  */
 export default async function TrangNhatKy() {
-  if (!(await daVao())) redirect("/quan-tri");
+  if (!(await daVao())) redirect("/admin");
 
   const ds = await hoi<Muc>(
     `select id::text, luc, viec, bang, ban_ghi,

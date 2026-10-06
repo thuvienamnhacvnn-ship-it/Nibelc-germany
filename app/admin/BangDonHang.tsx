@@ -63,7 +63,7 @@ export function BangDonHang({ don }: { don: Dong[] }) {
             {ds.map((d) => (
               <tr key={d.id} style={{ opacity: d.hien ? 1 : 0.55 }}>
                 <td style={{ minWidth: 240 }}>
-                  <Link href={`/quan-tri/don-hang/${d.id}`} style={{ fontWeight: 600, color: "var(--qt-xanh)" }}>
+                  <Link href={`/admin/don-hang/${d.id}`} style={{ fontWeight: 600, color: "var(--qt-xanh)" }}>
                     {d.du_lieu.title ?? d.slug}
                   </Link>
                   <div style={{ fontSize: 12, color: "var(--qt-mo)" }}>/{d.slug}</div>

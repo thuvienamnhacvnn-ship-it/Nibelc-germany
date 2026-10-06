@@ -12,10 +12,10 @@ export function Dinh({ o }: { o: "don-hang" | "nhat-ky" }) {
   return (
     <div className="qt-dinh">
       <span className="qt-ten">NIBELC</span>
-      <Link href="/quan-tri" aria-current={o === "don-hang" ? "page" : undefined}>
+      <Link href="/admin" aria-current={o === "don-hang" ? "page" : undefined}>
         Đơn hàng
       </Link>
-      <Link href="/quan-tri/nhat-ky" aria-current={o === "nhat-ky" ? "page" : undefined}>
+      <Link href="/admin/nhat-ky" aria-current={o === "nhat-ky" ? "page" : undefined}>
         Nhật ký
       </Link>
       <span className="qt-phai">

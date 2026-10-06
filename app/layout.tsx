@@ -8,7 +8,7 @@ import { getLang } from "@/lib/i18n/server";
  * KHUNG GỐC — chỉ dựng <html> và <body>, nạp phông và biến CSS.
  *
  * Header, Footer, menu đáy và hiệu ứng chuyển trang KHÔNG nằm ở đây mà ở
- * `app/(web)/layout.tsx`. Lý do: trang quản trị /quan-tri cũng đi qua khung
+ * `app/(web)/layout.tsx`. Lý do: trang quản trị /admin cũng đi qua khung
  * gốc, mà nó không được mang header của web công khai — để chung thì thanh
  * menu navy đè lên form đăng nhập, đúng lỗi nhìn thấy khi dựng xong chặng 1.
  *
