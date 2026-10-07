@@ -4,23 +4,26 @@ import { ArrowLeft, ArrowRight, Clock, Lightbulb } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
 import { PageHero } from "@/components/ui/PageHero";
 import { CtaCuoiTrang } from "@/components/ui/CtaCuoiTrang";
-import { CAM_NANG } from "@/data/articles";
-import { getArticle, getArticles } from "@/data/i18n/articles";
+import { layBaiTheoSlug, layBaiViet, moiSlugBaiViet } from "@/data/nguon-bai-viet";
+import { layNoiDung } from "@/data/nguon-noi-dung";
 import { getLang } from "@/lib/i18n/server";
 import { t } from "@/lib/i18n/dict";
 import { camNang } from "@/lib/i18n/dict/cam-nang";
 import "../../trang-sang.css";
 
-export const dynamicParams = false;
+/* true chứ KHÔNG false: nhân viên thêm bài mới trong trang quản trị thì đường
+   dẫn của nó chưa có trong danh sách dựng sẵn. Để false là bài mới trả 404
+   cho tới lần build sau. */
+export const dynamicParams = true;
 
-export function generateStaticParams() {
-  return CAM_NANG.map((b) => ({ bai: b.id }));
+export async function generateStaticParams() {
+  return (await moiSlugBaiViet()).map((bai) => ({ bai }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ bai: string }> }): Promise<Metadata> {
   const { bai } = await params;
-  const b = getArticle(bai, await getLang());
-  return b ? { title: b.tieuDe, description: b.tomTat } : {};
+  const b = await layBaiTheoSlug(bai, await getLang());
+  return b ? { title: b.tieuDe, ...(b.tomTat ? { description: b.tomTat } : {}) } : {};
 }
 
 /**
@@ -33,15 +36,17 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
   const { bai } = await params;
   const lang = await getLang();
   const tx = t(camNang, lang);
-  const b = getArticle(bai, lang);
+  const b = await layBaiTheoSlug(bai, lang);
   if (!b) notFound();
-  const khac = getArticles(lang).filter((x) => x.id !== b.id).slice(0, 4);
+  // Ảnh banner dùng chung với trang /cam-nang (mục "cam-nang.banner" trong trang quản trị).
+  const [tatCa, banner] = await Promise.all([layBaiViet(lang), layNoiDung("cam-nang.banner", lang)]);
+  const khac = tatCa.filter((x) => x.id !== b.id).slice(0, 4);
 
   return (
     <div className="nb-duoi-header">
       <PageHero
-        anh="/assets/banners/cam-nang.jpg"
-        anhDoc="/assets/banners/mobile/cam-nang.jpg"
+        anh={banner.anh}
+        anhDoc={banner.anhDoc}
         nhan={tx.nhom[b.nhom]}
         tieuDe={b.tieuDe}
       >
@@ -64,9 +69,12 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
       <div className="nb-sang">
         <div className="nb-wrap grid gap-12 py-10 sm:py-14 lg:grid-cols-[minmax(0,720px)_minmax(0,300px)] lg:justify-between lg:gap-16 lg:py-20">
           <article className="min-w-0">
-            <p className="text-[16.5px] leading-[1.75] text-[var(--nb-text-dim)] sm:text-[17px] lg:text-[19px] lg:leading-[1.7] lg:text-[var(--nb-text)]">
-              {b.tomTat}
-            </p>
+            {/* Bản /en /de có thể đã dịch tiêu đề mà chưa dịch tóm tắt — khi đó bỏ hẳn đoạn này. */}
+            {b.tomTat && (
+              <p className="text-[16.5px] leading-[1.75] text-[var(--nb-text-dim)] sm:text-[17px] lg:text-[19px] lg:leading-[1.7] lg:text-[var(--nb-text)]">
+                {b.tomTat}
+              </p>
+            )}
 
             {b.khoi.map((k, i) => (
               <section key={k.tieuDe} id={`muc-${i + 1}`} className="mt-11 scroll-mt-24 lg:mt-14">
@@ -114,7 +122,7 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
               <ul className="mt-4 grid gap-3 sm:grid-cols-2">
                 {khac.map((x) => (
                   <li key={x.id}>
-                    <NavLink href={`/cam-nang/${x.id}`} className="nb-card block p-4">
+                    <NavLink href={`/cam-nang/${x.slug}`} className="nb-card block p-4">
                       <b className="block text-[14.5px] leading-snug font-medium text-white">{x.tieuDe}</b>
                       <span className="mt-1 block text-[12px] text-[var(--nb-text-mute)]">
                         {tx.nhom[x.nhom]} · {tx.phut(x.phut)}
@@ -151,7 +159,7 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
                 <ul className="mt-3 divide-y divide-[var(--s-line)]">
                   {khac.map((x) => (
                     <li key={x.id}>
-                      <NavLink href={`/cam-nang/${x.id}`} className="group block py-3.5">
+                      <NavLink href={`/cam-nang/${x.slug}`} className="group block py-3.5">
                         <b className="block text-[14.5px] leading-snug font-medium text-[var(--nb-text)] group-hover:text-[var(--nb-gold-soft)]">
                           {x.tieuDe}
                         </b>

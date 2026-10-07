@@ -5,7 +5,8 @@ import { CtaCuoiTrang } from "@/components/ui/CtaCuoiTrang";
 import { getLang } from "@/lib/i18n/server";
 import { t } from "@/lib/i18n/dict";
 import { camNang } from "@/lib/i18n/dict/cam-nang";
-import { chuyenMucCuaBai, getArticles } from "@/data/i18n/articles";
+import { layBaiViet } from "@/data/nguon-bai-viet";
+import { layNoiDung } from "@/data/nguon-noi-dung";
 import "../trang-sang.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -15,19 +16,14 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Page() {
   const lang = await getLang();
-  const tx = t(camNang, lang);
-  // Chuyên mục suy từ bản gốc tiếng Việt (cùng chuyên mục ở mọi ngôn ngữ),
-  // bài truyền xuống đã dịch — GuideHub không tự nạp dữ liệu.
-  const bai = getArticles(lang).map((b) => ({ ...b, muc: chuyenMucCuaBai(b.id) }));
+  /* Bài và banner đọc từ CSDL: nhân viên sửa trong trang quản trị là trang này
+     đổi theo. Bài truyền xuống đã dịch và đã kèm mã chuyên mục (suy từ bản gốc
+     tiếng Việt nên giống nhau ở mọi ngôn ngữ) — GuideHub không tự nạp dữ liệu.
+     Cả hai hàm đều có dự phòng: CSDL lỗi thì banner về mặc định, danh sách rỗng. */
+  const [bai, b] = await Promise.all([layBaiViet(lang), layNoiDung("cam-nang.banner", lang)]);
   return (
     <div className="nb-duoi-header">
-      <PageHero
-        anh="/assets/banners/cam-nang.jpg"
-        anhDoc="/assets/banners/mobile/cam-nang.jpg"
-        nhan={tx.hero.nhan}
-        tieuDe={tx.hero.tieuDe}
-        mo={tx.hero.mo}
-      />
+      <PageHero anh={b.anh} anhDoc={b.anhDoc} nhan={b.nhan} tieuDe={b.tieuDe} mo={b.mo || undefined} />
 
       {/* Thân trang SÁNG ở máy tính (app/trang-sang.css); điện thoại giữ nền cũ. */}
       <div className="nb-sang">

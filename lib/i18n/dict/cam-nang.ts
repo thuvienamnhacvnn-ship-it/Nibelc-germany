@@ -26,6 +26,29 @@ export const CHUYEN_MUC = [
 ] as const;
 export type ChuyenMuc = (typeof CHUYEN_MUC)[number];
 
+/**
+ * Bài thuộc chuyên mục nào — suy từ CHỮ của bản GỐC tiếng Việt (tiêu đề + tóm
+ * tắt), không gán tay từng bài, nên cùng một bài thuộc cùng chuyên mục ở mọi
+ * ngôn ngữ. Hàm thuần, nhận chữ chứ không nhận id: bài nay nằm trong CSDL
+ * (nhân viên tự thêm), tra theo id trong mảng tĩnh thì bài mới nào cũng rơi
+ * về "cuoc-song".
+ */
+export function chuyenMucTheoChu(chuGocTiengViet: string): ChuyenMuc[] {
+  const t = chuGocTiengViet.toLowerCase();
+  const ra: ChuyenMuc[] = [];
+  if (/visa|hồ sơ|giấy tờ|lãnh sự/.test(t)) ra.push("visa");
+  if (/tiếng đức|a1|b1|b2/.test(t)) ra.push("tieng");
+  if (/học nghề|ausbildung/.test(t)) ra.push("hoc-nghe");
+  if (/việc làm|công việc|nghề/.test(t)) ra.push("viec-lam");
+  if (/cuộc sống|sinh hoạt|tháng đầu|hành lý/.test(t)) ra.push("cuoc-song");
+  if (/nhà ở|thuê nhà|anmeldung/.test(t)) ra.push("nha-o");
+  if (/bảo hiểm/.test(t)) ra.push("bao-hiem");
+  if (/lương|thuế|tiền|thu nhập/.test(t)) ra.push("thue-luong");
+  if (/văn hoá|văn hóa|đúng giờ/.test(t)) ra.push("van-hoa");
+  if (/phỏng vấn/.test(t)) ra.push("phong-van");
+  return ra.length ? ra : ["cuoc-song"];
+}
+
 export const camNang = tuDien<{
   meta: { tieuDe: string; moTa: string };
   hero: { nhan: string; tieuDe: string; mo: string };

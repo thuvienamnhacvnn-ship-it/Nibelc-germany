@@ -8,7 +8,7 @@ import { FeaturedJob } from "@/components/home/FeaturedJob";
 import { SearchBar } from "@/components/home/SearchBar";
 import { HeroVideo } from "@/components/home/HeroVideo";
 import { NhomNhanVat } from "@/components/home/NhomNhanVat";
-import { CumTieuDe } from "@/components/home/CumTieuDe";
+import { CumTieuDe, type ChuTieuDe } from "@/components/home/CumTieuDe";
 import { LogoDong } from "@/components/home/LogoDong";
 import { NavLink } from "@/components/layout/NavLink";
 import type { JobFull } from "@/data/jobs";
@@ -40,14 +40,18 @@ export function Hero({
   donTheoNganh,
   goiYDon,
   nganh,
+  banner,
 }: {
   /** đơn hiện trên thẻ hero theo từng ngành — đã dịch sẵn phía server */
   donTheoNganh: Record<string, JobFull>;
   goiYDon: DonGoiY[];
   nganh: NganhTim[];
+  /** ảnh nền + chữ cụm tiêu đề đọc từ CSDL (mục "trang-chu.banner"); thiếu thì dùng từ điển + ảnh tĩnh như cũ */
+  banner?: { anh: string; anhDoc: string; chu: ChuTieuDe };
 }) {
   const hero = useHeroJobRotation(donTheoNganh);
   const tx = useT(home);
+  const chu = banner?.chu ?? tx.hero;
 
   // Bấm 'Trang chủ' trong khi banner đơn hàng đang mở thì đóng banner lại,
   // vì điều hướng tới chính trang đang xem sẽ không làm gì cả.
@@ -60,7 +64,7 @@ export function Hero({
   return (
     <section className="relative isolate min-h-[calc(100svh-var(--nb-header))] overflow-hidden lg:min-h-[calc(100vh-40px)]">
       {/* ---------- NỀN: video, bản ngang cho desktop và bản dọc cho điện thoại ---------- */}
-      <HeroVideo />
+      <HeroVideo anh={banner?.anh} anhDoc={banner?.anhDoc} />
 
       {/* KHÔNG phủ lớp màu nào lên video. Chữ hero đọc được nhờ bóng chữ
           riêng (.nb-bong-chu), không nhờ làm tối cả khung hình. */}
@@ -137,8 +141,8 @@ export function Hero({
               gặp đúng một tiêu đề cấp 1 trên trang. Chữ lấy theo ngôn ngữ
               đang xem, không chép tay. */}
           <h1 className="sr-only">
-            {tx.hero.dong1a} {tx.hero.dong1b} {tx.hero.dong2} — {tx.hero.dong3},{" "}
-            {tx.hero.dong4} {tx.hero.dong5}
+            {chu.dong1a} {chu.dong1b} {chu.dong2} — {chu.dong3},{" "}
+            {chu.dong4} {chu.dong5}
           </h1>
 
           {/* Bấm một tệp thì CẢ CỤM tiêu đề nhường chỗ cho thẻ đơn — đúng
@@ -169,7 +173,7 @@ export function Hero({
                       Bỏ đi để nhường đúng khoảng đó cho logo 3D phía trên —
                       khối ngoài khoá 408px nên thanh tìm kiếm không đổi chỗ. */}
                   <CumTieuDe
-                    chu={tx.hero}
+                    chu={chu}
                     deDong1={tx.dong1De}
                     className="lg:w-max lg:max-w-[min(860px,60vw)]"
                   />

@@ -1,8 +1,12 @@
 import { notFound, redirect } from "next/navigation";
-import { hoiMot } from "@/lib/db";
+import { ExternalLink } from "lucide-react";
 import { daVao } from "@/lib/quan-tri/dang-nhap";
+import { layDonHangDeSua } from "@/lib/quan-tri/don-hang";
 import { INDUSTRIES } from "@/data/industries";
-import { Dinh } from "../../Dinh";
+import { ANH_NGANH } from "@/data/jobs";
+import { tenNganh } from "@/data/i18n/industries";
+import { DauTrang } from "../../_chung/DauTrang";
+import { DUONG } from "../../_chung/duong";
 import { FormDonHang, type DonSua } from "../FormDonHang";
 
 export const dynamic = "force-dynamic";
@@ -15,19 +19,16 @@ export const dynamic = "force-dynamic";
  */
 export default async function SuaDonHang({ params }: { params: Promise<{ id: string }> }) {
   if (!(await daVao())) redirect("/admin");
-  const { id } = await params;
+  const { id: idTho } = await params;
+  const id = decodeURIComponent(idTho);
 
   const moi = id === "moi";
-  const don = moi
-    ? null
-    : await hoiMot<{ id: string; slug: string; du_lieu: Record<string, unknown>; dich: Record<string, unknown> }>(
-        "select id, slug, du_lieu, dich from don_hang where id = $1",
-        [id],
-      );
+  const don = moi ? null : await layDonHangDeSua(id);
   if (!moi && !don) notFound();
 
-  const d: DonSua = moi
-    ? {
+  const d: DonSua = don
+    ? { id: don.id, duLieu: don.duLieu as unknown as Record<string, unknown>, dich: don.dich, hien: don.hien, noiBat: don.noiBat }
+    : {
         id: "",
         duLieu: {
           id: "",
@@ -56,21 +57,45 @@ export default async function SuaDonHang({ params }: { params: Promise<{ id: str
           createdAt: new Date().toISOString().slice(0, 10),
         },
         dich: {},
-      }
-    : { id: don!.id, duLieu: don!.du_lieu, dich: don!.dich };
+        hien: true,
+        noiBat: false,
+      };
+
+  const chuAn = "Đơn đang ẩn nên chưa xem được trên web";
 
   return (
     <>
-      <Dinh o="don-hang" />
-      <div className="qt-khung">
-        <h1>{moi ? "Thêm đơn hàng" : "Sửa đơn hàng"}</h1>
-        <p className="qt-phu">
-          {moi
-            ? "Nhập tiếng Việt là đủ. Phần tiếng Đức và tiếng Anh để trống thì bản /de /en tự ẩn mục đó đi, không hiện tiếng Việt lẫn vào."
-            : `Mã đơn: ${d.id}`}
-        </p>
-        <FormDonHang ban={d} moi={moi} nganhNghe={INDUSTRIES.map((n) => ({ id: n.id, ten: n.titleVi }))} />
-      </div>
+      <DauTrang
+        tieuDe={moi ? "Thêm đơn hàng" : "Sửa đơn hàng"}
+        loiVe={{ nhan: "Đơn hàng", duong: DUONG.donHang }}
+        phu={
+          moi
+            ? "Nhập tiếng Việt là đủ. Phần tiếng Anh và tiếng Đức để trống thì bản /en /de tự ẩn mục đó, không hiện tiếng Việt lẫn vào."
+            : `Mã đơn: ${d.id}`
+        }
+      >
+        {don &&
+          (don.hien ? (
+            <a href={`/don-hang/${don.slug}`} target="_blank" rel="noreferrer" className="qt-nut">
+              <ExternalLink aria-hidden />
+              Xem trên web
+            </a>
+          ) : (
+            <button type="button" disabled title={chuAn} aria-label={`Xem trên web — ${chuAn}`}>
+              <ExternalLink aria-hidden />
+              Xem trên web
+            </button>
+          ))}
+      </DauTrang>
+      <main className="qt-khung">
+        <FormDonHang
+          // thêm mới xong chuyển sang /admin/don-hang/<id>: dựng lại form từ bản vừa lưu trong CSDL
+          key={d.id || "moi"}
+          ban={d}
+          moi={moi}
+          nganhNghe={INDUSTRIES.map((n) => ({ id: n.id, ten: n.titleVi, tenEn: tenNganh(n, "en"), tenDe: tenNganh(n, "de"), anh: ANH_NGANH[n.id] ?? "" }))}
+        />
+      </main>
     </>
   );
 }

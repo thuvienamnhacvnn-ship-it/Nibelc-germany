@@ -9,3 +9,6 @@ _w-agent/
 .env*
 !.env.example
 _xuat-csdl.json
+
+# kho anh tam cua may tram (ban that nam o NB_KHO, ngoai thu muc app)
+.kho/

@@ -6,6 +6,7 @@ import { JobCard } from "@/components/jobs/JobCard";
 import { INDUSTRIES } from "@/data/industries";
 import { tenNganh } from "@/data/i18n/industries";
 import { donGoiY, donHangTheoNgonNgu, donHeroTheoNganh } from "@/components/home/du-lieu";
+import { layNoiDung } from "@/data/nguon-noi-dung";
 import { getLang } from "@/lib/i18n/server";
 import { t } from "@/lib/i18n/dict";
 import { home } from "@/lib/i18n/dict/home";
@@ -19,7 +20,9 @@ const HREF_CHUONG_TRINH = ["/don-hang", "/du-hoc-nghe"];
 export default async function Page() {
   const lang = await getLang();
   const tx = t(home, lang);
-  const ds = await donHangTheoNgonNgu(lang);
+  // Banner (ảnh nền + sáu dòng tiêu đề) đọc từ CSDL; chưa ai sửa thì ra đúng
+  // chữ trong từ điển và ảnh tĩnh cũ.
+  const [ds, b] = await Promise.all([donHangTheoNgonNgu(lang), layNoiDung("trang-chu.banner", lang)]);
   const noiBat = [...ds].sort((a, b) => b.gallery.length - a.gallery.length).slice(0, 6);
 
   return (
@@ -28,6 +31,11 @@ export default async function Page() {
         donTheoNganh={donHeroTheoNganh(ds)}
         goiYDon={donGoiY(ds)}
         nganh={INDUSTRIES.map((n) => ({ id: n.id, ten: tenNganh(n, lang), tenVi: n.titleVi, tenDe: n.titleDe }))}
+        banner={{
+          anh: b.anh,
+          anhDoc: b.anhDoc,
+          chu: { dong1a: b.dong1a, dong1b: b.dong1b, dong2: b.dong2, dong3: b.dong3, dong4: b.dong4, dong5: b.dong5 },
+        }}
       />
 
       {/* Dãy bốn con số trước đây chỉ để ngắm. Thay bằng băng ảnh đơn hàng

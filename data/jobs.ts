@@ -48,7 +48,7 @@ interface Tho {
 }
 
 /** Ảnh thay thế khi một đơn chưa có ảnh nơi làm việc, lấy theo nhóm ngành */
-const ANH_NGANH: Record<string, string> = {
+export const ANH_NGANH: Record<string, string> = {
   // Ảnh 16:9 tạo riêng cho từng nhóm ngành bằng Gemini
   // (scripts/tao-anh-nghe.mjs). Thẻ đơn hàng bay lên hero dùng chính bộ này,
   // nên cả 12 nhóm nhìn cùng một phong cách.

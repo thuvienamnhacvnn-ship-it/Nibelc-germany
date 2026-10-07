@@ -3,6 +3,7 @@ import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { PageHero } from "@/components/ui/PageHero";
 import { ConsultationWizard } from "@/components/contact/ConsultationWizard";
 import { LEGAL } from "@/data/company";
+import { layNoiDung } from "@/data/nguon-noi-dung";
 import { getLang } from "@/lib/i18n/server";
 import { t } from "@/lib/i18n/dict";
 import { lienHe } from "@/lib/i18n/dict/lien-he";
@@ -23,17 +24,19 @@ export default async function Page() {
   const lang = await getLang();
   const tx = t(lienHe, lang);
   const tel = LEGAL.phone.replace(/\s/g, "");
+  // ảnh + chữ banner: nhân viên sửa ở mục "lien-he.banner"; chưa sửa thì ra đúng bản cũ
+  const b = await layNoiDung("lien-he.banner", lang);
   return (
     <div className="nb-duoi-header">
       {/* Banner cùng khuôn PageHero như mọi trang con. Ảnh văn phòng trước đây
           nằm ở cột phải, nay chuyển lên banner (nửa trái ảnh tối sẵn, không phủ lớp). */}
       <PageHero
-        anh="/assets/banners/lien-he.jpg"
-        anhDoc="/assets/banners/mobile/lien-he.jpg"
+        anh={b.anh}
+        anhDoc={b.anhDoc}
         anhBenPhai
-        nhan={tx.nhan}
-        tieuDe={tx.tieuDe}
-        mo={tx.mo}
+        nhan={b.nhan}
+        tieuDe={b.tieuDe}
+        mo={b.mo || undefined}
       />
 
       {/* Thân trang SÁNG ở máy tính (app/trang-sang.css); điện thoại giữ nền cũ. */}

@@ -3,6 +3,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { JourneyTimeline } from "@/components/journey/JourneyTimeline";
 import { getChang } from "@/data/i18n/journey";
 import { CtaCuoiTrang } from "@/components/ui/CtaCuoiTrang";
+import { layNoiDung } from "@/data/nguon-noi-dung";
 import { getLang } from "@/lib/i18n/server";
 import { t } from "@/lib/i18n/dict";
 import { loTrinh } from "@/lib/i18n/dict/lo-trinh";
@@ -16,14 +17,16 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Page() {
   const lang = await getLang();
   const tx = t(loTrinh, lang);
+  // ảnh + chữ banner: nhân viên sửa ở mục "lo-trinh.banner"; chưa sửa thì ra đúng bản cũ
+  const b = await layNoiDung("lo-trinh.banner", lang);
   return (
     <div className="nb-duoi-header">
       <PageHero
-        anh="/assets/banners/lo-trinh.jpg"
-        anhDoc="/assets/banners/mobile/lo-trinh.jpg"
-        nhan={tx.hero.nhan}
-        tieuDe={tx.hero.tieuDe}
-        mo={tx.hero.mo}
+        anh={b.anh}
+        anhDoc={b.anhDoc}
+        nhan={b.nhan}
+        tieuDe={b.tieuDe}
+        mo={b.mo || undefined}
         loiTat={[
           { nhan: tx.hero.loiTat.donHang, href: "/don-hang" },
           { nhan: tx.hero.loiTat.duHocNghe, href: "/du-hoc-nghe" },

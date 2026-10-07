@@ -58,7 +58,9 @@ export default async function KhungGoc({ children }: Readonly<{ children: React.
      x-nb-lang; getLang() trả "vi", đúng cho cả hai nhánh. */
   const lang = await getLang();
   return (
-    <html lang={lang} className={`${inter.variable} ${tieuDeHero.variable} ${display.variable}`}>
+    // data-scroll-behavior: globals.css đặt `scroll-behavior: smooth` trên html; Next 16 cần thuộc
+    // tính này để tạm tắt cuộn mượt lúc chuyển trang (không có thì console cảnh báo ở mọi trang).
+    <html lang={lang} data-scroll-behavior="smooth" className={`${inter.variable} ${tieuDeHero.variable} ${display.variable}`}>
       <body>{children}</body>
     </html>
   );

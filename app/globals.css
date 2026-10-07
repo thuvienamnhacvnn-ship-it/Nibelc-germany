@@ -636,8 +636,10 @@
 
 /* Bệ nổi dưới chân nhân vật PNG — che chỗ ảnh bị cắt ngang */
 /* Chừa chỗ cho menu đáy trên điện thoại, nếu không nó đè lên cuối footer */
+/* Trừ trang quản trị (bọc trong .qt): ở đó không có menu đáy, chừa chỗ là lộ
+   ra một dải navy 63px dưới đáy mọi trang. */
 @media (max-width: 1023px) {
-  body {
+  body:not(:has(.qt)) {
     padding-bottom: calc(var(--nb-menu-day) + env(safe-area-inset-bottom, 0px));
   }
 }

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
 import { JobMarketplace } from "@/components/jobs/JobMarketplace";
 import { layDonHang } from "@/data/nguon";
+import { layNoiDung } from "@/data/nguon-noi-dung";
 import { INDUSTRIES } from "@/data/industries";
 import { tenNganh } from "@/data/i18n/industries";
 import { getLang } from "@/lib/i18n/server";
@@ -40,7 +41,7 @@ export default async function Page() {
      lọc "Griechenland" vẫn phải ra đúng mấy đơn mà dữ liệu ghi "Hy Lạp".
      Đọc thẳng CSDL: nhân viên sửa trong trang quản trị là trang này đổi theo,
      không cần ai build lại. */
-  const [ban, banGoc] = await Promise.all([layDonHang(lang), layDonHang("vi")]);
+  const [ban, banGoc, b] = await Promise.all([layDonHang(lang), layDonHang("vi"), layNoiDung("don-hang.banner", lang)]);
   const goc = new Map(banGoc.map((j) => [j.id, j]));
   const jobs = ban.map((j) => {
     const g = goc.get(j.id) ?? j;
@@ -49,11 +50,11 @@ export default async function Page() {
   return (
     <div className="nb-duoi-header">
       <PageHero
-        anh="/assets/banners/don-hang.jpg"
-        anhDoc="/assets/banners/mobile/don-hang.jpg"
-        nhan={tx.hero.nhan}
-        tieuDe={tx.hero.tieuDe}
-        mo={tx.hero.mo}
+        anh={b.anh}
+        anhDoc={b.anhDoc}
+        nhan={b.nhan}
+        tieuDe={b.tieuDe}
+        mo={b.mo || undefined}
         loiTat={loiTat(lang, banGoc)}
         chuaThanhTim
       />

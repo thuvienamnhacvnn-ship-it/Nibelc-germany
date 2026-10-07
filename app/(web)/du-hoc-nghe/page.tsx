@@ -5,6 +5,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { NavLink } from "@/components/layout/NavLink";
 import { getNganhHoc } from "@/data/i18n/ausbildung";
 import { CtaCuoiTrang } from "@/components/ui/CtaCuoiTrang";
+import { layNoiDung } from "@/data/nguon-noi-dung";
 import { getLang } from "@/lib/i18n/server";
 import { t } from "@/lib/i18n/dict";
 import { duHocNghe } from "@/lib/i18n/dict/du-hoc-nghe";
@@ -39,25 +40,29 @@ export default async function Page() {
   const lang = await getLang();
   const tx = t(duHocNghe, lang);
   const NGANH_HOC = getNganhHoc(lang);
+  // ảnh + chữ banner: nhân viên sửa ở mục "du-hoc-nghe.banner"; chưa sửa thì ra đúng bản cũ
+  const b = await layNoiDung("du-hoc-nghe.banner", lang);
   // tenDuc là tên nghề tiếng Đức: ở bản vi/en đánh dấu lang="de"
   const langTenDuc = lang === "de" ? undefined : "de";
 
   return (
     <div className="nb-duoi-header">
       <PageHero
-        anh="/assets/banners/du-hoc-nghe.jpg"
-        anhDoc="/assets/banners/mobile/du-hoc-nghe.jpg"
+        anh={b.anh}
+        anhDoc={b.anhDoc}
         anhBenPhai
-        nhan={tx.hero.nhan}
+        nhan={b.nhan}
         tieuDe={
           <>
-            {tx.hero.tieuDe}
-            <span className="mt-2 block text-[15px] font-normal text-[var(--nb-gold-soft)] sm:text-[0.52em]">
-              {tx.hero.phuDe}
-            </span>
+            {b.tieuDe}
+            {b.phuDe && (
+              <span className="mt-2 block text-[15px] font-normal text-[var(--nb-gold-soft)] sm:text-[0.52em]">
+                {b.phuDe}
+              </span>
+            )}
           </>
         }
-        mo={tx.hero.mo}
+        mo={b.mo || undefined}
       >
         <div className="mt-7 flex flex-wrap gap-3 sm:mt-8 lg:mt-5">
           <NavLink href="#nganh-nghe" className="nb-btn h-12 w-full px-7 text-[15px] sm:w-auto lg:h-11 lg:px-6">

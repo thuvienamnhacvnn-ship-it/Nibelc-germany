@@ -17,7 +17,15 @@ import { useEffect, useRef, useState } from "react";
  */
 const DUNG_ANH = true;
 
-export function HeroVideo() {
+export function HeroVideo({
+  anh = "/assets/home/hero-anh.jpg",
+  anhDoc = "",
+}: {
+  /** ảnh nền bản máy tính — nhân viên đổi được ở mục "Banner trang chủ" */
+  anh?: string;
+  /** ảnh nền bản điện thoại; RỖNG (mặc định) = chạy video dọc như Sếp chốt */
+  anhDoc?: string;
+}) {
   const [dien, setDien] = useState<null | boolean>(null);
   const [imLang, setImLang] = useState(false);
   const video = useRef<HTMLVideoElement>(null);
@@ -39,9 +47,11 @@ export function HeroVideo() {
 
   const ten = dien ? "hero-mobile" : "hero-desktop";
   const poster = `/assets/home/video/${ten}-poster.jpg`;
-  const anhTinh = dien ? "/assets/home/hero-anh-mobile.jpg" : "/assets/home/hero-anh.jpg";
+  // Điện thoại chỉ dùng ảnh tĩnh khi nhân viên CHỦ ĐỘNG chọn một tấm trong
+  // trang quản trị; chưa chọn thì giữ video.
+  const anhTinh = dien ? anhDoc : anh;
 
-  if (DUNG_ANH && !dien) {
+  if (anhTinh && (dien || DUNG_ANH)) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img

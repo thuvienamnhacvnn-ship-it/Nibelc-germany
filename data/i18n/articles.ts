@@ -3,7 +3,7 @@ import type { Lang } from "@/lib/i18n/config";
 import { AN_MUC_THIEU, batBuocDu, timChoThieu, type BanDichTheoNgonNgu } from "@/lib/i18n/du-lieu";
 import { ARTICLES_EN } from "./articles.en";
 import { ARTICLES_DE } from "./articles.de";
-import type { ChuyenMuc } from "@/lib/i18n/dict/cam-nang";
+import { chuyenMucTheoChu, type ChuyenMuc } from "@/lib/i18n/dict/cam-nang";
 
 /**
  * BẢN DỊCH CẨM NANG (data/articles.ts giữ nguyên bản tiếng Việt).
@@ -90,17 +90,5 @@ export function getArticle(id: string, lang: Lang): Bai | undefined {
 export function chuyenMucCuaBai(id: string): ChuyenMuc[] {
   const b = CAM_NANG.find((x) => x.id === id);
   if (!b) return ["cuoc-song"];
-  const t = `${b.tieuDe} ${b.tomTat}`.toLowerCase();
-  const ra: ChuyenMuc[] = [];
-  if (/visa|hồ sơ|giấy tờ|lãnh sự/.test(t)) ra.push("visa");
-  if (/tiếng đức|a1|b1|b2/.test(t)) ra.push("tieng");
-  if (/học nghề|ausbildung/.test(t)) ra.push("hoc-nghe");
-  if (/việc làm|công việc|nghề/.test(t)) ra.push("viec-lam");
-  if (/cuộc sống|sinh hoạt|tháng đầu|hành lý/.test(t)) ra.push("cuoc-song");
-  if (/nhà ở|thuê nhà|anmeldung/.test(t)) ra.push("nha-o");
-  if (/bảo hiểm/.test(t)) ra.push("bao-hiem");
-  if (/lương|thuế|tiền|thu nhập/.test(t)) ra.push("thue-luong");
-  if (/văn hoá|văn hóa|đúng giờ/.test(t)) ra.push("van-hoa");
-  if (/phỏng vấn/.test(t)) ra.push("phong-van");
-  return ra.length ? ra : ["cuoc-song"];
+  return chuyenMucTheoChu(`${b.tieuDe} ${b.tomTat}`);
 }

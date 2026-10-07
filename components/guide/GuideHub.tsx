@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 import { ArrowRight, Clock, Flame, Search } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
-import type { Bai } from "@/data/articles";
+import type { BaiCongKhai } from "@/data/nguon-bai-viet";
 import { useT } from "@/lib/i18n/client";
 import { CHUYEN_MUC, camNang, type ChuyenMuc } from "@/lib/i18n/dict/cam-nang";
 
@@ -15,10 +15,11 @@ import { CHUYEN_MUC, camNang, type ChuyenMuc } from "@/lib/i18n/dict/cam-nang";
  * đọc nhiều nhất" bên phải. Lọc và tìm chạy ngay trên dữ liệu có sẵn.
  */
 
-/** Bài đã dịch theo ngôn ngữ trang + mã chuyên mục (suy từ bản gốc, data/i18n/articles.ts) */
-export type BaiHub = Bai & { muc: ChuyenMuc[] };
+/** Bài đã dịch theo ngôn ngữ trang + đường dẫn + ảnh bìa + mã chuyên mục (data/nguon-bai-viet.ts) */
+export type BaiHub = BaiCongKhai;
 
-/** Ảnh minh hoạ cho bài, xoay vòng trong kho ảnh nghề đã có */
+/** Ảnh minh hoạ cho bài CHƯA có ảnh bìa riêng, xoay vòng trong kho ảnh nghề đã có.
+    Bài nào nhân viên đã chọn ảnh bìa trong trang quản trị (`anhBia`) thì dùng ảnh đó. */
 const ANH = [
   "/assets/jobs/handel/01-hero-16x9.jpg",
   "/assets/jobs/gastronomie/04-detail-closeup.jpg",
@@ -115,7 +116,7 @@ export function GuideHub({ bai: CAM_NANG }: { bai: BaiHub[] }) {
           <>
             {noiBat && (
               <NavLink
-                href={`/cam-nang/${noiBat.id}`}
+                href={`/cam-nang/${noiBat.slug}`}
                 className="nb-card group mt-6 block overflow-hidden lg:grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]"
               >
                 {/* ẢNH SẠCH, CHỮ NẰM DƯỚI — không lớp phủ, không chữ đè lên ảnh
@@ -123,7 +124,7 @@ export function GuideHub({ bai: CAM_NANG }: { bai: BaiHub[] }) {
                     như các thẻ bài còn lại. Máy tính: chữ nằm BÊN PHẢI ảnh. */}
                 <span className="relative block aspect-[16/9] overflow-hidden lg:aspect-auto lg:h-auto lg:min-h-[300px]">
                   <Image
-                    src={ANH[0]!}
+                    src={noiBat.anhBia ?? ANH[0]!}
                     alt=""
                     fill
                     sizes="(min-width:1024px) 400px, 100vw"
@@ -156,12 +157,12 @@ export function GuideHub({ bai: CAM_NANG }: { bai: BaiHub[] }) {
                 return (
                 <li key={b.id} className={le ? "lg:col-span-2" : undefined}>
                   <NavLink
-                    href={`/cam-nang/${b.id}`}
+                    href={`/cam-nang/${b.slug}`}
                     className={`nb-card group flex h-full flex-col overflow-hidden ${le ? "lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]" : ""}`}
                   >
                     <span className={`relative block h-[150px] overflow-hidden ${le ? "lg:h-auto lg:min-h-[200px]" : ""}`}>
                       <Image
-                        src={ANH[(i + 1) % ANH.length]!}
+                        src={b.anhBia ?? ANH[(i + 1) % ANH.length]!}
                         alt=""
                         fill
                         sizes="(min-width:768px) 360px, 100vw"
@@ -203,7 +204,7 @@ export function GuideHub({ bai: CAM_NANG }: { bai: BaiHub[] }) {
         <ol className="mt-4 space-y-3">
           {docNhieu.map((b, i) => (
             <li key={b.id}>
-              <NavLink href={`/cam-nang/${b.id}`} className="group flex min-h-[44px] gap-3 lg:min-h-0">
+              <NavLink href={`/cam-nang/${b.slug}`} className="group flex min-h-[44px] gap-3 lg:min-h-0">
                 <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-[var(--nb-line-soft)] text-[12px] font-bold text-[var(--nb-gold)] lg:text-[12.5px]">
                   {String(i + 1).padStart(2, "0")}
                 </span>

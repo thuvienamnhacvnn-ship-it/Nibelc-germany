@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { PageHero } from "@/components/ui/PageHero";
 import { NavLink } from "@/components/layout/NavLink";
 import { demKho, layDonHang } from "@/data/nguon";
+import { layNoiDung } from "@/data/nguon-noi-dung";
 import { INDUSTRIES } from "@/data/industries";
 import { LEGAL } from "@/data/company";
 import { CtaCuoiTrang } from "@/components/ui/CtaCuoiTrang";
@@ -18,21 +19,22 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Page() {
-  const tx = t(veChungToi, await getLang());
+  const lang = await getLang();
+  const tx = t(veChungToi, lang);
   // Con số đếm trên dữ liệu gốc — giống nhau ở mọi ngôn ngữ.
   /* Đếm trong CSDL chứ không cộng tay: nhân viên thêm hay ẩn đơn là mấy con
      số này tự đúng, không bao giờ lệch với kho. */
-  const [dem, dsGoc] = await Promise.all([demKho(), layDonHang("vi")]);
+  const [dem, dsGoc, b] = await Promise.all([demKho(), layDonHang("vi"), layNoiDung("ve-chung-toi.banner", lang)]);
   const soNuoc = new Set(dsGoc.map((j) => j.state)).size;
 
   return (
     <div className="nb-duoi-header">
       <PageHero
-        anh="/assets/home/hero-anh.jpg"
-        anhDoc="/assets/banners/mobile/ve-chung-toi.jpg"
-        nhan="NIBELC GROUP GERMANY"
-        tieuDe={tx.hero.tieuDe}
-        mo={tx.hero.mo}
+        anh={b.anh}
+        anhDoc={b.anhDoc}
+        nhan={b.nhan}
+        tieuDe={b.tieuDe}
+        mo={b.mo || undefined}
       />
 
       {/* Thân trang SÁNG ở máy tính (app/trang-sang.css); điện thoại giữ nền cũ. */}
