@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { useHeroJobRotation } from "@/hooks/useHeroJobRotation";
 import { IndustryRail } from "@/components/home/IndustryRail";
@@ -10,6 +9,7 @@ import { SearchBar } from "@/components/home/SearchBar";
 import { HeroVideo } from "@/components/home/HeroVideo";
 import { NhomNhanVat } from "@/components/home/NhomNhanVat";
 import { CumTieuDe } from "@/components/home/CumTieuDe";
+import { LogoDong } from "@/components/home/LogoDong";
 import { NavLink } from "@/components/layout/NavLink";
 import type { JobFull } from "@/data/jobs";
 import type { DonGoiY } from "@/components/home/du-lieu";
@@ -109,25 +109,28 @@ export function Hero({
           {/* LOGO nằm trong BANNER, không phải trong header.
               Trên điện thoại header đã bỏ hẳn, nên logo là một phần của banner
               và trôi theo khi cuộn — không có thanh nào bám đỉnh màn hình. */}
+          {/* Sếp: logo 3D ĐỘNG nằm trên cụm tiêu đề ở CẢ điện thoại lẫn máy
+              tính. Khung video có lề trong suốt (hình logo chỉ chiếm ~80%
+              chiều cao), nên hộp cao 1,25 lần hình và lề bù lại bằng margin
+              âm — để KHÔNG thứ gì bên dưới bị xê dịch:
+                - điện thoại: hộp 70px = hình 56px, đúng bằng logo SVG h-14
+                  trước đây; -7 + 70 + 13 = 76px = 56 + 20 (mb-5) của bản cũ,
+                  thanh tìm kiếm đứng nguyên chỗ.
+                - máy tính: hộp 72px kéo ngược lên đúng 72px vào khoảng đệm
+                  phía trên (ngay dưới header), chiếm 0px trong dòng chảy.
+              Logo đứng NGOÀI khối đổi tiêu đề/thẻ đơn nên bấm tệp ngành nó
+              không nhảy. */}
           <NavLink
             href="/"
             aria-label={tx.logoAria}
-            className="mb-5 block lg:hidden"
+            className="-mt-[7px] mb-[13px] block lg:-mt-[72px] lg:mb-0"
           >
-            {/* Sếp chốt: giữ NGUYÊN logo gốc, chỉ đổi màu CHỮ sang trắng, và
-                TUYỆT ĐỐI không thêm nền. Bản nibelc-logo-trang.svg đổi đúng ba
-                mã màu xanh của phần chữ; cánh cung cam/đỏ/vàng/đen giữ nguyên
-                100%. Không bộ lọc, không bóng, không tấm lót. */}
-            <span className="mx-auto block w-fit">
-              <Image
-                src="/assets/brand/nibelc-logo-trang.svg"
-                alt="NIBELC GERMANY"
-                width={200}
-                height={44}
-                priority
-                className="h-14 w-auto"
-              />
-            </span>
+            {/* Sếp chốt: chữ trắng, cánh cung đen-đỏ-vàng giữ nguyên, và
+                TUYỆT ĐỐI không thêm nền. Không bộ lọc, không bóng, không tấm
+                lót. */}
+            {/* Đặt bề NGANG, chiều cao tự ra theo tỉ lệ 1200/380 của hộp:
+                221px → cao 70px, 227px → cao 72px. */}
+            <LogoDong className="mx-auto w-[221px] lg:w-[227px]" />
           </NavLink>
           {/* Cụm tiêu đề là SVG. SVG có <text> thật nên máy tìm kiếm đọc được,
               nhưng vẫn giữ một <h1> ẩn cho chắc — và để trình đọc màn hình
@@ -162,10 +165,13 @@ export function Hero({
                   transition={{ duration: 0.38, ease: [0.22, 0.61, 0.36, 1] }}
                   className="absolute inset-x-0 top-0 flex flex-col items-center"
                 >
+                  {/* Máy tính: trước đây cụm này có lg:-mt-8 (nhấc lên 32px).
+                      Bỏ đi để nhường đúng khoảng đó cho logo 3D phía trên —
+                      khối ngoài khoá 408px nên thanh tìm kiếm không đổi chỗ. */}
                   <CumTieuDe
                     chu={tx.hero}
                     deDong1={tx.dong1De}
-                    className="lg:-mt-8 lg:w-max lg:max-w-[min(860px,60vw)]"
+                    className="lg:w-max lg:max-w-[min(860px,60vw)]"
                   />
                 </motion.div>
               )}
