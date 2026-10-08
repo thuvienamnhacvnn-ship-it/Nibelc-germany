@@ -127,14 +127,23 @@ export function Hero({
           <NavLink
             href="/"
             aria-label={tx.logoAria}
-            className="-mt-[7px] mb-[13px] block lg:-mt-[72px] lg:mb-0"
+            className="mt-[26px] mb-[16px] block lg:-mt-[72px] lg:mb-0"
           >
             {/* Sếp chốt: chữ trắng, cánh cung đen-đỏ-vàng giữ nguyên, và
                 TUYỆT ĐỐI không thêm nền. Không bộ lọc, không bóng, không tấm
                 lót. */}
-            {/* Đặt bề NGANG, chiều cao tự ra theo tỉ lệ 1200/380 của hộp:
-                221px → cao 70px, 227px → cao 72px. */}
-            <LogoDong className="mx-auto w-[221px] lg:w-[227px]" />
+            {/* Đặt bề NGANG, chiều cao tự ra theo tỉ lệ 1200/380 của hộp.
+                Sếp 08/10: "cho logo to ra, title đẩy thấp xuống dưới".
+                  - điện thoại: 300px → cao 95px (trước 70px). Lề trên 26px để
+                    logo nằm HẲN dưới hai nút góc (ngôn ngữ, ba chấm — đáy ở
+                    56px): to ra mà giữ chỗ cũ thì đè lên hai nút đó. Chiếm
+                    26 + 95 + 16 = 137px, hơn bản cũ 61px → tiêu đề tụt 61px.
+                  - máy tính: 360px → cao 114px (trước 72px). Vẫn kéo ngược
+                    72px vào khoảng đệm dưới header, nên chiếm 42px trong dòng
+                    chảy → tiêu đề tụt 42px.
+                Thanh tìm kiếm bên dưới bớt đúng ngần ấy lề (xem mt ở đó) nên
+                nó và dải phong bì đứng nguyên chỗ. */}
+            <LogoDong className="mx-auto w-[300px] lg:w-[360px]" />
           </NavLink>
           {/* Cụm tiêu đề là SVG. SVG có <text> thật nên máy tìm kiếm đọc được,
               nhưng vẫn giữ một <h1> ẩn cho chắc — và để trình đọc màn hình
@@ -184,7 +193,9 @@ export function Hero({
 
           {/* Thanh tìm kiếm đứng NGOÀI khối đổi: mở đơn hay không nó vẫn ở
               nguyên đây. */}
-          <div className="mt-[120px] w-[min(500px,84vw)]">
+          {/* 120px trừ phần logo to ra đã đẩy xuống: 61px ở điện thoại, 42px ở
+              máy tính — thanh tìm kiếm không đổi chỗ so với trước. */}
+          <div className="mt-[59px] w-[min(500px,84vw)] lg:mt-[78px]">
             <SearchBar don={goiYDon} nganh={nganh} />
           </div>
         </div>

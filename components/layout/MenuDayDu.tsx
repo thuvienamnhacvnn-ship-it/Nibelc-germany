@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import type { Route } from "next";
-import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowRight,
@@ -21,6 +20,7 @@ import {
   X,
 } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
+import { LogoDong } from "@/components/home/LogoDong";
 import { NAV } from "@/data/nav";
 import { LEGAL } from "@/data/company";
 import { DIA_CHI_NGAN } from "@/data/i18n/company";
@@ -185,13 +185,7 @@ export function MenuDayDu({ mo, dong, dem }: { mo: boolean; dong: () => void; de
             {/* ---------- ĐẦU TẤM ---------- */}
             <div className="flex items-center justify-between gap-3 border-b border-[var(--nb-line-soft)] px-4 py-3">
               <NavLink href="/" aria-label={nhanTrang("/")?.[lang]} onClick={dong}>
-                <Image
-                  src="/assets/brand/nibelc-logo-trang.svg"
-                  alt="NIBELC GERMANY"
-                  width={132}
-                  height={29}
-                  className="h-9 w-auto"
-                />
+                <LogoDong ban="nho" className="w-[150px]" />
               </NavLink>
               <button
                 type="button"

@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { Facebook, Mail, MapPin, Phone, Youtube } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
+import { LogoDong } from "@/components/home/LogoDong";
 import { NAV } from "@/data/nav";
 import { INDUSTRIES } from "@/data/industries";
 import { KHUNG_BAN_DO, LEGAL } from "@/data/company";
@@ -49,15 +49,10 @@ export async function Footer() {
               của bản điện thoại nó chỉ tương phản 1,29:1 — nhìn chìm hẳn.
               Đặt logo trên một tấm nền sáng ở khổ điện thoại; desktop nền
               khác nên giữ nguyên, không lồng tấm nền. */}
-          <span className="inline-block rounded-xl bg-[#eef3fa] px-3 py-2 lg:bg-transparent lg:p-0">
-            <Image
-              src="/assets/brand/nibelc-logo.svg"
-              alt="NIBELC GROUP"
-              width={200}
-              height={44}
-              className="h-10 w-auto lg:h-9"
-            />
-          </span>
+          {/* Sếp 08/10: logo 3D động (chữ TRẮNG) thay logo cũ. Chữ trắng đọc
+              rõ trên nền navy ở cả hai khổ, nên bỏ luôn tấm nền sáng từng lót
+              dưới logo chữ xanh ở điện thoại. */}
+          <LogoDong ban="nho" className="w-[190px] lg:w-[170px]" />
 
           {/* Đoạn giới thiệu và hai biểu tượng mạng xã hội CHỈ có từ md trở
               lên: ở điện thoại chân trang đã dài hơn một màn hình, mà hai khối

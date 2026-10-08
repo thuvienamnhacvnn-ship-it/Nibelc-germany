@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
+import { LogoDong } from "@/components/home/LogoDong";
 import { motion } from "framer-motion";
 import { Headphones, Search, X } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
@@ -62,14 +62,9 @@ export function Header() {
           aria-label={tx.logoAria}
           className="mx-auto shrink-0 lg:mx-0"
         >
-          <Image
-            src="/assets/brand/nibelc-logo.svg"
-            alt="NIBELC GROUP"
-            width={200}
-            height={44}
-            priority
-            className="h-12 w-auto lg:h-8"
-          />
+          {/* Sếp 08/10: logo 3D động thay logo cũ ở mọi trang. Hộp 164px →
+              cao 52px, phần hình ~42px, lọt trong header 72px. */}
+          <LogoDong ban="nho" className="w-[164px]" />
         </NavLink>
 
         <nav aria-label={tx.menuChinh} className="hidden min-w-0 flex-1 items-center justify-center gap-1 lg:flex">

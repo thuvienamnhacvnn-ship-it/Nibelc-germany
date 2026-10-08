@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * LOGO NIBELC 3D ĐỘNG TRONG BANNER
@@ -35,13 +35,40 @@ import { useEffect, useState } from "react";
  */
 const TINH = "/assets/brand/nibelc-logo-3d-still.png";
 
-export function LogoDong({ className = "" }: { className?: string }) {
+export function LogoDong({
+  className = "",
+  ban = "theo-man",
+}: {
+  className?: string;
+  /** "nho": luôn tải bản 720px — cho chỗ logo bé (header, chân trang, menu),
+   *  nơi bản 1200px nặng gấp đôi mà mắt không thấy khác. */
+  ban?: "theo-man" | "nho";
+}) {
   /** null = chưa biết khổ màn, hoặc máy này chỉ dùng ảnh tĩnh */
   const [nguon, setNguon] = useState<null | string>(null);
   const [daPhat, setDaPhat] = useState(false);
+  const video = useRef<HTMLVideoElement>(null);
+  const hop = useRef<HTMLSpanElement>(null);
+
+  // Sếp 08/10: logo 3D thay hết logo cũ, nên một trang có tới ba bản (header,
+  // banner, chân trang). Bản nào khuất màn hình thì dừng — không thì máy giải
+  // mã ba video cùng lúc cho thứ không ai nhìn.
+  useEffect(() => {
+    const v = video.current;
+    if (!v || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(([e]) => {
+      if (e?.isIntersecting) v.play().catch(() => {});
+      else v.pause();
+    });
+    io.observe(v);
+    return () => io.disconnect();
+  }, [nguon]);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Hộp đang display:none (vd header bị ẩn hẳn ở điện thoại) thì không gắn
+    // video: preload sẽ kéo 0,75 MB về cho một logo không ai thấy.
+    if (hop.current && hop.current.getClientRects().length === 0) return;
 
     // WebKit = có AppleWebKit mà không phải họ Chromium. Chrome/Firefox trên
     // iPhone (CriOS, FxiOS) cũng là WebKit và rơi đúng vào nhánh này.
@@ -54,15 +81,16 @@ export function LogoDong({ className = "" }: { className?: string }) {
     const dat = () => {
       // đổi bản thì quay về ảnh tĩnh cho tới khi bản mới phát được
       setDaPhat(false);
-      setNguon(`/assets/brand/nibelc-logo-3d-${mq.matches ? "mobile" : "desktop"}.webm`);
+      setNguon(`/assets/brand/nibelc-logo-3d-${ban === "nho" || mq.matches ? "mobile" : "desktop"}.webm`);
     };
     dat();
+    if (ban === "nho") return;
     mq.addEventListener("change", dat);
     return () => mq.removeEventListener("change", dat);
-  }, []);
+  }, [ban]);
 
   return (
-    <span data-logo-dong className={`relative block aspect-[1200/380] ${className}`}>
+    <span ref={hop} data-logo-dong className={`relative block aspect-[1200/380] ${className}`}>
       {/* Trình đọc màn hình đọc dòng này; ảnh và video chỉ là hình. */}
       <span className="sr-only">NIBELC GERMANY</span>
 
@@ -83,6 +111,7 @@ export function LogoDong({ className = "" }: { className?: string }) {
 
       {nguon && (
         <video
+          ref={video}
           key={nguon}
           src={nguon}
           poster={TINH}
