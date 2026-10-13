@@ -1,12 +1,11 @@
 /* ============================================================
-   BANNER TRANG CON — tấm chữ navy (components/ui/PageHero.tsx)
+   BANNER TRANG CON — tấm chữ (components/ui/PageHero.tsx)
    ------------------------------------------------------------
-   Chữ banner nằm trên TẤM NỀN navy riêng ôm khối chữ, không phủ
-   lớp màu lên ảnh, không bóng chữ / glow (Sếp cấm 01/10/2026).
-   Mọi trang con: cùng bề rộng, cùng mép trái (lề .nb-wrap), căn
-   giữa dọc trong dải cao 360px ở máy tính. Điện thoại: tấm full
-   bề rộng nội dung, bo góc, để eyebrow vàng + mô tả đọc được
-   trên ảnh sáng.
+   Máy tính: chữ banner nằm trên một TẤM KÍNH ôm khối chữ (từ
+   14/10/2026, trước đó là tấm navy đặc — xem khối "TẤM KÍNH" bên
+   dưới). Mọi trang con: cùng bề rộng, cùng mép trái (lề .nb-wrap),
+   căn giữa dọc trong dải cao 360px.
+   Điện thoại: không có tấm, chữ nằm trên nền trang phẳng dưới ảnh.
    ============================================================ */
 :root {
   --hero-cao: 360px;
@@ -25,16 +24,171 @@
   text-shadow: none;
 }
 
+/* Ba lớp trang trí của tấm kính: tắt ở điện thoại (không có tấm). */
+.nb-kinh-nen,
+.nb-kinh-sang,
+.nb-kinh-lap-lanh {
+  display: none;
+}
+
+/* ============================================================
+   TẤM KÍNH (Sếp 14/10/2026) — thay tấm navy đặc
+   ------------------------------------------------------------
+   "làm cho nó như 1 tấm kính title nổi, khi hover có hiệu ứng
+   nghiêng ngả 3D và ánh sáng lấp lánh". Đây là ngoại lệ Sếp chỉ
+   định riêng cho tấm này so với luật cũ (không bóng chữ, không
+   shine) — đừng lan sang chỗ khác.
+
+   VÌ SAO KÍNH LÀ MỘT LỚP CON (.nb-kinh-nen) chứ không đặt thẳng
+   backdrop-filter lên .nb-hero-tam: backdrop-filter (và cả
+   overflow: hidden) ép transform-style về flat, chữ bên trong
+   không nhô lên được nữa. Tấm ngoài chỉ mang phép nghiêng; kính,
+   vệt sáng, lấp lánh là ba lớp con tự bo góc theo tấm.
+
+   Bốn biến do components/ui/TamKinh.tsx ghi theo chuột:
+     --kx, --ky  -1…1  lệch ngang / dọc so với tâm tấm → góc nghiêng
+     --mx, --my  %     chỗ chuột trên tấm → tâm vệt sáng
+   ============================================================ */
 @media (min-width: 1024px) {
   .nb-hero-khung {
     min-height: var(--hero-cao);
+    perspective: 1100px;
   }
   .nb-hero-tam {
-    background: var(--hero-tam-nen);
-    border: 1px solid var(--hero-tam-vien);
+    position: relative;
     width: var(--hero-tam-rong);
     max-width: 100%;
     border-radius: var(--hero-tam-bo-lg);
+    transform-style: preserve-3d;
+    transform: rotateX(calc(var(--ky, 0) * -5deg)) rotateY(calc(var(--kx, 0) * 7deg));
+    /* chậm lúc trả về thẳng, nhanh lúc bám chuột (xem :hover bên dưới) */
+    transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+    will-change: transform;
+  }
+  .nb-hero-tam:hover {
+    transition-duration: 0.12s;
+  }
+
+  /* --- kính: nền mờ đục ngả navy + viền sáng + mép trên bắt sáng --- */
+  .nb-kinh-nen {
+    display: block;
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    /* Ngả navy chứ không trắng trong: chữ trắng phải đọc được cả khi ảnh
+       phía sau là trời sáng hay hoàng hôn rực. */
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(120, 160, 215, 0.12) 34%,
+      rgba(8, 28, 60, 0.4) 100%
+    );
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    backdrop-filter: blur(18px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.38);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.55),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+      0 26px 60px -26px rgba(3, 12, 26, 0.8);
+    transition: box-shadow 0.4s ease;
+  }
+  .nb-hero-tam:hover .nb-kinh-nen {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.7),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.14),
+      0 38px 70px -28px rgba(3, 12, 26, 0.9);
+  }
+
+  /* --- vệt sáng bám theo chuột --- */
+  .nb-kinh-sang {
+    display: block;
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      380px circle at var(--mx, 30%) var(--my, 20%),
+      rgba(255, 255, 255, 0.34),
+      rgba(255, 255, 255, 0.08) 42%,
+      transparent 64%
+    );
+    opacity: 0;
+    transition: opacity 0.45s ease;
+    pointer-events: none;
+  }
+  .nb-hero-tam:hover .nb-kinh-sang {
+    opacity: 1;
+  }
+
+  /* --- lấp lánh: một dải sáng quét chéo + vài đốm nhấp nháy --- */
+  .nb-kinh-lap-lanh {
+    display: block;
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    background:
+      radial-gradient(2.5px 2.5px at 12% 22%, #fff, transparent 60%),
+      radial-gradient(2px 2px at 31% 74%, #fff, transparent 60%),
+      radial-gradient(3px 3px at 58% 16%, rgba(255, 236, 190, 0.95), transparent 60%),
+      radial-gradient(2px 2px at 76% 62%, #fff, transparent 60%),
+      radial-gradient(2.5px 2.5px at 91% 30%, rgba(255, 236, 190, 0.95), transparent 60%),
+      radial-gradient(2px 2px at 44% 44%, #fff, transparent 60%),
+      linear-gradient(112deg, transparent 42%, rgba(255, 255, 255, 0.42) 50%, transparent 58%);
+    background-repeat: no-repeat;
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 260% 100%;
+    background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 130% 0;
+  }
+  .nb-hero-tam:hover .nb-kinh-lap-lanh {
+    opacity: 1;
+    animation:
+      nb-kinh-quet 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite,
+      nb-kinh-nhay 1.5s ease-in-out infinite alternate;
+  }
+
+  /* --- chữ nhô lên khỏi mặt kính --- */
+  .nb-kinh-noi {
+    position: relative;
+    transform: translateZ(34px);
+  }
+  .nb-kinh-noi h1 {
+    text-shadow:
+      0 1px 2px rgba(3, 12, 26, 0.55),
+      0 8px 26px rgba(3, 12, 26, 0.5);
+  }
+  .nb-kinh-noi p {
+    text-shadow: 0 1px 3px rgba(3, 12, 26, 0.6);
+  }
+}
+
+@keyframes nb-kinh-quet {
+  0% {
+    background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 130% 0;
+  }
+  55%,
+  100% {
+    background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, -60% 0;
+  }
+}
+/* Chỉ nhấp nháy mấy đốm: đổi độ sáng cả lớp, dải quét đi qua nhanh nên không
+   thấy nó nháy theo. */
+@keyframes nb-kinh-nhay {
+  from {
+    filter: brightness(0.55);
+  }
+  to {
+    filter: brightness(1.25);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nb-hero-tam {
+    transform: none !important;
+    transition: none;
+  }
+  .nb-hero-tam:hover .nb-kinh-lap-lanh {
+    animation: none;
   }
 }
 
@@ -43,13 +197,20 @@
    Không phủ lớp, không chuyển màu — chỉ đổi khung chứa ảnh. */
 /* Mép trái ảnh = mép phải tấm chữ lùi vào 48px (khuất sau tấm), tính theo
    đúng lề .nb-wrap: ≤1440px khung 1400 / lề 32; >1440px khung 1600 / lề 40. */
+/* 14/10: tấm chữ giờ là KÍNH trong nên mép ảnh không còn khuất sau nó — lùi
+   48px như cũ thì thấy rõ một vạch dọc xuyên qua kính. Giờ ảnh lùi vào dưới
+   tấm 260px và mép trái TAN DẦN (mask, không phải lớp phủ) trên 220px: nhìn
+   qua kính thấy ảnh mờ dần vào nền navy, không có vạch nào. Mặt người ở
+   giữa/trái ảnh vẫn nằm ngoài tấm. */
 @media (min-width: 1024px) {
   .nb-hero-anh-phai {
-    left: calc(max(0px, (100% - 1400px) / 2) + 32px + var(--hero-tam-rong) - 48px);
+    left: calc(max(0px, (100% - 1400px) / 2) + 32px + var(--hero-tam-rong) - 260px);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 220px);
+    mask-image: linear-gradient(90deg, transparent 0, #000 220px);
   }
 }
 @media (min-width: 1441px) {
   .nb-hero-anh-phai {
-    left: calc(max(0px, (100% - 1600px) / 2) + 40px + var(--hero-tam-rong) - 48px);
+    left: calc(max(0px, (100% - 1600px) / 2) + 40px + var(--hero-tam-rong) - 260px);
   }
 }
