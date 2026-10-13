@@ -113,27 +113,44 @@ export function FeaturedJob({
           {tx.dangTuyen}
         </span>
 
-        <div className="absolute inset-x-0 bottom-0 border-t border-[var(--nb-gold)]/35 bg-[var(--nb-navy-900)]/94 px-5 pt-3 pb-4">
+        {/* Sếp 14/10: tấm nền đen dưới chữ "che hết mặt và phần lớn ảnh minh
+            hoạ" → BỎ tấm nền. Chữ đè thẳng lên ảnh, mỗi chữ có bóng riêng cho
+            nét, và chỉ còn MỘT lớp đen đi từ chân thẻ lên rồi nhạt dần về 0.
+            Đây là ngoại lệ Sếp chỉ định riêng cho thẻ này so với hai luật cũ
+            (không phủ lớp lên ảnh, không bóng chữ) — đừng lan sang chỗ khác. */}
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[64%]"
+          style={{
+            background:
+              "linear-gradient(0deg, rgba(0,0,0,.86) 0%, rgba(0,0,0,.66) 30%, rgba(0,0,0,.3) 62%, rgba(0,0,0,0) 100%)",
+          }}
+          aria-hidden="true"
+        />
+
+        <div
+          className="absolute inset-x-0 bottom-0 px-5 pt-3 pb-4"
+          style={{ textShadow: "0 1px 2px rgba(0,0,0,.95), 0 2px 10px rgba(0,0,0,.7)" }}
+        >
           <h2 className="nb-display text-[clamp(18px,1.6vw,25px)] leading-[1.12] font-bold text-white">
             {job.title}
           </h2>
 
           <div className="mt-2 flex flex-wrap items-center gap-x-3.5 gap-y-1.5">
-            <span className="nb-display rounded-lg border border-[var(--nb-gold)]/55 bg-[var(--nb-navy-900)]/85 px-3 py-1 text-[clamp(16px,1.3vw,21px)] leading-none font-bold text-[var(--nb-gold-strong)]">
+            <span className="nb-display text-[clamp(17px,1.4vw,22px)] leading-none font-bold text-[var(--nb-gold-strong)]">
               {luongHienThi(job, lang, tx.thoaThuan)}
             </span>
-            <span className="flex items-center gap-1.5 text-[12.5px] text-[#d2dded]">
+            <span className="flex items-center gap-1.5 text-[13px] font-medium text-white">
               <MapPin size={13} className="shrink-0 text-[var(--nb-gold)]" />
               {noiLamViec(job)}
             </span>
-            <span className="flex items-center gap-1.5 text-[12.5px] text-[#d2dded]">
+            <span className="flex items-center gap-1.5 text-[13px] font-medium text-white">
               <Users size={13} className="shrink-0 text-[var(--nb-gold)]" />
               {tx.soSuat(job.vacancies)}
             </span>
             {/* 12,5px: dưới 12px là dưới sàn đọc được (QA vòng 2).
                 Ẩn hẳn khi chưa biết đơn cần tiếng gì. */}
             {nhanNgonNgu(job, lang) && (
-              <span className="rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/6 px-2 py-0.5 text-[12.5px] text-[#d2dded]">
+              <span className="rounded-full border border-white/45 px-2 py-0.5 text-[12.5px] text-white">
                 {nhanNgonNgu(job, lang)}
               </span>
             )}
@@ -144,7 +161,8 @@ export function FeaturedJob({
               {tx.xemDon}
               <ArrowRight size={14} />
             </NavLink>
-            <NavLink href="/lien-he" className="nb-btn-ghost h-10 px-4 text-[13.5px]">
+            {/* nút có nền riêng nên tắt bóng chữ thừa hưởng từ khối cha */}
+            <NavLink href="/lien-he" className="nb-btn-ghost h-10 px-4 text-[13.5px] [text-shadow:none]">
               <Send size={13} />
               {tx.ungTuyen}
             </NavLink>
