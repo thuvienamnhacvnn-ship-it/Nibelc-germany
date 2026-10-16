@@ -65,8 +65,8 @@ export function GuideHub({ bai: CAM_NANG }: { bai: BaiHub[] }) {
           quá 1024px, `lg:` bật lên, hàng chip mất overflow-x và càng phình to. */}
       {/* Máy tính: cùng khung thẻ trắng với cột "Được đọc nhiều nhất" bên phải cho cân
           (viết bằng utility lg: thay vì .nb-panel để khổ điện thoại giữ nguyên). */}
-      <aside data-reveal className="h-fit min-w-0 lg:sticky lg:top-[calc(var(--nb-header)+20px)] lg:rounded-[16px] lg:border lg:border-[var(--nb-line-soft)] lg:bg-white lg:shadow-[0_1px_2px_rgba(7,21,37,.05),0_4px_12px_rgba(7,21,37,.04)] lg:p-5">
-        <b className="block text-[15px] font-semibold text-white">{tx.danhMuc}</b>
+      <aside data-reveal className="h-fit min-w-0 lg:sticky lg:top-[calc(var(--nb-header)+20px)] lg:rounded-[16px] lg:border lg:border-[var(--nb-line-soft)] lg:bg-[var(--nb-surface)] lg:shadow-[0_1px_2px_rgba(7,21,37,.05),0_4px_12px_rgba(7,21,37,.04)] lg:p-5">
+        <b className="block text-[15px] font-semibold text-[var(--nb-heading)]">{tx.danhMuc}</b>
         {/* Mười một chuyên mục xếp dọc ở khổ điện thoại chiếm gần 500px, đẩy bài
             viết xuống quá xa. Dưới lg thì cho chúng thành một hàng kéo ngang. */}
         <ul className="nb-no-scrollbar mt-4 flex max-w-full gap-2 overflow-x-auto pb-1 lg:block lg:max-w-none lg:space-y-1 lg:overflow-x-visible lg:pb-0">
@@ -81,8 +81,8 @@ export function GuideHub({ bai: CAM_NANG }: { bai: BaiHub[] }) {
                   aria-pressed={on}
                   className={`flex min-h-[44px] w-full items-center justify-between gap-2 rounded-full border px-4 py-2.5 text-left text-[13.5px] whitespace-nowrap transition lg:min-h-0 lg:rounded-lg lg:border-0 lg:px-3 lg:whitespace-normal ${
                     on
-                      ? "border-[var(--nb-gold)] bg-[var(--nb-gold)]/12 text-[var(--nb-gold-soft)]"
-                      : "border-[var(--nb-line-soft)] text-[var(--nb-text-dim)] hover:bg-white/5"
+                      ? "border-[var(--nb-gold)] bg-[var(--nb-gold)]/12 text-[var(--nb-accent-text)]"
+                      : "border-[var(--nb-line-soft)] text-[var(--nb-text-dim)] hover:bg-[var(--nb-surface)]/5"
                   }`}
                 >
                   <span className="min-w-0 lg:truncate">{tx.chuyenMuc[m]}</span>
@@ -96,14 +96,14 @@ export function GuideHub({ bai: CAM_NANG }: { bai: BaiHub[] }) {
 
       {/* ---------- BÀI VIẾT ---------- */}
       <div className="min-w-0">
-        <div className="flex items-center gap-3 rounded-full border border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)]/70 px-5 py-2.5 focus-within:border-[var(--nb-gold)] lg:bg-white lg:shadow-[0_1px_2px_rgba(7,21,37,.05),0_4px_12px_rgba(7,21,37,.04)]">
-          <Search size={17} className="shrink-0 text-[var(--nb-gold)]" />
+        <div className="flex items-center gap-3 rounded-full border border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)]/70 px-5 py-2.5 focus-within:border-[var(--nb-gold)] lg:bg-[var(--nb-surface)] lg:shadow-[0_1px_2px_rgba(7,21,37,.05),0_4px_12px_rgba(7,21,37,.04)]">
+          <Search size={17} className="shrink-0 text-[var(--nb-accent-text)]" />
           <input
             value={tu}
             onChange={(e) => setTu(e.target.value)}
             placeholder={tx.timGoiY}
             aria-label={tx.timAria}
-            className="h-11 min-w-0 flex-1 bg-transparent text-[14.5px] text-white outline-none placeholder:text-[var(--nb-text-mute)] lg:h-8"
+            className="h-11 min-w-0 flex-1 bg-transparent text-[14.5px] text-[var(--nb-heading)] outline-none placeholder:text-[var(--nb-text-mute)] lg:h-8"
           />
         </div>
 
@@ -122,7 +122,7 @@ export function GuideHub({ bai: CAM_NANG }: { bai: BaiHub[] }) {
                   </span>
                   <span className="min-w-0">
                     <span className="text-xs text-[var(--nb-text-mute)]">{tx.chuyenMuc[b.muc[0]!]}</span>
-                    <b className="mt-2 block text-base font-semibold text-white">{b.tieuDe}</b>
+                    <b className="mt-2 block text-base font-semibold text-[var(--nb-heading)]">{b.tieuDe}</b>
                     <span className="mt-2 block text-sm text-[var(--nb-text-dim)]">{b.tomTat}</span>
                     <span className="mt-3 block text-xs text-[var(--nb-text-mute)]">{tx.phutDoc(b.phut)}</span>
                   </span>
@@ -136,19 +136,19 @@ export function GuideHub({ bai: CAM_NANG }: { bai: BaiHub[] }) {
 
       {/* ---------- ĐƯỢC ĐỌC NHIỀU NHẤT ---------- */}
       <aside data-reveal data-tilt className="nb-panel h-fit min-w-0 p-5 lg:sticky lg:top-[calc(var(--nb-header)+20px)]">
-        <b className="flex items-center gap-2 text-[15px] font-semibold text-white">
-          <Flame size={16} className="text-[var(--nb-gold)]" />
+        <b className="flex items-center gap-2 text-[15px] font-semibold text-[var(--nb-heading)]">
+          <Flame size={16} className="text-[var(--nb-accent-text)]" />
           {tx.docNhieu}
         </b>
         <ol className="mt-4 space-y-3">
           {docNhieu.map((b, i) => (
             <li key={b.id}>
               <NavLink href={`/cam-nang/${b.slug}`} className="group flex min-h-[44px] gap-3 lg:min-h-0">
-                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-[var(--nb-line-soft)] text-[12px] font-bold text-[var(--nb-gold)] lg:text-[12.5px]">
+                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-[var(--nb-line-soft)] text-[12px] font-bold text-[var(--nb-accent-text)] lg:text-[12.5px]">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span className="min-w-0">
-                  <span className="block text-[13px] leading-snug font-medium text-[var(--nb-text)] transition group-hover:text-[var(--nb-gold-soft)]">
+                  <span className="block text-[13px] leading-snug font-medium text-[var(--nb-text)] transition group-hover:text-[var(--nb-accent-text)]">
                     {b.tieuDe}
                   </span>
                   <span className="mt-0.5 block text-[12px] text-[var(--nb-text-mute)] lg:text-[12.5px]">{tx.phutDoc(b.phut)}</span>

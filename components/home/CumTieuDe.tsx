@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 /**
  * CỤM TIÊU ĐỀ HERO — VẼ BẰNG VECTOR
  *
@@ -125,13 +126,18 @@ export function CumTieuDe({
   const F = "var(--font-hero), system-ui, sans-serif";
 
   return (
-    <svg
+    <svg data-mask-title
       viewBox="0 0 1400 630"
       className={`nb-cum-tieu-de ${className}`}
       role="img"
       aria-label={`${chu.dong1a} ${chu.dong1b} — ${chu.dong3}`}
     >
       <defs>
+        <clipPath id="nb-title-mask-0" clipPathUnits="userSpaceOnUse"><rect x="-100" y="0" width="1600" height="145" /></clipPath>
+        <clipPath id="nb-title-mask-1" clipPathUnits="userSpaceOnUse"><rect x="-100" y="118" width="1600" height="102" /></clipPath>
+        <clipPath id="nb-title-mask-2" clipPathUnits="userSpaceOnUse"><rect x="-100" y="225" width="1600" height="225" /></clipPath>
+        <clipPath id="nb-title-mask-3" clipPathUnits="userSpaceOnUse"><rect x="-100" y="420" width="1600" height="100" /></clipPath>
+        <clipPath id="nb-title-mask-4" clipPathUnits="userSpaceOnUse"><rect x="-100" y="505" width="1600" height="100" /></clipPath>
         {/* VÀNG KIM: sáng ở đỉnh, khuỷu hổ phách ĐẬM ở giữa, hắt sáng lại ở
             chân. Khuỷu đậm là chỗ ăn thua — nền mây hoàng hôn phía sau sáng
             cỡ #f3b25f, vàng của chữ phải đậm hơn nó mới tách ra được. */}
@@ -161,7 +167,7 @@ export function CumTieuDe({
         {/* ═══ KHỐI 1 — tiếng Đức ═══
             "Arbeiten in" và "Deutschland" nay CÙNG một cỡ chữ. Bản cũ cho
             "Deutschland" to hơn 15px, đọc ra như hai dòng bị ép vào một. */}
-        <text
+        <g className="nb-svg-mask" style={{ "--nb-svg-clip": "url(#nb-title-mask-0)", "--nb-dong-tre": "0ms", "--nb-svg-rise": "145px" } as CSSProperties}><g className="nb-svg-rise"><text
           x="700"
           y="108"
           fontSize={coChu(`${chu.dong1a} ${chu.dong1b}`, 82)}
@@ -174,9 +180,9 @@ export function CumTieuDe({
           <tspan fill="url(#nb-vang)" dx="20">
             {chu.dong1b}
           </tspan>
-        </text>
+        </text></g></g>
 
-        <text
+        <g className="nb-svg-mask" style={{ "--nb-svg-clip": "url(#nb-title-mask-1)", "--nb-dong-tre": "80ms", "--nb-svg-rise": "102px" } as CSSProperties}><g className="nb-svg-rise"><text
           x="700"
           y="186"
           fontSize={coChu(chu.dong2, 50)}
@@ -186,7 +192,7 @@ export function CumTieuDe({
           {...de}
         >
           {chu.dong2}
-        </text>
+        </text></g></g>
 
         {/* ═══ VẠCH NGĂN — tách khối tiếng Đức khỏi khẩu hiệu tiếng Việt ═══
             Vệt cờ Đức nằm ở GIỮA vạch này. Trước đây nó quét chéo đè lên chữ
@@ -202,9 +208,9 @@ export function CumTieuDe({
         </g>
 
         {/* ═══ KHỐI 2 — khẩu hiệu tiếng Việt ═══ */}
-        <text x="700" y="400" fontSize={coChu(chu.dong3, 150)} fill="url(#nb-vang)" strokeWidth="9">
+        <g className="nb-svg-mask" style={{ "--nb-svg-clip": "url(#nb-title-mask-2)", "--nb-dong-tre": "160ms", "--nb-svg-rise": "225px" } as CSSProperties}><g className="nb-svg-rise"><text x="700" y="400" fontSize={coChu(chu.dong3, 150)} fill="url(#nb-vang)" strokeWidth="9">
           {chu.dong3}
-        </text>
+        </text></g></g>
 
         {/* Bỏ hai nhánh champagne ở mép trái/phải khẩu hiệu. Dòng
             "ĐỐI TÁC UY TÍN" chiếm gần trọn bề ngang nên ở khổ điện thoại
@@ -212,13 +218,13 @@ export function CumTieuDe({
             chứ không ra hoạ tiết. Vạch ngăn kèm vệt cờ ở trên đã đủ decor.
             Ở khổ máy tính cụm rộng hơn nên trước đây không lộ. */}
 
-        <text x="700" y="488" fontSize={coChu(chu.dong4, 56)} fill="url(#nb-trang)" strokeWidth="3.6">
+        <g className="nb-svg-mask" style={{ "--nb-svg-clip": "url(#nb-title-mask-3)", "--nb-dong-tre": "240ms", "--nb-svg-rise": "100px" } as CSSProperties}><g className="nb-svg-rise"><text x="700" y="488" fontSize={coChu(chu.dong4, 56)} fill="url(#nb-trang)" strokeWidth="3.6">
           {chu.dong4}
-        </text>
+        </text></g></g>
 
-        <text x="700" y="558" fontSize={coChu(chu.dong5, 38)} fill="url(#nb-vang)" strokeWidth="2.8">
+        <g className="nb-svg-mask" style={{ "--nb-svg-clip": "url(#nb-title-mask-4)", "--nb-dong-tre": "320ms", "--nb-svg-rise": "100px" } as CSSProperties}><g className="nb-svg-rise"><text x="700" y="558" fontSize={coChu(chu.dong5, 38)} fill="url(#nb-vang)" strokeWidth="2.8">
           {chu.dong5}
-        </text>
+        </text></g></g>
       </g>
     </svg>
   );

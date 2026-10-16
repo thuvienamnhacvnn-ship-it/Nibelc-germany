@@ -1,4 +1,6 @@
 "use client";
+import { TextMask } from "@/components/ui/TextMask";
+
 
 import { KhungHud } from "@/components/tech/KhungHud";
 import { AnimatedNumber } from "@/components/ui/TechText";
@@ -238,18 +240,18 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
                     aria-pressed={on}
                     className={`flex min-h-[44px] w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-[13.5px] transition lg:min-h-0 lg:py-[7px] ${
                       on
-                        ? "bg-[var(--nb-gold)]/12 text-[var(--nb-gold-soft)] lg:bg-[var(--s-alt)] lg:font-medium lg:text-[var(--s-ink)]"
-                        : "text-[var(--nb-text-dim)] hover:bg-white/5 lg:text-[var(--s-body)] lg:hover:bg-[var(--s-soft)]"
+                        ? "bg-[var(--nb-gold)]/12 text-[var(--nb-accent-text)] lg:bg-[var(--s-alt)] lg:font-medium lg:text-[var(--s-ink)]"
+                        : "text-[var(--nb-text-dim)] hover:bg-[var(--nb-surface)]/5 lg:text-[var(--s-body)] lg:hover:bg-[var(--s-soft)]"
                     }`}
                   >
                     <span
                       className={`grid h-[15px] w-[15px] shrink-0 place-items-center rounded-[4px] border ${
                         on
                           ? "border-[var(--nb-gold)] bg-[var(--nb-gold)] lg:border-[var(--s-ink)] lg:bg-[var(--s-ink)]"
-                          : "border-[var(--nb-line-soft)] lg:border-[var(--s-input-line)] lg:bg-white"
+                          : "border-[var(--nb-line-soft)] lg:border-[var(--s-input-line)] lg:bg-[var(--nb-surface)]"
                       }`}
                     >
-                      {on && <span className="h-[7px] w-[7px] rounded-[1px] bg-[var(--nb-navy-900)] lg:bg-white" />}
+                      {on && <span className="h-[7px] w-[7px] rounded-[1px] bg-[var(--nb-navy-900)] lg:bg-[var(--nb-surface)]" />}
                     </span>
                     <span className="min-w-0 flex-1 truncate lg:whitespace-normal lg:leading-snug">{tenNganh(i, lang)}</span>
                     <span className="text-[12px] text-[var(--nb-text-mute)] lg:min-w-[22px] lg:rounded-full lg:bg-[var(--s-soft)] lg:px-1.5 lg:py-px lg:text-center lg:text-[12.5px] lg:text-[var(--s-mute)] lg:ring-1 lg:ring-[var(--s-line)]">
@@ -279,8 +281,8 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
                 aria-pressed={luongMin === min}
                 className={`inline-flex min-h-[44px] items-center rounded-full border px-3.5 py-1.5 text-[12.5px] transition lg:min-h-0 lg:px-3 ${
                   luongMin === min
-                    ? "border-[var(--nb-gold)] bg-[var(--nb-gold)]/12 text-[var(--nb-gold-soft)] lg:border-[var(--s-ink)] lg:bg-[var(--s-ink)] lg:text-white"
-                    : "border-[var(--nb-line-soft)] text-[var(--nb-text-dim)] hover:border-[var(--nb-line)] lg:border-[var(--s-input-line)] lg:bg-white lg:text-[var(--s-body)] lg:hover:border-[var(--s-ink)]"
+                    ? "border-[var(--nb-gold)] bg-[var(--nb-gold)]/12 text-[var(--nb-accent-text)] lg:border-[var(--s-ink)] lg:bg-[var(--nb-inverse-bg)] lg:text-[var(--nb-inverse-text)]"
+                    : "border-[var(--nb-line-soft)] text-[var(--nb-text-dim)] hover:border-[var(--nb-line)] lg:border-[var(--s-input-line)] lg:bg-[var(--nb-surface)] lg:text-[var(--s-body)] lg:hover:border-[var(--s-ink)]"
                 }`}
               >
                 {min > 0 ? tx.loc.tuMuc(min) : tx.loc.tatCa}
@@ -339,7 +341,7 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
       {/* ---------- HÀNG ĐIỀU KHIỂN Ở ĐIỆN THOẠI ---------- */}
       <div data-reveal className="flex gap-2.5 lg:hidden">
         <label data-reveal data-tilt className="nb-panel flex min-w-0 flex-1 items-center gap-2.5 px-4">
-          <Search size={17} className="shrink-0 text-[var(--nb-gold)]" />
+          <Search size={17} className="shrink-0 text-[var(--nb-accent-text)]" />
           <input
             value={tuKhoa}
             onChange={(e) => {
@@ -348,7 +350,7 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
             }}
             placeholder={tx.timGoiY}
             aria-label={tx.timAria}
-            className="h-12 min-w-0 flex-1 bg-transparent text-[14.5px] text-white outline-none placeholder:text-[var(--nb-text-mute)]"
+            className="h-12 min-w-0 flex-1 bg-transparent text-[14.5px] text-[var(--nb-heading)] outline-none placeholder:text-[var(--nb-text-mute)]"
           />
         </label>
 
@@ -359,10 +361,10 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
           aria-expanded={moSheet}
           className="nb-btn-solid h-12 shrink-0 gap-2 px-4 text-[14.5px]"
         >
-          <SlidersHorizontal size={17} className="text-[var(--nb-gold)]" />
+          <SlidersHorizontal size={17} className="text-[var(--nb-accent-text)]" />
           {tx.boLoc}
           {soLoc > 0 && (
-            <span className="grid h-6 min-w-6 place-items-center rounded-full bg-[var(--nb-gold)] px-1.5 text-[12px] font-bold text-[var(--nb-navy-900)]">
+            <span className="grid h-6 min-w-6 place-items-center rounded-full bg-[var(--nb-gold)] px-1.5 text-[12px] font-bold text-[var(--nb-ink)]">
               {soLoc}
             </span>
           )}
@@ -373,15 +375,15 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
           Desktop: thẻ trắng rộng cố định 280px. */}
       <aside data-reveal data-tilt className="nb-panel hidden h-fit p-5 sm:p-6 lg:block lg:px-5 lg:py-4" aria-label={tx.boLocAria}>
         <div className="flex items-center justify-between lg:pb-1.5">
-          <b className="flex items-center gap-2 text-[15.5px] font-semibold text-white lg:text-[15px] lg:text-[var(--s-ink)]">
-            <SlidersHorizontal size={17} className="text-[var(--nb-gold)] lg:text-[var(--s-gold)]" />
+          <b className="flex items-center gap-2 text-[15.5px] font-semibold text-[var(--nb-heading)] lg:text-[15px] lg:text-[var(--s-ink)]">
+            <SlidersHorizontal size={17} className="text-[var(--nb-accent-text)] lg:text-[var(--s-gold)]" />
             {tx.boLocTimKiem}
           </b>
           {soLoc > 0 && (
             <button
               type="button"
               onClick={xoaHet}
-              className="flex min-h-[44px] items-center gap-1 text-[12.5px] text-[var(--nb-text-mute)] transition hover:text-[var(--nb-gold-soft)] lg:min-h-0 lg:font-medium lg:text-[var(--s-gold)] lg:hover:text-[var(--s-ink)]"
+              className="flex min-h-[44px] items-center gap-1 text-[12.5px] text-[var(--nb-text-mute)] transition hover:text-[var(--nb-accent-text)] lg:min-h-0 lg:font-medium lg:text-[var(--s-gold)] lg:hover:text-[var(--s-ink)]"
             >
               <X size={13} />
               {tx.xoa(soLoc)}
@@ -396,9 +398,9 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
       <div className="min-w-0">
         <div className="flex flex-wrap items-center justify-between gap-4 lg:items-end lg:border-b lg:border-[var(--s-line-warm)] lg:pb-5">
           <div>
-            <h2 data-reveal className="nb-display text-[23px] text-white sm:text-[26px] lg:text-[32px] lg:leading-tight lg:text-[var(--s-ink)]">
+            <h2 data-reveal className="nb-display text-[23px] text-[var(--nb-heading)] sm:text-[26px] lg:text-[32px] lg:leading-tight lg:text-[var(--s-ink)]"><TextMask>
               {tx.donMoiNhat}
-            </h2>
+            </TextMask></h2>
             <p data-reveal className="mt-1 text-[13.5px] text-[var(--nb-text-dim)] lg:mt-1.5 lg:text-[14px] lg:text-[var(--s-mute)]">
               {tx.hienThi(daHien, ketQua.length)}
               <span className="nb-ket-qua" aria-hidden="true"><span className="nb-ma">{congNghe[lang].ketQua}</span> <AnimatedNumber key={ketQua.length} value={ketQua.length} demMotLan /></span>
@@ -409,7 +411,7 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
               tràn ngang ở khổ 390px: khối này không co được nên nó nới cả khung
               trang ra. Ở khổ hẹp cho nó chiếm trọn một hàng và tự xuống dòng. */}
           <div className="flex w-full flex-wrap items-center gap-2.5 lg:w-auto lg:shrink-0 lg:gap-3">
-            <div className="flex overflow-hidden rounded-full border border-[var(--nb-line-soft)] lg:border-[var(--s-input-line)] lg:bg-white lg:p-[3px]">
+            <div className="flex overflow-hidden rounded-full border border-[var(--nb-line-soft)] lg:border-[var(--s-input-line)] lg:bg-[var(--nb-surface)] lg:p-[3px]">
               {[
                 { ma: "luoi", on: dangLuoi, dat: () => setDangLuoi(true), Icon: LayoutGrid, nhan: tx.luoi },
                 { ma: "ds", on: !dangLuoi, dat: () => setDangLuoi(false), Icon: List, nhan: tx.danhSach },
@@ -421,7 +423,7 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
                   aria-pressed={on}
                   className={`flex min-h-[44px] shrink-0 items-center gap-1.5 whitespace-nowrap px-3.5 py-2 text-[12.5px] transition lg:min-h-0 lg:rounded-full lg:py-1.5 lg:text-[13px] lg:font-medium ${
                     on
-                      ? "bg-[var(--nb-gold)] text-[var(--nb-navy-900)] lg:bg-[var(--s-ink)] lg:text-white"
+                      ? "bg-[var(--nb-gold)] text-[var(--nb-ink)] lg:bg-[var(--nb-inverse-bg)] lg:text-[var(--nb-inverse-text)]"
                       : "text-[var(--nb-text-dim)] lg:text-[var(--s-body)] lg:hover:text-[var(--s-ink)]"
                   }`}
                 >
@@ -459,7 +461,7 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
                   d.bo();
                   setHien(9);
                 }}
-                className="inline-flex items-center gap-1.5 rounded-full border border-[var(--s-line-warm)] bg-white py-1 pr-2 pl-3 text-[12.5px] font-medium text-[var(--s-ink)] transition hover:border-[var(--s-ink)]"
+                className="inline-flex items-center gap-1.5 rounded-full border border-[var(--s-line-warm)] bg-[var(--nb-surface)] py-1 pr-2 pl-3 text-[12.5px] font-medium text-[var(--s-ink)] transition hover:border-[var(--s-ink)]"
                 aria-label={tx.boLocChip(d.nhan)}
               >
                 {d.nhan}
@@ -478,7 +480,7 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
 
         {ketQua.length === 0 ? (
           <KhungHud nhanTrai={congNghe[lang].rong} className="nb-rong mt-8 p-8 text-center sm:p-14">
-            <b className="block text-[17px] text-white lg:text-[var(--s-ink)]">{tx.khongKhop}</b>
+            <b className="block text-[17px] text-[var(--nb-heading)] lg:text-[var(--s-ink)]">{tx.khongKhop}</b>
             <p data-reveal className="mt-2 text-[14px] text-[var(--nb-text-dim)] lg:text-[var(--s-body)]">{tx.thuBoBot}</p>
             <button data-magnetic type="button" onClick={xoaHet} className="nb-btn-ghost mt-6 h-10 px-5 text-[13.5px]">
               {tx.xoaBoLoc}
@@ -578,15 +580,15 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
               />
 
               <div className="flex shrink-0 items-center gap-3 px-5 pt-3 pb-4">
-                <b className="flex min-w-0 flex-1 items-center gap-2 text-[16px] font-semibold text-white">
-                  <SlidersHorizontal size={17} className="shrink-0 text-[var(--nb-gold)]" />
+                <b className="flex min-w-0 flex-1 items-center gap-2 text-[16px] font-semibold text-[var(--nb-heading)]">
+                  <SlidersHorizontal size={17} className="shrink-0 text-[var(--nb-accent-text)]" />
                   {tx.boLoc}
                 </b>
                 {soLoc > 0 && (
                   <button
                     type="button"
                     onClick={xoaHet}
-                    className="flex min-h-[44px] items-center gap-1 px-1 text-[13px] text-[var(--nb-text-dim)] transition hover:text-[var(--nb-gold-soft)]"
+                    className="flex min-h-[44px] items-center gap-1 px-1 text-[13px] text-[var(--nb-text-dim)] transition hover:text-[var(--nb-accent-text)]"
                   >
                     {tx.xoaHetSo(soLoc)}
                   </button>
@@ -595,7 +597,7 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
                   type="button"
                   onClick={() => setMoSheet(false)}
                   aria-label={tx.dongBoLoc}
-                  className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-[var(--nb-line-soft)] text-[var(--nb-text-dim)] transition hover:text-white"
+                  className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-[var(--nb-line-soft)] text-[var(--nb-text-dim)] transition hover:text-[var(--nb-heading)]"
                 >
                   <X size={18} />
                 </button>
@@ -652,9 +654,9 @@ function Nhom({
         aria-expanded={mo}
         className="flex w-full items-center gap-2.5 py-4 text-left lg:py-3"
       >
-        {Icon && <Icon size={16} className="shrink-0 text-[var(--nb-gold)] lg:text-[var(--s-gold)]" />}
+        {Icon && <Icon size={16} className="shrink-0 text-[var(--nb-accent-text)] lg:text-[var(--s-gold)]" />}
         <span className="min-w-0 flex-1">
-          <span className="block text-[13.5px] font-semibold text-white lg:text-[var(--s-ink)]">{nhan}</span>
+          <span className="block text-[13.5px] font-semibold text-[var(--nb-heading)] lg:text-[var(--s-ink)]">{nhan}</span>
           <span className="mt-0.5 block truncate text-[12.5px] text-[var(--nb-text-mute)] lg:text-[var(--s-mute)]">{tomTat}</span>
         </span>
         <ChevronDown
@@ -680,15 +682,15 @@ function Chon({ gt, dat, ds }: { gt: string; dat: (v: string) => void; ds: LuaCh
               aria-pressed={on}
               className={`flex min-h-[44px] w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-[13.5px] transition lg:min-h-0 lg:py-[7px] ${
                 on
-                  ? "bg-[var(--nb-gold)]/12 text-[var(--nb-gold-soft)] lg:bg-[var(--s-alt)] lg:font-medium lg:text-[var(--s-ink)]"
-                  : "text-[var(--nb-text-dim)] hover:bg-white/5 lg:text-[var(--s-body)] lg:hover:bg-[var(--s-soft)]"
+                  ? "bg-[var(--nb-gold)]/12 text-[var(--nb-accent-text)] lg:bg-[var(--s-alt)] lg:font-medium lg:text-[var(--s-ink)]"
+                  : "text-[var(--nb-text-dim)] hover:bg-[var(--nb-surface)]/5 lg:text-[var(--s-body)] lg:hover:bg-[var(--s-soft)]"
               }`}
             >
               <span
                 className={`grid h-[15px] w-[15px] shrink-0 place-items-center rounded-full border ${
                   on
                     ? "border-[var(--nb-gold)] lg:border-[var(--s-ink)]"
-                    : "border-[var(--nb-line-soft)] lg:border-[var(--s-input-line)] lg:bg-white"
+                    : "border-[var(--nb-line-soft)] lg:border-[var(--s-input-line)] lg:bg-[var(--nb-surface)]"
                 }`}
               >
                 {on && <span className="h-[7px] w-[7px] rounded-full bg-[var(--nb-gold)] lg:bg-[var(--s-ink)]" />}

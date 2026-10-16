@@ -56,28 +56,28 @@ export default async function Page() {
                   {/* Khuôn Sếp chốt 02/10 (ảnh mẫu): ghim + tên công ty đậm,
                       dưới là địa chỉ MỘT dòng có tên nước. */}
                   <p data-reveal className="flex gap-2.5 text-[14px] leading-[1.7] text-[var(--nb-text-dim)]">
-                    <MapPin size={16} className="mt-1 shrink-0 text-[var(--nb-gold)]" />
+                    <MapPin size={16} className="mt-1 shrink-0 text-[var(--nb-accent-text)]" />
                     <span>
-                      <b className="block text-[16px] font-semibold text-white">{LEGAL.name}</b>
+                      <b className="block text-[16px] font-semibold text-[var(--nb-heading)]">{LEGAL.name}</b>
                       {diaChiMotDong(lang)}
                     </span>
                   </p>
 
                   <ul className="mt-5 space-y-1 border-t border-[var(--nb-line-soft)] pt-4 text-[14px] sm:space-y-2.5 sm:pt-5">
                     <li>
-                      <a href={`tel:${tel}`} className="flex min-h-[44px] items-center gap-3 text-[var(--nb-text-dim)] transition hover:text-[var(--nb-gold-soft)] lg:min-h-0">
-                        <Phone size={15} className="shrink-0 text-[var(--nb-gold)]" />
+                      <a href={`tel:${tel}`} className="flex min-h-[44px] items-center gap-3 text-[var(--nb-text-dim)] transition hover:text-[var(--nb-accent-text)] lg:min-h-0">
+                        <Phone size={15} className="shrink-0 text-[var(--nb-accent-text)]" />
                         {LEGAL.phone}
                       </a>
                     </li>
                     <li>
-                      <a href={`mailto:${LEGAL.email}`} className="flex min-h-[44px] items-center gap-3 break-all text-[var(--nb-text-dim)] transition hover:text-[var(--nb-gold-soft)] lg:min-h-0">
-                        <Mail size={15} className="shrink-0 text-[var(--nb-gold)]" />
+                      <a href={`mailto:${LEGAL.email}`} className="flex min-h-[44px] items-center gap-3 break-all text-[var(--nb-text-dim)] transition hover:text-[var(--nb-accent-text)] lg:min-h-0">
+                        <Mail size={15} className="shrink-0 text-[var(--nb-accent-text)]" />
                         {LEGAL.email}
                       </a>
                     </li>
                     <li className="flex items-start gap-3 py-2 leading-[1.6] text-[var(--nb-text-mute)]">
-                      <MessageCircle size={15} className="mt-1 shrink-0 text-[var(--nb-gold)]" />
+                      <MessageCircle size={15} className="mt-1 shrink-0 text-[var(--nb-accent-text)]" />
                       {tx.whatsapp}
                     </li>
                   </ul>

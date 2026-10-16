@@ -107,7 +107,7 @@ export function SearchBar({ don, nganh }: { don: DonGoiY[]; nganh: NganhTim[] })
         className="flex items-center gap-3 rounded-full border border-[var(--nb-gold)]/70 bg-[var(--nb-navy-800)]/92 py-2 pr-2 pl-5 backdrop-blur-md transition focus-within:border-[var(--nb-gold)]"
         role="search"
       >
-        <Search size={18} className="shrink-0 text-white/85" />
+        <Search size={18} className="shrink-0 text-[var(--nb-heading)]/85" />
         <input
           value={tu}
           onChange={(e) => {
@@ -122,7 +122,7 @@ export function SearchBar({ don, nganh }: { don: DonGoiY[]; nganh: NganhTim[] })
           aria-autocomplete="list"
           // h-9 = 36px, dưới ngưỡng 44px để ngón tay bấm trúng. Nút gửi cạnh
           // bên đã là 44px rồi, ô nhập phải bằng.
-          className="h-11 min-w-0 flex-1 bg-transparent text-[15px] text-white outline-none placeholder:text-[var(--nb-text-mute)]"
+          className="h-11 min-w-0 flex-1 bg-transparent text-[15px] text-[var(--nb-heading)] outline-none placeholder:text-[var(--nb-text-mute)]"
         />
         <button
           type="submit"
@@ -152,9 +152,9 @@ export function SearchBar({ don, nganh }: { don: DonGoiY[]; nganh: NganhTim[] })
                     i === chon ? "bg-[var(--nb-navy-600)]" : ""
                   }`}
                 >
-                  <Icon size={15} className="shrink-0 text-[var(--nb-gold)]" />
+                  <Icon size={15} className="shrink-0 text-[var(--nb-accent-text)]" />
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate text-[14px] font-medium text-white">{g.nhan}</span>
+                    <span className="block truncate text-[14px] font-medium text-[var(--nb-heading)]">{g.nhan}</span>
                     <span className="block truncate text-[12px] text-[var(--nb-text-mute)]">{g.phu}</span>
                   </span>
                 </button>

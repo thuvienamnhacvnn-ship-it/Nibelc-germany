@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { MotionGlobalConfig } from "framer-motion";
+import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { useDuongDan, useT } from "@/lib/i18n/client";
+import { giaoDien } from "@/lib/i18n/dict/giao-dien";
 import { congNghe } from "@/lib/i18n/dict/cong-nghe";
 import { donHang } from "@/lib/i18n/dict/don-hang";
 import { NavLink } from "@/components/layout/NavLink";
@@ -27,15 +29,19 @@ export function HieuUngThamChieu() {
   const duongDanGoc = useDuongDan();
   const tx = useT(congNghe);
   const txDon = useT(donHang);
+  const txUi = useT(giaoDien);
+  const nhanChuot = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const goc = document.documentElement;
     const giam = matchMedia("(prefers-reduced-motion: reduce)");
     const chuot = matchMedia("(min-width: 1024px) and (pointer: fine)");
     let donDep = () => {};
+    const boQuaCu = MotionGlobalConfig.skipAnimations;
 
     function gan() {
       donDep();
+      MotionGlobalConfig.skipAnimations = giam.matches;
       const phamVi = document.querySelector("#noi-dung");
       const chanTrang = document.querySelector("footer");
       const daGan = new WeakSet<Element>();
@@ -44,6 +50,14 @@ export function HieuUngThamChieu() {
       const quanSat = window.IntersectionObserver ? new IntersectionObserver((muc) => {
         muc.forEach((e) => {
           if (!e.isIntersecting) return;
+          if (e.target.matches("[data-mask-title]")) {
+            const dong = new Map<number,number>();
+            e.target.querySelectorAll<HTMLElement>(".nb-mask-word").forEach(tu => {
+              const y = Math.round(tu.getBoundingClientRect().top);
+              if (!dong.has(y)) dong.set(y, dong.size);
+              tu.style.setProperty("--nb-dong-tre", ((dong.get(y) ?? 0) * 80) + "ms");
+            });
+          }
           e.target.classList.add("revealed");
           quanSat?.unobserve(e.target);
         });
@@ -53,11 +67,11 @@ export function HieuUngThamChieu() {
         cuon();
         if (giam.matches || !quanSat) return;
         for (const vung of [phamVi, chanTrang]) {
-          vung?.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el) => {
+          vung?.querySelectorAll<HTMLElement>("[data-reveal],[data-mask-title],[data-grid-scan]").forEach((el) => {
             if (daGan.has(el) || !daHydrate(el)) return;
             daGan.add(el);
             // Thẻ đã hiện cả khối thì chữ/ảnh bên trong không cần chạy chồng lần nữa.
-            if (el.parentElement?.closest("[data-reveal]")) return;
+            if (el.matches("[data-reveal]") && el.parentElement?.closest("[data-reveal]")) return;
             // So le theo vị trí thẻ, chặn ở 280ms để danh sách dài không phải đợi.
             const the = el.closest("li") ?? el;
             const nhom = the.parentElement;
@@ -76,6 +90,11 @@ export function HieuUngThamChieu() {
       }
       function di(e: PointerEvent) {
         if (giam.matches || !chuot.matches || e.pointerType !== "mouse" || !(e.target instanceof Element)) return;
+        const anh = e.target.closest(".nb-don-anh,.nb-bai-anh,.nb-guide-anh");
+        if (nhanChuot.current) {
+          nhanChuot.current.hidden = !anh;
+          nhanChuot.current.style.transform = `translate(${Math.min(innerWidth - 90, e.clientX + 16)}px,${Math.min(innerHeight - 40,e.clientY + 16)}px)`;
+        }
         // Xử lý cả tấm kính bên ngoài lẫn nút bên trong, tránh tấm bị kẹt khi qua nút.
         let el = e.target.closest<HTMLElement>("[data-tilt],[data-magnetic]");
         while (el) {
@@ -93,11 +112,12 @@ export function HieuUngThamChieu() {
         }
       }
       function roi(e: PointerEvent) {
+        if (nhanChuot.current && (!(e.relatedTarget instanceof Element) || !e.relatedTarget.closest(".nb-don-anh,.nb-bai-anh,.nb-guide-anh"))) nhanChuot.current.hidden = true;
         for (const el of daNghieng) {
           if (!(e.relatedTarget instanceof Node) || !el.contains(e.relatedTarget)) traLai(el);
         }
       }
-      function traHet() { daNghieng.forEach(traLai); }
+      function traHet() { daNghieng.forEach(traLai); if (nhanChuot.current) nhanChuot.current.hidden = true; }
       function cuon() {
         if (khung) return;
         khung = requestAnimationFrame(() => {
@@ -147,6 +167,7 @@ export function HieuUngThamChieu() {
       chuot.addEventListener("change", traHet);
       cuon();
       donDep = () => {
+        MotionGlobalConfig.skipAnimations = boQuaCu;
         quanSat?.disconnect();
         thayDoi.disconnect();
         clearInterval(quetLai);
@@ -164,14 +185,24 @@ export function HieuUngThamChieu() {
       };
     }
 
-    gan();
+    // Chờ trình duyệt rảnh rồi mới gắn: khối Suspense (vd bộ lọc /don-hang)
+    // hydrate ngay sau khung web; gắn sớm thì quan sát/đổi thuộc tính trên HTML
+    // máy chủ chưa hydrate và React báo "hydration mismatch".
+    const coRanh = typeof window.requestIdleCallback === "function";
+    const cho = coRanh ? window.requestIdleCallback(gan, { timeout: 700 }) : window.setTimeout(gan, 300);
     giam.addEventListener("change", gan);
-    return () => { giam.removeEventListener("change", gan); donDep(); };
+    return () => {
+      if (coRanh) window.cancelIdleCallback(cho);
+      else clearTimeout(cho);
+      giam.removeEventListener("change", gan);
+      donDep();
+    };
   }, [duongDan]);
 
   // Đặt ngoài PageFade: translate của lớp vào trang sẽ giữ fixed theo trang nếu lồng bên trong.
   return <>
-    <div className="nb-scroll-progress" aria-hidden="true" />
+    <span ref={nhanChuot} hidden className="nb-cursor-label" aria-hidden="true">{txUi.xem}</span>
+    <div className="nb-scroll-progress" aria-hidden="true"><span /></div>
     {/^\/cam-nang\/[^/]+\/?$/.test(duongDanGoc) && <div className="nb-doc-tien-do" role="progressbar" aria-label={tx.tienDo} aria-valuemin={0} aria-valuemax={100} aria-valuenow={0}><span /></div>}
     {/^\/don-hang\/[^/]+\/?$/.test(duongDanGoc) && <div className="nb-ung-tuyen-day"><NavLink data-magnetic href="/lien-he" className="nb-btn min-h-12 w-full px-5">{txDon.ct.ungTuyen}</NavLink></div>}
   </>;

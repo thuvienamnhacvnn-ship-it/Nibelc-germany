@@ -205,7 +205,7 @@ export function IndustryRail({
           type="button"
           onClick={() => nhay(huong)}
           aria-label={nhan}
-          className={`absolute ${lop} top-1/2 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-800)]/85 text-[var(--nb-gold-soft)] backdrop-blur transition hover:bg-[var(--nb-navy-700)]`}
+          className={`absolute ${lop} top-1/2 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-800)]/85 text-[var(--nb-accent-text)] backdrop-blur transition hover:bg-[var(--nb-navy-700)]`}
         >
           <Icon size={18} />
         </button>

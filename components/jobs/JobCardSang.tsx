@@ -112,7 +112,7 @@ export function JobCardSang({ job }: { job: JobFull }) {
           <span className="min-w-0 truncate text-[12.5px] text-[var(--s-mute)]">
             {nhanMa.chuongTrinh[job.programType]} · {nhanMa.hinhThuc[job.employmentType]}
           </span>
-          <span className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border whitespace-nowrap border-[var(--s-ink)] px-4 text-[13px] font-semibold text-[var(--s-ink)] transition group-hover:bg-[var(--s-ink)] group-hover:text-white">
+          <span className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border whitespace-nowrap border-[var(--s-ink)] px-4 text-[13px] font-semibold text-[var(--s-ink)] transition group-hover:bg-[var(--nb-inverse-bg)] group-hover:text-[var(--nb-inverse-text)]">
             {tx.xemChiTiet}
             <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-0.5" />
           </span>
@@ -164,7 +164,7 @@ export function JobRowSang({ job }: { job: JobFull }) {
             {chuoiLuong(job, lang)}
           </b>
         </span>
-        <span className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border whitespace-nowrap border-[var(--s-ink)] px-4 text-[13px] font-semibold text-[var(--s-ink)] transition group-hover:bg-[var(--s-ink)] group-hover:text-white">
+        <span className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border whitespace-nowrap border-[var(--s-ink)] px-4 text-[13px] font-semibold text-[var(--s-ink)] transition group-hover:bg-[var(--nb-inverse-bg)] group-hover:text-[var(--nb-inverse-text)]">
           {tx.xemChiTiet}
           <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-0.5" />
         </span>

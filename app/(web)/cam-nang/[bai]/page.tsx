@@ -1,3 +1,4 @@
+import { TextMask } from "@/components/ui/TextMask";
 import { congNghe } from "@/lib/i18n/dict/cong-nghe";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -55,7 +56,7 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
         <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13.5px] text-[var(--hero-mo)]">
           <NavLink
             href="/cam-nang"
-            className="inline-flex min-h-[44px] items-center gap-2 transition hover:text-[var(--nb-gold-soft)] lg:min-h-0"
+            className="inline-flex min-h-[44px] items-center gap-2 transition hover:text-[var(--nb-accent-text)] lg:min-h-0"
           >
             <ArrowLeft size={15} />
             {tx.bai.quayLai}
@@ -80,7 +81,7 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
 
             {b.khoi.map((k, i) => (
               <section key={k.tieuDe} id={`muc-${i + 1}`} className="mt-11 scroll-mt-24 lg:mt-14">
-                <h2 data-reveal className="nb-display text-[20px] leading-snug text-white sm:text-[23px] lg:text-[26px]">{k.tieuDe}</h2>
+                <h2 data-reveal className="nb-display text-[20px] leading-snug text-[var(--nb-heading)] sm:text-[23px] lg:text-[26px]"><TextMask>{k.tieuDe}</TextMask></h2>
                 <span className="mt-3 mb-5 block h-px w-14 bg-[var(--nb-gold)]" aria-hidden="true" />
 
                 {k.doan?.map((d) => (
@@ -108,9 +109,9 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
 
                 {k.luuY && (
                   <p data-reveal className="mt-6 flex gap-3 rounded-[14px] border border-[var(--nb-line)] bg-[var(--nb-navy-700)] p-4 text-[15px] leading-[1.75] text-[var(--nb-text-dim)] sm:gap-3.5 sm:p-5 lg:border-[var(--s-line-warm)] lg:bg-[var(--s-alt)] lg:px-6 lg:text-[16px]">
-                    <Lightbulb size={19} className="mt-0.5 shrink-0 text-[var(--nb-gold)]" />
+                    <Lightbulb size={19} className="mt-0.5 shrink-0 text-[var(--nb-accent-text)]" />
                     <span>
-                      <b className="mr-1.5 font-semibold text-[var(--nb-gold-soft)]">{tx.bai.luuY}</b>
+                      <b className="mr-1.5 font-semibold text-[var(--nb-accent-text)]">{tx.bai.luuY}</b>
                       {k.luuY}
                     </span>
                   </p>
@@ -120,12 +121,12 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
 
             {/* Điện thoại: "Đọc tiếp" ở cuối bài như cũ (máy tính nằm ở cột phải). */}
             <div className="mt-14 border-t border-[var(--nb-line-soft)] pt-8 lg:hidden">
-              <b className="block text-[17px] font-semibold text-white">{tx.bai.docTiep}</b>
+              <b className="block text-[17px] font-semibold text-[var(--nb-heading)]">{tx.bai.docTiep}</b>
               <ul className="mt-4 grid gap-3 sm:grid-cols-2">
                 {khac.map((x) => (
                   <li key={x.id}>
                     <NavLink data-reveal data-tilt href={`/cam-nang/${x.slug}`} className="nb-card block p-4">
-                      <b className="block text-[14.5px] leading-snug font-medium text-white">{x.tieuDe}</b>
+                      <b className="block text-[14.5px] leading-snug font-medium text-[var(--nb-heading)]">{x.tieuDe}</b>
                       <span className="mt-1 block text-[12px] text-[var(--nb-text-mute)]">
                         {tx.nhom[x.nhom]} · {tx.phut(x.phut)}
                       </span>
@@ -148,7 +149,7 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
                         href={`#muc-${i + 1}`}
                         className="flex gap-3 rounded-[8px] px-2 py-2 text-[14.5px] leading-snug text-[var(--nb-text-dim)] transition hover:bg-[var(--s-alt)] hover:text-[var(--nb-text)]"
                       >
-                        <span className="w-5 shrink-0 font-semibold text-[var(--nb-gold-soft)] tabular-nums">{i + 1}</span>
+                        <span className="w-5 shrink-0 font-semibold text-[var(--nb-accent-text)] tabular-nums">{i + 1}</span>
                         {k.tieuDe}
                       </a>
                     </li>
@@ -162,7 +163,7 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
                   {khac.map((x) => (
                     <li key={x.id}>
                       <NavLink href={`/cam-nang/${x.slug}`} className="group block py-3.5">
-                        <b className="block text-[14.5px] leading-snug font-medium text-[var(--nb-text)] group-hover:text-[var(--nb-gold-soft)]">
+                        <b className="block text-[14.5px] leading-snug font-medium text-[var(--nb-text)] group-hover:text-[var(--nb-accent-text)]">
                           {x.tieuDe}
                         </b>
                         <span className="mt-1 block text-[12.5px] text-[var(--nb-text-mute)]">
@@ -174,7 +175,7 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
                 </ul>
                 <NavLink
                   href="/cam-nang"
-                  className="mt-2 inline-flex items-center gap-2 text-[13.5px] font-semibold text-[var(--nb-gold-soft)] hover:underline"
+                  className="mt-2 inline-flex items-center gap-2 text-[13.5px] font-semibold text-[var(--nb-accent-text)] hover:underline"
                 >
                   {tx.bai.quayLai}
                   <ArrowRight size={14} />

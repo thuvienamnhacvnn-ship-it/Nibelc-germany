@@ -137,7 +137,7 @@ function PhongBiCss({
         {[-8, -1, 6].map((xoay, i) => (
           <span
             key={xoay}
-            className="absolute inset-0 overflow-hidden rounded-[5px] border border-black/15 bg-white shadow-[0_3px_8px_rgba(0,0,0,.35)] transition-transform duration-300 group-hover:-translate-y-[6px]"
+            className="absolute inset-0 overflow-hidden rounded-[5px] border border-black/15 bg-[var(--nb-surface)] shadow-[0_3px_8px_rgba(0,0,0,.35)] transition-transform duration-300 group-hover:-translate-y-[6px]"
             style={{
               transform: `rotate(${xoay}deg) translateX(${i * 6 - 6}px)`,
               zIndex: i,
@@ -194,9 +194,9 @@ function PhongBiCss({
         </span>
 
         <span className="absolute inset-x-0 bottom-[11%] flex flex-col items-center gap-1.5 px-2.5">
-          <Icon size={22} className={navy ? "text-[var(--nb-gold)]" : "text-[var(--nb-gold-deep)]"} strokeWidth={1.9} />
+          <Icon size={22} className={navy ? "text-[var(--nb-accent-text)]" : "text-[var(--nb-gold-deep)]"} strokeWidth={1.9} />
           <span
-            className={`text-center text-[12.5px] leading-tight font-semibold hyphens-auto [overflow-wrap:break-word] ${navy ? "text-white" : "text-[#3a2c10]"}`}
+            className={`text-center text-[12.5px] leading-tight font-semibold hyphens-auto [overflow-wrap:break-word] ${navy ? "text-[var(--nb-heading)]" : "text-[#3a2c10]"}`}
           >
             {ten}
           </span>

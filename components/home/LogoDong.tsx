@@ -1,5 +1,6 @@
 "use client";
 
+import { useGiamChuyenDong } from "@/components/ui/TechText";
 import { useEffect, useRef, useState } from "react";
 
 /**
@@ -45,6 +46,7 @@ export function LogoDong({
   ban?: "theo-man" | "nho";
 }) {
   /** null = chưa biết khổ màn, hoặc máy này chỉ dùng ảnh tĩnh */
+  const giam = useGiamChuyenDong();
   const [nguon, setNguon] = useState<null | string>(null);
   const [daPhat, setDaPhat] = useState(false);
   const video = useRef<HTMLVideoElement>(null);
@@ -65,7 +67,7 @@ export function LogoDong({
   }, [nguon]);
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (giam) return;
     // Hộp đang display:none (vd header bị ẩn hẳn ở điện thoại) thì không gắn
     // video: preload sẽ kéo 0,75 MB về cho một logo không ai thấy.
     if (hop.current && hop.current.getClientRects().length === 0) return;
@@ -87,7 +89,7 @@ export function LogoDong({
     if (ban === "nho") return;
     mq.addEventListener("change", dat);
     return () => mq.removeEventListener("change", dat);
-  }, [ban]);
+  }, [ban, giam]);
 
   return (
     <span ref={hop} data-logo-dong className={`relative block aspect-[1200/380] ${className}`}>
@@ -96,7 +98,7 @@ export function LogoDong({
 
       {/* Ảnh tĩnh và video KHÔNG bao giờ cùng hiện: video trong suốt, để cả
           hai thì mặt trước đứng yên lộ ra sau logo đang nghiêng. */}
-      {!daPhat && (
+      {(!daPhat || giam) && (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={TINH}
@@ -109,7 +111,7 @@ export function LogoDong({
         />
       )}
 
-      {nguon && (
+      {nguon && !giam && (
         <video
           ref={video}
           key={nguon}

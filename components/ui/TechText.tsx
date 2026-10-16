@@ -47,38 +47,16 @@ export function TechText({ children }: { children: ReactNode }) {
   </span>;
 }
 
-/** Nhịp số 85ms và ngưỡng 30% theo AnimatedNumber của bản VN; năm giữ nguyên. */
-export function AnimatedNumber({ value, format = "number", demMotLan = false }: { value: number; format?: "number" | "year"; demMotLan?: boolean }) {
+/** Chữ số cuộn dọc một lần tới giá trị thật; năm giữ nguyên. */
+export function AnimatedNumber({ value, format = "number" }: { value: number; format?: "number" | "year"; demMotLan?: boolean }) {
   const host = useRef<HTMLSpanElement>(null);
-  const [so, datSo] = useState(value);
+  const [chay, datChay] = useState(false);
   const giam = useGiamChuyenDong();
   useEffect(() => {
+    datChay(false);
     if (giam || format === "year" || !host.current || !window.IntersectionObserver) return;
-    let nhip = 0;
-    let khung = 0;
-    const quanSat = new IntersectionObserver((muc) => {
-      clearInterval(nhip);
-      if (muc[0]?.isIntersecting) {
-        if (demMotLan) {
-          quanSat.disconnect();
-          const batDau = performance.now();
-          function dem(luc: number) {
-            const tienDo = Math.min(1, (luc - batDau) / 900);
-            datSo(Math.round(value * (1 - (1 - tienDo) ** 3)));
-            if (tienDo < 1) khung = requestAnimationFrame(dem);
-          }
-          khung = requestAnimationFrame(dem);
-          return;
-        }
-        nhip = window.setInterval(() => datSo(Math.floor(Math.random() * (Math.max(20, value * 2 + 9) + 1))), 85);
-      } else datSo(value);
-    }, { threshold: 0.3 });
-    quanSat.observe(host.current);
-    return () => { quanSat.disconnect(); clearInterval(nhip); cancelAnimationFrame(khung); };
-  }, [value, format, giam, demMotLan]);
-  return <span ref={host} className="nb-so-dong">
-    <span className="sr-only">{value}</span>
-    <span className="nb-tech-goc" aria-hidden="true">{value}</span>
-    <span className="nb-tech-hien" aria-hidden="true">{giam || format === "year" ? value : so}</span>
-  </span>;
+    const io = new IntersectionObserver(muc => { if (muc[0]?.isIntersecting) { io.disconnect(); datChay(true); } }, { threshold: .3 });
+    io.observe(host.current); return () => io.disconnect();
+  }, [value, format, giam]);
+  return <span ref={host} className="nb-so-lat"><span className="sr-only">{value}</span><span aria-hidden="true">{String(value).split("").map((so,i) => /[0-9]/.test(so) ? <span key={i} className="nb-so-o"><span style={{ visibility: chay && !giam ? "hidden" : "visible" }}>{so}</span>{chay && !giam && <span className="nb-so-cuon" style={{ "--nb-so-dich": Number(so) + 10, animationDelay: i * 40 + "ms" } as React.CSSProperties}>{Array.from({ length: Number(so) + 11 }, (_,j) => <span key={j}>{j % 10}</span>)}</span>}</span> : <span key={i}>{so}</span>)}</span></span>;
 }

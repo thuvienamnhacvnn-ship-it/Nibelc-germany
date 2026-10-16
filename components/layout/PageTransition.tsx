@@ -20,9 +20,9 @@ export function useChuyenTrang(): Ham {
 }
 
 // Mẫu giữ kín 62% của 1,15s rồi quét hết sang phải; chờ route/ảnh trước khi mở.
-const DONG = 0;
-const GIU = 1.15 * 0.62;
-const MO = 1.15 * 0.38;
+const DONG = 0.3;
+const GIU = 0.08;
+const MO = 0.4;
 const CHO_ANH = 300;
 const TRAN = 5000;
 const NHIP_DONG = [0.7, 0, 0.2, 1] as const;
@@ -120,8 +120,8 @@ export function PageTransition({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (pha !== "dong") return;
     // Đợi màn che thật sự được vẽ dù không còn nhịp hai tấm chập vào.
-    const khung = requestAnimationFrame(daKin);
-    return () => cancelAnimationFrame(khung);
+    const khung = window.setTimeout(daKin, DONG * 1000);
+    return () => clearTimeout(khung);
   }, [pha, daKin]);
 
   // Nhịp 2 → 3: trang mới đã vẽ (pathname khớp đích + 2 khung hình) thì giữ
@@ -177,8 +177,9 @@ export function PageTransition({ children }: { children: ReactNode }) {
       {pha !== "nghi" && (
         <div className="nb-chuyen-trang fixed inset-0 z-[100]" aria-hidden="true">
           <motion.div
-            className="absolute inset-0 overflow-hidden bg-[var(--nb-navy-800)]"
-            initial={{ clipPath: "inset(0 0 0 0)" }}
+            className="absolute inset-0 overflow-hidden"
+            style={{ background: "var(--nb-mask)" }}
+            initial={{ clipPath: "inset(0 100% 0 0)" }}
             animate={{ clipPath: kin ? "inset(0 0 0 0)" : "inset(0 0 0 100%)" }}
             transition={{ duration: kin ? DONG : MO, ease: kin ? NHIP_DONG : NHIP_MO }}
             onAnimationComplete={() => { if (!kin) daMo(); }}

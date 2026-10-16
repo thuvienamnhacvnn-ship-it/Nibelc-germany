@@ -59,7 +59,7 @@ export function ChonNgonNgu({
   if (kieu === "hang") {
     return (
       <div role="group" aria-label={tx.chonNgonNgu} className={`flex items-center gap-1.5 ${className}`}>
-        <Globe size={14} className="mr-1 text-[var(--nb-gold)]" aria-hidden="true" />
+        <Globe size={14} className="mr-1 text-[var(--nb-accent-text)]" aria-hidden="true" />
         {LANGS.map((l) => {
           const on = l === lang;
           return (
@@ -72,8 +72,8 @@ export function ChonNgonNgu({
               lang={l}
               className={`h-8 min-w-[40px] rounded-full border px-2.5 text-[12.5px] font-semibold transition ${
                 on
-                  ? "border-[var(--nb-gold)] bg-[var(--nb-gold)] text-[var(--nb-navy-900)]"
-                  : "border-[var(--nb-line-soft)] text-[var(--nb-text-dim)] hover:border-[var(--nb-line)] hover:text-[var(--nb-gold-soft)]"
+                  ? "border-[var(--nb-gold)] bg-[var(--nb-gold)] text-[var(--nb-ink)]"
+                  : "border-[var(--nb-line-soft)] text-[var(--nb-text-dim)] hover:border-[var(--nb-line)] hover:text-[var(--nb-accent-text)]"
               }`}
             >
               {TEN_NGON_NGU[l].ma}
@@ -94,11 +94,11 @@ export function ChonNgonNgu({
         aria-expanded={mo}
         className={
           kieu === "banner"
-            ? "flex h-11 items-center gap-1.5 rounded-full border border-[var(--nb-gold)]/60 bg-[var(--nb-navy-900)]/55 px-3.5 text-[13.5px] font-semibold text-white backdrop-blur-md transition active:scale-95"
-            : "flex h-9 items-center gap-1.5 rounded-full border border-[var(--nb-line-soft)] px-3 text-[13px] font-medium text-[var(--nb-text-dim)] transition hover:border-[var(--nb-line)] hover:text-[var(--nb-gold-soft)]"
+            ? "flex h-11 items-center gap-1.5 rounded-full border border-[var(--nb-gold)]/60 bg-[var(--nb-navy-900)]/55 px-3.5 text-[13.5px] font-semibold text-[var(--nb-heading)] backdrop-blur-md transition active:scale-95"
+            : "flex h-9 items-center gap-1.5 rounded-full border border-[var(--nb-line-soft)] px-3 text-[13px] font-medium text-[var(--nb-text-dim)] transition hover:border-[var(--nb-line)] hover:text-[var(--nb-accent-text)]"
         }
       >
-        <Globe size={kieu === "banner" ? 16 : 15} className={kieu === "banner" ? "shrink-0 text-[var(--nb-gold-strong)]" : ""} />
+        <Globe size={kieu === "banner" ? 16 : 15} className={kieu === "banner" ? "shrink-0 text-[var(--nb-accent-text)]" : ""} />
         {TEN_NGON_NGU[lang].ma}
         <ChevronDown size={kieu === "banner" ? 14 : 13} className={`transition-transform ${mo ? "rotate-180" : ""}`} />
       </button>
@@ -126,7 +126,7 @@ export function ChonNgonNgu({
                   className={`flex w-full items-center gap-3 px-4 text-left text-[13.5px] transition ${
                     kieu === "banner" ? "min-h-[44px] py-0" : "py-2.5"
                   } ${
-                    on ? "text-[var(--nb-gold-soft)]" : "text-[var(--nb-text-dim)] hover:bg-white/5 hover:text-white"
+                    on ? "text-[var(--nb-accent-text)]" : "text-[var(--nb-text-dim)] hover:bg-[var(--nb-surface)]/5 hover:text-[var(--nb-heading)]"
                   }`}
                 >
                   <span className="w-6 text-[12px] font-semibold">{TEN_NGON_NGU[l].ma}</span>

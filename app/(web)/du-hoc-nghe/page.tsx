@@ -1,3 +1,4 @@
+import { TextMask } from "@/components/ui/TextMask";
 import { VienChay } from "@/components/tech/VienChay";
 import { DuongBay } from "@/components/tech/DuongBay";
 import { congNghe } from "@/lib/i18n/dict/cong-nghe";
@@ -60,7 +61,7 @@ export default async function Page() {
           <>
             {b.tieuDe}
             {b.phuDe && (
-              <span className="mt-2 block text-[15px] font-normal text-[var(--nb-gold-soft)] sm:text-[0.52em]">
+              <span className="mt-2 block text-[15px] font-normal text-[var(--nb-accent-text)] sm:text-[0.52em]">
                 {b.phuDe}
               </span>
             )}
@@ -83,7 +84,7 @@ export default async function Page() {
       <div className="nb-sang">
         {/* ---------- EXPLORER NGÀNH ---------- */}
         <section id="nganh-nghe" className="nb-wrap py-11 sm:py-16 lg:py-20">
-          <h2 data-reveal className="nb-display text-[24px] text-white sm:text-[30px] lg:text-[32px]">{tx.nganh.tieuDe}</h2>
+          <h2 data-reveal className="nb-display text-[24px] text-[var(--nb-heading)] sm:text-[30px] lg:text-[32px]"><TextMask>{tx.nganh.tieuDe}</TextMask></h2>
           <p data-reveal className="mt-3 max-w-[70ch] text-[14.5px] leading-[1.7] text-[var(--nb-text-dim)] sm:text-[15px]">
             {tx.nganh.ghiChu}
           </p>
@@ -108,27 +109,27 @@ export default async function Page() {
                   </span>
                   <span className="block p-5"><span className="nb-ma nb-directory-ma">{String(i + 1).padStart(2, "0")} / {n.id}</span>
                     {/* break-words: tên ngành tiếng Đức có từ ghép dài */}
-                    <b className="block text-[17px] font-semibold break-words text-white">{n.ten}</b>
+                    <b className="block text-[17px] font-semibold break-words text-[var(--nb-heading)]">{n.ten}</b>
                     <span lang={langTenDuc} className="mt-0.5 block text-[12px] text-[var(--nb-text-mute)] italic">
                       {n.tenDuc}
                     </span>
 
                     <span className="mt-4 space-y-2 border-t border-[var(--nb-line-soft)] pt-3.5 text-[13px]">
                       <span className="flex items-center gap-2 text-[var(--nb-text-dim)]">
-                        <Clock size={13} className="shrink-0 text-[var(--nb-gold)]" />
+                        <Clock size={13} className="shrink-0 text-[var(--nb-accent-text)]" />
                         {n.nam}
                       </span>
                       <span className="flex items-center gap-2 text-[var(--nb-text-dim)]">
-                        <Banknote size={13} className="shrink-0 text-[var(--nb-gold)]" />
+                        <Banknote size={13} className="shrink-0 text-[var(--nb-accent-text)]" />
                         {khoangTien(n.troCap[0], n.troCap[2], lang)}
                       </span>
                       <span className="flex items-center gap-2 text-[var(--nb-text-dim)]">
-                        <Languages size={13} className="shrink-0 text-[var(--nb-gold)]" />
+                        <Languages size={13} className="shrink-0 text-[var(--nb-accent-text)]" />
                         {n.tieng}
                       </span>
                     </span>
 
-                    <span className="mt-4 flex items-center gap-1.5 text-[13px] font-semibold text-[var(--nb-gold-soft)]">
+                    <span className="mt-4 flex items-center gap-1.5 text-[13px] font-semibold text-[var(--nb-accent-text)]">
                       {tx.nganh.xemChiTiet}
                       <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
                     </span>
@@ -142,7 +143,7 @@ export default async function Page() {
         {/* ---------- BỐN BƯỚC ---------- */}
         <section className="border-y border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] py-11 sm:py-16 lg:py-20">
           <div className="nb-wrap">
-            <h2 data-reveal className="nb-display text-[24px] text-white sm:text-[30px] lg:text-[32px]">{tx.buoc.tieuDe}</h2>
+            <h2 data-reveal className="nb-display text-[24px] text-[var(--nb-heading)] sm:text-[30px] lg:text-[32px]"><TextMask>{tx.buoc.tieuDe}</TextMask></h2>
             <div className="nb-dao-tao-mach mt-7 sm:mt-9">
             <DuongBay />
             <DuongBay doc />
@@ -150,7 +151,7 @@ export default async function Page() {
               {tx.buoc.ds.map((b) => (
                 <li data-reveal data-tilt key={b.so} className="nb-panel p-5 sm:p-6">
                   <b className="nb-gold-text nb-display block text-[27px] leading-none sm:text-[30px]">{b.so}</b>
-                  <b className="mt-3 block text-[17px] font-semibold text-white">{b.ten}</b>
+                  <b className="mt-3 block text-[17px] font-semibold text-[var(--nb-heading)]">{b.ten}</b>
                   <span className="mt-2 block text-[14px] leading-[1.7] text-[var(--nb-text-dim)]">{b.mo}</span>
                 </li>
               ))}
@@ -173,17 +174,17 @@ export default async function Page() {
 
           <div data-reveal>
             <p data-reveal className="nb-eyebrow"><TechText>{tx.viSao.nhan}</TechText></p>
-            <h2 data-reveal className="nb-display mt-3 text-[24px] text-white sm:text-[30px] lg:text-[32px]">{tx.viSao.tieuDe}</h2>
+            <h2 data-reveal className="nb-display mt-3 text-[24px] text-[var(--nb-heading)] sm:text-[30px] lg:text-[32px]"><TextMask>{tx.viSao.tieuDe}</TextMask></h2>
             <ul className="mt-6 space-y-5 sm:mt-7">
               {tx.viSao.loiIch.map(({ ten, mo }, i) => {
                 const Icon = ICON_LOI_ICH[i] ?? GraduationCap;
                 return (
                   <li key={ten} className="flex gap-4">
-                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-[var(--nb-line)] text-[var(--nb-gold)]">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-[var(--nb-line)] text-[var(--nb-accent-text)]">
                       <Icon size={19} />
                     </span>
                     <span>
-                      <b className="block text-[16px] font-semibold text-white">{ten}</b>
+                      <b className="block text-[16px] font-semibold text-[var(--nb-heading)]">{ten}</b>
                       <span className="mt-1 block text-[14px] leading-[1.7] text-[var(--nb-text-dim)]">{mo}</span>
                     </span>
                   </li>

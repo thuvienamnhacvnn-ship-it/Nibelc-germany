@@ -1,3 +1,4 @@
+import { WebsiteNetworkFooter } from "./WebsiteNetwork";
 import { LuoiKyThuat } from "@/components/tech/LuoiKyThuat";
 import { DuongBay } from "@/components/tech/DuongBay";
 import { congNghe } from "@/lib/i18n/dict/cong-nghe";
@@ -93,7 +94,7 @@ export async function Footer() {
               <li key={m.href}>
                 <NavLink
                   href={m.href}
-                  className="text-[14px] text-[var(--nb-text-dim)] transition hover:text-[var(--nb-gold-soft)]"
+                  className="text-[14px] text-[var(--nb-text-dim)] transition hover:text-[var(--nb-accent-text)]"
                 >
                   {m.label[lang]}
                 </NavLink>
@@ -111,7 +112,7 @@ export async function Footer() {
               <li key={n.id}>
                 <NavLink
                   href={`/don-hang?nganh=${n.id}`}
-                  className="text-[14px] text-[var(--nb-text-dim)] transition hover:text-[var(--nb-gold-soft)]"
+                  className="text-[14px] text-[var(--nb-text-dim)] transition hover:text-[var(--nb-accent-text)]"
                 >
                   {tenNganh(n, lang)}
                 </NavLink>
@@ -120,7 +121,7 @@ export async function Footer() {
             <li>
               <NavLink
                 href="/don-hang"
-                className="text-[14px] font-semibold text-[var(--nb-gold-soft)] transition hover:text-[var(--nb-gold-strong)]"
+                className="text-[14px] font-semibold text-[var(--nb-accent-text)] transition hover:text-[var(--nb-accent-text)]"
               >
                 {tx.footer.xemTatCa}
               </NavLink>
@@ -138,9 +139,9 @@ export async function Footer() {
               thêm 14px giãn nữa là chân trang dài vô ích. */}
           <ul className="mt-3 space-y-1 text-[14px] text-[var(--nb-text-dim)] lg:mt-4 lg:space-y-3.5">
             <li className="flex gap-3">
-              <MapPin size={16} className="mt-0.5 shrink-0 text-[var(--nb-gold)]" />
+              <MapPin size={16} className="mt-0.5 shrink-0 text-[var(--nb-accent-text)]" />
               <span>
-                <b className="block font-semibold text-white">{LEGAL.name}</b>
+                <b className="block font-semibold text-[var(--nb-heading)]">{LEGAL.name}</b>
                 {diaChiDu}
               </span>
             </li>
@@ -149,18 +150,18 @@ export async function Footer() {
             <li>
               <a
                 href={`tel:${tel}`}
-                className="flex min-h-[44px] items-center gap-3 transition hover:text-[var(--nb-gold-soft)] lg:min-h-0"
+                className="flex min-h-[44px] items-center gap-3 transition hover:text-[var(--nb-accent-text)] lg:min-h-0"
               >
-                <Phone size={16} className="shrink-0 text-[var(--nb-gold)]" />
+                <Phone size={16} className="shrink-0 text-[var(--nb-accent-text)]" />
                 {LEGAL.phone}
               </a>
             </li>
             <li>
               <a
                 href={`mailto:${LEGAL.email}`}
-                className="flex min-h-[44px] items-center gap-3 break-all transition hover:text-[var(--nb-gold-soft)] lg:min-h-0"
+                className="flex min-h-[44px] items-center gap-3 break-all transition hover:text-[var(--nb-accent-text)] lg:min-h-0"
               >
-                <Mail size={16} className="shrink-0 text-[var(--nb-gold)]" />
+                <Mail size={16} className="shrink-0 text-[var(--nb-accent-text)]" />
                 {LEGAL.email}
               </a>
             </li>
@@ -181,9 +182,9 @@ export async function Footer() {
         <div data-reveal data-tilt className="nb-panel overflow-hidden">
           <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4">
             <p data-reveal className="flex items-center gap-2.5 text-[14px] text-[var(--nb-text-dim)]">
-              <MapPin size={16} className="shrink-0 text-[var(--nb-gold)]" />
+              <MapPin size={16} className="shrink-0 text-[var(--nb-accent-text)]" />
               <span>
-                <b className="font-semibold text-white">{tx.footer.vanPhong}</b> — {diaChiDu}
+                <b className="font-semibold text-[var(--nb-heading)]">{tx.footer.vanPhong}</b> — {diaChiDu}
               </span>
             </p>
             <a data-magnetic
@@ -205,6 +206,7 @@ export async function Footer() {
         </div>
       </div>
 
+      <WebsiteNetworkFooter lang={lang} />
       <div className="nb-gold-rule opacity-40" aria-hidden="true" />
 
       {/* Impressum và Datenschutz là trang pháp lý bắt buộc ở Đức, lại nằm
@@ -218,13 +220,13 @@ export async function Footer() {
         </span>
         <NavLink
           href="/impressum"
-          className="flex min-h-[44px] items-center transition hover:text-[var(--nb-gold-soft)] lg:min-h-0"
+          className="flex min-h-[44px] items-center transition hover:text-[var(--nb-accent-text)] lg:min-h-0"
         >
           {tx.footer.impressum}
         </NavLink>
         <NavLink
           href="/datenschutz"
-          className="flex min-h-[44px] items-center transition hover:text-[var(--nb-gold-soft)] lg:min-h-0"
+          className="flex min-h-[44px] items-center transition hover:text-[var(--nb-accent-text)] lg:min-h-0"
         >
           {tx.footer.datenschutz}
         </NavLink>

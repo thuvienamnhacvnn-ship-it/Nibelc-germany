@@ -44,9 +44,9 @@ export function JourneyTimeline({ chang: CHANG }: { chang: Chang[] }) {
                   <span
                     className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-[12.5px] font-bold transition ${
                       on
-                        ? "bg-[var(--nb-gold)] text-[var(--nb-navy-900)]"
+                        ? "bg-[var(--nb-gold)] text-[var(--nb-ink)]"
                         : daQua
-                          ? "bg-[var(--nb-navy-500)] text-[var(--nb-gold-soft)]"
+                          ? "bg-[var(--nb-navy-500)] text-[var(--nb-accent-text)]"
                           : "border border-[var(--nb-line-soft)] text-[var(--nb-text-mute)]"
                     }`}
                   >
@@ -55,7 +55,7 @@ export function JourneyTimeline({ chang: CHANG }: { chang: Chang[] }) {
                   {/* hyphens-auto + break-words: từ ghép tiếng Đức (Vorstellungsgespräch)
                       dài hơn cột ~150px của lưới 9 chặng — để trần thì chữ bị cắt mép */}
                   <span
-                    className={`max-w-full text-[13.5px] leading-tight font-semibold break-words hyphens-auto lg:text-[13px] ${on ? "text-white" : "text-[var(--nb-text-dim)]"}`}
+                    className={`max-w-full text-[13.5px] leading-tight font-semibold break-words hyphens-auto lg:text-[13px] ${on ? "text-[var(--nb-heading)]" : "text-[var(--nb-text-dim)]"}`}
                   >
                     {c.ten}
                   </span>
@@ -72,7 +72,7 @@ export function JourneyTimeline({ chang: CHANG }: { chang: Chang[] }) {
                 </span>
 
                 <span className="flex items-center gap-1.5 px-4 py-2.5 text-[12px] text-[var(--nb-text-mute)] lg:mt-auto lg:items-start lg:px-3 lg:text-[12.5px] lg:leading-snug">
-                  <Clock size={12} className="shrink-0 text-[var(--nb-gold)] lg:mt-[2px]" />
+                  <Clock size={12} className="shrink-0 text-[var(--nb-accent-text)] lg:mt-[2px]" />
                   {c.thoiGian}
                 </span>
               </button>
@@ -100,15 +100,15 @@ export function JourneyTimeline({ chang: CHANG }: { chang: Chang[] }) {
           >
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--nb-line-soft)] px-5 py-5 sm:px-6">
               <div className="flex items-center gap-3.5 sm:gap-4">
-                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[var(--nb-gold)] text-[16px] font-bold text-[var(--nb-navy-900)] sm:h-12 sm:w-12">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[var(--nb-gold)] text-[16px] font-bold text-[var(--nb-ink)] sm:h-12 sm:w-12">
                   {chang.so}
                 </span>
                 <div className="min-w-0">
-                  <h3 data-reveal className="nb-display text-[19px] text-white sm:text-[22px] lg:text-[26px]">{chang.ten}</h3>
+                  <h3 data-reveal className="nb-display text-[19px] text-[var(--nb-heading)] sm:text-[22px] lg:text-[26px]">{chang.ten}</h3>
                   <p data-reveal className="mt-0.5 text-[13.5px] text-[var(--nb-text-dim)]">{chang.mo}</p>
                 </div>
               </div>
-              <span className="flex items-center gap-2 rounded-full border border-[var(--nb-line)] px-3.5 py-1.5 text-[12.5px] text-[var(--nb-gold-soft)]">
+              <span className="flex items-center gap-2 rounded-full border border-[var(--nb-line)] px-3.5 py-1.5 text-[12.5px] text-[var(--nb-accent-text)]">
                 <Clock size={13} />
                 {chang.thoiGian}
               </span>
@@ -122,11 +122,11 @@ export function JourneyTimeline({ chang: CHANG }: { chang: Chang[] }) {
                 { ten: tx.ketQua, ds: chang.ketQua },
               ].map((k) => (
                 <div key={k.ten}>
-                  <b className="block text-[14px] font-semibold text-[var(--nb-gold-soft)]">{k.ten}</b>
+                  <b className="block text-[14px] font-semibold text-[var(--nb-accent-text)]">{k.ten}</b>
                   <ul className="mt-3 space-y-2">
                     {k.ds.map((x) => (
                       <li key={x} className="flex gap-2.5 text-[13.5px] leading-[1.6] text-[var(--nb-text-dim)]">
-                        <Check size={15} className="mt-[3px] shrink-0 text-[var(--nb-gold)]" />
+                        <Check size={15} className="mt-[3px] shrink-0 text-[var(--nb-accent-text)]" />
                         {x}
                       </li>
                     ))}
@@ -139,7 +139,7 @@ export function JourneyTimeline({ chang: CHANG }: { chang: Chang[] }) {
 
         {/* ---------- BẠN ĐANG Ở BƯỚC NÀO ---------- */}
         <aside data-reveal data-tilt className="nb-panel h-fit p-5 lg:sticky lg:top-[calc(var(--nb-header)+20px)]">
-          <b className="block text-[15.5px] font-semibold text-white">{tx.banDangO}</b>
+          <b className="block text-[15.5px] font-semibold text-[var(--nb-heading)]">{tx.banDangO}</b>
           <ul className="mt-4 space-y-1">
             {CHANG.map((c, i) => (
               <li key={c.so}>
@@ -149,14 +149,14 @@ export function JourneyTimeline({ chang: CHANG }: { chang: Chang[] }) {
                   aria-pressed={i === mo}
                   className={`flex min-h-[44px] w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-[13.5px] transition lg:min-h-0 ${
                     i === mo
-                      ? "bg-[var(--nb-gold)]/12 text-[var(--nb-gold-soft)]"
-                      : "text-[var(--nb-text-dim)] hover:bg-white/5"
+                      ? "bg-[var(--nb-gold)]/12 text-[var(--nb-accent-text)]"
+                      : "text-[var(--nb-text-dim)] hover:bg-[var(--nb-surface)]/5"
                   }`}
                 >
                   <span
                     className={`grid h-6 w-6 shrink-0 place-items-center rounded-full text-[12px] font-bold lg:text-[12px] ${
                       i === mo
-                        ? "bg-[var(--nb-gold)] text-[var(--nb-navy-900)]"
+                        ? "bg-[var(--nb-gold)] text-[var(--nb-ink)]"
                         : "border border-[var(--nb-line-soft)] text-[var(--nb-text-mute)]"
                     }`}
                   >

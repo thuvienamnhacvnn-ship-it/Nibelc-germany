@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import type { Route } from "next";
@@ -29,6 +29,9 @@ import { INDUSTRIES } from "@/data/industries";
 import { tenNganh } from "@/data/i18n/industries";
 import { NGANH_HOC } from "@/data/ausbildung";
 import { useDuongDan, useLang, useLh, useT } from "@/lib/i18n/client";
+import { giaoDien } from "@/lib/i18n/dict/giao-dien";
+import { DoiChuDe } from "./DoiChuDe";
+import { WebsiteNetworkMobile } from "./WebsiteNetwork";
 import { common } from "@/lib/i18n/dict/common";
 
 /**
@@ -75,6 +78,8 @@ export function MenuDayDu({ mo, dong, dem }: { mo: boolean; dong: () => void; de
   const tx = useT(common).menuDayDu;
   const lh = useLh();
   const router = useRouter();
+  const txUi = useT(giaoDien);
+  const tam = useRef<HTMLDivElement>(null);
 
   /* Gắn thẳng vào <body> bằng portal, KHÔNG để nằm nguyên chỗ trong cây.
      Lý do đo được: banner bọc tấm này có class `isolate`, mà `isolate` tạo
@@ -119,6 +124,9 @@ export function MenuDayDu({ mo, dong, dem }: { mo: boolean; dong: () => void; de
   useEffect(() => {
     if (!mo) return;
     const html = document.documentElement;
+    const truoc = document.activeElement as HTMLElement | null;
+    const mucBam = () => [...(tam.current?.querySelectorAll<HTMLElement>('a[href],button:not([disabled]),input,select,[tabindex="0"]') ?? [])].filter(el => el.getClientRects().length);
+    const doiFocus = requestAnimationFrame(() => mucBam()[0]?.focus());
     const cuHtml = html.style.overflow;
     const cuBody = document.body.style.overflow;
     const cuPad = html.style.paddingRight;
@@ -130,9 +138,16 @@ export function MenuDayDu({ mo, dong, dem }: { mo: boolean; dong: () => void; de
 
     const phim = (e: KeyboardEvent) => {
       if (e.key === "Escape") dong();
+      if (e.key === "Tab") {
+        const ds = mucBam(); const dau = ds[0]; const cuoi = ds.at(-1);
+        if (e.shiftKey && document.activeElement === dau) { e.preventDefault(); cuoi?.focus(); }
+        else if (!e.shiftKey && document.activeElement === cuoi) { e.preventDefault(); dau?.focus(); }
+      }
     };
     window.addEventListener("keydown", phim);
     return () => {
+      cancelAnimationFrame(doiFocus);
+      truoc?.focus();
       html.style.overflow = cuHtml;
       document.body.style.overflow = cuBody;
       html.style.paddingRight = cuPad;
@@ -192,12 +207,13 @@ export function MenuDayDu({ mo, dong, dem }: { mo: boolean; dong: () => void; de
                 type="button"
                 onClick={dong}
                 aria-label={tx.dong}
-                className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-[var(--nb-line-soft)] text-white transition active:scale-95"
+                className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-[var(--nb-line-soft)] text-[var(--nb-heading)] transition active:scale-95"
               >
                 <X size={19} />
               </button>
             </div>
 
+            <div className="flex gap-2 px-4 pt-3"><DoiChuDe dayDu /><button type="button" className="nb-theme-button" aria-label={txUi.tim} onClick={() => { dong(); setTimeout(() => window.dispatchEvent(new Event("nb:command")), 0); }}><Search size={18} /></button></div>
             {/* ---------- THÂN: vùng cuộn riêng ---------- */}
             <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pt-4 pb-5">
               {/* Ô tìm: đi THẲNG tới kết quả, không bắt vào trang rồi gõ lại */}
@@ -206,18 +222,18 @@ export function MenuDayDu({ mo, dong, dem }: { mo: boolean; dong: () => void; de
                 role="search"
                 className="flex items-center gap-2.5 rounded-full border border-[var(--nb-gold)]/55 bg-[var(--nb-navy-800)] py-1.5 pr-1.5 pl-4 focus-within:border-[var(--nb-gold)]"
               >
-                <Search size={17} className="shrink-0 text-white/85" />
+                <Search size={17} className="shrink-0 text-[var(--nb-heading)]/85" />
                 <input
                   value={tu}
                   onChange={(e) => setTu(e.target.value)}
                   placeholder={tx.goiY}
                   aria-label={tx.goiY}
-                  className="h-10 min-w-0 flex-1 bg-transparent text-[14.5px] text-white outline-none placeholder:text-[#dbe6f5]"
+                  className="h-10 min-w-0 flex-1 bg-transparent text-[14.5px] text-[var(--nb-heading)] outline-none placeholder:text-[var(--nb-text-mute)]"
                 />
                 <button
                   type="submit"
                   aria-label={tx.goiY}
-                  className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[var(--nb-gold)] text-[var(--nb-navy-900)]"
+                  className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[var(--nb-gold)] text-[var(--nb-ink)]"
                 >
                   <ArrowRight size={17} />
                 </button>
@@ -246,8 +262,8 @@ export function MenuDayDu({ mo, dong, dem }: { mo: boolean; dong: () => void; de
                             <span
                               className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl ${
                                 on
-                                  ? "bg-[var(--nb-gold)] text-[var(--nb-navy-900)]"
-                                  : "bg-[var(--nb-navy-700)] text-[var(--nb-gold)]"
+                                  ? "bg-[var(--nb-gold)] text-[var(--nb-ink)]"
+                                  : "bg-[var(--nb-navy-700)] text-[var(--nb-accent-text)]"
                               }`}
                             >
                               <Icon size={18} />
@@ -255,7 +271,7 @@ export function MenuDayDu({ mo, dong, dem }: { mo: boolean; dong: () => void; de
                             <span className="min-w-0 flex-1">
                               <b
                                 className={`block text-[15px] leading-[1.35] font-semibold ${
-                                  on ? "text-[var(--nb-gold-strong)]" : "text-white"
+                                  on ? "text-[var(--nb-accent-text)]" : "text-[var(--nb-heading)]"
                                 }`}
                               >
                                 {label}
@@ -306,7 +322,7 @@ export function MenuDayDu({ mo, dong, dem }: { mo: boolean; dong: () => void; de
                                 <NavLink
                                   href={lh(`/don-hang?nganh=${n.id}`)}
                                   onClick={dong}
-                                  className="flex min-h-[38px] items-center rounded-full border border-[var(--nb-line-soft)] px-3 text-[12.5px] text-[var(--nb-text-dim)]"
+                                  className="flex min-h-[40px] items-center rounded-full border border-[var(--nb-line-soft)] px-3 text-[12.5px] text-[var(--nb-text-dim)]"
                                 >
                                   {tenNganh(n, lang)}
                                 </NavLink>
@@ -320,6 +336,7 @@ export function MenuDayDu({ mo, dong, dem }: { mo: boolean; dong: () => void; de
                 </div>
               ))}
 
+              <WebsiteNetworkMobile lang={lang} />
               {/* ---------- LIÊN HỆ ---------- */}
               <div className="mt-6">
                 <p className="nb-eyebrow px-1"><TechText>{tx.nhomLienHe}</TechText></p>
@@ -329,7 +346,7 @@ export function MenuDayDu({ mo, dong, dem }: { mo: boolean; dong: () => void; de
                       href={`tel:${LEGAL.phone.replace(/\s/g, "")}`}
                       className="flex min-h-[48px] items-center gap-3 rounded-2xl border border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] px-3.5 text-[var(--nb-text-dim)]"
                     >
-                      <Phone size={16} className="shrink-0 text-[var(--nb-gold)]" />
+                      <Phone size={16} className="shrink-0 text-[var(--nb-accent-text)]" />
                       <span className="truncate">{LEGAL.phone}</span>
                     </a>
                   </li>
@@ -338,12 +355,12 @@ export function MenuDayDu({ mo, dong, dem }: { mo: boolean; dong: () => void; de
                       href={`mailto:${LEGAL.email}`}
                       className="flex min-h-[48px] items-center gap-3 rounded-2xl border border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] px-3.5 text-[var(--nb-text-dim)]"
                     >
-                      <Mail size={16} className="shrink-0 text-[var(--nb-gold)]" />
+                      <Mail size={16} className="shrink-0 text-[var(--nb-accent-text)]" />
                       <span className="truncate">{LEGAL.email}</span>
                     </a>
                   </li>
                   <li className="flex items-start gap-3 px-3.5 py-2 text-[12.5px] leading-[1.6] text-[var(--nb-text-mute)]">
-                    <MapPin size={15} className="mt-0.5 shrink-0 text-[var(--nb-gold)]" />
+                    <MapPin size={15} className="mt-0.5 shrink-0 text-[var(--nb-accent-text)]" />
                     <span>{DIA_CHI_NGAN}</span>
                   </li>
                 </ul>

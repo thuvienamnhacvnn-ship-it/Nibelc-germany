@@ -1,3 +1,4 @@
+import { TextMask } from "@/components/ui/TextMask";
 import { TheDuLieu } from "@/components/tech/TheDuLieu";
 import { KhungHud } from "@/components/tech/KhungHud";
 import { congNghe } from "@/lib/i18n/dict/cong-nghe";
@@ -46,7 +47,7 @@ export default async function Page() {
         {/* ---------- CHÚNG TÔI LÀ AI ---------- */}
         <section className="nb-wrap grid items-center gap-9 py-11 sm:gap-12 sm:py-16 lg:grid-cols-2 lg:gap-16 lg:py-20">
           <div data-reveal>
-            <h2 data-reveal className="nb-display text-[25px] text-white sm:text-[32px]">{tx.ai.tieuDe}</h2>
+            <h2 data-reveal className="nb-display text-[25px] text-[var(--nb-heading)] sm:text-[32px]"><TextMask>{tx.ai.tieuDe}</TextMask></h2>
             <span className="mt-4 mb-6 block h-px w-16 bg-[var(--nb-gold)]" aria-hidden="true" />
             <p data-reveal className="text-[15px] leading-[1.8] text-[var(--nb-text-dim)] sm:text-[15.5px] sm:leading-[1.85]">
               {tx.ai.doan1(LEGAL.name)}
@@ -98,7 +99,7 @@ export default async function Page() {
                   className="object-cover"
                 />
                 {/* Không phủ lớp tối lên ảnh: tên ngành nằm trên nhãn nền đặc riêng */}
-                <b className="absolute bottom-2.5 left-2.5 max-w-[calc(100%-20px)] rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/85 px-3 py-1 text-[12.5px] font-semibold text-white backdrop-blur-sm nb-chip-anh">
+                <b className="absolute bottom-2.5 left-2.5 max-w-[calc(100%-20px)] rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/85 px-3 py-1 text-[12.5px] font-semibold text-[var(--nb-heading)] backdrop-blur-sm nb-chip-anh">
                   {x.ten}
                 </b>
               </li>
@@ -109,7 +110,7 @@ export default async function Page() {
         {/* ---------- CON SỐ ---------- */}
         <section className="border-y border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] py-11 sm:py-14">
           <div className="nb-wrap">
-            <h2 data-reveal className="nb-display text-[24px] text-white sm:text-[28px] lg:text-[32px]">{tx.conSo.tieuDe}</h2>
+            <h2 data-reveal className="nb-display text-[24px] text-[var(--nb-heading)] sm:text-[28px] lg:text-[32px]"><TextMask>{tx.conSo.tieuDe}</TextMask></h2>
             <ul className="mt-7 grid gap-7 sm:mt-9 sm:grid-cols-2 sm:gap-8 lg:grid-cols-4">
               {[
                 { so: String(dem.don), nhan: tx.conSo.don.ten, mo: tx.conSo.don.mo },
@@ -128,7 +129,7 @@ export default async function Page() {
 
         {/* ---------- CHÚNG TÔI LÀM GÌ ---------- */}
         <section className="nb-wrap py-11 sm:py-16 lg:py-20">
-          <h2 data-reveal className="nb-display text-[24px] text-white sm:text-[28px] lg:text-[32px]">{tx.lamGi.tieuDe}</h2>
+          <h2 data-reveal className="nb-display text-[24px] text-[var(--nb-heading)] sm:text-[28px] lg:text-[32px]"><TextMask>{tx.lamGi.tieuDe}</TextMask></h2>
           <span className="mt-4 mb-7 block h-px w-16 bg-[var(--nb-gold)] sm:mb-9" aria-hidden="true" />
           <ul className="grid gap-6 lg:grid-cols-3">
             {[
@@ -141,7 +142,7 @@ export default async function Page() {
                   <Image src={x.anh} alt="" fill sizes="(min-width:1024px) 420px, 100vw" className="object-cover" />
                 </span>
                 <KhungHud nhanTrai={congNghe[lang].thongTin} className="nb-thong-tin flex flex-1 flex-col p-5 sm:p-6">
-                  <b className="nb-display block text-[19px] text-white sm:text-[21px]">{x.ten}</b>
+                  <b className="nb-display block text-[19px] text-[var(--nb-heading)] sm:text-[21px]">{x.ten}</b>
                   <span className="mt-2.5 block text-[14px] leading-[1.75] text-[var(--nb-text-dim)] lg:mb-6">{x.mo}</span>
                   <NavLink data-magnetic href={x.href} className="nb-btn-ghost mt-auto h-11 w-fit px-5 pt-0 text-[14px]">
                     {x.nut}
@@ -155,14 +156,14 @@ export default async function Page() {
 
         {/* ---------- GIÁ TRỊ CỐT LÕI ---------- */}
         {/* Máy tính: dải ngà xen kẽ (trắng / ngà / trắng / ngà / trắng) */}
-        <section className="py-11 sm:py-16 lg:bg-[#F6F1E7] lg:py-20">
+        <section className="py-11 sm:py-16 lg:bg-[var(--nb-bg)] lg:py-20">
           <div className="nb-wrap">
-            <h2 data-reveal className="nb-display text-[24px] text-white sm:text-[28px] lg:text-[32px]">{tx.giaTri.tieuDe}</h2>
+            <h2 data-reveal className="nb-display text-[24px] text-[var(--nb-heading)] sm:text-[28px] lg:text-[32px]"><TextMask>{tx.giaTri.tieuDe}</TextMask></h2>
             <ul className="mt-7 grid gap-6 sm:mt-9 sm:grid-cols-2 lg:grid-cols-4">
               {tx.giaTri.ds.map((g, i) => (
                 <li data-reveal data-tilt key={g.ten} className="border-l border-[var(--nb-line)] pl-5">
                   <span className="nb-eyebrow"><TechText>{String(i + 1).padStart(2, "0")}</TechText></span>
-                  <b className="nb-display mt-2 block text-[21px] text-white sm:text-[24px]">{g.ten}</b>
+                  <b className="nb-display mt-2 block text-[21px] text-[var(--nb-heading)] sm:text-[24px]">{g.ten}</b>
                   <span className="mt-2 block text-[14px] leading-[1.7] text-[var(--nb-text-dim)]">{g.mo}</span>
                 </li>
               ))}
@@ -174,14 +175,14 @@ export default async function Page() {
         <section className="nb-nen-trang relative isolate overflow-hidden border-t border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)]">
           <span className="nb-gold-rule absolute inset-x-0 top-0 opacity-50" aria-hidden="true" />
           <div className="nb-wrap py-11 sm:py-16 lg:py-20">
-            <h2 data-reveal className="nb-display max-w-[20ch] text-[25px] text-white sm:text-[30px] lg:max-w-none lg:text-[32px]">{tx.ketNoi.tieuDe}</h2>
+            <h2 data-reveal className="nb-display max-w-[20ch] text-[25px] text-[var(--nb-heading)] sm:text-[30px] lg:max-w-none lg:text-[32px]"><TextMask>{tx.ketNoi.tieuDe}</TextMask></h2>
             <p data-reveal className="mt-4 max-w-[62ch] text-[15px] leading-[1.8] lg:max-w-[72ch] text-[var(--nb-text-dim)] sm:text-[15.5px]">
               {tx.ketNoi.mo}
             </p>
             <ul className="mt-7 grid gap-4 sm:mt-9 sm:grid-cols-3 sm:gap-5 lg:gap-6">
               {tx.ketNoi.ds.map(({ ten, mo }) => (
                 <li data-reveal data-tilt key={ten} className="nb-panel p-5 sm:p-6">
-                  <b className="block text-[16px] font-semibold text-[var(--nb-gold-soft)]">{ten}</b>
+                  <b className="block text-[16px] font-semibold text-[var(--nb-accent-text)]">{ten}</b>
                   <span className="mt-2 block text-[14px] leading-[1.7] text-[var(--nb-text-dim)]">{mo}</span>
                 </li>
               ))}

@@ -1,0 +1,5 @@
+export const giaoDien = {
+  vi: { ngay: "Chuyển sang giao diện Ngày", dem: "Chuyển sang giao diện Đêm", chuDe: "Ngày / Đêm", tim: "Tìm nhanh toàn website", goiY: "Tìm đơn hàng, ngành, trang, cẩm nang…", dong: "Đóng tìm kiếm", rong: "Không có kết quả phù hợp.", huongDan: "↑ ↓ chọn · Enter mở · Esc đóng", nhom: ["Trang", "Đơn hàng", "Ngành", "Cẩm nang"], xem: "Xem" },
+  en: { ngay: "Switch to Day theme", dem: "Switch to Night theme", chuDe: "Day / Night", tim: "Search the website", goiY: "Search jobs, industries, pages, guides…", dong: "Close search", rong: "No matching results.", huongDan: "↑ ↓ select · Enter open · Esc close", nhom: ["Pages", "Jobs", "Industries", "Guides"], xem: "View" },
+  de: { ngay: "Zum Tagmodus wechseln", dem: "Zum Nachtmodus wechseln", chuDe: "Tag / Nacht", tim: "Website durchsuchen", goiY: "Stellen, Branchen, Seiten, Ratgeber suchen…", dong: "Suche schließen", rong: "Keine passenden Ergebnisse.", huongDan: "↑ ↓ wählen · Enter öffnen · Esc schließen", nhom: ["Seiten", "Stellen", "Branchen", "Ratgeber"], xem: "Ansehen" },
+};

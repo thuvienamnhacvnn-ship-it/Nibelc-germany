@@ -1,3 +1,4 @@
+import { TextMask } from "@/components/ui/TextMask";
 import type { ReactNode } from "react";
 import { NavLink } from "@/components/layout/NavLink";
 import { TamKinh } from "@/components/ui/TamKinh";
@@ -108,9 +109,9 @@ export function PageHero({
           {/* text-balance ở MỌI khổ, không chỉ lg: ở điện thoại mấy tiêu đề
               này hay rớt đúng MỘT chữ xuống dòng cuối ("… tại châu / Âu"),
               nhìn như lỗi. Tiếng Đức ghép từ dài nên còn dễ rớt hơn. */}
-          <h1 data-reveal className="nb-display mt-3 max-w-[22ch] text-[26px] leading-[1.18] text-balance text-white sm:text-[clamp(30px,3.2vw,46px)] sm:leading-[1.14] lg:max-w-none lg:text-[40px]">
+          <h1 data-reveal className="nb-display mt-3 max-w-[22ch] text-[26px] leading-[1.18] text-balance text-[var(--nb-heading)] sm:text-[clamp(30px,3.2vw,46px)] sm:leading-[1.14] lg:max-w-none lg:text-[40px]"><TextMask>
             {tieuDe}
-          </h1>
+          </TextMask></h1>
           {mo && (
             /* Trên điện thoại chỉ giữ hai dòng đầu: mô tả dài đẩy phần nội dung
                thật xuống quá sâu, người xem phải cuộn mới thấy việc cần làm.
@@ -130,7 +131,7 @@ export function PageHero({
                     /* Ở điện thoại chip nằm trên nền trang phẳng chứ không còn
                        trên ảnh, nên nền mờ `navy-900/70` sẽ gần như tàng hình.
                        Dùng bậc KHỐI cho nó nổi lên; từ lg nằm trên tấm navy. */
-                    className="flex h-11 items-center gap-2 rounded-full border border-[var(--nb-gold)]/45 bg-[var(--nb-navy-800)] px-4 text-[13.5px] font-medium whitespace-nowrap text-[var(--nb-gold-soft)] transition hover:border-[var(--nb-gold)] hover:bg-[var(--nb-gold)] hover:text-[var(--nb-navy-900)] lg:h-8 lg:bg-[var(--nb-navy-900)]/70 lg:px-3.5 lg:text-[13px]"
+                    className="flex h-11 items-center gap-2 rounded-full border border-[var(--nb-gold)]/45 bg-[var(--nb-navy-800)] px-4 text-[13.5px] font-medium whitespace-nowrap text-[var(--nb-accent-text)] transition hover:border-[var(--nb-gold)] hover:bg-[var(--nb-gold)] hover:text-[var(--nb-ink)] lg:h-8 lg:bg-[var(--nb-navy-900)]/70 lg:px-3.5 lg:text-[13px]"
                   >
                     {t.nhan}
                     {t.so !== undefined && (

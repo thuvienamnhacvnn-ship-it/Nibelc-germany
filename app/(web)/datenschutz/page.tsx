@@ -1,3 +1,4 @@
+import { TextMask } from "@/components/ui/TextMask";
 import { congNghe } from "@/lib/i18n/dict/cong-nghe";
 import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
@@ -37,7 +38,7 @@ export default async function Page() {
                 href={lh("/datenschutz", "de")}
                 hrefLang="de"
                 lang="de"
-                className="font-medium text-[var(--nb-gold-soft)] hover:underline"
+                className="font-medium text-[var(--nb-accent-text)] hover:underline"
               >
                 {tx.ghiChu.link}
               </a>
@@ -45,7 +46,7 @@ export default async function Page() {
           )}
           {tx.muc.map((m, i) => (
             <section key={m.h} className={i > 0 ? "mt-9" : ""}>
-              <h2 data-reveal className="nb-display text-[21px] text-white">{m.h}</h2>
+              <h2 data-reveal className="nb-display text-[21px] text-[var(--nb-heading)]"><TextMask>{m.h}</TextMask></h2>
               <span className="mt-3 mb-4 block h-px w-14 bg-[var(--nb-gold)]" aria-hidden="true" />
               {m.p.map((p) => (
                 <p data-reveal key={p} className="mt-3.5 text-[15.5px] leading-[1.9] text-[var(--nb-text-dim)]">

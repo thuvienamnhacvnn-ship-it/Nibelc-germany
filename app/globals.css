@@ -248,7 +248,7 @@
   font-weight: 600;
   letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: var(--nb-gold);
+  color: var(--nb-accent-text, var(--nb-gold));
 }
 
 /* ============================================================
@@ -298,13 +298,13 @@
 /* nút viền vàng, nền trong */
 .nb-btn-ghost {
   border: 1px solid var(--nb-line);
-  background: rgba(11, 28, 54, 0.55);
-  color: var(--nb-gold-soft);
+  background: var(--nb-surface, rgba(11, 28, 54, 0.55));
+  color: var(--nb-accent-text, var(--nb-gold-soft));
   backdrop-filter: blur(8px);
 }
 .nb-btn-ghost:hover {
-  border-color: var(--nb-gold);
-  background: rgba(11, 28, 54, 0.85);
+  border-color: var(--nb-accent-text, var(--nb-gold));
+  background: var(--nb-raised, rgba(11, 28, 54, 0.85));
   transform: translateY(-2px);
 }
 
@@ -323,13 +323,13 @@
    BỀ MẶT
    ============================================================ */
 .nb-panel {
-  background: linear-gradient(180deg, rgba(11, 28, 54, 0.92), rgba(7, 21, 37, 0.92));
+  background: var(--nb-surface, linear-gradient(180deg, rgba(11, 28, 54, 0.92), rgba(7, 21, 37, 0.92)));
   border: 1px solid var(--nb-line-soft);
   border-radius: 16px;
 }
 
 .nb-card {
-  background: linear-gradient(180deg, rgba(18, 39, 69, 0.85), rgba(7, 21, 37, 0.95));
+  background: var(--nb-surface, linear-gradient(180deg, rgba(18, 39, 69, 0.85), rgba(7, 21, 37, 0.95)));
   border: 1px solid var(--nb-line-soft);
   border-radius: 14px;
   transition:
@@ -354,7 +354,7 @@
   width: 100%;
   border-radius: 10px;
   border: 1px solid var(--nb-line-soft);
-  background: rgba(7, 21, 37, 0.7);
+  background: var(--nb-raised, rgba(7, 21, 37, 0.7));
   color: var(--nb-text);
   padding: 0.7rem 0.95rem;
   font-size: 14.5px;
@@ -363,12 +363,12 @@
 .nb-input::placeholder {
   /* `--nb-text-mute` đo trên nền ô nhập chỉ 3,21:1 — chữ gợi ý mờ, người
      dùng không đọc được ô này để làm gì. Dùng bậc sáng hơn riêng cho nó. */
-  color: #a9bdd8;
+  color: var(--nb-text-mute, #a9bdd8);
 }
 .nb-input:focus {
   outline: none;
-  border-color: var(--nb-gold);
-  background: rgba(11, 28, 54, 0.9);
+  border-color: var(--nb-accent-text, var(--nb-gold));
+  background: var(--nb-raised, rgba(11, 28, 54, 0.9));
 }
 
 /* ============================================================
@@ -425,29 +425,29 @@
      KHÔNG gradient: bản trước mỗi bề mặt là một dải chuyển màu nên hai bậc
      kề nhau chỗ thì trùng chỗ thì lệch, cả trang bệt thành một mảng xanh. */
   .nb-panel {
-    background: #17508f;
+    background: var(--nb-surface, #17508f);
   }
   .nb-card {
-    background: #17508f;
+    background: var(--nb-surface, #17508f);
   }
   /* Ô nhập của bản cũ là rgba(7,21,37,.7) — đen hơn cả nền trang nên trên
      trang Liên hệ nó nhìn như một cái lỗ khoét vào thẻ. Dùng bậc NỔI. */
   .nb-input {
-    background: #2268ba;
+    background: var(--nb-raised, #2268ba);
   }
   /* Lúc bấm vào, bản gốc đổi nền sang rgba(11,28,54,.9) = navy ĐEN của bản cũ
      — ô nhập đang sáng bỗng tối sầm ngay khi người ta chạm vào nó. Giữ bậc
      nổi, chỉ đổi viền sang vàng (viền đã có sẵn ở quy tắc gốc). */
   .nb-input:focus {
-    background: #2a74c8;
+    background: var(--nb-raised, #2a74c8);
   }
   /* Nút viền vàng nền trong: bản gốc là rgba(11,28,54,.55) — trên nền xanh
      sáng nó thành một mảng tối lạc tông. Dùng bậc KHỐI. */
   .nb-btn-ghost {
-    background: #17508f;
+    background: var(--nb-surface, #17508f);
   }
   .nb-btn-ghost:hover {
-    background: #2268ba;
+    background: var(--nb-raised, #2268ba);
   }
 
   :root {
@@ -479,7 +479,7 @@
      #a9bdd8 chi con 2,92:1 — THAP HON ca ban truoc khi sua. #e3ecf8 do duoc
      4,69:1, dat nguong 4,5:1. */
   .nb-input::placeholder {
-    color: #e3ecf8;
+    color: var(--nb-text-mute, #e3ecf8);
   }
 }
 

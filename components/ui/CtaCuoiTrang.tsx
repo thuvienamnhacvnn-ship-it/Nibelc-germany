@@ -1,4 +1,6 @@
 "use client";
+import { TextMask } from "@/components/ui/TextMask";
+
 
 import { ArrowRight, Phone } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
@@ -19,11 +21,11 @@ export function CtaCuoiTrang() {
   const tx = useT(home).cta;
   const tel = LEGAL.phone.replace(/\s/g, "");
   return (
-    <section className="nb-toi hidden border-b border-white/10 lg:block">
+    <section className="nb-toi hidden border-b border-[var(--nb-line-soft)] lg:block">
       <div className="nb-wrap flex items-center justify-between gap-10 py-16">
         <div className="max-w-[640px]">
           <p data-reveal className="nb-eyebrow"><TechText>{tx.nhan}</TechText></p>
-          <h2 data-reveal className="nb-display mt-3 text-[32px] leading-tight text-white">{tx.tieuDe}</h2>
+          <h2 data-reveal className="nb-display mt-3 text-[32px] leading-tight text-[var(--nb-heading)]"><TextMask>{tx.tieuDe}</TextMask></h2>
           <p data-reveal className="mt-3 text-[16px] leading-[1.7]">{tx.mo}</p>
         </div>
         <div className="flex shrink-0 items-center gap-3">

@@ -55,19 +55,19 @@ export function JobCard({ job, lon = false }: { job: JobFull; lon?: boolean }) {
 
         {/* góc trái: trạng thái đơn */}
         {job.isSample ? (
-          <span className="absolute top-3 left-3 rounded-full bg-[var(--nb-cyan)]/90 px-2.5 py-1 text-[12px] font-bold text-white lg:text-[10.5px]">
+          <span className="absolute top-3 left-3 rounded-full bg-[var(--nb-cyan)]/90 px-2.5 py-1 text-[12px] font-bold text-[var(--nb-heading)] lg:text-[10.5px]">
             {tx.mau}
           </span>
         ) : (
           lon && job.featured && (
-            <span className="absolute top-3 left-3 rounded-full bg-[var(--nb-gold)] px-2.5 py-1 text-[12px] font-bold tracking-[0.05em] lg:text-[10.5px] text-[var(--nb-navy-900)]">
+            <span className="absolute top-3 left-3 rounded-full bg-[var(--nb-gold)] px-2.5 py-1 text-[12px] font-bold tracking-[0.05em] lg:text-[10.5px] text-[var(--nb-ink)]">
               {tx.noiBat}
             </span>
           )
         )}
 
         {/* góc phải: cờ Đức + thành phố, đúng mô-típ ảnh mẫu */}
-        <span className="absolute top-3 right-3 flex items-center gap-1.5 rounded-full bg-[var(--nb-navy-900)]/80 px-2.5 py-1 text-[13px] font-semibold text-white backdrop-blur-sm lg:text-[11.5px]">
+        <span className="absolute top-3 right-3 flex items-center gap-1.5 rounded-full bg-[var(--nb-navy-900)]/80 px-2.5 py-1 text-[13px] font-semibold text-[var(--nb-heading)] backdrop-blur-sm lg:text-[11.5px]">
           <span className="nb-co-duc h-[9px] w-[14px]" aria-hidden="true">
             <span style={{ background: "#111" }} />
             <span style={{ background: "#d00" }} />
@@ -77,7 +77,7 @@ export function JobCard({ job, lon = false }: { job: JobFull; lon?: boolean }) {
         </span>
 
         {nganh && (
-          <span className="absolute bottom-3 left-3 rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/78 px-3 py-1 text-[13px] font-semibold text-[var(--nb-gold-soft)] backdrop-blur-sm lg:text-[11.5px]">
+          <span className="absolute bottom-3 left-3 rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/78 px-3 py-1 text-[13px] font-semibold text-[var(--nb-accent-text)] backdrop-blur-sm lg:text-[11.5px]">
             {tenNganh(nganh, lang)}
           </span>
         )}
@@ -85,7 +85,7 @@ export function JobCard({ job, lon = false }: { job: JobFull; lon?: boolean }) {
 
       <span className="flex flex-1 flex-col p-5">
         <b
-          className={`leading-snug font-semibold text-white ${
+          className={`leading-snug font-semibold text-[var(--nb-heading)] ${
             lon ? "text-[21px]" : "min-h-[2.6em] text-[16.5px]"
           } [display:-webkit-box] [overflow:hidden] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]`}
         >
@@ -97,17 +97,17 @@ export function JobCard({ job, lon = false }: { job: JobFull; lon?: boolean }) {
 
         {/* Mức lương bên trái, số suất bên phải — đúng bố cục ảnh mẫu */}
         <span className="mt-3 flex items-end justify-between gap-3">
-          <b className="nb-display block text-[19px] leading-none font-bold text-[var(--nb-gold-strong)]">
+          <b className="nb-display block text-[19px] leading-none font-bold text-[var(--nb-accent-text)]">
             {chuoiLuong(job, lang)}
           </b>
           <span className="shrink-0 text-right leading-tight">
             <span className="block text-[12px] text-[var(--nb-text-mute)] lg:text-[11px]">{tx.soLuong}</span>
-            <b className="block text-[14px] font-semibold text-white">{tx.soNguoi(job.vacancies)}</b>
+            <b className="block text-[14px] font-semibold text-[var(--nb-heading)]">{tx.soNguoi(job.vacancies)}</b>
           </span>
         </span>
 
         <span className="mt-2.5 flex items-center gap-1.5 text-[12.5px] text-[var(--nb-text-dim)]">
-          <MapPin size={13} className="shrink-0 text-[var(--nb-gold)]" />
+          <MapPin size={13} className="shrink-0 text-[var(--nb-accent-text)]" />
           <span className="truncate">{noiLamViec(job)}</span>
         </span>
 
@@ -126,7 +126,7 @@ export function JobCard({ job, lon = false }: { job: JobFull; lon?: boolean }) {
               </span>
             ))}
           </span>
-          <span className="flex items-center gap-1.5 rounded-full border border-[var(--nb-gold)]/55 px-3.5 py-1.5 text-[12.5px] font-semibold text-[var(--nb-gold-soft)] transition group-hover:bg-[var(--nb-gold)] group-hover:text-[var(--nb-navy-900)]">
+          <span className="flex items-center gap-1.5 rounded-full border border-[var(--nb-gold)]/55 px-3.5 py-1.5 text-[12.5px] font-semibold text-[var(--nb-accent-text)] transition group-hover:bg-[var(--nb-gold)] group-hover:text-[var(--nb-ink)]">
             {tx.xemChiTiet}
             <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-0.5" />
           </span>

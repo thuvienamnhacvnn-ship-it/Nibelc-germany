@@ -1,6 +1,8 @@
+import { headers } from "next/headers";
 import type { Metadata } from "next";
 import { Inter, Montserrat, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import "./public-theme.css";
 import { SITE_URL } from "@/lib/i18n/config";
 import { getLang } from "@/lib/i18n/server";
 
@@ -57,10 +59,12 @@ export default async function KhungGoc({ children }: Readonly<{ children: React.
   /* Trang quản trị không đi qua bộ định tuyến ngôn ngữ nên không có header
      x-nb-lang; getLang() trả "vi", đúng cho cả hai nhánh. */
   const lang = await getLang();
+  const publicWeb = (await headers()).has("x-nb-path");
   return (
     // data-scroll-behavior: globals.css đặt `scroll-behavior: smooth` trên html; Next 16 cần thuộc
     // tính này để tạm tắt cuộn mượt lúc chuyển trang (không có thì console cảnh báo ở mọi trang).
-    <html lang={lang} data-scroll-behavior="smooth" className={`${inter.variable} ${tieuDeHero.variable} ${display.variable}`}>
+    <html suppressHydrationWarning data-public={publicWeb ? "true" : undefined} lang={lang} data-scroll-behavior="smooth" className={`${inter.variable} ${tieuDeHero.variable} ${display.variable}`}>
+      <head><script dangerouslySetInnerHTML={{ __html: `(function(){if(/^\\/admin(?:\\/|$)/.test(location.pathname))return;var h=document.documentElement,t;try{t=localStorage.getItem('nb-theme')}catch(e){}h.dataset.public='true';h.dataset.theme=t==='ngay'||t==='dem'?t:(matchMedia('(prefers-color-scheme: dark)').matches?'dem':'ngay')})();` }} /></head>
       <body>{children}</body>
     </html>
   );

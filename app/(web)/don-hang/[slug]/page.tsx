@@ -1,3 +1,4 @@
+import { TextMask } from "@/components/ui/TextMask";
 import { KhungHud } from "@/components/tech/KhungHud";
 import { TheDuLieu } from "@/components/tech/TheDuLieu";
 import { congNghe } from "@/lib/i18n/dict/cong-nghe";
@@ -97,7 +98,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                 giữ nguyên dòng mảnh. */}
             <NavLink
               href="/don-hang"
-              className="inline-flex min-h-[44px] items-center transition hover:text-[var(--nb-gold-soft)] lg:min-h-0 lg:font-medium lg:text-[var(--s-gold)] lg:hover:text-[var(--s-ink)]"
+              className="inline-flex min-h-[44px] items-center transition hover:text-[var(--nb-accent-text)] lg:min-h-0 lg:font-medium lg:text-[var(--s-gold)] lg:hover:text-[var(--s-ink)]"
             >
               {tx.ct.donHang}
             </NavLink>
@@ -107,7 +108,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
           <div className="mt-4 flex flex-wrap items-center gap-2">
             {nganh && (
-              <span className="rounded-full border border-[var(--nb-line)] px-3 py-1 text-[12px] text-[var(--nb-gold-soft)] lg:border-[var(--s-line-warm)] lg:bg-[var(--s-alt)] lg:font-semibold lg:text-[var(--s-gold)]">
+              <span className="rounded-full border border-[var(--nb-line)] px-3 py-1 text-[12px] text-[var(--nb-accent-text)] lg:border-[var(--s-line-warm)] lg:bg-[var(--s-alt)] lg:font-semibold lg:text-[var(--s-gold)]">
                 {lang === "vi" ? (
                   <>
                     {nganh.titleVi} · <span lang="de">{nganh.titleDe}</span>
@@ -118,13 +119,13 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
               </span>
             )}
             {job.isSample && (
-              <span className="rounded-full bg-[var(--nb-navy-800)] px-2.5 py-1 text-[12px] font-bold tracking-[0.04em] text-[var(--nb-gold)] ring-1 ring-[var(--nb-gold)]/40 lg:text-[12px]">
+              <span className="rounded-full bg-[var(--nb-navy-800)] px-2.5 py-1 text-[12px] font-bold tracking-[0.04em] text-[var(--nb-accent-text)] ring-1 ring-[var(--nb-gold)]/40 lg:text-[12px]">
                 {tx.ct.duLieuMau}
               </span>
             )}
           </div>
 
-          <h1 data-reveal className="nb-display mt-3 text-[23px] leading-[1.2] text-white sm:text-[clamp(26px,2.6vw,38px)] sm:leading-[1.15] lg:text-[38px] lg:text-balance lg:text-[var(--s-ink)]">{job.title}</h1>
+          <h1 data-reveal className="nb-display mt-3 text-[23px] leading-[1.2] text-[var(--nb-heading)] sm:text-[clamp(26px,2.6vw,38px)] sm:leading-[1.15] lg:text-[38px] lg:text-balance lg:text-[var(--s-ink)]"><TextMask>{job.title}</TextMask></h1>
           <p data-reveal className="mt-2 text-[14.5px] text-[var(--nb-text-mute)] lg:text-[15px] lg:text-[var(--s-mute)]">{tenNhaTuyenDung(job, lang)}</p>
 
           <KhungHud nhanTrai={congNghe[lang].anh} className="nb-thu-vien mt-7">
@@ -142,12 +143,12 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           <ul className="mt-7 grid gap-2.5 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3">
             {THONG_TIN.map(({ Icon, nhan, gt }) => (
               <li data-reveal data-tilt key={nhan} className="nb-panel flex items-center gap-2.5 p-3 sm:gap-3 sm:p-4">
-                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-[var(--nb-line)] text-[var(--nb-gold)] lg:h-10 lg:w-10 lg:rounded-xl lg:border-0 lg:bg-[var(--s-alt)] lg:text-[var(--s-gold)]">
+                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-[var(--nb-line)] text-[var(--nb-accent-text)] lg:h-10 lg:w-10 lg:rounded-xl lg:border-0 lg:bg-[var(--s-alt)] lg:text-[var(--s-gold)]">
                   <Icon size={16} />
                 </span>
                 <span className="min-w-0">
                   <span className="block text-[12px] text-[var(--nb-text-mute)] lg:text-[var(--s-mute)]">{nhan}</span>
-                  <b className="mt-0.5 block truncate text-[13.5px] font-semibold text-white sm:text-[14.5px] lg:text-[var(--s-ink)]">{gt}</b>
+                  <b className="mt-0.5 block truncate text-[13.5px] font-semibold text-[var(--nb-heading)] sm:text-[14.5px] lg:text-[var(--s-ink)]">{gt}</b>
                 </span>
               </li>
             ))}
@@ -166,7 +167,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                   <li
                     key={`${v.name}-${i}`}
                     className={`flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 px-4 py-3 sm:px-5 sm:py-3.5 ${
-                      i % 2 ? "bg-white/[.02] lg:bg-[var(--s-soft)]" : ""
+                      i % 2 ? "bg-[var(--nb-surface)]/[.02] lg:bg-[var(--s-soft)]" : ""
                     }`}
                   >
                     <span className="min-w-0 flex-1 basis-full text-[14.5px] text-[var(--nb-text)] sm:basis-0 lg:text-[15px] lg:text-[var(--s-ink)]">{v.name}</span>
@@ -202,7 +203,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             <ol className="grid gap-2.5 sm:grid-cols-2 sm:gap-3">
               {tx.ct.buoc.map((b, i) => (
                 <li data-reveal data-tilt key={b} className="nb-panel flex gap-3 p-3.5 sm:p-4">
-                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[var(--nb-gold)] text-[12px] font-bold text-[var(--nb-navy-900)] lg:bg-[var(--s-ink)] lg:text-white">
+                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[var(--nb-gold)] text-[12px] font-bold text-[var(--nb-ink)] lg:bg-[var(--nb-inverse-bg)] lg:text-[var(--nb-inverse-text)]">
                     {i + 1}
                   </span>
                   <span className="text-[14px] leading-[1.6] text-[var(--nb-text-dim)] lg:text-[14.5px] lg:text-[var(--s-body)]">{b}</span>
@@ -232,7 +233,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                 ].map(([k, v]) => (
                   <div key={k} className="flex justify-between gap-4">
                     <dt className="text-[var(--nb-text-mute)] lg:text-[var(--s-mute)]">{k}</dt>
-                    <dd className="text-right font-medium text-white lg:text-[var(--s-ink)]">{v}</dd>
+                    <dd className="text-right font-medium text-[var(--nb-heading)] lg:text-[var(--s-ink)]">{v}</dd>
                   </div>
                 ))}
               </dl>
@@ -260,7 +261,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       {lienQuan.length > 0 && (
         <section className="border-t border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] py-11 sm:py-16 lg:border-[var(--s-line-warm)] lg:bg-[var(--s-alt)] lg:py-20">
           <div className="nb-wrap">
-            <h2 data-reveal className="nb-display text-[22px] text-white sm:text-[26px] lg:text-[32px] lg:text-[var(--s-ink)]">{tx.ct.cungNganh}</h2>
+            <h2 data-reveal className="nb-display text-[22px] text-[var(--nb-heading)] sm:text-[26px] lg:text-[32px] lg:text-[var(--s-ink)]"><TextMask>{tx.ct.cungNganh}</TextMask></h2>
             <ul className="mt-6 grid gap-5 sm:mt-7 sm:gap-6 md:grid-cols-2 xl:grid-cols-3 lg:hidden">
               {lienQuan.map((j) => (
                 <li key={j.id}>
@@ -285,7 +286,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 function Khoi({ tieuDe, children }: { tieuDe: string; children: React.ReactNode }) {
   return (
     <section className="mt-9 sm:mt-10 lg:mt-12">
-      <h2 data-reveal className="nb-display text-[19px] text-white sm:text-[21px] lg:text-[24px] lg:text-[var(--s-ink)]">{tieuDe}</h2>
+      <h2 data-reveal className="nb-display text-[19px] text-[var(--nb-heading)] sm:text-[21px] lg:text-[24px] lg:text-[var(--s-ink)]"><TextMask>{tieuDe}</TextMask></h2>
       <span className="mt-3 mb-5 block h-px w-16 bg-[var(--nb-gold)] lg:h-[2px] lg:w-12 lg:bg-[var(--s-gold-brand)]" aria-hidden="true" />
       {children}
     </section>
@@ -297,7 +298,7 @@ function DanhSach({ ds }: { ds: string[] }) {
     <ul className="space-y-2.5">
       {ds.map((x) => (
         <li key={x} className="flex gap-2.5 text-[14.5px] leading-[1.7] text-[var(--nb-text-dim)] sm:gap-3 sm:text-[15px] lg:text-[16px] lg:text-[var(--s-body)]">
-          <Check size={17} className="mt-[3px] shrink-0 text-[var(--nb-gold)] lg:mt-1 lg:text-[var(--s-gold)]" />
+          <Check size={17} className="mt-[3px] shrink-0 text-[var(--nb-accent-text)] lg:mt-1 lg:text-[var(--s-gold)]" />
           {x}
         </li>
       ))}

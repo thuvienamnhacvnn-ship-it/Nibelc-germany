@@ -55,7 +55,7 @@ export function MenuDay() {
            dải đó trong suốt — nhìn ra là thanh menu BAY lên, hở nền trang
            bên dưới. Máy tính không có safe-area nên không lộ, phải mở trên
            điện thoại thật mới thấy. */
-        background: "#1a4f93",
+        background: "var(--nb-surface)",
         paddingBottom: "env(safe-area-inset-bottom, 0px)",
         boxShadow: "0 -10px 28px -8px rgba(3,12,26,.75)",
       }}
@@ -100,7 +100,7 @@ export function MenuDay() {
                 <Icon
                   size={22}
                   strokeWidth={on ? 2.2 : 1.8}
-                  className={on ? "text-[var(--nb-gold-strong)]" : "text-[#b9cce6]"}
+                  className={on ? "text-[var(--nb-accent-text)]" : "text-[var(--nb-text-dim)]"}
                 />
 
                 {/* leading-[1.4] chứ KHÔNG leading-none: `truncate` kèm
@@ -108,7 +108,7 @@ export function MenuDay() {
                     ("ề" của "Du học nghề") bị xén mất. */}
                 <span
                   className={`w-full truncate text-center text-[12px] leading-[1.4] tracking-[-0.01em] ${
-                    on ? "font-bold text-[var(--nb-gold-strong)]" : "font-medium text-[#b9cce6]"
+                    on ? "font-bold text-[var(--nb-accent-text)]" : "font-medium text-[var(--nb-text-dim)]"
                   }`}
                 >
                   {label}

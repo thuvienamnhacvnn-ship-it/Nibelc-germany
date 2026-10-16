@@ -1,5 +1,6 @@
 "use client";
 
+
 import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useHeroJobRotation } from "@/hooks/useHeroJobRotation";
@@ -62,7 +63,7 @@ export function Hero({
   }, [hero]);
 
   return (
-    <section className="relative isolate min-h-[calc(100svh-var(--nb-header))] overflow-hidden lg:min-h-[calc(100vh-40px)]">
+    <section data-theme-island="dark" className="relative isolate min-h-[calc(100svh-var(--nb-header))] overflow-hidden lg:min-h-[calc(100vh-40px)]">
       {/* ---------- NỀN: video, bản ngang cho desktop và bản dọc cho điện thoại ---------- */}
       <HeroVideo anh={banner?.anh} anhDoc={banner?.anhDoc} />
 

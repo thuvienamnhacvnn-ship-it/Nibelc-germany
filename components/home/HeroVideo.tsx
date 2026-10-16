@@ -1,5 +1,6 @@
 "use client";
 
+import { useGiamChuyenDong } from "@/components/ui/TechText";
 import { useEffect, useRef, useState } from "react";
 
 /**
@@ -27,7 +28,7 @@ export function HeroVideo({
   anhDoc?: string;
 }) {
   const [dien, setDien] = useState<null | boolean>(null);
-  const [imLang, setImLang] = useState(false);
+  const imLang = useGiamChuyenDong();
   const video = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -36,8 +37,6 @@ export function HeroVideo({
     dat();
     mq.addEventListener("change", dat);
 
-    const rm = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setImLang(rm.matches);
 
     return () => mq.removeEventListener("change", dat);
   }, []);

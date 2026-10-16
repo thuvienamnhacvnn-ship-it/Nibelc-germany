@@ -72,7 +72,7 @@ export function BangChayDonHang({ ds }: { ds: JobFull[] }) {
                   màu lên ảnh, và chữ đè lên mặt người (ảnh đơn hàng nào cũng
                   có người). Ảnh giờ để sạch hoàn toàn. */}
               <span className="block px-3 pt-2.5">
-                <b className="nb-display line-clamp-1 block text-[14px] leading-tight font-semibold text-white">
+                <b className="nb-display line-clamp-1 block text-[14px] leading-tight font-semibold text-[var(--nb-heading)]">
                   {j.title}
                 </b>
               </span>
@@ -86,11 +86,11 @@ export function BangChayDonHang({ ds }: { ds: JobFull[] }) {
                   nơi làm cắt đuôi thì vẫn đoán ra. Tiếng Đức và tiếng Anh
                   chuỗi còn dài hơn tiếng Việt nên càng không được xếp chung. */}
               <span className="block px-3 pt-1.5 pb-2.5">
-                <span className="nb-display block text-[14.5px] font-bold whitespace-nowrap text-[var(--nb-gold-strong)]">
+                <span className="nb-display block text-[14.5px] font-bold whitespace-nowrap text-[var(--nb-accent-text)]">
                   {luongHienThi(j, lang, tx.the.thoaThuan)}
                 </span>
                 <span className="mt-1 flex items-center gap-1 text-[12.5px] text-[#c2d3e8]">
-                  <MapPin size={12} className="shrink-0 text-[var(--nb-gold)]" />
+                  <MapPin size={12} className="shrink-0 text-[var(--nb-accent-text)]" />
                   <span className="truncate">{noiLamViec(j).split(",")[0]}</span>
                 </span>
               </span>

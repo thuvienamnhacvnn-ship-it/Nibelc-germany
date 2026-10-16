@@ -56,7 +56,7 @@ export function SearchCommandBar({
           value={gt.nganh}
           onChange={(e) => dat({ nganh: e.target.value })}
           aria-label={tx.thanh.nganhAria}
-          className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto lg:cursor-pointer lg:font-medium lg:text-[var(--s-ink)]"
+          className="h-11 w-full bg-transparent text-[14px] text-[var(--nb-heading)] outline-none lg:h-auto lg:cursor-pointer lg:font-medium lg:text-[var(--s-ink)]"
         >
           <option value="">{tx.loc.tatCaNganh}</option>
           {INDUSTRIES.map((i) => (
@@ -72,7 +72,7 @@ export function SearchCommandBar({
           value={gt.thanhPho}
           onChange={(e) => dat({ thanhPho: e.target.value })}
           aria-label={tx.thanh.thanhPhoAria}
-          className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto lg:cursor-pointer lg:font-medium lg:text-[var(--s-ink)]"
+          className="h-11 w-full bg-transparent text-[14px] text-[var(--nb-heading)] outline-none lg:h-auto lg:cursor-pointer lg:font-medium lg:text-[var(--s-ink)]"
         >
           <option value="">{tx.thanh.tatCaDiaDiem}</option>
           {thanhPho.map((c) => (
@@ -88,7 +88,7 @@ export function SearchCommandBar({
           value={gt.luongMin}
           onChange={(e) => dat({ luongMin: Number(e.target.value) })}
           aria-label={tx.thanh.luongAria}
-          className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto lg:cursor-pointer lg:font-medium lg:text-[var(--s-ink)]"
+          className="h-11 w-full bg-transparent text-[14px] text-[var(--nb-heading)] outline-none lg:h-auto lg:cursor-pointer lg:font-medium lg:text-[var(--s-ink)]"
         >
           {LUONG.map((l) => (
             <option key={l} value={l}>
@@ -103,7 +103,7 @@ export function SearchCommandBar({
           value={gt.chuongTrinh}
           onChange={(e) => dat({ chuongTrinh: e.target.value })}
           aria-label={tx.thanh.loaiChuongTrinh}
-          className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto lg:cursor-pointer lg:font-medium lg:text-[var(--s-ink)]"
+          className="h-11 w-full bg-transparent text-[14px] text-[var(--nb-heading)] outline-none lg:h-auto lg:cursor-pointer lg:font-medium lg:text-[var(--s-ink)]"
         >
           <option value="">{tx.loc.tatCaChuongTrinh}</option>
           {CHUONG_TRINH.map((c) => (
@@ -119,7 +119,7 @@ export function SearchCommandBar({
           value={gt.tieng}
           onChange={(e) => dat({ tieng: e.target.value })}
           aria-label={tx.thanh.trinhDo}
-          className="h-11 w-full bg-transparent text-[14px] text-white outline-none lg:h-auto lg:cursor-pointer lg:font-medium lg:text-[var(--s-ink)]"
+          className="h-11 w-full bg-transparent text-[14px] text-[var(--nb-heading)] outline-none lg:h-auto lg:cursor-pointer lg:font-medium lg:text-[var(--s-ink)]"
         >
           <option value="">{tx.loc.tatCaTrinhDo}</option>
           {["A2 – B1", "B1", "B1 – B2", "B2"].map((t) => (
@@ -163,8 +163,8 @@ function O({
        nhãn vỡ ba dòng và ô thứ năm tràn khỏi khung.
        `basis-full` (flex-basis: 100%) mới buộc mỗi ô chiếm trọn một hàng.
        Từ lg trở lên trả lại `flex-1` để bố cục ngang của desktop y như cũ. */
-    <label className="flex w-full min-w-0 basis-full items-center gap-3 bg-[var(--nb-navy-800)]/60 px-4 py-2.5 transition hover:bg-[var(--nb-navy-700)]/70 lg:w-auto lg:border-r lg:border-[var(--s-line)] lg:bg-white lg:hover:bg-[var(--s-soft)] lg:min-w-[196px] lg:flex-1 lg:basis-0 lg:py-3">
-      <Icon size={17} className="shrink-0 text-[var(--nb-gold)] lg:text-[var(--s-gold)]" />
+    <label className="flex w-full min-w-0 basis-full items-center gap-3 bg-[var(--nb-navy-800)]/60 px-4 py-2.5 transition hover:bg-[var(--nb-navy-700)]/70 lg:w-auto lg:border-r lg:border-[var(--s-line)] lg:bg-[var(--nb-surface)] lg:hover:bg-[var(--s-soft)] lg:min-w-[196px] lg:flex-1 lg:basis-0 lg:py-3">
+      <Icon size={17} className="shrink-0 text-[var(--nb-accent-text)] lg:text-[var(--s-gold)]" />
       <span className="min-w-0 flex-1">
         {/* TUYỆT ĐỐI không `truncate` (overflow:hidden) cùng `leading-none` ở
             đây: nhãn viết HOA có dấu tiếng Việt, dấu nằm cao hơn thân chữ nên

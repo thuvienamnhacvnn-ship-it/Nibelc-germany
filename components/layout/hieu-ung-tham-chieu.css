@@ -93,3 +93,36 @@
   [data-reveal] { opacity: 1 !important; translate: none !important; }
   [data-tilt], [data-magnetic] { transform: none !important; }
 }
+
+/* Thước HUD có vạch chia, phần đã đọc cắt theo tiến độ. */
+.nb-scroll-progress { height: 6px; transform: none; background: repeating-linear-gradient(90deg,var(--nb-line) 0 1px,transparent 1px 12px); }
+.nb-scroll-progress > span { display: block; height: 100%; background: repeating-linear-gradient(90deg,var(--nb-gold) 0 1px,transparent 1px 12px); clip-path: inset(0 calc((1 - var(--scroll-progress,0))*100%) 0 0); border-top: 1px solid var(--nb-gold); }
+.nb-text-mask { display: inline; }
+.nb-mask-word { display: inline-block; overflow: clip; vertical-align: bottom; padding-block: .15em; margin-block: -.15em; }
+.nb-mask-word > span { display: inline-block; }
+.nb-cursor-label { position: fixed; top: 0; left: 0; z-index: 125; pointer-events: none; padding: 5px 10px; background: var(--nb-inverse-bg); color: var(--nb-inverse-text); border: 1px solid var(--nb-gold); font-size: 12px; }
+.nb-cursor-label[hidden] { display: none; }
+.nb-so-lat { display: inline-block; font-variant-numeric: tabular-nums; }
+.nb-so-o { display: inline-block; position: relative; height: 1.25em; line-height: 1.25; overflow: clip; vertical-align: bottom; }
+.nb-so-cuon { position: absolute; inset: 0 0 auto; animation: nb-so-cuon 900ms cubic-bezier(.2,.7,.3,1) both; }
+.nb-so-cuon > span { display: block; height: 1.25em; }
+.nb-luoi-quet { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.nb-luoi-quet::after { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--nb-line); opacity: 0; }
+@keyframes nb-so-cuon { from { transform: translateY(0); } to { transform: translateY(calc(var(--nb-so-dich) * -1.25em)); } }
+@keyframes nb-text-mask { from { transform: translateY(115%); } to { transform: translateY(0); } }
+@keyframes nb-luoi-quet { from { top: 0; opacity: 1; } to { top: 100%; opacity: 0; } }
+@media (prefers-reduced-motion: no-preference) {
+  html.nb-motion-ready [data-reveal]:has([data-mask-title]) { animation: none; }
+  .nb-text-mask.revealed .nb-mask-word > span { animation: nb-text-mask 600ms cubic-bezier(.2,.7,.3,1) var(--nb-dong-tre,0ms) backwards; }
+  .nb-luoi.revealed > .nb-luoi-quet::after { animation: nb-luoi-quet 900ms ease-out both; }
+}
+@media (pointer: coarse), (prefers-reduced-motion: reduce) { .nb-cursor-label { display: none !important; } .nb-mask-word > span { transform: none !important; } .nb-luoi-quet { display: none; } }
+
+/* SVG hero giữ nguyên tọa độ và bố cục, chỉ trồi lên theo từng dòng. */
+.nb-mask-word,.nb-mask-word > span { max-width: 100%; overflow-wrap: anywhere; }
+@keyframes nb-svg-mask { 0%,99% { clip-path: var(--nb-svg-clip); } 100% { clip-path: none; } }
+@keyframes nb-svg-rise { from { transform: translateY(var(--nb-svg-rise)); } to { transform: translateY(0); } }
+@media (prefers-reduced-motion: no-preference) {
+  [data-mask-title].revealed .nb-svg-mask { animation: nb-svg-mask 600ms linear var(--nb-dong-tre) backwards; }
+  [data-mask-title].revealed .nb-svg-rise { animation: nb-svg-rise 600ms cubic-bezier(.2,.7,.3,1) var(--nb-dong-tre) backwards; }
+}

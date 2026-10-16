@@ -1,4 +1,6 @@
 "use client";
+import { TextMask } from "@/components/ui/TextMask";
+
 
 import { useRef } from "react";
 import Image from "next/image";
@@ -105,11 +107,11 @@ export function FeaturedJob({
         <Image src={job.image} alt={job.title} fill priority sizes="612px" className="object-cover" />
 
         {nganh && (
-          <span className="absolute top-3 left-3 rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/80 px-3 py-1 text-[12.5px] font-semibold text-[var(--nb-gold-soft)] backdrop-blur-sm">
+          <span className="absolute top-3 left-3 rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/80 px-3 py-1 text-[12.5px] font-semibold text-[var(--nb-accent-text)] backdrop-blur-sm">
             {tenNganh(nganh, lang)}
           </span>
         )}
-        <span className="absolute top-3 right-3 rounded-full bg-[var(--nb-gold)] px-3 py-1 text-[12px] font-bold tracking-[0.05em] text-[var(--nb-navy-900)]">
+        <span className="absolute top-3 right-3 rounded-full bg-[var(--nb-gold)] px-3 py-1 text-[12px] font-bold tracking-[0.05em] text-[var(--nb-ink)]">
           {tx.dangTuyen}
         </span>
 
@@ -131,26 +133,26 @@ export function FeaturedJob({
           className="absolute inset-x-0 bottom-0 px-5 pt-3 pb-4"
           style={{ textShadow: "0 1px 2px rgba(0,0,0,.95), 0 2px 10px rgba(0,0,0,.7)" }}
         >
-          <h2 className="nb-display text-[clamp(18px,1.6vw,25px)] leading-[1.12] font-bold text-white">
+          <h2 className="nb-display text-[clamp(18px,1.6vw,25px)] leading-[1.12] font-bold text-[var(--nb-heading)]"><TextMask>
             {job.title}
-          </h2>
+          </TextMask></h2>
 
           <div className="mt-2 flex flex-wrap items-center gap-x-3.5 gap-y-1.5">
-            <span className="nb-display text-[clamp(17px,1.4vw,22px)] leading-none font-bold text-[var(--nb-gold-strong)]">
+            <span className="nb-display text-[clamp(17px,1.4vw,22px)] leading-none font-bold text-[var(--nb-accent-text)]">
               {luongHienThi(job, lang, tx.thoaThuan)}
             </span>
-            <span className="flex items-center gap-1.5 text-[13px] font-medium text-white">
-              <MapPin size={13} className="shrink-0 text-[var(--nb-gold)]" />
+            <span className="flex items-center gap-1.5 text-[13px] font-medium text-[var(--nb-heading)]">
+              <MapPin size={13} className="shrink-0 text-[var(--nb-accent-text)]" />
               {noiLamViec(job)}
             </span>
-            <span className="flex items-center gap-1.5 text-[13px] font-medium text-white">
-              <Users size={13} className="shrink-0 text-[var(--nb-gold)]" />
+            <span className="flex items-center gap-1.5 text-[13px] font-medium text-[var(--nb-heading)]">
+              <Users size={13} className="shrink-0 text-[var(--nb-accent-text)]" />
               {tx.soSuat(job.vacancies)}
             </span>
             {/* 12,5px: dưới 12px là dưới sàn đọc được (QA vòng 2).
                 Ẩn hẳn khi chưa biết đơn cần tiếng gì. */}
             {nhanNgonNgu(job, lang) && (
-              <span className="rounded-full border border-white/45 px-2 py-0.5 text-[12.5px] text-white">
+              <span className="rounded-full border border-[var(--nb-line-soft)] px-2 py-0.5 text-[12.5px] text-[var(--nb-heading)]">
                 {nhanNgonNgu(job, lang)}
               </span>
             )}

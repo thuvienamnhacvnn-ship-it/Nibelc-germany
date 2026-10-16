@@ -125,9 +125,9 @@ export function ConsultationWizard() {
       <KhungHud nhanTrai={congNghe[lang].trangThai} className="nb-thong-tin p-7 text-center sm:p-10">
         <div role="status" aria-live="polite">
         <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-[var(--nb-gold)]">
-          <Check size={30} className="text-[var(--nb-navy-900)]" />
+          <Check size={30} className="text-[var(--nb-ink)]" />
         </span>
-        <h3 data-reveal className="nb-display mt-5 text-[24px] text-white">{tx.xong.tieuDe}</h3>
+        <h3 data-reveal className="nb-display mt-5 text-[24px] text-[var(--nb-heading)]">{tx.xong.tieuDe}</h3>
         <p data-reveal className="mx-auto mt-3 max-w-[52ch] text-[14.5px] leading-[1.7] text-[var(--nb-text-dim)]">
           {tx.xong.noiDung(LEGAL.phone, LEGAL.email)}
         </p>
@@ -168,9 +168,9 @@ export function ConsultationWizard() {
                 <span
                   className={`grid h-8 w-8 place-items-center rounded-full text-[12.5px] font-bold transition ${
                     on
-                      ? "bg-[var(--nb-gold)] text-[var(--nb-navy-900)]"
+                      ? "bg-[var(--nb-gold)] text-[var(--nb-ink)]"
                       : qua
-                        ? "bg-[var(--nb-navy-500)] text-[var(--nb-gold-soft)] lg:bg-[#F6F1E7]"
+                        ? "bg-[var(--nb-navy-500)] text-[var(--nb-accent-text)] lg:bg-[var(--nb-bg)]"
                         : "border border-[var(--nb-line-soft)] text-[var(--nb-text-mute)]"
                   }`}
                 >
@@ -180,7 +180,7 @@ export function ConsultationWizard() {
                   <span className="block text-[12px] tracking-wide text-[var(--nb-text-mute)] uppercase sm:text-[12px]">
                     {tx.chuBuoc(x.so)}
                   </span>
-                  <span className={`block text-[13.5px] font-medium ${on ? "text-white" : "text-[var(--nb-text-dim)]"}`}>
+                  <span className={`block text-[13.5px] font-medium ${on ? "text-[var(--nb-heading)]" : "text-[var(--nb-text-dim)]"}`}>
                     {x.ten}
                   </span>
                 </span>
@@ -237,7 +237,7 @@ export function ConsultationWizard() {
             <div>
               <p data-reveal className="mb-2.5 text-[13px] font-medium text-[var(--nb-text-dim)]">
                 <span className="nb-ma mr-2" aria-hidden="true">07</span>
-                {tx.truong.nganh} <b className="text-[var(--nb-gold)]">*</b>
+                {tx.truong.nganh} <b className="text-[var(--nb-accent-text)]">*</b>
               </p>
               <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
                 {INDUSTRIES.map((i) => (
@@ -248,7 +248,7 @@ export function ConsultationWizard() {
                       aria-pressed={v.nganh === i.id}
                       className={`min-h-[44px] w-full rounded-lg border px-3.5 py-2.5 text-left text-[13.5px] transition sm:min-h-0 ${
                         v.nganh === i.id
-                          ? "border-[var(--nb-gold)] bg-[var(--nb-gold)]/12 text-[var(--nb-gold-soft)]"
+                          ? "border-[var(--nb-gold)] bg-[var(--nb-gold)]/12 text-[var(--nb-accent-text)]"
                           : "border-[var(--nb-line-soft)] text-[var(--nb-text-dim)] hover:border-[var(--nb-line)]"
                       }`}
                     >
@@ -257,7 +257,7 @@ export function ConsultationWizard() {
                   </li>
                 ))}
               </ul>
-              {loi.nganh && <p data-reveal className="mt-2 text-[12.5px] text-[#ff7a6b]">{loi.nganh}</p>}
+              {loi.nganh && <p data-reveal className="mt-2 text-[12.5px] text-[var(--nb-error)]">{loi.nganh}</p>}
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
@@ -305,17 +305,17 @@ export function ConsultationWizard() {
 
         {b === 3 && (
           <div>
-            <h3 data-reveal className="text-[17px] font-semibold text-white">{tx.kiemTra}</h3>
+            <h3 data-reveal className="text-[17px] font-semibold text-[var(--nb-heading)]">{tx.kiemTra}</h3>
             <dl className="mt-5 grid gap-x-8 gap-y-3 sm:grid-cols-2">
               {tomTat(false).map(([k, gt]) => (
                   <div key={k} className="flex justify-between gap-4 border-b border-[var(--nb-line-soft)] pb-2">
                     <dt className="text-[13px] text-[var(--nb-text-mute)]">{k}</dt>
-                    <dd className="text-right text-[13.5px] font-medium text-white">{gt}</dd>
+                    <dd className="text-right text-[13.5px] font-medium text-[var(--nb-heading)]">{gt}</dd>
                   </div>
                 ))}
             </dl>
             {v.ghiChu && (
-              <p data-reveal className="mt-4 rounded-lg bg-[var(--nb-navy-900)]/60 p-4 lg:bg-[#F6F1E7] text-[13.5px] leading-[1.7] text-[var(--nb-text-dim)]">
+              <p data-reveal className="mt-4 rounded-lg bg-[var(--nb-navy-900)]/60 p-4 lg:bg-[var(--nb-bg)] text-[13.5px] leading-[1.7] text-[var(--nb-text-dim)]">
                 {v.ghiChu}
               </p>
             )}
@@ -379,7 +379,7 @@ function O({
     <label className="block">
       <span className="mb-1.5 block text-[13px] font-medium text-[var(--nb-text-dim)]">
         <span className="nb-ma mr-2" aria-hidden="true">{ma}</span>
-        {nhan} {batBuoc && <b className="text-[var(--nb-gold)]">*</b>}
+        {nhan} {batBuoc && <b className="text-[var(--nb-accent-text)]">*</b>}
       </span>
       <input
         type={kieu}
@@ -389,9 +389,9 @@ function O({
         autoComplete={auto}
         aria-invalid={!!loi}
         className="nb-input min-h-[44px] sm:min-h-0"
-        style={loi ? { borderColor: "#ff7a6b" } : undefined}
+        style={loi ? { borderColor: "var(--nb-error)" } : undefined}
       />
-      {loi && <span className="mt-1.5 block text-[12.5px] text-[#ff7a6b]">{loi}</span>}
+      {loi && <span className="mt-1.5 block text-[12.5px] text-[var(--nb-error)]">{loi}</span>}
     </label>
   );
 }

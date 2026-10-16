@@ -39,7 +39,7 @@ export function DinhBanner({ dem }: { dem: DemKho }) {
           onClick={() => setMoMenu(true)}
           aria-label="Menu"
           aria-expanded={moMenu}
-          className="pointer-events-auto grid h-11 w-11 place-items-center rounded-full border border-[var(--nb-gold)]/60 bg-[var(--nb-navy-900)]/55 text-white backdrop-blur-md transition active:scale-95"
+          className="pointer-events-auto grid h-11 w-11 place-items-center rounded-full border border-[var(--nb-gold)]/60 bg-[var(--nb-navy-900)]/55 text-[var(--nb-heading)] backdrop-blur-md transition active:scale-95"
         >
           <MoreHorizontal size={20} />
         </button>

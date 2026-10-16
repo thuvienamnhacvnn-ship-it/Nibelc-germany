@@ -29,7 +29,7 @@ export function TheDonCongNghe({ don, lang, chiTiet = false }: { don: JobFull; l
           <p>{NHAN_DON_HANG[lang].chuongTrinh[don.programType]} · {NHAN_DON_HANG[lang].hinhThuc[don.employmentType]}</p>
         </div>}
         <div className="nb-don-so"><b>{chuoiLuong(don, lang)}</b><span>{tx.the.soSuat(don.vacancies)}</span></div>
-        <span className="mt-5 flex items-center justify-between border-t border-white/10 pt-4 text-sm">{tx.the.xemDon}<ArrowUpRight size={19} /></span>
+        <span className="mt-5 flex items-center justify-between border-t border-[var(--nb-line-soft)] pt-4 text-sm">{tx.the.xemDon}<ArrowUpRight size={19} /></span>
       </div>
     </NavLink>
   </VienChay>;

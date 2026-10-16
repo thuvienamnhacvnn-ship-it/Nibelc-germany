@@ -1,3 +1,4 @@
+import { TextMask } from "@/components/ui/TextMask";
 import { congNghe } from "@/lib/i18n/dict/cong-nghe";
 import type { Metadata } from "next";
 import { AlertTriangle } from "lucide-react";
@@ -49,7 +50,7 @@ export default async function Page() {
                 href={lh("/impressum", "de")}
                 hrefLang="de"
                 lang="de"
-                className="font-medium text-[var(--nb-gold-soft)] hover:underline"
+                className="font-medium text-[var(--nb-accent-text)] hover:underline"
               >
                 {tx.ghiChu.link}
               </a>
@@ -98,7 +99,7 @@ export default async function Page() {
             </>
           ) : (
             <div data-reveal data-tilt className="nb-panel mt-9 p-6">
-              <b className="flex items-center gap-2.5 text-[15.5px] font-semibold text-[var(--nb-gold-soft)]">
+              <b className="flex items-center gap-2.5 text-[15.5px] font-semibold text-[var(--nb-accent-text)]">
                 <AlertTriangle size={18} />
                 {tx.ergaenzt.tieuDe}
               </b>
@@ -125,7 +126,7 @@ export default async function Page() {
           <Muc tieuDe={tx.datenschutz.tieuDe}>
             <p data-reveal className="text-[16px] leading-[1.9] text-[var(--nb-text-dim)]">
               {tx.datenschutz.truoc}{" "}
-              <NavLink href="/datenschutz" className="font-medium text-[var(--nb-gold-soft)] hover:underline">
+              <NavLink href="/datenschutz" className="font-medium text-[var(--nb-accent-text)] hover:underline">
                 {tx.datenschutz.link}
               </NavLink>
               {tx.datenschutz.sau}
@@ -140,7 +141,7 @@ export default async function Page() {
 function Muc({ tieuDe, children }: { tieuDe: string; children: React.ReactNode }) {
   return (
     <section className="mt-9 first-of-type:mt-0">
-      <h2 data-reveal className="nb-display text-[21px] text-white">{tieuDe}</h2>
+      <h2 data-reveal className="nb-display text-[21px] text-[var(--nb-heading)]"><TextMask>{tieuDe}</TextMask></h2>
       <span className="mt-3 mb-4 block h-px w-14 bg-[var(--nb-gold)]" aria-hidden="true" />
       {children}
     </section>

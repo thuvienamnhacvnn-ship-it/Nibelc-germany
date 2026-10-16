@@ -1,3 +1,10 @@
+import { BangLenh, type MucTim } from "@/components/layout/BangLenh";
+import { layDonHang } from "@/data/nguon";
+import { layBaiViet } from "@/data/nguon-bai-viet";
+import { NAV } from "@/data/nav";
+import { INDUSTRIES } from "@/data/industries";
+import { tenNganh } from "@/data/i18n/industries";
+import { getNganhHoc } from "@/data/i18n/ausbildung";
 import type { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -54,17 +61,26 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function KhungWeb({ children }: Readonly<{ children: React.ReactNode }>) {
   const [lang, dem] = await Promise.all([getLang(), demKho()]);
   const tx = t(common, lang);
+  const [don, bai] = await Promise.all([layDonHang(lang), layBaiViet(lang)]);
+  const mucTim: MucTim[] = [
+    ...NAV.map(m => ({ ten: m.label[lang], href: m.href, nhom: 0 })),
+    ...don.map(m => ({ ten: m.title, href: `/don-hang/${m.slug}`, nhom: 1 })),
+    ...INDUSTRIES.map(m => ({ ten: tenNganh(m, lang), href: `/don-hang?nganh=${m.id}`, nhom: 2 })),
+    ...getNganhHoc(lang).map(m => ({ ten: m.ten, href: `/du-hoc-nghe/${m.id}`, nhom: 2 })),
+    ...bai.map(m => ({ ten: m.tieuDe, href: `/cam-nang/${m.slug}`, nhom: 3 })),
+  ];
   return (    <>
         <LangProvider lang={lang}>
         <a
           href="#noi-dung"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[110] focus:rounded-lg focus:bg-[var(--nb-gold)] focus:px-4 focus:py-2 focus:font-semibold focus:text-[var(--nb-navy-900)]"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[110] focus:rounded-lg focus:bg-[var(--nb-gold)] focus:px-4 focus:py-2 focus:font-semibold focus:text-[var(--nb-ink)]"
         >
           {tx.toiNoiDung}
         </a>
 
         <PageTransition>
           <HieuUngThamChieu />
+          <BangLenh ds={mucTim} />
           <Header />
           {/* KHÔNG chừa chỗ cho header ở đây: hero trang chủ phải chạy full
               viewport và header nằm đè lên nó. Trang phụ tự chừa bằng lớp
