@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { NavLink } from "@/components/layout/NavLink";
 import { TamKinh } from "@/components/ui/TamKinh";
 import "./page-hero.css";
+import { TechText } from "@/components/ui/TechText";
 
 /**
  * Dải đầu trang con — thấp (360px ở máy tính), KHÔNG phải hero to như trang chủ.
@@ -96,21 +97,21 @@ export function PageHero({
         className={`nb-wrap nb-hero-khung nb-hero-con-chu py-7 sm:py-9 lg:flex lg:items-center lg:pt-8 ${chuaThanhTim ? "lg:pb-16" : "lg:pb-8"}`}
       >
         <TamKinh className="lg:px-8 lg:py-6">
-          <p className="nb-eyebrow">{nhan}</p>
+          <p data-reveal className="nb-eyebrow"><TechText>{nhan}</TechText></p>
           {/* Trên điện thoại clamp() rơi về 30px cho MỌI tiêu đề, kể cả câu dài
               như "Du học nghề Đức – Học nghề – Có lương…", nên chữ tràn ra 4–5
               dòng sát mép. Hạ một bậc ở khổ hẹp rồi mới dùng clamp từ sm trở lên. */}
           {/* text-balance ở MỌI khổ, không chỉ lg: ở điện thoại mấy tiêu đề
               này hay rớt đúng MỘT chữ xuống dòng cuối ("… tại châu / Âu"),
               nhìn như lỗi. Tiếng Đức ghép từ dài nên còn dễ rớt hơn. */}
-          <h1 className="nb-display mt-3 max-w-[22ch] text-[26px] leading-[1.18] text-balance text-white sm:text-[clamp(30px,3.2vw,46px)] sm:leading-[1.14] lg:max-w-none lg:text-[40px]">
+          <h1 data-reveal className="nb-display mt-3 max-w-[22ch] text-[26px] leading-[1.18] text-balance text-white sm:text-[clamp(30px,3.2vw,46px)] sm:leading-[1.14] lg:max-w-none lg:text-[40px]">
             {tieuDe}
           </h1>
           {mo && (
             /* Trên điện thoại chỉ giữ hai dòng đầu: mô tả dài đẩy phần nội dung
                thật xuống quá sâu, người xem phải cuộn mới thấy việc cần làm.
                Máy tính: hiện đủ, ≤ 2 dòng nhờ cỡ 14.5px trên bề rộng tấm. */
-            <p className="mt-4 max-w-[62ch] text-[15px] leading-[1.7] text-[var(--hero-mo)] [display:-webkit-box] [overflow:hidden] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] sm:mt-5 sm:text-[16px] sm:[-webkit-line-clamp:unset] sm:[display:block] lg:mt-4 lg:max-w-none lg:text-[14.5px] lg:leading-[1.6]">
+            <p data-reveal className="mt-4 max-w-[62ch] text-[15px] leading-[1.7] text-[var(--hero-mo)] [display:-webkit-box] [overflow:hidden] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] sm:mt-5 sm:text-[16px] sm:[-webkit-line-clamp:unset] sm:[display:block] lg:mt-4 lg:max-w-none lg:text-[14.5px] lg:leading-[1.6]">
               {mo}
             </p>
           )}

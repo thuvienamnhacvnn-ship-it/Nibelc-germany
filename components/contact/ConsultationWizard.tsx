@@ -120,15 +120,15 @@ export function ConsultationWizard() {
 
   if (xong) {
     return (
-      <div className="nb-panel p-7 text-center sm:p-10">
+      <div data-reveal data-tilt className="nb-panel p-7 text-center sm:p-10">
         <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-[var(--nb-gold)]">
           <Check size={30} className="text-[var(--nb-navy-900)]" />
         </span>
-        <h3 className="nb-display mt-5 text-[24px] text-white">{tx.xong.tieuDe}</h3>
-        <p className="mx-auto mt-3 max-w-[52ch] text-[14.5px] leading-[1.7] text-[var(--nb-text-dim)]">
+        <h3 data-reveal className="nb-display mt-5 text-[24px] text-white">{tx.xong.tieuDe}</h3>
+        <p data-reveal className="mx-auto mt-3 max-w-[52ch] text-[14.5px] leading-[1.7] text-[var(--nb-text-dim)]">
           {tx.xong.noiDung(LEGAL.phone, LEGAL.email)}
         </p>
-        <button
+        <button data-magnetic
           type="button"
           onClick={() => {
             setXong(false);
@@ -144,7 +144,7 @@ export function ConsultationWizard() {
   }
 
   return (
-    <div className="nb-panel overflow-hidden">
+    <div data-reveal className="nb-panel overflow-hidden">
       {/* ---------- THANH BƯỚC ---------- */}
       <ol className="nb-no-scrollbar flex gap-2 overflow-x-auto border-b border-[var(--nb-line-soft)] px-4 py-4 sm:flex-wrap sm:overflow-x-visible sm:px-6 sm:py-5">
         {BUOC.map((x, i) => {
@@ -190,10 +190,11 @@ export function ConsultationWizard() {
       {/* ---------- NỘI DUNG BƯỚC ---------- */}
       <motion.div
         key={b}
-        initial={{ opacity: 0, x: 18 }}
+        // Nội dung form không phụ thuộc JavaScript để hết opacity: 0.
+        initial={false}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.3, ease: [0.22, 0.61, 0.36, 1] }}
-        className="p-5 sm:p-6 lg:p-8"
+        className="nb-thay-khoi p-5 sm:p-6 lg:p-8"
       >
         {b === 0 && (
           <div className="grid gap-4 sm:grid-cols-2">
@@ -227,7 +228,7 @@ export function ConsultationWizard() {
         {b === 1 && (
           <div className="space-y-6">
             <div>
-              <p className="mb-2.5 text-[13px] font-medium text-[var(--nb-text-dim)]">
+              <p data-reveal className="mb-2.5 text-[13px] font-medium text-[var(--nb-text-dim)]">
                 {tx.truong.nganh} <b className="text-[var(--nb-gold)]">*</b>
               </p>
               <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -248,7 +249,7 @@ export function ConsultationWizard() {
                   </li>
                 ))}
               </ul>
-              {loi.nganh && <p className="mt-2 text-[12.5px] text-[#ff7a6b]">{loi.nganh}</p>}
+              {loi.nganh && <p data-reveal className="mt-2 text-[12.5px] text-[#ff7a6b]">{loi.nganh}</p>}
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
@@ -292,7 +293,7 @@ export function ConsultationWizard() {
 
         {b === 3 && (
           <div>
-            <h3 className="text-[17px] font-semibold text-white">{tx.kiemTra}</h3>
+            <h3 data-reveal className="text-[17px] font-semibold text-white">{tx.kiemTra}</h3>
             <dl className="mt-5 grid gap-x-8 gap-y-3 sm:grid-cols-2">
               {tomTat(false).map(([k, gt]) => (
                   <div key={k} className="flex justify-between gap-4 border-b border-[var(--nb-line-soft)] pb-2">
@@ -302,11 +303,11 @@ export function ConsultationWizard() {
                 ))}
             </dl>
             {v.ghiChu && (
-              <p className="mt-4 rounded-lg bg-[var(--nb-navy-900)]/60 p-4 lg:bg-[#F6F1E7] text-[13.5px] leading-[1.7] text-[var(--nb-text-dim)]">
+              <p data-reveal className="mt-4 rounded-lg bg-[var(--nb-navy-900)]/60 p-4 lg:bg-[#F6F1E7] text-[13.5px] leading-[1.7] text-[var(--nb-text-dim)]">
                 {v.ghiChu}
               </p>
             )}
-            <p className="mt-5 text-[12.5px] leading-[1.65] text-[var(--nb-text-mute)]">
+            <p data-reveal className="mt-5 text-[12.5px] leading-[1.65] text-[var(--nb-text-mute)]">
               {tx.luuY}
             </p>
           </div>
@@ -315,7 +316,7 @@ export function ConsultationWizard() {
 
       {/* ---------- ĐIỀU HƯỚNG ---------- */}
       <div className="flex items-center justify-between gap-3 border-t border-[var(--nb-line-soft)] px-5 py-4 sm:gap-4 sm:px-6 sm:py-5">
-        <button
+        <button data-magnetic
           type="button"
           onClick={() => setB((x) => Math.max(0, x - 1))}
           disabled={b === 0}
@@ -326,12 +327,12 @@ export function ConsultationWizard() {
         </button>
 
         {b < BUOC.length - 1 ? (
-          <button type="button" onClick={tiep} className="nb-btn h-12 px-6 text-[14.5px] sm:h-11 sm:px-7">
+          <button data-magnetic type="button" onClick={tiep} className="nb-btn h-12 px-6 text-[14.5px] sm:h-11 sm:px-7">
             {tx.tiepTuc}
             <ArrowRight size={15} />
           </button>
         ) : (
-          <button type="button" onClick={gui} className="nb-btn h-12 px-6 text-[14.5px] sm:h-11 sm:px-7">
+          <button data-magnetic type="button" onClick={gui} className="nb-btn h-12 px-6 text-[14.5px] sm:h-11 sm:px-7">
             {tx.gui}
             <Send size={15} />
           </button>

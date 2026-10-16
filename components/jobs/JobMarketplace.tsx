@@ -333,8 +333,8 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
         Đây là lần thứ ba cùng một bẫy trong dự án này. */}
     <div className="nb-wrap grid grid-cols-[minmax(0,1fr)] gap-5 py-9 sm:gap-8 sm:py-12 lg:grid-cols-[280px_minmax(0,1fr)] lg:pt-12 lg:pb-24">
       {/* ---------- HÀNG ĐIỀU KHIỂN Ở ĐIỆN THOẠI ---------- */}
-      <div className="flex gap-2.5 lg:hidden">
-        <label className="nb-panel flex min-w-0 flex-1 items-center gap-2.5 px-4">
+      <div data-reveal className="flex gap-2.5 lg:hidden">
+        <label data-reveal data-tilt className="nb-panel flex min-w-0 flex-1 items-center gap-2.5 px-4">
           <Search size={17} className="shrink-0 text-[var(--nb-gold)]" />
           <input
             value={tuKhoa}
@@ -348,7 +348,7 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
           />
         </label>
 
-        <button
+        <button data-magnetic
           type="button"
           onClick={() => setMoSheet(true)}
           aria-haspopup="dialog"
@@ -367,7 +367,7 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
 
       {/* ---------------- BỘ LỌC (cột bên, chỉ desktop) ----------------
           Desktop: thẻ trắng rộng cố định 280px. */}
-      <aside className="nb-panel hidden h-fit p-5 sm:p-6 lg:block lg:px-5 lg:py-4" aria-label={tx.boLocAria}>
+      <aside data-reveal data-tilt className="nb-panel hidden h-fit p-5 sm:p-6 lg:block lg:px-5 lg:py-4" aria-label={tx.boLocAria}>
         <div className="flex items-center justify-between lg:pb-1.5">
           <b className="flex items-center gap-2 text-[15.5px] font-semibold text-white lg:text-[15px] lg:text-[var(--s-ink)]">
             <SlidersHorizontal size={17} className="text-[var(--nb-gold)] lg:text-[var(--s-gold)]" />
@@ -392,10 +392,10 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
       <div className="min-w-0">
         <div className="flex flex-wrap items-center justify-between gap-4 lg:items-end lg:border-b lg:border-[var(--s-line-warm)] lg:pb-5">
           <div>
-            <h2 className="nb-display text-[23px] text-white sm:text-[26px] lg:text-[32px] lg:leading-tight lg:text-[var(--s-ink)]">
+            <h2 data-reveal className="nb-display text-[23px] text-white sm:text-[26px] lg:text-[32px] lg:leading-tight lg:text-[var(--s-ink)]">
               {tx.donMoiNhat}
             </h2>
-            <p className="mt-1 text-[13.5px] text-[var(--nb-text-dim)] lg:mt-1.5 lg:text-[14px] lg:text-[var(--s-mute)]">
+            <p data-reveal className="mt-1 text-[13.5px] text-[var(--nb-text-dim)] lg:mt-1.5 lg:text-[14px] lg:text-[var(--s-mute)]">
               {tx.hienThi(daHien, ketQua.length)}
             </p>
           </div>
@@ -472,10 +472,10 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
         )}
 
         {ketQua.length === 0 ? (
-          <div className="nb-panel mt-8 p-8 text-center sm:p-14">
+          <div data-reveal data-tilt className="nb-panel mt-8 p-8 text-center sm:p-14">
             <b className="block text-[17px] text-white lg:text-[var(--s-ink)]">{tx.khongKhop}</b>
-            <p className="mt-2 text-[14px] text-[var(--nb-text-dim)] lg:text-[var(--s-body)]">{tx.thuBoBot}</p>
-            <button type="button" onClick={xoaHet} className="nb-btn-ghost mt-6 h-10 px-5 text-[13.5px]">
+            <p data-reveal className="mt-2 text-[14px] text-[var(--nb-text-dim)] lg:text-[var(--s-body)]">{tx.thuBoBot}</p>
+            <button data-magnetic type="button" onClick={xoaHet} className="nb-btn-ghost mt-6 h-10 px-5 text-[13.5px]">
               {tx.xoaBoLoc}
             </button>
           </div>
@@ -520,14 +520,14 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
         {ketQua.length > 0 && (
           <div className={`${hien < ketQua.length ? "mt-10" : "hidden"} text-center lg:mt-12 lg:flex lg:flex-col lg:items-center`}>
             {/* tiến độ đã xem — chỉ desktop */}
-            <p className="hidden text-[13px] text-[var(--s-mute)] lg:block">
+            <p data-reveal className="hidden text-[13px] text-[var(--s-mute)] lg:block">
               {tx.daXem(daHien, ketQua.length)}
             </p>
             <span className="hidden lg:mt-2.5 lg:mb-5 lg:block lg:h-1 lg:w-[220px] lg:overflow-hidden lg:rounded-full lg:bg-[var(--s-line-warm)]" aria-hidden="true">
               <span className="block h-full rounded-full bg-[var(--s-ink)]" style={{ width: `${(daHien / ketQua.length) * 100}%` }} />
             </span>
             {hien < ketQua.length && (
-              <button type="button" onClick={() => setHien((h) => h + 9)} className="nb-btn-ghost h-12 px-8 text-[14.5px]">
+              <button data-magnetic type="button" onClick={() => setHien((h) => h + 9)} className="nb-btn-ghost h-12 px-8 text-[14.5px]">
                 {tx.xemThem(Math.min(9, ketQua.length - hien))}
               </button>
             )}
@@ -601,7 +601,7 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
               <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5">{nhomLoc}</div>
 
               <div className="shrink-0 border-t border-[var(--nb-line-soft)] p-4">
-                <button
+                <button data-magnetic
                   type="button"
                   onClick={() => setMoSheet(false)}
                   className="nb-btn h-12 w-full px-6 text-[15px]"

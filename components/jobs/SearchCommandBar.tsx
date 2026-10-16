@@ -42,7 +42,7 @@ export function SearchCommandBar({
   const tx = useT(donHang);
   const nhanMa = useT(NHAN_DON_HANG);
   return (
-    <form
+    <form data-reveal data-tilt
       onSubmit={(e) => {
         e.preventDefault();
         onTim();
@@ -134,7 +134,7 @@ export function SearchCommandBar({
           một hàng ở khổ điện thoại — không đủ để bấm. Khoá chiều cao 48px.
           `basis-full` cùng lý do với năm ô trên: `flex-1` đặt flex-basis = 0
           nên nút cũng bị kéo lên chen chung hàng với chúng. */}
-      <button
+      <button data-magnetic
         type="submit"
         className="nb-btn m-1.5 h-12 w-full basis-full px-7 text-[15px] lg:h-auto lg:w-auto lg:min-w-[168px] lg:flex-1 lg:basis-0"
       >

@@ -28,7 +28,7 @@ export default async function Page() {
             thay vì một cột 820px căn giữa lệch khỏi chữ banner; dòng chữ vẫn giới hạn 820px. */}
         <section className="mx-auto max-w-[820px] px-8 py-14 lg:max-w-[1400px] lg:py-20 lg:[&>*]:max-w-[820px] min-[1441px]:max-w-[1600px] min-[1441px]:px-10">
           {tx.ghiChu && (
-            <p className="mb-9 rounded-[12px] border border-[var(--nb-line)] px-4 py-3 text-[14.5px] leading-[1.7] text-[var(--nb-text-dim)]">
+            <p data-reveal className="mb-9 rounded-[12px] border border-[var(--nb-line)] px-4 py-3 text-[14.5px] leading-[1.7] text-[var(--nb-text-dim)]">
               {tx.ghiChu.mo}{" "}
               {/* Sang bản tiếng Đức: <a> thường (tải lại trang) vì NavLink luôn giữ ngôn ngữ đang xem */}
               <a
@@ -43,10 +43,10 @@ export default async function Page() {
           )}
           {tx.muc.map((m, i) => (
             <section key={m.h} className={i > 0 ? "mt-9" : ""}>
-              <h2 className="nb-display text-[21px] text-white">{m.h}</h2>
+              <h2 data-reveal className="nb-display text-[21px] text-white">{m.h}</h2>
               <span className="mt-3 mb-4 block h-px w-14 bg-[var(--nb-gold)]" aria-hidden="true" />
               {m.p.map((p) => (
-                <p key={p} className="mt-3.5 text-[15.5px] leading-[1.9] text-[var(--nb-text-dim)]">
+                <p data-reveal key={p} className="mt-3.5 text-[15.5px] leading-[1.9] text-[var(--nb-text-dim)]">
                   {p}
                 </p>
               ))}

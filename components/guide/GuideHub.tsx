@@ -66,7 +66,7 @@ export function GuideHub({ bai: CAM_NANG }: { bai: BaiHub[] }) {
           quá 1024px, `lg:` bật lên, hàng chip mất overflow-x và càng phình to. */}
       {/* Máy tính: cùng khung thẻ trắng với cột "Được đọc nhiều nhất" bên phải cho cân
           (viết bằng utility lg: thay vì .nb-panel để khổ điện thoại giữ nguyên). */}
-      <aside className="h-fit min-w-0 lg:sticky lg:top-[calc(var(--nb-header)+20px)] lg:rounded-[16px] lg:border lg:border-[var(--nb-line-soft)] lg:bg-white lg:shadow-[0_1px_2px_rgba(7,21,37,.05),0_4px_12px_rgba(7,21,37,.04)] lg:p-5">
+      <aside data-reveal className="h-fit min-w-0 lg:sticky lg:top-[calc(var(--nb-header)+20px)] lg:rounded-[16px] lg:border lg:border-[var(--nb-line-soft)] lg:bg-white lg:shadow-[0_1px_2px_rgba(7,21,37,.05),0_4px_12px_rgba(7,21,37,.04)] lg:p-5">
         <b className="block text-[15px] font-semibold text-white">{tx.danhMuc}</b>
         {/* Mười một chuyên mục xếp dọc ở khổ điện thoại chiếm gần 500px, đẩy bài
             viết xuống quá xa. Dưới lg thì cho chúng thành một hàng kéo ngang. */}
@@ -109,20 +109,20 @@ export function GuideHub({ bai: CAM_NANG }: { bai: BaiHub[] }) {
         </div>
 
         {ds.length === 0 ? (
-          <p className="nb-panel mt-6 p-8 text-center text-[14.5px] text-[var(--nb-text-dim)] sm:p-12">
+          <p data-reveal data-tilt className="nb-panel mt-6 p-8 text-center text-[14.5px] text-[var(--nb-text-dim)] sm:p-12">
             {tx.khongCo(tx.chuyenMuc[CHUYEN_MUC[0]])}
           </p>
         ) : (
           <>
             {noiBat && (
-              <NavLink
+              <NavLink data-reveal data-tilt
                 href={`/cam-nang/${noiBat.slug}`}
                 className="nb-card group mt-6 block overflow-hidden lg:grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]"
               >
                 {/* ẢNH SẠCH, CHỮ NẰM DƯỚI — không lớp phủ, không chữ đè lên ảnh
                     (luật Sếp). Điện thoại (phiên mobile): ảnh 16:9 trên, chữ dưới
                     như các thẻ bài còn lại. Máy tính: chữ nằm BÊN PHẢI ảnh. */}
-                <span className="relative block aspect-[16/9] overflow-hidden lg:aspect-auto lg:h-auto lg:min-h-[300px]">
+                <span data-reveal className="relative block aspect-[16/9] overflow-hidden lg:aspect-auto lg:h-auto lg:min-h-[300px]">
                   <Image
                     src={noiBat.anhBia ?? ANH[0]!}
                     alt=""
@@ -156,11 +156,11 @@ export function GuideHub({ bai: CAM_NANG }: { bai: BaiHub[] }) {
                 const le = conLai.length % 2 === 1 && i === conLai.length - 1;
                 return (
                 <li key={b.id} className={le ? "lg:col-span-2" : undefined}>
-                  <NavLink
+                  <NavLink data-reveal data-tilt
                     href={`/cam-nang/${b.slug}`}
                     className={`nb-card group flex h-full flex-col overflow-hidden ${le ? "lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]" : ""}`}
                   >
-                    <span className={`relative block h-[150px] overflow-hidden ${le ? "lg:h-auto lg:min-h-[200px]" : ""}`}>
+                    <span data-reveal className={`relative block h-[150px] overflow-hidden ${le ? "lg:h-auto lg:min-h-[200px]" : ""}`}>
                       <Image
                         src={b.anhBia ?? ANH[(i + 1) % ANH.length]!}
                         alt=""
@@ -196,7 +196,7 @@ export function GuideHub({ bai: CAM_NANG }: { bai: BaiHub[] }) {
       </div>
 
       {/* ---------- ĐƯỢC ĐỌC NHIỀU NHẤT ---------- */}
-      <aside className="nb-panel h-fit min-w-0 p-5 lg:sticky lg:top-[calc(var(--nb-header)+20px)]">
+      <aside data-reveal data-tilt className="nb-panel h-fit min-w-0 p-5 lg:sticky lg:top-[calc(var(--nb-header)+20px)]">
         <b className="flex items-center gap-2 text-[15px] font-semibold text-white">
           <Flame size={16} className="text-[var(--nb-gold)]" />
           {tx.docNhieu}

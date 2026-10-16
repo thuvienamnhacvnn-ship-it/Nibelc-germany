@@ -10,6 +10,8 @@ import { demKho } from "@/data/nguon";
 import { LangProvider } from "@/lib/i18n/client";
 import { t } from "@/lib/i18n/dict";
 import { common } from "@/lib/i18n/dict/common";
+import { HieuUngThamChieu } from "@/components/layout/HieuUngThamChieu";
+import "@/components/layout/hieu-ung-tham-chieu.css";
 
 /**
  * KHUNG WEB CÔNG KHAI — header, chân trang, menu đáy, hiệu ứng chuyển trang.
@@ -61,6 +63,7 @@ export default async function KhungWeb({ children }: Readonly<{ children: React.
         </a>
 
         <PageTransition>
+          <HieuUngThamChieu />
           <Header />
           {/* KHÔNG chừa chỗ cho header ở đây: hero trang chủ phải chạy full
               viewport và header nằm đè lên nó. Trang phụ tự chừa bằng lớp

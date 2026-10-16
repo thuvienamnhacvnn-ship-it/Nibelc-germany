@@ -122,8 +122,8 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             )}
           </div>
 
-          <h1 className="nb-display mt-3 text-[23px] leading-[1.2] text-white sm:text-[clamp(26px,2.6vw,38px)] sm:leading-[1.15] lg:text-[38px] lg:text-balance lg:text-[var(--s-ink)]">{job.title}</h1>
-          <p className="mt-2 text-[14.5px] text-[var(--nb-text-mute)] lg:text-[15px] lg:text-[var(--s-mute)]">{tenNhaTuyenDung(job, lang)}</p>
+          <h1 data-reveal className="nb-display mt-3 text-[23px] leading-[1.2] text-white sm:text-[clamp(26px,2.6vw,38px)] sm:leading-[1.15] lg:text-[38px] lg:text-balance lg:text-[var(--s-ink)]">{job.title}</h1>
+          <p data-reveal className="mt-2 text-[14.5px] text-[var(--nb-text-mute)] lg:text-[15px] lg:text-[var(--s-mute)]">{tenNhaTuyenDung(job, lang)}</p>
 
           <div className="mt-7">
             <JobGallery anh={job.gallery.length ? job.gallery : [job.image]} ten={job.title} />
@@ -131,7 +131,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
           <ul className="mt-7 grid gap-2.5 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3">
             {THONG_TIN.map(({ Icon, nhan, gt }) => (
-              <li key={nhan} className="nb-panel flex items-center gap-2.5 p-3 sm:gap-3 sm:p-4">
+              <li data-reveal data-tilt key={nhan} className="nb-panel flex items-center gap-2.5 p-3 sm:gap-3 sm:p-4">
                 <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-[var(--nb-line)] text-[var(--nb-gold)] lg:h-10 lg:w-10 lg:rounded-xl lg:border-0 lg:bg-[var(--s-alt)] lg:text-[var(--s-gold)]">
                   <Icon size={16} />
                 </span>
@@ -145,7 +145,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
           {job.description && (
             <Khoi tieuDe={tx.ct.moTa}>
-              <p className="text-[14.5px] leading-[1.8] text-[var(--nb-text-dim)] sm:text-[15px] lg:max-w-[72ch] lg:text-[16px] lg:text-[var(--s-body)]">{job.description}</p>
+              <p data-reveal className="text-[14.5px] leading-[1.8] text-[var(--nb-text-dim)] sm:text-[15px] lg:max-w-[72ch] lg:text-[16px] lg:text-[var(--s-body)]">{job.description}</p>
             </Khoi>
           )}
 
@@ -191,7 +191,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           <Khoi tieuDe={tx.ct.quyTrinh}>
             <ol className="grid gap-2.5 sm:grid-cols-2 sm:gap-3">
               {tx.ct.buoc.map((b, i) => (
-                <li key={b} className="nb-panel flex gap-3 p-3.5 sm:p-4">
+                <li data-reveal data-tilt key={b} className="nb-panel flex gap-3 p-3.5 sm:p-4">
                   <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[var(--nb-gold)] text-[12px] font-bold text-[var(--nb-navy-900)] lg:bg-[var(--s-ink)] lg:text-white">
                     {i + 1}
                   </span>
@@ -203,11 +203,11 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         </article>
 
         {/* ---------------- PHẢI ---------------- */}
-        <aside className="lg:sticky lg:top-[calc(var(--nb-header)+24px)] lg:h-fit">
-          <div className="nb-panel overflow-hidden">
+        <aside data-reveal className="lg:sticky lg:top-[calc(var(--nb-header)+24px)] lg:h-fit">
+          <div data-reveal data-tilt className="nb-panel overflow-hidden">
             <div className="nb-gold-rule lg:hidden" aria-hidden="true" />
             <div className="p-5 sm:p-6 lg:p-7">
-              <p className="text-[12.5px] text-[var(--nb-text-mute)] lg:text-[13px] lg:text-[var(--s-mute)]">{tx.thuNhap}</p>
+              <p data-reveal className="text-[12.5px] text-[var(--nb-text-mute)] lg:text-[13px] lg:text-[var(--s-mute)]">{tx.thuNhap}</p>
               <b className="nb-gold-text nb-display mt-1 block text-[27px] sm:text-[30px] lg:text-[28px] lg:leading-tight">{chuoiLuong(job, lang)}</b>
 
               <dl className="mt-5 space-y-3 border-t border-[var(--nb-line-soft)] pt-5 text-[14px] lg:border-[var(--s-line)]">
@@ -227,19 +227,19 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                 ))}
               </dl>
 
-              <NavLink href="/lien-he" className="nb-btn mt-6 h-12 w-full px-6 text-[15px]">
+              <NavLink data-magnetic href="/lien-he" className="nb-btn mt-6 h-12 w-full px-6 text-[15px]">
                 {tx.ct.ungTuyen}
                 <ArrowRight size={16} />
               </NavLink>
 
-              <a
+              <a data-magnetic
                 href={`tel:${LEGAL.phone.replace(/\s/g, "")}`}
                 className="nb-btn-ghost mt-2.5 h-11 w-full px-5 text-[13.5px]"
               >
                 {tx.ct.goi(LEGAL.phone)}
               </a>
 
-              <p className="mt-4 text-[12px] leading-[1.6] text-[var(--nb-text-mute)] lg:text-[var(--s-mute)]">
+              <p data-reveal className="mt-4 text-[12px] leading-[1.6] text-[var(--nb-text-mute)] lg:text-[var(--s-mute)]">
                 {tx.ct.ghiChu}
               </p>
             </div>
@@ -250,7 +250,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       {lienQuan.length > 0 && (
         <section className="border-t border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] py-11 sm:py-16 lg:border-[var(--s-line-warm)] lg:bg-[var(--s-alt)] lg:py-20">
           <div className="nb-wrap">
-            <h2 className="nb-display text-[22px] text-white sm:text-[26px] lg:text-[32px] lg:text-[var(--s-ink)]">{tx.ct.cungNganh}</h2>
+            <h2 data-reveal className="nb-display text-[22px] text-white sm:text-[26px] lg:text-[32px] lg:text-[var(--s-ink)]">{tx.ct.cungNganh}</h2>
             <ul className="mt-6 grid gap-5 sm:mt-7 sm:gap-6 md:grid-cols-2 xl:grid-cols-3 lg:hidden">
               {lienQuan.map((j) => (
                 <li key={j.id}>
@@ -275,7 +275,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 function Khoi({ tieuDe, children }: { tieuDe: string; children: React.ReactNode }) {
   return (
     <section className="mt-9 sm:mt-10 lg:mt-12">
-      <h2 className="nb-display text-[19px] text-white sm:text-[21px] lg:text-[24px] lg:text-[var(--s-ink)]">{tieuDe}</h2>
+      <h2 data-reveal className="nb-display text-[19px] text-white sm:text-[21px] lg:text-[24px] lg:text-[var(--s-ink)]">{tieuDe}</h2>
       <span className="mt-3 mb-5 block h-px w-16 bg-[var(--nb-gold)] lg:h-[2px] lg:w-12 lg:bg-[var(--s-gold-brand)]" aria-hidden="true" />
       {children}
     </section>

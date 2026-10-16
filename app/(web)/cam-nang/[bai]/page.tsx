@@ -10,6 +10,7 @@ import { getLang } from "@/lib/i18n/server";
 import { t } from "@/lib/i18n/dict";
 import { camNang } from "@/lib/i18n/dict/cam-nang";
 import "../../trang-sang.css";
+import { TechText } from "@/components/ui/TechText";
 
 /* true chứ KHÔNG false: nhân viên thêm bài mới trong trang quản trị thì đường
    dẫn của nó chưa có trong danh sách dựng sẵn. Để false là bài mới trả 404
@@ -71,18 +72,18 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
           <article className="min-w-0">
             {/* Bản /en /de có thể đã dịch tiêu đề mà chưa dịch tóm tắt — khi đó bỏ hẳn đoạn này. */}
             {b.tomTat && (
-              <p className="text-[16.5px] leading-[1.75] text-[var(--nb-text-dim)] sm:text-[17px] lg:text-[19px] lg:leading-[1.7] lg:text-[var(--nb-text)]">
+              <p data-reveal className="text-[16.5px] leading-[1.75] text-[var(--nb-text-dim)] sm:text-[17px] lg:text-[19px] lg:leading-[1.7] lg:text-[var(--nb-text)]">
                 {b.tomTat}
               </p>
             )}
 
             {b.khoi.map((k, i) => (
               <section key={k.tieuDe} id={`muc-${i + 1}`} className="mt-11 scroll-mt-24 lg:mt-14">
-                <h2 className="nb-display text-[20px] leading-snug text-white sm:text-[23px] lg:text-[26px]">{k.tieuDe}</h2>
+                <h2 data-reveal className="nb-display text-[20px] leading-snug text-white sm:text-[23px] lg:text-[26px]">{k.tieuDe}</h2>
                 <span className="mt-3 mb-5 block h-px w-14 bg-[var(--nb-gold)]" aria-hidden="true" />
 
                 {k.doan?.map((d) => (
-                  <p
+                  <p data-reveal
                     key={d}
                     className="mt-4 text-[15.5px] leading-[1.8] text-[var(--nb-text-dim)] sm:text-[16px] sm:leading-[1.85] lg:text-[17px] lg:leading-[1.75]"
                   >
@@ -105,7 +106,7 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
                 )}
 
                 {k.luuY && (
-                  <p className="mt-6 flex gap-3 rounded-[14px] border border-[var(--nb-line)] bg-[var(--nb-navy-700)] p-4 text-[15px] leading-[1.75] text-[var(--nb-text-dim)] sm:gap-3.5 sm:p-5 lg:border-[var(--s-line-warm)] lg:bg-[var(--s-alt)] lg:px-6 lg:text-[16px]">
+                  <p data-reveal className="mt-6 flex gap-3 rounded-[14px] border border-[var(--nb-line)] bg-[var(--nb-navy-700)] p-4 text-[15px] leading-[1.75] text-[var(--nb-text-dim)] sm:gap-3.5 sm:p-5 lg:border-[var(--s-line-warm)] lg:bg-[var(--s-alt)] lg:px-6 lg:text-[16px]">
                     <Lightbulb size={19} className="mt-0.5 shrink-0 text-[var(--nb-gold)]" />
                     <span>
                       <b className="mr-1.5 font-semibold text-[var(--nb-gold-soft)]">{tx.bai.luuY}</b>
@@ -122,7 +123,7 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
               <ul className="mt-4 grid gap-3 sm:grid-cols-2">
                 {khac.map((x) => (
                   <li key={x.id}>
-                    <NavLink href={`/cam-nang/${x.slug}`} className="nb-card block p-4">
+                    <NavLink data-reveal data-tilt href={`/cam-nang/${x.slug}`} className="nb-card block p-4">
                       <b className="block text-[14.5px] leading-snug font-medium text-white">{x.tieuDe}</b>
                       <span className="mt-1 block text-[12px] text-[var(--nb-text-mute)]">
                         {tx.nhom[x.nhom]} · {tx.phut(x.phut)}
@@ -135,10 +136,10 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
           </article>
 
           {/* Máy tính: cột phải dính khi cuộn — mục lục (từ tiêu đề các khối) + đọc tiếp */}
-          <aside className="hidden lg:block">
+          <aside data-reveal className="hidden lg:block">
             <div className="sticky top-[calc(var(--nb-header)+24px)] space-y-6">
-              <nav className="nb-panel p-6" aria-label={tx.bai.mucLuc}>
-                <b className="nb-eyebrow block">{tx.bai.mucLuc}</b>
+              <nav data-reveal data-tilt className="nb-panel p-6" aria-label={tx.bai.mucLuc}>
+                <b className="nb-eyebrow block"><TechText>{tx.bai.mucLuc}</TechText></b>
                 <ol className="mt-4 space-y-1">
                   {b.khoi.map((k, i) => (
                     <li key={k.tieuDe}>
@@ -154,8 +155,8 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
                 </ol>
               </nav>
 
-              <div className="nb-panel p-6">
-                <b className="nb-eyebrow block">{tx.bai.docTiep}</b>
+              <div data-reveal data-tilt className="nb-panel p-6">
+                <b className="nb-eyebrow block"><TechText>{tx.bai.docTiep}</TechText></b>
                 <ul className="mt-3 divide-y divide-[var(--s-line)]">
                   {khac.map((x) => (
                     <li key={x.id}>

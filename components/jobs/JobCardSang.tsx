@@ -64,12 +64,12 @@ export function JobCardSang({ job }: { job: JobFull }) {
   const tx = useT(donHang);
   const nhanMa = useT(NHAN_DON_HANG);
   return (
-    <NavLink
+    <NavLink data-reveal data-tilt
       href={`/don-hang/${job.slug}`}
       className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--s-line)] bg-[var(--s-page)] shadow-[var(--s-shadow-rest)] transition duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[var(--s-shadow-hover)]"
       aria-label={tx.tai(job.title, job.city)}
     >
-      <span className="relative block aspect-[16/10] overflow-hidden bg-[var(--s-soft)]">
+      <span data-reveal className="relative block aspect-[16/10] overflow-hidden bg-[var(--s-soft)]">
         <Image
           src={job.image}
           alt=""
@@ -126,12 +126,12 @@ export function JobRowSang({ job }: { job: JobFull }) {
   const tx = useT(donHang);
   const nhanMa = useT(NHAN_DON_HANG);
   return (
-    <NavLink
+    <NavLink data-reveal data-tilt
       href={`/don-hang/${job.slug}`}
       className="group grid grid-cols-[200px_minmax(0,1fr)_auto] items-stretch gap-5 rounded-2xl border border-[var(--s-line)] bg-[var(--s-page)] p-3.5 shadow-[var(--s-shadow-rest)] transition duration-200 ease-out hover:shadow-[var(--s-shadow-hover)]"
       aria-label={tx.tai(job.title, job.city)}
     >
-      <span className="relative block aspect-[16/10] overflow-hidden rounded-xl bg-[var(--s-soft)]">
+      <span data-reveal className="relative block aspect-[16/10] overflow-hidden rounded-xl bg-[var(--s-soft)]">
         <Image src={job.image} alt="" fill sizes="200px" className="object-cover" />
       </span>
 

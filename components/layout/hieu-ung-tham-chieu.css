@@ -1,0 +1,95 @@
+/* Chỉ khung công khai nạp file này; không đổi màu, kiểu chữ hay hình dáng thẻ. */
+.nb-scroll-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  height: 2px;
+  z-index: 120;
+  pointer-events: none;
+  background: var(--nb-gold);
+  transform-origin: left;
+  transform: scaleX(var(--scroll-progress, 0));
+}
+.nb-tech-text, .nb-so-dong { position: relative; display: inline-block; max-width: 100%; }
+.nb-tech-goc { visibility: hidden; }
+.nb-tech-hien { position: absolute; inset: 0; overflow: clip; }
+.nb-so-dong { font-variant-numeric: tabular-nums; }
+.nb-so-dong .nb-tech-hien { overflow: visible; white-space: nowrap; }
+
+/* Nhịp chuyển trang từ page-transition.css, dùng lại bảng màu Germany. */
+.nb-chuyen-luoi {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(var(--nb-line-soft) 1px, transparent 1px), linear-gradient(90deg, var(--nb-line-soft) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(circle at 50% 50%, #000 0, transparent 75%);
+  animation: nb-chuyen-luoi 1.15s linear both;
+}
+.nb-chuyen-quet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 140px;
+  top: -160px;
+  border-bottom: 1px solid var(--nb-gold);
+  animation: nb-chuyen-quet .95s cubic-bezier(.4, 0, .2, 1) both;
+}
+.nb-chuyen-nhip {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(360px, 60vw);
+  height: 3px;
+  translate: -50% -50%;
+  background: var(--nb-line-soft);
+  overflow: hidden;
+}
+.nb-chuyen-nhip b {
+  display: block;
+  height: 100%;
+  background: var(--nb-gold);
+  transform-origin: left;
+  animation: nb-chuyen-nhip .75s cubic-bezier(.3, .7, .2, 1) both;
+}
+@keyframes nb-chuyen-luoi { to { background-position: 0 56px; } }
+@keyframes nb-chuyen-quet { to { top: 105%; } }
+@keyframes nb-chuyen-nhip { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+@media (prefers-reduced-motion: no-preference) {
+  html.nb-motion-ready .nb-route-main { animation: nb-route-in .3s ease both; }
+  html.nb-motion-ready .nb-thay-khoi { animation: nb-tham-chieu-reveal .65s ease; }
+  /* Bản VN đã bỏ ẩn nội dung: chỉ bắt đầu hoạt ảnh khi observer đánh dấu. */
+  html.nb-motion-ready [data-reveal].revealed {
+    animation: nb-tham-chieu-reveal .65s ease var(--nb-tre, 0ms) backwards;
+  }
+}
+@keyframes nb-route-in { from { opacity: 0; translate: 0 7px; } to { opacity: 1; translate: 0 0; } }
+@keyframes nb-tham-chieu-reveal {
+  from { opacity: .45; translate: 0 8px; }
+  to { opacity: 1; translate: 0 0; }
+}
+@media (min-width: 1024px) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  html.nb-motion-ready [data-tilt] {
+    transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+    transition: transform .22s ease, border-color .2s, box-shadow .2s;
+  }
+  html.nb-motion-ready [data-magnetic] {
+    transform: translate(var(--mx, 0px), var(--my, 0px));
+    transition: transform .18s, background .25s, border-color .25s, color .25s;
+  }
+}
+@media (max-width: 1023px) {
+  @keyframes nb-tham-chieu-reveal {
+    from { opacity: .65; translate: 0 4px; }
+    to { opacity: 1; translate: 0 0; }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nb-scroll-progress { display: none; }
+  #noi-dung *, footer *, .nb-chuyen-trang * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  [data-reveal] { opacity: 1 !important; translate: none !important; }
+  [data-tilt], [data-magnetic] { transform: none !important; }
+}

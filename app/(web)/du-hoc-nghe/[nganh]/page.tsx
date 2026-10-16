@@ -11,6 +11,7 @@ import { t } from "@/lib/i18n/dict";
 import { duHocNghe } from "@/lib/i18n/dict/du-hoc-nghe";
 import { khoangTien, tien } from "@/lib/i18n/format";
 import "../../trang-sang.css";
+import { TechText } from "@/components/ui/TechText";
 
 export const dynamicParams = false;
 
@@ -75,15 +76,15 @@ export default async function Page({ params }: { params: Promise<{ nganh: string
       {/* Thân trang SÁNG ở máy tính (app/trang-sang.css); điện thoại giữ nền cũ. */}
       <div className="nb-sang">
         <section className="nb-wrap py-10 sm:py-14 lg:py-20">
-          <p className="text-[14px] text-[var(--nb-text-mute)] italic">
+          <p data-reveal className="text-[14px] text-[var(--nb-text-mute)] italic">
             {tx.tenHeThong} <span lang={lang === "de" ? undefined : "de"}>{n.tenDuc}</span>
           </p>
 
-          <h2 className="nb-display mt-8 text-[22px] text-white sm:text-[26px] lg:text-[32px]">{tx.troCapTieuDe}</h2>
+          <h2 data-reveal className="nb-display mt-8 text-[22px] text-white sm:text-[26px] lg:text-[32px]">{tx.troCapTieuDe}</h2>
           <ol className="mt-6 grid gap-4 sm:grid-cols-3 sm:gap-5 lg:gap-6">
             {n.troCap.map((v, i) => (
-              <li key={i} className="nb-panel p-5 sm:p-6">
-                <span className="nb-eyebrow">{tx.namThu(i + 1)}</span>
+              <li data-reveal data-tilt key={i} className="nb-panel p-5 sm:p-6">
+                <span className="nb-eyebrow"><TechText>{tx.namThu(i + 1)}</TechText></span>
                 <b className="nb-gold-text nb-display mt-2 block text-[27px] leading-none sm:text-[30px]">{tien(v, lang)}</b>
                 <span className="mt-1 block text-[12.5px] text-[var(--nb-text-mute)]">{tx.moiThang}</span>
                 <span className="mt-4 block h-2 w-full overflow-hidden rounded-full bg-[var(--nb-navy-900)] lg:bg-[#E6DCC6]" aria-hidden="true">
@@ -99,7 +100,7 @@ export default async function Page({ params }: { params: Promise<{ nganh: string
             ))}
           </ol>
 
-          <div className="nb-panel mt-6 flex flex-wrap items-center justify-between gap-5 p-5 sm:p-6">
+          <div data-reveal data-tilt className="nb-panel mt-6 flex flex-wrap items-center justify-between gap-5 p-5 sm:p-6">
             <div className="flex items-center gap-3">
               <TrendingUp size={20} className="shrink-0 text-[var(--nb-gold)]" />
               <div>
@@ -109,7 +110,7 @@ export default async function Page({ params }: { params: Promise<{ nganh: string
                 <span className="mt-0.5 block text-[13px] text-[var(--nb-text-dim)]">{tx.ghiChuSau}</span>
               </div>
             </div>
-            <NavLink href="/lien-he" className="nb-btn h-12 w-full px-6 text-[14px] sm:h-11 sm:w-auto">
+            <NavLink data-magnetic href="/lien-he" className="nb-btn h-12 w-full px-6 text-[14px] sm:h-11 sm:w-auto">
               {tx.dangKy}
               <ArrowRight size={15} />
             </NavLink>
@@ -121,7 +122,7 @@ export default async function Page({ params }: { params: Promise<{ nganh: string
               { ten: tx.lamGi, ds: n.lamGi },
               { ten: tx.hopVoi, ds: n.hopVoi },
             ].map((k) => (
-              <div key={k.ten} className="nb-panel p-5 sm:p-6">
+              <div data-reveal data-tilt key={k.ten} className="nb-panel p-5 sm:p-6">
                 <b className="block text-[16px] font-semibold text-white sm:text-[17px]">{k.ten}</b>
                 <ul className="mt-4 space-y-2.5">
                   {k.ds.map((x) => (
@@ -135,19 +136,19 @@ export default async function Page({ params }: { params: Promise<{ nganh: string
             ))}
           </div>
 
-          <div className="nb-panel mt-6 p-5 sm:p-6">
+          <div data-reveal data-tilt className="nb-panel mt-6 p-5 sm:p-6">
             <b className="block text-[16px] font-semibold text-white sm:text-[17px]">{tx.trienVong}</b>
-            <p className="mt-2 text-[15px] leading-[1.75] text-[var(--nb-text-dim)]">{n.trienVong}</p>
+            <p data-reveal className="mt-2 text-[15px] leading-[1.75] text-[var(--nb-text-dim)]">{n.trienVong}</p>
           </div>
         </section>
 
         <section className="border-t border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] py-11 sm:py-14 lg:py-20">
           <div className="nb-wrap">
-            <h2 className="nb-display text-[21px] text-white sm:text-[24px] lg:text-[32px]">{tx.nganhKhac}</h2>
+            <h2 data-reveal className="nb-display text-[21px] text-white sm:text-[24px] lg:text-[32px]">{tx.nganhKhac}</h2>
             <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:mt-8 lg:gap-6 xl:grid-cols-4">
               {khac.map((k) => (
                 <li key={k.id}>
-                  <NavLink href={`/du-hoc-nghe/${k.id}`} className="nb-card group block h-full p-5">
+                  <NavLink data-reveal data-tilt href={`/du-hoc-nghe/${k.id}`} className="nb-card group block h-full p-5">
                     <b className="block text-[16px] font-semibold break-words text-white">{k.ten}</b>
                     <span className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[12.5px] text-[var(--nb-text-dim)]">
                       <span className="flex items-center gap-1.5">

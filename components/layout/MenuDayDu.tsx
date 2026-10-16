@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import type { Route } from "next";
 import { AnimatePresence, motion } from "framer-motion";
+import { TechText } from "@/components/ui/TechText";
 import {
   ArrowRight,
   BookOpen,
@@ -225,7 +226,7 @@ export function MenuDayDu({ mo, dong, dem }: { mo: boolean; dong: () => void; de
               {/* ---------- HAI NHÓM MỤC CHÍNH ---------- */}
               {NHOM.map((nhom, i) => (
                 <div key={nhom.ten} className={i === 0 ? "mt-5" : "mt-6"}>
-                  <p className="nb-eyebrow px-1">{nhom.ten}</p>
+                  <p className="nb-eyebrow px-1"><TechText>{nhom.ten}</TechText></p>
                   <ul className="mt-2.5 space-y-1.5">
                     {nhom.muc.map(({ href, Icon, phu }) => {
                       const on = dangMo(href);
@@ -321,7 +322,7 @@ export function MenuDayDu({ mo, dong, dem }: { mo: boolean; dong: () => void; de
 
               {/* ---------- LIÊN HỆ ---------- */}
               <div className="mt-6">
-                <p className="nb-eyebrow px-1">{tx.nhomLienHe}</p>
+                <p className="nb-eyebrow px-1"><TechText>{tx.nhomLienHe}</TechText></p>
                 <ul className="mt-2.5 space-y-1.5 text-[14px]">
                   <li>
                     <a
@@ -350,6 +351,7 @@ export function MenuDayDu({ mo, dong, dem }: { mo: boolean; dong: () => void; de
                 <NavLink
                   href={lh("/lien-he")}
                   onClick={dong}
+                  data-magnetic
                   className="nb-btn mt-3 h-12 w-full px-5 text-[14.5px]"
                 >
                   {tx.dangKy}

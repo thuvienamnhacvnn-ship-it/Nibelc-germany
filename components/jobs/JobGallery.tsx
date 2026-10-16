@@ -28,7 +28,7 @@ export function JobGallery({ anh, ten }: { anh: string[]; ten: string }) {
         <ul className="nb-no-scrollbar mt-3 flex gap-2.5 overflow-x-auto pb-1">
           {anh.map((a, i) => (
             <li key={a}>
-              <button
+              <button data-reveal
                 type="button"
                 onClick={() => setMo(i)}
                 aria-label={tx.anh(i + 1)}

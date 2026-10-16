@@ -10,6 +10,7 @@ import { ChonNgonNgu } from "@/components/layout/ChonNgonNgu";
 import { getLang } from "@/lib/i18n/server";
 import { t } from "@/lib/i18n/dict";
 import { common } from "@/lib/i18n/dict/common";
+import { TechText } from "@/components/ui/TechText";
 
 /**
  * CHÂN TRANG
@@ -44,7 +45,7 @@ export async function Footer() {
     <footer className="border-t border-[var(--nb-line-soft)] bg-[var(--nb-navy-900)] lg:bg-[var(--nb-navy-800)]">
       <div className="nb-wrap grid gap-x-10 gap-y-5 py-6 md:grid-cols-2 lg:gap-y-9 lg:py-14 xl:grid-cols-[1.6fr_1fr_1fr_1.3fr]">
         {/* ---------- 1. Thương hiệu ---------- */}
-        <div>
+        <div data-reveal>
           {/* Chữ "NIBELC" trong logo là xanh dương #004ca0. Trên nền xanh mới
               của bản điện thoại nó chỉ tương phản 1,29:1 — nhìn chìm hẳn.
               Đặt logo trên một tấm nền sáng ở khổ điện thoại; desktop nền
@@ -57,7 +58,7 @@ export async function Footer() {
           {/* Đoạn giới thiệu và hai biểu tượng mạng xã hội CHỈ có từ md trở
               lên: ở điện thoại chân trang đã dài hơn một màn hình, mà hai khối
               này không dẫn đi đâu (mạng xã hội chưa có đường dẫn chính thức). */}
-          <p className="mt-4 hidden max-w-[42ch] text-[13.5px] leading-[1.7] text-[var(--nb-text-dim)] md:block">
+          <p data-reveal className="mt-4 hidden max-w-[42ch] text-[13.5px] leading-[1.7] text-[var(--nb-text-dim)] md:block">
             {tx.footer.gioiThieu}
           </p>
 
@@ -79,8 +80,8 @@ export async function Footer() {
         </div>
 
         {/* ---------- 2. Điều hướng ---------- */}
-        <nav aria-label={tx.footer.menuChanTrang} className="hidden md:block">
-          <p className="nb-eyebrow">{tx.footer.dieuHuong}</p>
+        <nav data-reveal aria-label={tx.footer.menuChanTrang} className="hidden md:block">
+          <p data-reveal className="nb-eyebrow"><TechText>{tx.footer.dieuHuong}</TechText></p>
           <ul className="mt-4 space-y-2.5">
             {NAV.map((m) => (
               <li key={m.href}>
@@ -96,8 +97,8 @@ export async function Footer() {
         </nav>
 
         {/* ---------- 3. Nhóm ngành ---------- */}
-        <nav aria-label={tx.footer.nhomNganhAria} className="hidden md:block">
-          <p className="nb-eyebrow">{tx.footer.nhomNganh}</p>
+        <nav data-reveal aria-label={tx.footer.nhomNganhAria} className="hidden md:block">
+          <p data-reveal className="nb-eyebrow"><TechText>{tx.footer.nhomNganh}</TechText></p>
           <ul className="mt-4 space-y-2.5">
             {nganhChinh.map((n) => (
               <li key={n.id}>
@@ -121,10 +122,10 @@ export async function Footer() {
         </nav>
 
         {/* ---------- 4. Liên hệ ---------- */}
-        <div>
+        <div data-reveal>
           {/* Ở điện thoại ba biểu tượng ghim/điện thoại/thư đã nói rõ đây là
               phần liên hệ; bỏ nhãn đi lấy lại 31px trên MỌI trang. */}
-          <p className="nb-eyebrow hidden lg:block">{tx.footer.lienHe}</p>
+          <p data-reveal className="nb-eyebrow hidden lg:block"><TechText>{tx.footer.lienHe}</TechText></p>
           {/* space-y nhỏ ở điện thoại vì mỗi dòng đã tự cao 44px rồi, cộng
               thêm 14px giãn nữa là chân trang dài vô ích. */}
           <ul className="mt-3 space-y-1 text-[14px] text-[var(--nb-text-dim)] lg:mt-4 lg:space-y-3.5">
@@ -157,7 +158,7 @@ export async function Footer() {
             </li>
           </ul>
 
-          <NavLink href="/lien-he" className="nb-btn mt-4 h-11 w-full px-5 text-[14px] lg:mt-6">
+          <NavLink data-magnetic href="/lien-he" className="nb-btn mt-4 h-11 w-full px-5 text-[14px] lg:mt-6">
             {tx.footer.dangKyTuVan}
           </NavLink>
         </div>
@@ -169,15 +170,15 @@ export async function Footer() {
           190px), mà trang /lien-he đã có sẵn một bản đồ y hệt — chân trang
           lặp trên MỌI trang nên tốn gấp bảy lần chỗ cho cùng một thông tin. */}
       <div className="nb-wrap hidden pb-9 lg:block lg:pb-14">
-        <div className="nb-panel overflow-hidden">
+        <div data-reveal data-tilt className="nb-panel overflow-hidden">
           <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4">
-            <p className="flex items-center gap-2.5 text-[14px] text-[var(--nb-text-dim)]">
+            <p data-reveal className="flex items-center gap-2.5 text-[14px] text-[var(--nb-text-dim)]">
               <MapPin size={16} className="shrink-0 text-[var(--nb-gold)]" />
               <span>
                 <b className="font-semibold text-white">{tx.footer.vanPhong}</b> — {diaChiDu}
               </span>
             </p>
-            <a
+            <a data-magnetic
               href={`https://www.openstreetmap.org/search?query=${encodeURIComponent(`${diaChi}, ${LEGAL.country}`)}`}
               target="_blank"
               rel="noopener noreferrer"

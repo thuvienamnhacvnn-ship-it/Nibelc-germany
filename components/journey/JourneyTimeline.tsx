@@ -30,7 +30,7 @@ export function JourneyTimeline({ chang: CHANG }: { chang: Chang[] }) {
           const daQua = i < mo;
           return (
             <li key={c.so} className="shrink-0 lg:min-w-0">
-              <button
+              <button data-reveal data-tilt
                 type="button"
                 onClick={() => setMo(i)}
                 aria-pressed={on}
@@ -59,7 +59,7 @@ export function JourneyTimeline({ chang: CHANG }: { chang: Chang[] }) {
                   </span>
                 </span>
 
-                <span className="relative mt-3 block h-[88px] overflow-hidden lg:mt-2">
+                <span data-reveal className="relative mt-3 block h-[88px] overflow-hidden lg:mt-2">
                   <Image
                     src={c.anh}
                     alt=""
@@ -88,11 +88,12 @@ export function JourneyTimeline({ chang: CHANG }: { chang: Chang[] }) {
         <AnimatePresence mode="wait">
           <motion.div
             key={chang.so}
-            initial={{ opacity: 0, y: 12 }}
+            // HTML phải hiện ngay cả khi JavaScript chưa khởi động.
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.32, ease: [0.22, 0.61, 0.36, 1] }}
-            className="nb-panel overflow-hidden"
+            className="nb-panel nb-thay-khoi overflow-hidden"
           >
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--nb-line-soft)] px-5 py-5 sm:px-6">
               <div className="flex items-center gap-3.5 sm:gap-4">
@@ -100,8 +101,8 @@ export function JourneyTimeline({ chang: CHANG }: { chang: Chang[] }) {
                   {chang.so}
                 </span>
                 <div className="min-w-0">
-                  <h3 className="nb-display text-[19px] text-white sm:text-[22px] lg:text-[26px]">{chang.ten}</h3>
-                  <p className="mt-0.5 text-[13.5px] text-[var(--nb-text-dim)]">{chang.mo}</p>
+                  <h3 data-reveal className="nb-display text-[19px] text-white sm:text-[22px] lg:text-[26px]">{chang.ten}</h3>
+                  <p data-reveal className="mt-0.5 text-[13.5px] text-[var(--nb-text-dim)]">{chang.mo}</p>
                 </div>
               </div>
               <span className="flex items-center gap-2 rounded-full border border-[var(--nb-line)] px-3.5 py-1.5 text-[12.5px] text-[var(--nb-gold-soft)]">
@@ -134,7 +135,7 @@ export function JourneyTimeline({ chang: CHANG }: { chang: Chang[] }) {
         </AnimatePresence>
 
         {/* ---------- BẠN ĐANG Ở BƯỚC NÀO ---------- */}
-        <aside className="nb-panel h-fit p-5 lg:sticky lg:top-[calc(var(--nb-header)+20px)]">
+        <aside data-reveal data-tilt className="nb-panel h-fit p-5 lg:sticky lg:top-[calc(var(--nb-header)+20px)]">
           <b className="block text-[15.5px] font-semibold text-white">{tx.banDangO}</b>
           <ul className="mt-4 space-y-1">
             {CHANG.map((c, i) => (

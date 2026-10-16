@@ -40,7 +40,7 @@ export default async function Page() {
             thay vì một cột 820px căn giữa lệch khỏi chữ banner; dòng chữ vẫn giới hạn 820px. */}
         <section className="mx-auto max-w-[820px] px-8 py-14 lg:max-w-[1400px] lg:py-20 lg:[&>*]:max-w-[820px] min-[1441px]:max-w-[1600px] min-[1441px]:px-10">
           {tx.ghiChu && (
-            <p className="mb-9 rounded-[12px] border border-[var(--nb-line)] px-4 py-3 text-[14.5px] leading-[1.7] text-[var(--nb-text-dim)]">
+            <p data-reveal className="mb-9 rounded-[12px] border border-[var(--nb-line)] px-4 py-3 text-[14.5px] leading-[1.7] text-[var(--nb-text-dim)]">
               {tx.ghiChu.mo}{" "}
               {/* Sang bản tiếng Đức: <a> thường (tải lại trang) vì NavLink luôn giữ ngôn ngữ đang xem */}
               <a
@@ -69,7 +69,7 @@ export default async function Page() {
           </Muc>
 
           <Muc tieuDe={tx.kontakt}>
-            <p className="text-[16px] leading-[1.9] text-[var(--nb-text-dim)]">
+            <p data-reveal className="text-[16px] leading-[1.9] text-[var(--nb-text-dim)]">
               {tx.telefon}: {LEGAL.phone}
               <br />
               {tx.email}: {LEGAL.email}
@@ -77,30 +77,30 @@ export default async function Page() {
           </Muc>
 
           <Muc tieuDe={tx.rechtsform}>
-            <p className="text-[16px] leading-[1.9] text-[var(--nb-text-dim)]">{tx.rechtsformWert}</p>
+            <p data-reveal className="text-[16px] leading-[1.9] text-[var(--nb-text-dim)]">{tx.rechtsformWert}</p>
           </Muc>
 
           {du ? (
             <>
               <Muc tieuDe={tx.register}>
-                <p className="text-[16px] text-[var(--nb-text-dim)]">
+                <p data-reveal className="text-[16px] text-[var(--nb-text-dim)]">
                   {LEGAL.handelsregister} · {LEGAL.hrb}
                 </p>
               </Muc>
               <Muc tieuDe={tx.vertretung}>
-                <p className="text-[16px] text-[var(--nb-text-dim)]">{LEGAL.geschaeftsfuehrer}</p>
+                <p data-reveal className="text-[16px] text-[var(--nb-text-dim)]">{LEGAL.geschaeftsfuehrer}</p>
               </Muc>
               <Muc tieuDe={tx.ust}>
-                <p className="text-[16px] text-[var(--nb-text-dim)]">{LEGAL.ustIdNr}</p>
+                <p data-reveal className="text-[16px] text-[var(--nb-text-dim)]">{LEGAL.ustIdNr}</p>
               </Muc>
             </>
           ) : (
-            <div className="nb-panel mt-9 p-6">
+            <div data-reveal data-tilt className="nb-panel mt-9 p-6">
               <b className="flex items-center gap-2.5 text-[15.5px] font-semibold text-[var(--nb-gold-soft)]">
                 <AlertTriangle size={18} />
                 {tx.ergaenzt.tieuDe}
               </b>
-              <p className="mt-3 text-[14.5px] leading-[1.8] text-[var(--nb-text-dim)]">
+              <p data-reveal className="mt-3 text-[14.5px] leading-[1.8] text-[var(--nb-text-dim)]">
                 {tx.ergaenzt.mo}
               </p>
               <ul className="mt-3 space-y-1.5">
@@ -115,13 +115,13 @@ export default async function Page() {
           )}
 
           <Muc tieuDe={tx.haftung.tieuDe}>
-            <p className="text-[16px] leading-[1.9] text-[var(--nb-text-dim)]">
+            <p data-reveal className="text-[16px] leading-[1.9] text-[var(--nb-text-dim)]">
               {tx.haftung.mo}
             </p>
           </Muc>
 
           <Muc tieuDe={tx.datenschutz.tieuDe}>
-            <p className="text-[16px] leading-[1.9] text-[var(--nb-text-dim)]">
+            <p data-reveal className="text-[16px] leading-[1.9] text-[var(--nb-text-dim)]">
               {tx.datenschutz.truoc}{" "}
               <NavLink href="/datenschutz" className="font-medium text-[var(--nb-gold-soft)] hover:underline">
                 {tx.datenschutz.link}
@@ -138,7 +138,7 @@ export default async function Page() {
 function Muc({ tieuDe, children }: { tieuDe: string; children: React.ReactNode }) {
   return (
     <section className="mt-9 first-of-type:mt-0">
-      <h2 className="nb-display text-[21px] text-white">{tieuDe}</h2>
+      <h2 data-reveal className="nb-display text-[21px] text-white">{tieuDe}</h2>
       <span className="mt-3 mb-4 block h-px w-14 bg-[var(--nb-gold)]" aria-hidden="true" />
       {children}
     </section>

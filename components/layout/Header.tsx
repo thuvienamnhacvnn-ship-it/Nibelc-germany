@@ -110,7 +110,7 @@ export function Header() {
           <ChonNgonNgu className="hidden xl:block" />
 
           <span className="hidden lg:contents">
-            <NavLink href="/lien-he" className="nb-btn h-9 px-4 text-[13.5px]">
+            <NavLink data-magnetic href="/lien-he" className="nb-btn h-9 px-4 text-[13.5px]">
               <Headphones size={15} />
               {tx.tuVanNgay}
             </NavLink>
@@ -157,7 +157,7 @@ function TimNhanh({ dong }: { dong: () => void }) {
         className="h-10 flex-1 bg-transparent text-[15px] text-white outline-none placeholder:text-[var(--nb-text-mute)]"
         aria-label={tx.timAria}
       />
-      <button type="submit" className="nb-btn-ghost h-9 px-4 text-[13.5px]">
+      <button data-magnetic type="submit" className="nb-btn-ghost h-9 px-4 text-[13.5px]">
         {tx.nutTim}
       </button>
     </form>

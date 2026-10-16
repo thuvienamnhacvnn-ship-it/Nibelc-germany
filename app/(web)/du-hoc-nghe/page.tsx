@@ -11,6 +11,7 @@ import { t } from "@/lib/i18n/dict";
 import { duHocNghe } from "@/lib/i18n/dict/du-hoc-nghe";
 import { khoangTien } from "@/lib/i18n/format";
 import "../trang-sang.css";
+import { TechText } from "@/components/ui/TechText";
 
 export async function generateMetadata(): Promise<Metadata> {
   const tx = t(duHocNghe, await getLang());
@@ -65,11 +66,11 @@ export default async function Page() {
         mo={b.mo || undefined}
       >
         <div className="mt-7 flex flex-wrap gap-3 sm:mt-8 lg:mt-5">
-          <NavLink href="#nganh-nghe" className="nb-btn h-12 w-full px-7 text-[15px] sm:w-auto lg:h-11 lg:px-6">
+          <NavLink data-magnetic href="#nganh-nghe" className="nb-btn h-12 w-full px-7 text-[15px] sm:w-auto lg:h-11 lg:px-6">
             {tx.hero.khamPha}
             <ArrowRight size={16} />
           </NavLink>
-          <NavLink href="/lien-he" className="nb-btn-ghost h-12 w-full px-7 text-[15px] sm:w-auto lg:h-11 lg:px-6">
+          <NavLink data-magnetic href="/lien-he" className="nb-btn-ghost h-12 w-full px-7 text-[15px] sm:w-auto lg:h-11 lg:px-6">
             {tx.hero.kiemTra}
           </NavLink>
         </div>
@@ -79,8 +80,8 @@ export default async function Page() {
       <div className="nb-sang">
         {/* ---------- EXPLORER NGÀNH ---------- */}
         <section id="nganh-nghe" className="nb-wrap py-11 sm:py-16 lg:py-20">
-          <h2 className="nb-display text-[24px] text-white sm:text-[30px] lg:text-[32px]">{tx.nganh.tieuDe}</h2>
-          <p className="mt-3 max-w-[70ch] text-[14.5px] leading-[1.7] text-[var(--nb-text-dim)] sm:text-[15px]">
+          <h2 data-reveal className="nb-display text-[24px] text-white sm:text-[30px] lg:text-[32px]">{tx.nganh.tieuDe}</h2>
+          <p data-reveal className="mt-3 max-w-[70ch] text-[14.5px] leading-[1.7] text-[var(--nb-text-dim)] sm:text-[15px]">
             {tx.nganh.ghiChu}
           </p>
 
@@ -88,8 +89,8 @@ export default async function Page() {
           <ul className="nb-no-scrollbar mt-7 flex gap-4 overflow-x-auto pb-3 sm:mt-9 sm:gap-5 lg:grid lg:grid-cols-4 lg:gap-6 lg:overflow-visible lg:pb-0">
             {NGANH_HOC.map((n) => (
               <li key={n.id} className="w-[250px] shrink-0 sm:w-[268px] lg:w-auto lg:min-w-0">
-                <NavLink href={`/du-hoc-nghe/${n.id}`} className="nb-card group block h-full overflow-hidden">
-                  <span className="relative block h-[172px] overflow-hidden">
+                <NavLink data-reveal data-tilt href={`/du-hoc-nghe/${n.id}`} className="nb-card group block h-full overflow-hidden">
+                  <span data-reveal className="relative block h-[172px] overflow-hidden">
                     <Image
                       src={ANH[n.id] ?? "/assets/jobs/logistik/01-hero-16x9.jpg"}
                       alt=""
@@ -138,10 +139,10 @@ export default async function Page() {
         {/* ---------- BỐN BƯỚC ---------- */}
         <section className="border-y border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] py-11 sm:py-16 lg:py-20">
           <div className="nb-wrap">
-            <h2 className="nb-display text-[24px] text-white sm:text-[30px] lg:text-[32px]">{tx.buoc.tieuDe}</h2>
+            <h2 data-reveal className="nb-display text-[24px] text-white sm:text-[30px] lg:text-[32px]">{tx.buoc.tieuDe}</h2>
             <ol className="mt-7 grid gap-4 sm:mt-9 sm:gap-5 md:grid-cols-2 lg:gap-6 xl:grid-cols-4">
               {tx.buoc.ds.map((b) => (
-                <li key={b.so} className="nb-panel p-5 sm:p-6">
+                <li data-reveal data-tilt key={b.so} className="nb-panel p-5 sm:p-6">
                   <b className="nb-gold-text nb-display block text-[27px] leading-none sm:text-[30px]">{b.so}</b>
                   <b className="mt-3 block text-[17px] font-semibold text-white">{b.ten}</b>
                   <span className="mt-2 block text-[14px] leading-[1.7] text-[var(--nb-text-dim)]">{b.mo}</span>
@@ -153,7 +154,7 @@ export default async function Page() {
 
         {/* ---------- KHỐI SPLIT ---------- */}
         <section className="nb-wrap grid items-center gap-8 py-11 sm:gap-10 sm:py-16 lg:grid-cols-2 lg:gap-14 lg:py-20">
-          <span className="relative block aspect-[4/3] overflow-hidden rounded-[16px] border border-[var(--nb-line-soft)]">
+          <span data-reveal className="relative block aspect-[4/3] overflow-hidden rounded-[16px] border border-[var(--nb-line-soft)]">
             <Image
               src="/assets/jobs/mechanik/03-portrait-team-3x4.jpg"
               alt={tx.viSao.altAnh}
@@ -163,9 +164,9 @@ export default async function Page() {
             />
           </span>
 
-          <div>
-            <p className="nb-eyebrow">{tx.viSao.nhan}</p>
-            <h2 className="nb-display mt-3 text-[24px] text-white sm:text-[30px] lg:text-[32px]">{tx.viSao.tieuDe}</h2>
+          <div data-reveal>
+            <p data-reveal className="nb-eyebrow"><TechText>{tx.viSao.nhan}</TechText></p>
+            <h2 data-reveal className="nb-display mt-3 text-[24px] text-white sm:text-[30px] lg:text-[32px]">{tx.viSao.tieuDe}</h2>
             <ul className="mt-6 space-y-5 sm:mt-7">
               {tx.viSao.loiIch.map(({ ten, mo }, i) => {
                 const Icon = ICON_LOI_ICH[i] ?? GraduationCap;
@@ -182,7 +183,7 @@ export default async function Page() {
                 );
               })}
             </ul>
-            <NavLink href="/lien-he" className="nb-btn mt-8 h-12 w-full px-6 text-center text-[15px] sm:w-auto sm:px-7">
+            <NavLink data-magnetic href="/lien-he" className="nb-btn mt-8 h-12 w-full px-6 text-center text-[15px] sm:w-auto sm:px-7">
               {tx.viSao.nut}
               <ArrowRight size={16} />
             </NavLink>

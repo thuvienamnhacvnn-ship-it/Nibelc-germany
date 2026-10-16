@@ -7,28 +7,6 @@ import { createContext, useCallback, useContext, useEffect, useRef, useState, ty
 import { lh, tachNgonNgu, type Lang } from "@/lib/i18n/config";
 import { useLang } from "@/lib/i18n/client";
 
-/**
- * CHUYỂN TRANG — CHỮ KÝ CỦA NIBELC
- *
- * Quy trình Sếp chốt 02/10/2026, BA NHỊP NỐI TIẾP, không chồng lên nhau:
- *   1. CHẬP VÀO — hai tấm navy chạy từ hai mép vào giữa, phủ KÍN 100% màn
- *      hình đang xem (đục hoàn toàn, không nhìn xuyên).
- *   2. ĐỔI TRANG — chỉ khi đã phủ kín mới router.push; đợi trang mới thật sự
- *      vẽ xong (pathname đổi + 2 khung hình) rồi giữ thêm một nhịp ngắn.
- *   3. MỞ RA — hai tấm rút ngược ra hai mép, lộ trang mới.
- *
- * Bản cũ push route NGAY khi bấm (để giảm trễ) và mở tấm theo giờ cố định,
- * nên trang mới lộ ra trước khi màn chập kín — trái quy trình trên.
- * Trễ tải được bù bằng prefetch (NavLink nạp trước khi rê chuột).
- *
- * Người dùng bật "giảm chuyển động" thì bỏ qua hoạt ảnh, điều hướng thẳng.
- *
- * ĐA NGÔN NGỮ: `href` truyền vào là đường dẫn GỐC ("/lien-he"); hàm tự thêm
- * tiền tố của ngôn ngữ đang xem (/en, /de). Đổi ngôn ngữ: chuyenTrang(duongDan,
- * { lang: "de" }) — cùng hiệu ứng, và trang chỉ mở màn khi khung (Header,
- * Footer, <html lang>) đã dựng lại bằng ngôn ngữ mới.
- */
-
 type Ham = (href: string, tuyChon?: { lang?: Lang }) => void;
 
 const Ctx = createContext<Ham | null>(null);
@@ -41,17 +19,14 @@ export function useChuyenTrang(): Ham {
   return f ?? ((href, tuyChon) => router.push(lh(href, tuyChon?.lang ?? lang) as Route));
 }
 
-// Đo trên bản build thật 02/10: nhịp cũ (0.42s, ease [.76,0,.24,1], giữ 2
-// khung + 120ms) để màn navy đứng yên 0.3–0.6s giữa lúc kín và lúc mở → Sếp
-// thấy "delay". Nay: nhịp mềm hơn, giữ tối thiểu, chỉ chờ ẢNH đang trong màn
-// hình (tối đa CHO_ANH) để mở ra không lộ khung ảnh trống.
-const DONG = 0.36; // giây, hai tấm chập vào tới khi kín
-const GIU = 0.04; // giây, giữ kín sau khi trang mới đã vẽ xong
-const MO = 0.4; // giây, hai tấm mở ra
-const CHO_ANH = 300; // ms, chờ tối đa ảnh trong màn hình tải xong
-const TRAN = 5000; // ms, trang mới chậm quá thì vẫn mở để không kẹt màn
-const NHIP_DONG = [0.65, 0, 0.35, 1] as const;
-const NHIP_MO = [0.33, 0, 0.2, 1] as const;
+// Mẫu giữ kín 62% của 1,15s rồi quét hết sang phải; chờ route/ảnh trước khi mở.
+const DONG = 0;
+const GIU = 1.15 * 0.62;
+const MO = 1.15 * 0.38;
+const CHO_ANH = 300;
+const TRAN = 5000;
+const NHIP_DONG = [0.7, 0, 0.2, 1] as const;
+const NHIP_MO = NHIP_DONG;
 
 /** Đợi ảnh đang nằm trong khung nhìn tải xong (hoặc hết CHO_ANH ms). */
 function choAnhTrongManHinh(): Promise<void> {
@@ -90,7 +65,18 @@ export function PageTransition({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     giamChuyenDong.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  }, []);
+    const truyVan = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const doi = () => {
+      giamChuyenDong.current = truyVan.matches;
+      if (truyVan.matches && dich.current) {
+        router.push(dich.current as Route);
+        dich.current = null;
+        setPha("nghi");
+      }
+    };
+    truyVan.addEventListener("change", doi);
+    return () => truyVan.removeEventListener("change", doi);
+  }, [router]);
 
   const chuyenTrang = useCallback<Ham>(
     (href, tuyChon) => {
@@ -104,7 +90,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
       // lớp đang che nội dung chính và cuộn về đầu.
       if (!doiNgonNgu && dayDu === lh(gocHienTai, lang)) {
         window.dispatchEvent(new CustomEvent("nibelc:ve-trang-hien-tai"));
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.scrollTo({ top: 0, behavior: giamChuyenDong.current ? "instant" : "smooth" });
         return;
       }
       if (giamChuyenDong.current) {
@@ -130,6 +116,13 @@ export function PageTransition({ children }: { children: ReactNode }) {
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
     router.push(dich.current as Route);
   }, [pha, router]);
+
+  useEffect(() => {
+    if (pha !== "dong") return;
+    // Đợi màn che thật sự được vẽ dù không còn nhịp hai tấm chập vào.
+    const khung = requestAnimationFrame(daKin);
+    return () => cancelAnimationFrame(khung);
+  }, [pha, daKin]);
 
   // Nhịp 2 → 3: trang mới đã vẽ (pathname khớp đích + 2 khung hình) thì giữ
   // thêm GIU rồi mở. Đổi mỗi ?query thì pathname không đổi → đợi cố định.
@@ -182,42 +175,27 @@ export function PageTransition({ children }: { children: ReactNode }) {
       {children}
 
       {pha !== "nghi" && (
-        // Chặn bấm trong lúc chuyển để không có cú điều hướng chen ngang.
-        <div className="fixed inset-0 z-[100]" aria-hidden="true">
-          {/* tấm trái — đục 100% */}
+        <div className="nb-chuyen-trang fixed inset-0 z-[100]" aria-hidden="true">
           <motion.div
-            className="absolute inset-y-0 left-0 w-1/2 bg-[var(--nb-navy-800)]"
-            initial={{ x: "-100%" }}
-            animate={{ x: kin ? 0 : "-100%" }}
+            className="absolute inset-0 overflow-hidden bg-[var(--nb-navy-800)]"
+            initial={{ clipPath: "inset(0 0 0 0)" }}
+            animate={{ clipPath: kin ? "inset(0 0 0 0)" : "inset(0 0 0 100%)" }}
             transition={{ duration: kin ? DONG : MO, ease: kin ? NHIP_DONG : NHIP_MO }}
-            onAnimationComplete={() => (kin ? daKin() : daMo())}
-          />
-          {/* tấm phải */}
-          <motion.div
-            className="absolute inset-y-0 right-0 w-1/2 bg-[var(--nb-navy-800)]"
-            initial={{ x: "100%" }}
-            animate={{ x: kin ? 0 : "100%" }}
-            transition={{ duration: kin ? DONG : MO, ease: kin ? NHIP_DONG : NHIP_MO }}
-          />
-          {/* vạch vàng mảnh ở đường nối — chỉ hiện khi đã kín, KHÔNG glow */}
-          <motion.span
-            className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-[var(--nb-gold)]"
-            initial={{ opacity: 0, scaleY: 0.3 }}
-            animate={pha === "cho" ? { opacity: 0.9, scaleY: 1 } : { opacity: 0, scaleY: 0.3 }}
-            transition={{ duration: 0.2 }}
-          />
+            onAnimationComplete={() => { if (!kin) daMo(); }}
+          >
+            <span className="nb-chuyen-luoi" />
+            <span className="nb-chuyen-quet" />
+            <span className="nb-chuyen-nhip"><b /></span>
+          </motion.div>
         </div>
       )}
     </Ctx.Provider>
   );
 }
 
-/**
- * Vỏ nội dung trang. KHÔNG còn mờ dần: trang mới đổi dưới màn che kín, tới
- * lúc màn mở thì nội dung phải đậm 100% ngay. Bản cũ mờ 0→1 trong 0.42s nên
- * lúc màn mở trang còn nhợt rồi mới đậm dần — trông như trễ (Sếp chê "chưa
- * mượt"). Giữ tên PageFade để layout không phải đổi.
- */
+/** Trang chủ giữ nguyên hero đã duyệt; trang con dùng nhịp vào 300ms của mẫu. */
 export function PageFade({ children }: { children: ReactNode }) {
-  return <>{children}</>;
+  const duongDan = usePathname();
+  if (tachNgonNgu(duongDan).path === "/") return <>{children}</>;
+  return <div key={duongDan} className="nb-route-main">{children}</div>;
 }

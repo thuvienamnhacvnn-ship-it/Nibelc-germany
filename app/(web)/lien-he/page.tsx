@@ -49,11 +49,11 @@ export default async function Page() {
             <div className="grid gap-7 sm:gap-8 lg:grid-cols-[minmax(0,60fr)_minmax(0,40fr)] lg:items-start lg:gap-6">
               <ConsultationWizard />
 
-              <aside className="space-y-5 lg:space-y-6">
-                <div className="nb-panel p-5 sm:p-6">
+              <aside data-reveal className="space-y-5 lg:space-y-6">
+                <div data-reveal data-tilt className="nb-panel p-5 sm:p-6">
                   {/* Khuôn Sếp chốt 02/10 (ảnh mẫu): ghim + tên công ty đậm,
                       dưới là địa chỉ MỘT dòng có tên nước. */}
-                  <p className="flex gap-2.5 text-[14px] leading-[1.7] text-[var(--nb-text-dim)]">
+                  <p data-reveal className="flex gap-2.5 text-[14px] leading-[1.7] text-[var(--nb-text-dim)]">
                     <MapPin size={16} className="mt-1 shrink-0 text-[var(--nb-gold)]" />
                     <span>
                       <b className="block text-[16px] font-semibold text-white">{LEGAL.name}</b>
@@ -81,7 +81,7 @@ export default async function Page() {
                   </ul>
                 </div>
 
-                <div className="nb-panel overflow-hidden">
+                <div data-reveal data-tilt className="nb-panel overflow-hidden">
                   <div className="relative h-[220px]">
                     <iframe
                       title={tx.banDo(`${LEGAL.street}, ${LEGAL.city}`)}
@@ -91,7 +91,7 @@ export default async function Page() {
                       referrerPolicy="no-referrer-when-downgrade"
                     />
                   </div>
-                  <p className="px-5 py-3 text-[12.5px] text-[var(--nb-text-mute)]">{diaChiMotDong(lang)}</p>
+                  <p data-reveal className="px-5 py-3 text-[12.5px] text-[var(--nb-text-mute)]">{diaChiMotDong(lang)}</p>
                 </div>
               </aside>
             </div>
