@@ -58,7 +58,7 @@ export function PageHero({
   maTrang?: string;
 }) {
   return (
-    <section className={`relative isolate overflow-hidden ${anhBenPhai ? "lg:bg-[var(--nb-navy-900)]" : ""}`}>
+    <section className={`nb-banner-con relative isolate overflow-hidden ${anhBenPhai ? "lg:bg-[var(--nb-navy-900)]" : ""}`}>
       {/* ẢNH BANNER
           Ở ĐIỆN THOẠI (phiên mobile) đây là một khối riêng cao 220px, KHÔNG có
           chữ nào nằm đè lên: chữ xuống hẳn phía dưới trên nền phẳng — ảnh thật

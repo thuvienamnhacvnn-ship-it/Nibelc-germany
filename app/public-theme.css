@@ -61,6 +61,8 @@ html[data-public] .nb-theme-button { display: inline-flex; align-items: center; 
   html[data-public] .nb-hero-tam {
     --nb-heading: #fff; --nb-white: #fff; --nb-text: #eef3fa; --nb-text-dim: #d7e2f2; --nb-text-mute: #b3c6de;
     --nb-accent-text: #f0dcb4; --nb-navy-900: #050b16; --nb-navy-800: #071525; --hero-mo: #d7e2f2;
+    /* Nút viền trong kính: chủ đề ngày đặt --nb-surface trắng, chữ vàng nhạt mất trên đó. */
+    --nb-surface: rgba(5, 11, 22, 0.35);
   }
 }
 @media (max-width: 1023px) {

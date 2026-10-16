@@ -235,3 +235,97 @@
     animation: none !important;
   }
 }
+
+/* ============================================================
+   BẢNG HIỆU CẮT GÓC + VIỀN CHẠY (Sếp 16/10/2026)
+   "làm lại kiểu hình chữ nhật cắt góc không để góc nhọn rồi thêm hiệu
+   ứng chạy ráng quanh viền khung kiểu technology".
+   - Bỏ bo tròn + 4 dấu góc HUD (dấu góc vuông lệch khỏi góc bo, nhìn lỗi).
+   - Góc trên-trái / dưới-phải cắt 22px, hai góc còn lại 10px.
+   - Viền là một vành 1.5px dựng bằng clip-path evenodd (vòng ngoài rồi vòng
+     trong) nên đi đúng theo cả cạnh xiên; vệt chạy là conic-gradient xoay.
+     Chỉ là màu nét, không quầng sáng.
+   ============================================================ */
+@property --nb-vien-goc { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+
+.nb-kinh-vien { display: none; }
+
+@media (min-width: 1024px) {
+  .nb-hero-tam {
+    --cat: 22px;
+    --cat-nho: 10px;
+    --vien: 2px;
+    border-radius: 0;
+  }
+  .nb-hero-tam > .nb-hud-goc { display: none; }
+
+  .nb-kinh-nen,
+  .nb-kinh-sang,
+  .nb-kinh-lap-lanh {
+    border-radius: 0;
+    clip-path: polygon(
+      var(--cat) 0, calc(100% - var(--cat-nho)) 0, 100% var(--cat-nho),
+      100% calc(100% - var(--cat)), calc(100% - var(--cat)) 100%,
+      var(--cat-nho) 100%, 0 calc(100% - var(--cat-nho)), 0 var(--cat)
+    );
+  }
+  .nb-kinh-nen { border: 0; }
+
+  .nb-kinh-vien {
+    display: block;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    /* Nét nền tĩnh + hai vệt chạy đối xứng (vàng → trắng ở đầu vệt). */
+    background:
+      conic-gradient(from var(--nb-vien-goc),
+        transparent 0deg, rgba(217, 184, 120, 0) 8deg, rgba(217, 184, 120, 1) 64deg, #fff8e6 70deg, transparent 71deg,
+        transparent 180deg, rgba(217, 184, 120, 0) 188deg, rgba(217, 184, 120, 1) 244deg, #fff8e6 250deg, transparent 251deg),
+      linear-gradient(rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.34));
+    clip-path: polygon(evenodd,
+      var(--cat) 0, calc(100% - var(--cat-nho)) 0, 100% var(--cat-nho),
+      100% calc(100% - var(--cat)), calc(100% - var(--cat)) 100%,
+      var(--cat-nho) 100%, 0 calc(100% - var(--cat-nho)), 0 var(--cat),
+      var(--cat) 0,
+      calc(var(--cat) + var(--vien) * 0.414) var(--vien),
+      calc(var(--vien) * 1) calc(var(--cat) + var(--vien) * 0.414),
+      var(--vien) calc(100% - var(--cat-nho) - var(--vien) * 0.414),
+      calc(var(--cat-nho) + var(--vien) * 0.414) calc(100% - var(--vien)),
+      calc(100% - var(--cat) - var(--vien) * 0.414) calc(100% - var(--vien)),
+      calc(100% - var(--vien)) calc(100% - var(--cat) - var(--vien) * 0.414),
+      calc(100% - var(--vien)) calc(var(--cat-nho) + var(--vien) * 0.414),
+      calc(100% - var(--cat-nho) - var(--vien) * 0.414) var(--vien),
+      calc(var(--cat) + var(--vien) * 0.414) var(--vien)
+    );
+    animation: nb-vien-chay 6s linear infinite;
+  }
+  .nb-motion-ready .nb-hero-tam:hover .nb-kinh-vien { animation-duration: 2.6s; }
+
+  /* Hai mẩu nét đậm ở hai góc cắt lớn: điểm nhấn kiểu khung HUD. */
+  .nb-hero-tam::before,
+  .nb-hero-tam::after {
+    content: "";
+    position: absolute;
+    width: 46px;
+    height: 2px;
+    background: var(--nb-gold, #d9b878);
+    pointer-events: none;
+  }
+  .nb-hero-tam::before { top: -1px; left: calc(var(--cat) + 6px); }
+  .nb-hero-tam::after { bottom: -1px; right: calc(var(--cat) + 6px); }
+}
+
+@keyframes nb-vien-chay {
+  to { --nb-vien-goc: 360deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nb-kinh-vien { animation: none !important; }
+}
+
+/* Chủ đề ngày đổi --nb-navy-900 sang màu sáng, làm nền trái banner sáng theo và
+   chữ trắng trên kính mất hẳn (Sếp báo 16/10). Banner trang con là vùng ảnh nên
+   giữ nền tối ở cả hai chủ đề. */
+@media (min-width: 1024px) {
+  html[data-public][data-theme="ngay"] .nb-banner-con { background-color: #050b16; }
+}
