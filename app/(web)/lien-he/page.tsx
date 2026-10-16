@@ -33,7 +33,7 @@ export default async function Page() {
     <div className="nb-duoi-header">
       {/* Banner cùng khuôn PageHero như mọi trang con. Ảnh văn phòng trước đây
           nằm ở cột phải, nay chuyển lên banner (nửa trái ảnh tối sẵn, không phủ lớp). */}
-      <PageHero maTrang={congNghe[lang].trang.lien}
+      <PageHero video="lien-he" maTrang={congNghe[lang].trang.lien}
         anh={b.anh}
         anhDoc={b.anhDoc}
         anhBenPhai

@@ -54,7 +54,7 @@
 @keyframes nb-thuoc-troi { to { transform: translateY(-12px); } }
 /* Mặt nạ ô và lệch kênh trong 220ms, không phủ màu lên ảnh. */
 @property --nb-pixel-mo { syntax: '<percentage>'; inherits: false; initial-value: 100%; }
-@keyframes nb-pixel-doi { 0% { --nb-pixel-mo: 25%; filter: url(#nb-rgb-home); transform: translateX(-3px); } 40% { --nb-pixel-mo: 70%; transform: translateX(2px); } 99% { filter: url(#nb-rgb-home); } 100% { --nb-pixel-mo: 100%; filter: none; transform: none; } }
+@keyframes nb-pixel-doi { 0% { --nb-pixel-mo: 25%; filter: url(#nb-rgb-home); transform: translateX(-3px); } 40% { --nb-pixel-mo: 70%; transform: translateX(2px); } 99% { filter: url(#nb-rgb-home); } 100% { --nb-pixel-mo: 100%; mask-image: none; filter: none; transform: none; } }
 @media (prefers-reduced-motion:no-preference) {
   .nb-hero-scan::after { animation: nb-hero-quet 7s linear infinite; animation-play-state: var(--nb-tech-play,paused); }
   .nb-cong-luoi { animation: nb-cong-troi 3s linear infinite; animation-play-state: var(--nb-tech-play,paused); }

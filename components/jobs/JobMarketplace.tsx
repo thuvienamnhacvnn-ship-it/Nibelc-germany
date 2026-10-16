@@ -490,9 +490,9 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
         ) : dangLuoi ? (
           <>
             {/* điện thoại / máy tính bảng: thẻ navy như cũ */}
-            <ul className="mt-7 grid gap-6 md:grid-cols-2 2xl:grid-cols-3 lg:hidden">
-              {ketQua.slice(0, hien).map((j, i) => (
-                <li key={j.id} className={i === 0 && ketQua.length > 2 ? "md:col-span-2" : ""}>
+            <ul className="mt-7 grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-2 lg:hidden">
+              {ketQua.slice(0, hien).map((j) => (
+                <li key={j.id} className="min-w-0">
                   <TheDonCongNghe don={j} lang={lang} chiTiet />
                 </li>
               ))}

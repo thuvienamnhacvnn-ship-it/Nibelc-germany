@@ -53,7 +53,7 @@ export default async function Page() {
 
   return (
     <div className="nb-duoi-header">
-      <PageHero maTrang={congNghe[lang].trang.nghe}
+      <PageHero video="du-hoc-nghe" maTrang={congNghe[lang].trang.nghe}
         anh={b.anh}
         anhDoc={b.anhDoc}
         anhBenPhai

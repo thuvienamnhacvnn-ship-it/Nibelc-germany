@@ -88,7 +88,7 @@ html[data-public] :is(.nb-hud-nhan,.nb-the-quet .nb-ma) { background: var(--nb-r
 :is(.nb-don-anh,.nb-bai-anh,.nb-anh-quet)::after { content: ""; position: absolute; inset: 0 0 auto; height: 1px; z-index: 2; background: var(--nb-accent-text); opacity: 0; pointer-events: none; }
 @keyframes nb-anh-scan { 0% { top: 0; opacity: .8; } 99% { opacity: .8; } 100% { top: 100%; opacity: 0; } }
 @property --nb-o-mo { syntax: '<percentage>'; inherits: false; initial-value: 100%; }
-@keyframes nb-anh-o { from { --nb-o-mo: 0%; } to { --nb-o-mo: 100%; } }
+@keyframes nb-anh-o { from { --nb-o-mo: 0%; } 99% { --nb-o-mo: 100%; } to { --nb-o-mo: 100%; mask-image: none; } }
 @keyframes nb-mach-ve { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 @media (prefers-reduced-motion:no-preference) {
   /* Mỗi ô mở từ góc, ảnh gốc không có lớp phủ màu. */

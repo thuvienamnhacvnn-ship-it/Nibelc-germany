@@ -1,0 +1,47 @@
+/* Dùng cùng TamKinh và vành conic trong page-hero.css; khung ngoài Hero vẫn 408px. */
+.nb-cum-tieu-de { width: min(860px, calc(100vw - 32px)); }
+.nb-cum-tieu-de .nb-home-sign {
+  width: 100%; max-width: none; padding: 28px 32px;
+  transform: none !important; will-change: auto; text-align: left;
+}
+.nb-home-sign > .nb-kinh-nen {
+  display: block; position: absolute; inset: 0;
+  background: rgb(5 11 22 / .82); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  box-shadow: none !important; border: 0;
+}
+.nb-home-sign > :is(.nb-kinh-sang,.nb-kinh-lap-lanh,.nb-hud-goc) { display: none; }
+.nb-home-sign .nb-kinh-noi { transform: none; }
+.nb-home-sign .nb-kinh-noi :is(h1,p) { text-shadow: none; }
+.nb-title-kicker { display: flex; align-items: baseline; gap: 10px; color: #cbd5e1; font: 11px/1.8 ui-monospace,Consolas,monospace; letter-spacing: .14em; text-transform: uppercase; }
+.nb-title-kicker i { width: 6px; height: 6px; border-radius: 50%; background: #63bb8b; flex-shrink: 0; }
+.nb-title-kicker b { margin-left: .3em; font-weight: 400; }
+.nb-title-main { margin-top: 18px; color: #fff; font-size: clamp(64px,5.1vw,76px); font-weight: 800; line-height: 1.15; letter-spacing: -.045em; text-wrap: balance; overflow-wrap: anywhere; }
+.nb-title-main .nb-tech-hien { color: transparent; background: linear-gradient(180deg,#fff 30%,#e1e5ec); background-clip: text; -webkit-background-clip: text; }
+.nb-title-scan { position: relative; display: block; height: 1px; margin-block: 18px; background: rgb(255 255 255 / .18); overflow: hidden; }
+.nb-title-scan::after { content: ""; position: absolute; inset: 0; background: var(--nb-gold); transform: translateX(-101%); }
+.nb-title-sub { color: rgb(255 255 255 / .8); font-size: 16px; line-height: 1.6; letter-spacing: .025em; }
+.nb-title-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.nb-title-chips li { display: flex; align-items: center; gap: 8px; max-width: 100%; padding: 8px 10px; border: 1px solid rgb(255 255 255 / .24); color: #e2e8f0; font: 11px/1.7 ui-monospace,Consolas,monospace; letter-spacing: .025em; }
+.nb-title-chips svg { flex-shrink: 0; }
+@keyframes nb-title-underline { to { transform: translateX(101%); } }
+@media (prefers-reduced-motion: no-preference) {
+  .nb-title-kicker b { animation: nb-con-tro 1.2s steps(1) infinite; }
+  .nb-title-decoded .nb-title-scan::after { animation: nb-title-underline 650ms ease-out both; }
+}
+@media (max-width:1023px) {
+  .nb-cum-tieu-de .nb-home-sign { padding: 20px; }
+  .nb-title-main { font-size: clamp(38px,10.25vw,42px); margin-top: 14px; line-height: 1.18; }
+  .nb-title-kicker { font-size: 11px; letter-spacing: .09em; line-height: 1.8; gap: 8px; }
+  .nb-title-sub { font-size: 14px; }
+  .nb-title-scan { margin-block: 14px; }
+  .nb-title-chips { margin-top: 12px; }
+  .nb-title-chips li { padding: 7px 8px; font-size: 11px; }
+}
+/* Điện thoại: page-hero.css chỉ đặt position cho .nb-kinh-noi từ lg, nên lớp kính
+   (absolute) vẽ đè lên chữ — khối chữ phải nổi trên kính ở mọi khổ. */
+.nb-home-sign .nb-kinh-noi { position: relative; z-index: 1; }
+/* background-clip:text cắt theo hộp chữ: dấu chồng (Ố, Ấ…) ló lên trên hộp bị cắt
+   mất, "ĐỐI" hiện thành "ĐÔI". Nới hộp lên trên rồi kéo lại cho bố cục không đổi. */
+.nb-title-main .nb-tech-hien { padding-top: .22em; margin-top: -.22em; }
+.nb-title-chips li { min-width: 0; }
+.nb-title-chips li span { min-width: 0; overflow-wrap: anywhere; }

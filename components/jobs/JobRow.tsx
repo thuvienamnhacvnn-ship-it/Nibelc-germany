@@ -21,7 +21,7 @@ export function JobRow({ job }: { job: JobFull }) {
   return (
     <VienChay className="h-full"><NavLink data-reveal data-tilt
       href={`/don-hang/${job.slug}`}
-      className="nb-card nb-the-quet group flex flex-col gap-4 overflow-hidden p-4 sm:flex-row sm:gap-5"
+      className="nb-card nb-job-row nb-the-quet group flex flex-col gap-4 overflow-hidden p-4 sm:flex-row sm:gap-5"
       aria-label={tx.tai(job.title, job.city)}
     >
       {/* Ảnh cố định 196px cộng cột giá bên phải làm hàng rộng hơn cả màn hình

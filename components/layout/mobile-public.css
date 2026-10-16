@@ -1,0 +1,80 @@
+/* GĐ6: mobile là cùng hệ màu navy/blueprint, bố cục riêng cho thao tác chạm. */
+@keyframes nb-mobile-anh-lo { from { clip-path: inset(100% 0 0); } to { clip-path: inset(0); } }
+@media (max-width:1023px) {
+  html[data-public] { scroll-padding-bottom: calc(var(--nb-menu-day,63px) + env(safe-area-inset-bottom,0px) + 16px); }
+  html[data-public] body { padding-bottom: calc(var(--nb-menu-day,63px) + env(safe-area-inset-bottom,0px) + 16px); }
+  html[data-public] .nb-wrap { padding-inline: 16px; }
+  html[data-public] :is(.nb-thuoc-toa-do,.nb-scroll-progress,.nb-mach-dien,.nb-dai-du-lieu,.nb-hero-luoi) { display: none; }
+  html[data-public] .nb-cong-du-lieu { height: 56px; }
+  html[data-public] .nb-cong-du-lieu > span { display: none; }
+  html[data-public] .nb-chuong { padding-block: 40px; }
+  html[data-public] :is(.nb-chuong,.nb-sang,.dh-sang,.nb-chi-muc) h2 { font-size: 28px; line-height: 1.25; text-wrap: balance; }
+  html[data-public] .nb-eyebrow { font: 11px/1.8 ui-monospace,Consolas,monospace; letter-spacing: .14em; }
+  html[data-public] .nb-chuong-dau p:not(.nb-eyebrow) { font-size: 15px; line-height: 1.8; }
+  html[data-public] .nb-chuong-dau { gap: 20px; }
+
+  /* Giữ trọn bố cục video Grok 16:9, không thêm lớp màu. */
+  html[data-public] .nb-hero-media { height: auto; aspect-ratio: 16 / 9; }
+  html[data-public] .nb-banner-con .nb-hero-khung { padding-block: 24px 28px; }
+  html[data-public] .nb-banner-con .nb-hero-tam { padding: 0; }
+  html[data-public] .nb-banner-con .nb-hero-tam > :is(.nb-hud-goc,.nb-kinh-vien) { display: none; }
+  html[data-public] .nb-banner-con .nb-hero-tam::before,
+  html[data-public] .nb-banner-con .nb-hero-tam::after { display: none; }
+  html[data-public] .nb-banner-con .nb-hero-ma { margin-bottom: 14px; font-size: 10px; }
+  html[data-public] .nb-banner-con h1 { font-size: 30px; line-height: 1.2; max-width: none; }
+  html[data-public] .nb-banner-con .nb-kinh-noi > p:not(.nb-eyebrow,.nb-hero-ma) {
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3;
+    overflow: hidden; font-size: 15px; line-height: 1.75; margin-top: 16px;
+  }
+  html[data-public] .nb-hero-shortcuts { display: grid; grid-template-columns: minmax(0,1fr); overflow: visible; gap: 8px; }
+  html[data-public] .nb-hero-shortcuts li { min-width: 0; }
+  html[data-public] .nb-hero-shortcuts a { width: 100%; justify-content: center; height: auto; min-height: 44px; white-space: normal; padding-block: 10px; text-align: center; }
+  html[data-public] .nb-banner-con :is(.nb-btn,.nb-btn-ghost) { width: 100%; justify-content: center; white-space: normal; text-align: center; }
+
+  html[data-public] .nb-don-noi-bat { display: grid; grid-auto-flow: column; grid-auto-columns: min(88vw,360px); grid-template-columns: none; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 1px; padding-block: 0 12px; }
+  html[data-public] .nb-don-tech { min-width: 0; }
+  html[data-public] .nb-don-than { padding: 16px; }
+  html[data-public] .nb-don-than h3 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; min-height: 2.7em; }
+  html[data-public] .nb-don-than > p:not(.nb-don-nhan) { font-size: 15px; line-height: 1.7; }
+  html[data-public] .nb-don-so { padding-top: 20px; gap: 8px; }
+  html[data-public] .nb-don-so b { font-size: 20px; line-height: 1.4; overflow-wrap: anywhere; }
+  html[data-public] .nb-don-so + span { min-height: 44px; }
+  html[data-public] .nb-job-row { flex-direction: column; gap: 16px; }
+  html[data-public] .nb-job-row > .nb-anh-quet { width: 100%; height: auto; aspect-ratio: 16 / 10; }
+  html[data-public] .nb-job-row > span:last-child { flex-direction: column; align-items: stretch; gap: 12px; border-top: 1px solid var(--nb-line-soft); padding-top: 16px; }
+  html[data-public] .nb-job-row > span:last-child b { white-space: normal; overflow-wrap: anywhere; line-height: 1.4; }
+  html[data-public] .nb-job-row > span:last-child > span { justify-content: space-between; }
+  html[data-public] .nb-directory,
+  html[data-public] .nb-directory ul { gap: 16px; }
+  html[data-public] .nb-nganh-ds { max-height: 288px; padding-right: 2px; }
+  html[data-public] .nb-nganh-hang { border-left: 2px solid transparent; }
+  html[data-public] .nb-nganh-hang button { min-width: 0; padding-inline: 10px 4px; }
+  html[data-public] .nb-nganh-hang.dang-chon { border-left-color: var(--nb-gold); background: var(--nb-raised); }
+  html[data-public] .nb-nganh-thong-tin { padding: 16px; }
+  html[data-public] .nb-nganh-anh { aspect-ratio: 16 / 10; }
+  html[data-public] .nb-danh-muc { gap: 20px; }
+
+  /* Bài cẩm nang cần ảnh đủ lớn; bỏ cột số hẹp làm “01” vỡ thành hai dòng. */
+  html[data-public] .nb-bai { grid-template-columns: 104px minmax(0,1fr); gap: 12px; align-items: start; }
+  html[data-public] .nb-bai-so { display: none; }
+  html[data-public] .nb-bai-anh { aspect-ratio: 4 / 3; }
+  html[data-public] .nb-bai :is(h3,b) { font-size: 17px; line-height: 1.4; }
+  html[data-public] .nb-bai p,
+  html[data-public] .nb-bai > span.min-w-0 > span:nth-last-child(2) { font-size: 15px; line-height: 1.7; }
+
+  /* Mobile chỉ lộ từ dưới lên. Mask bị gỡ cả khi pause/reduced-motion. */
+  html[data-public] :is(.nb-don-anh,.nb-bai-anh,.nb-anh-quet,.nb-nganh-doi) img {
+    mask-image: none !important; -webkit-mask-image: none !important; filter: none !important;
+  }
+}
+@media (max-width:1023px) and (prefers-reduced-motion:no-preference) {
+  html[data-public].nb-motion-ready :is(.nb-don-anh,.nb-bai-anh,.nb-anh-quet,.nb-nganh-doi).revealed img {
+    animation: nb-mobile-anh-lo 550ms cubic-bezier(.2,.7,.3,1) both;
+    animation-play-state: var(--nb-tech-play,paused);
+  }
+}
+
+/* Thân thẻ đơn ở mobile chỉ đệm 16px; dải nhãn kéo -24px (theo desktop) lòi ra mép phải. */
+@media (max-width: 1023px) {
+  html[data-public] .nb-don-than > .nb-don-nhan { margin: -16px -16px 16px; padding: 12px 16px; }
+}

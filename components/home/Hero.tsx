@@ -152,15 +152,6 @@ export function Hero({
                 nó và dải phong bì đứng nguyên chỗ. */}
             <LogoDong className="mx-auto w-[300px] lg:w-[360px]" />
           </NavLink>
-          {/* Cụm tiêu đề là SVG. SVG có <text> thật nên máy tìm kiếm đọc được,
-              nhưng vẫn giữ một <h1> ẩn cho chắc — và để trình đọc màn hình
-              gặp đúng một tiêu đề cấp 1 trên trang. Chữ lấy theo ngôn ngữ
-              đang xem, không chép tay. */}
-          <h1 className="sr-only">
-            {chu.dong1a} {chu.dong1b} {chu.dong2} — {chu.dong3},{" "}
-            {chu.dong4} {chu.dong5}
-          </h1>
-
           {/* Bấm một tệp thì CẢ CỤM tiêu đề nhường chỗ cho thẻ đơn — đúng
               quy luật Sếp đặt từ đầu.
               Khối này KHOÁ CHIỀU CAO: cụm tiêu đề cao hơn thẻ đơn, nếu để nó
@@ -191,7 +182,7 @@ export function Hero({
                   <CumTieuDe
                     chu={chu}
                     deDong1={tx.dong1De}
-                    className="lg:w-max lg:max-w-[min(860px,60vw)]"
+                    className="lg:max-w-[min(860px,60vw)]"
                   />
                 </motion.div>
               )}

@@ -26,7 +26,7 @@ export default async function Page() {
   const b = await layNoiDung("lo-trinh.banner", lang);
   return (
     <div className="nb-duoi-header">
-      <PageHero maTrang={congNghe[lang].trang.trinh}
+      <PageHero video="lo-trinh" maTrang={congNghe[lang].trang.trinh}
         anh={b.anh}
         anhDoc={b.anhDoc}
         nhan={b.nhan}

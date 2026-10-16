@@ -5,6 +5,7 @@ import { TamKinh } from "@/components/ui/TamKinh";
 import "./page-hero.css";
 import { TechText } from "@/components/ui/TechText";
 import { LuoiKyThuat } from "@/components/tech/LuoiKyThuat";
+import { PageHeroMedia } from "@/components/ui/PageHeroMedia";
 
 /**
  * Dải đầu trang con — thấp (360px ở máy tính), KHÔNG phải hero to như trang chủ.
@@ -26,6 +27,7 @@ import { LuoiKyThuat } from "@/components/tech/LuoiKyThuat";
 export function PageHero({
   anh,
   anhDoc,
+  video,
   viTriAnh,
   latAnh,
   anhBenPhai,
@@ -40,6 +42,8 @@ export function PageHero({
   anh: string;
   /** bản dọc dùng cho màn hẹp; thiếu thì dùng tạm bản ngang */
   anhDoc?: string;
+  /** Khoá video Grok dành riêng cho mobile, desktop tiếp tục dùng ảnh. */
+  video?: string;
   /** object-position của ảnh (mặc định "center") — dùng để kéo mặt người ra khỏi vùng tấm chữ */
   viTriAnh?: string;
   /** lật ngang ảnh (ảnh không có chữ) khi người đứng ở nửa trái, đúng chỗ tấm chữ */
@@ -66,19 +70,9 @@ export function PageHero({
           TỪ lg trở lên ảnh quay lại làm NỀN tuyệt đối, chữ nằm trên tấm navy
           (bản desktop của đội W-AGENT). */}
       <div
-        className={`relative h-[220px] w-full sm:h-[260px] lg:absolute lg:inset-0 lg:-z-10 lg:h-auto ${anhBenPhai ? "nb-hero-anh-phai" : ""}`}
+        className={`nb-hero-media relative h-[220px] w-full sm:h-[260px] lg:absolute lg:inset-0 lg:-z-10 lg:h-auto ${anhBenPhai ? "nb-hero-anh-phai" : ""}`}
       >
-        <picture>
-          {anhDoc && <source media="(max-width: 767px)" srcSet={anhDoc} />}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={anh}
-            alt=""
-            fetchPriority="high"
-            style={viTriAnh ? { objectPosition: viTriAnh } : undefined}
-            className={`absolute inset-0 h-full w-full object-cover object-center ${latAnh ? "-scale-x-100" : ""}`}
-          />
-        </picture>
+        <PageHeroMedia anh={anh} anhDoc={anhDoc} video={video} viTriAnh={viTriAnh} latAnh={latAnh} />
 
         {/* KHÔNG phủ lớp màu lên ảnh banner. Chỉ một dải chuyển tiếp mỏng ở
             ĐÁY để ảnh nối liền vào nền trang — CHỈ ở màn hẹp. Desktop bỏ:
@@ -123,7 +117,7 @@ export function PageHero({
 
           {/* Hàng LỐI TẮT bấm được: mỗi chip đưa thẳng tới kết quả đã lọc sẵn. */}
           {loiTat && loiTat.length > 0 && (
-            <ul className="nb-no-scrollbar mt-5 flex gap-2 overflow-x-auto pb-1 sm:mt-7 sm:flex-wrap sm:overflow-x-visible lg:mt-5 lg:pb-0">
+            <ul className="nb-hero-shortcuts nb-no-scrollbar mt-5 flex gap-2 overflow-x-auto pb-1 sm:mt-7 sm:flex-wrap sm:overflow-x-visible lg:mt-5 lg:pb-0">
               {loiTat.map((t) => (
                 <li key={t.nhan} className="shrink-0">
                   <NavLink

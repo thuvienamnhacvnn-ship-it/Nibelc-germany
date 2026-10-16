@@ -24,7 +24,7 @@ export default async function Page() {
   const [bai, b] = await Promise.all([layBaiViet(lang), layNoiDung("cam-nang.banner", lang)]);
   return (
     <div className="nb-duoi-header">
-      <PageHero maTrang={congNghe[lang].trang.bai} anh={b.anh} anhDoc={b.anhDoc} nhan={b.nhan} tieuDe={b.tieuDe} mo={b.mo || undefined} />
+      <PageHero video="cam-nang" maTrang={congNghe[lang].trang.bai} anh={b.anh} anhDoc={b.anhDoc} nhan={b.nhan} tieuDe={b.tieuDe} mo={b.mo || undefined} />
 
       {/* Thân trang SÁNG ở máy tính (app/trang-sang.css); điện thoại giữ nền cũ. */}
       <div className="nb-sang">

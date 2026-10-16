@@ -17,11 +17,13 @@ export function useGiamChuyenDong() {
 }
 
 /** Chữ gốc giữ chỗ và tên truy cập để giải mã không làm nhảy dòng hoặc đọc ký tự nhiễu. */
-export function TechText({ children }: { children: ReactNode }) {
+export function TechText({ children, duration, onComplete }: { children: ReactNode; duration?: number; onComplete?: () => void }) {
   const goc = typeof children === "string" || typeof children === "number" ? String(children) : "";
   const [hien, datHien] = useState(goc);
   const host = useRef<HTMLSpanElement>(null);
   const giam = useGiamChuyenDong();
+  const hoanTat = useRef(onComplete);
+  hoanTat.current = onComplete;
   useEffect(() => {
     if (giam || !goc || !host.current || !window.IntersectionObserver) return;
     let khung = 0;
@@ -33,10 +35,10 @@ export function TechText({ children }: { children: ReactNode }) {
     function ve(luc: number) {
       daChay += Math.min(80, luc - mocTruoc);
       mocTruoc = luc;
-      const moc = Math.min(chuGoc.length, Math.floor(daChay / 24));
+      const moc = Math.min(chuGoc.length, Math.floor(daChay / (duration ? duration / chuGoc.length : 24)));
       datHien(chuGoc.map((chu, i) => i < moc || /[ .,]/.test(chu) ? chu : kyTu[Math.floor(Math.random() * kyTu.length)]).join(""));
       if (moc < chuGoc.length) khung = requestAnimationFrame(ve);
-      else { xong = true; quanSat.disconnect(); }
+      else { xong = true; quanSat.disconnect(); hoanTat.current?.(); }
     }
     function capNhat() {
       cancelAnimationFrame(khung);
@@ -58,7 +60,7 @@ export function TechText({ children }: { children: ReactNode }) {
       document.removeEventListener("visibilitychange", capNhat);
       if (coRanh) window.cancelIdleCallback(cho); else clearTimeout(cho);
     };
-  }, [goc, giam]);
+  }, [goc, giam, duration]);
   if (!goc) return <>{children}</>;
   return <span ref={host} className="nb-tech-text">
     <span className="sr-only">{goc}</span>
