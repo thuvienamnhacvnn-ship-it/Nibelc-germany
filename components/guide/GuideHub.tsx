@@ -1,8 +1,9 @@
 "use client";
 
+import "@/components/tech/cong-nghe.css";
 import Image from "next/image";
 import { useMemo, useState } from "react";
-import { ArrowRight, Clock, Flame, Search } from "lucide-react";
+import { ArrowRight, Flame, Search } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
 import type { BaiCongKhai } from "@/data/nguon-bai-viet";
 import { useT } from "@/lib/i18n/client";
@@ -53,12 +54,10 @@ export function GuideHub({ bai: CAM_NANG }: { bai: BaiHub[] }) {
     });
   }, [CAM_NANG, muc, tu]);
 
-  const noiBat = ds[0];
-  const conLai = ds.slice(1);
   const docNhieu = CAM_NANG.slice(0, 5);
 
   return (
-    <div className="nb-wrap grid gap-7 py-10 sm:gap-8 sm:py-14 lg:grid-cols-[236px_minmax(0,1fr)_280px] lg:py-20">
+    <div className="nb-chi-muc nb-wrap grid grid-cols-[minmax(0,1fr)] gap-7 py-10 sm:gap-8 sm:py-14 lg:grid-cols-[236px_minmax(0,1fr)_280px] lg:py-20">
       {/* ---------- CHUYÊN MỤC ---------- */}
       {/* min-w-0 là BẮT BUỘC: ô của lưới mặc định min-width:auto, nên bề rộng
           max-content của hàng chip kéo ngang (11 chip whitespace-nowrap, ~1500px)
@@ -113,85 +112,25 @@ export function GuideHub({ bai: CAM_NANG }: { bai: BaiHub[] }) {
             {tx.khongCo(tx.chuyenMuc[CHUYEN_MUC[0]])}
           </p>
         ) : (
-          <>
-            {noiBat && (
-              <NavLink data-reveal data-tilt
-                href={`/cam-nang/${noiBat.slug}`}
-                className="nb-card group mt-6 block overflow-hidden lg:grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]"
-              >
-                {/* ẢNH SẠCH, CHỮ NẰM DƯỚI — không lớp phủ, không chữ đè lên ảnh
-                    (luật Sếp). Điện thoại (phiên mobile): ảnh 16:9 trên, chữ dưới
-                    như các thẻ bài còn lại. Máy tính: chữ nằm BÊN PHẢI ảnh. */}
-                <span data-reveal className="relative block aspect-[16/9] overflow-hidden lg:aspect-auto lg:h-auto lg:min-h-[300px]">
-                  <Image
-                    src={noiBat.anhBia ?? ANH[0]!}
-                    alt=""
-                    fill
-                    sizes="(min-width:1024px) 400px, 100vw"
-                    className="object-cover transition-transform duration-[700ms] group-hover:scale-105"
-                  />
-                </span>
-                <span className="flex flex-col justify-center p-5 sm:p-7">
-                    <span className="self-start rounded-full border border-[var(--nb-line)] bg-[var(--nb-navy-900)]/70 px-3 py-1 text-[12px] lg:bg-[#F6F1E7] font-semibold text-[var(--nb-gold-soft)] lg:text-[12.5px]">
-                      {tx.chuyenMuc[noiBat.muc[0]!]}
-                    </span>
-                    <b className="nb-display mt-3 block max-w-[34ch] text-[21px] leading-tight text-white sm:text-[26px] lg:text-[24px]">
-                      {noiBat.tieuDe}
-                    </b>
-                    <span className="mt-2 block max-w-[62ch] text-[14px] text-[var(--nb-text-dim)] [display:-webkit-box] [overflow:hidden] [-webkit-box-orient:vertical] [-webkit-line-clamp:3] sm:[display:block]">
-                      {noiBat.tomTat}
-                    </span>
-                    <span className="mt-3 flex items-center gap-2 text-[12.5px] text-[var(--nb-text-mute)]">
-                      <Clock size={12} />
-                      {tx.phutDoc(noiBat.phut)}
-                    </span>
-                </span>
-              </NavLink>
-            )}
-
-            <ul className="mt-6 grid gap-5 md:grid-cols-2 lg:gap-6">
-              {conLai.map((b, i) => {
-                // Số bài lẻ thì thẻ cuối trải hai cột (ảnh trái, chữ phải) để
-                // hàng cuối không còn một thẻ lẻ bỏ trống nửa phải.
-                const le = conLai.length % 2 === 1 && i === conLai.length - 1;
-                return (
-                <li key={b.id} className={le ? "lg:col-span-2" : undefined}>
-                  <NavLink data-reveal data-tilt
-                    href={`/cam-nang/${b.slug}`}
-                    className={`nb-card group flex h-full flex-col overflow-hidden ${le ? "lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]" : ""}`}
-                  >
-                    <span data-reveal className={`relative block h-[150px] overflow-hidden ${le ? "lg:h-auto lg:min-h-[200px]" : ""}`}>
-                      <Image
-                        src={b.anhBia ?? ANH[(i + 1) % ANH.length]!}
-                        alt=""
-                        fill
-                        sizes="(min-width:768px) 360px, 100vw"
-                        className="object-cover transition-transform duration-[600ms] group-hover:scale-105"
-                      />
-                    </span>
-                    <span className="flex flex-1 flex-col p-5">
-                      <span className="text-[12px] font-semibold tracking-wide text-[var(--nb-gold)] uppercase lg:text-[12.5px]">
-                        {tx.chuyenMuc[b.muc[0]!]}
-                      </span>
-                      <b className="mt-2 block text-[16.5px] leading-snug font-semibold text-white">{b.tieuDe}</b>
-                      <span className="mt-2 block text-[13.5px] leading-[1.6] text-[var(--nb-text-dim)]">
-                        {b.tomTat.slice(0, 110)}…
-                      </span>
-                      <span className="mt-auto flex items-center gap-2 pt-4 text-[12.5px] text-[var(--nb-text-mute)]">
-                        <Clock size={12} />
-                        {tx.phutDoc(b.phut)}
-                        <ArrowRight
-                          size={13}
-                          className="ml-auto text-[var(--nb-gold)] transition-transform duration-300 group-hover:translate-x-1"
-                        />
-                      </span>
-                    </span>
-                  </NavLink>
-                </li>
-                );
-              })}
-            </ul>
-          </>
+          <ol className="nb-chi-muc-ds mt-6">
+            {ds.map((b, i) => (
+              <li key={b.id}>
+                <NavLink data-reveal href={`/cam-nang/${b.slug}`} className="nb-bai">
+                  <span className="nb-bai-so">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="nb-bai-anh">
+                    <Image src={b.anhBia ?? ANH[i % ANH.length]!} alt="" fill sizes="(max-width:639px) 90px, 120px" className="object-cover" />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="text-xs text-[var(--nb-text-mute)]">{tx.chuyenMuc[b.muc[0]!]}</span>
+                    <b className="mt-2 block text-base font-semibold text-white">{b.tieuDe}</b>
+                    <span className="mt-2 block text-sm text-[var(--nb-text-dim)]">{b.tomTat}</span>
+                    <span className="mt-3 block text-xs text-[var(--nb-text-mute)]">{tx.phutDoc(b.phut)}</span>
+                  </span>
+                  <ArrowRight className="nb-bai-mui" size={18} />
+                </NavLink>
+              </li>
+            ))}
+          </ol>
         )}
       </div>
 

@@ -1,3 +1,4 @@
+import { congNghe } from "@/lib/i18n/dict/cong-nghe";
 import type { Metadata } from "next";
 import { AlertTriangle } from "lucide-react";
 import { PageHero } from "@/components/ui/PageHero";
@@ -21,13 +22,14 @@ export async function generateMetadata(): Promise<Metadata> {
 const TRUONG: TruongThieu[] = ["handelsregister", "hrb", "geschaeftsfuehrer", "ustIdNr"];
 
 export default async function Page() {
-  const tx = t(impressum, await getLang());
+  const lang = await getLang();
+  const tx = t(impressum, lang);
   const du = impressumComplete();
   const thieu = TRUONG.filter((k) => LEGAL[k] === null).map((k) => tx.thieu[k]);
 
   return (
     <div className="nb-duoi-header">
-      <PageHero
+      <PageHero maTrang={congNghe[lang].trang.phapLy}
         anh="/assets/banners/lien-he.jpg"
         nhan={tx.hero.nhan}
         tieuDe={tx.hero.tieuDe}

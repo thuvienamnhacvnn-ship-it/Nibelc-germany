@@ -1,3 +1,5 @@
+import { KhungHud } from "@/components/tech/KhungHud";
+import { congNghe } from "@/lib/i18n/dict/cong-nghe";
 import type { Metadata } from "next";
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { PageHero } from "@/components/ui/PageHero";
@@ -30,7 +32,7 @@ export default async function Page() {
     <div className="nb-duoi-header">
       {/* Banner cùng khuôn PageHero như mọi trang con. Ảnh văn phòng trước đây
           nằm ở cột phải, nay chuyển lên banner (nửa trái ảnh tối sẵn, không phủ lớp). */}
-      <PageHero
+      <PageHero maTrang={congNghe[lang].trang.lien}
         anh={b.anh}
         anhDoc={b.anhDoc}
         anhBenPhai
@@ -50,7 +52,7 @@ export default async function Page() {
               <ConsultationWizard />
 
               <aside data-reveal className="space-y-5 lg:space-y-6">
-                <div data-reveal data-tilt className="nb-panel p-5 sm:p-6">
+                <KhungHud nhanTrai={congNghe[lang].lienHe} className="nb-thong-tin p-5 sm:p-6">
                   {/* Khuôn Sếp chốt 02/10 (ảnh mẫu): ghim + tên công ty đậm,
                       dưới là địa chỉ MỘT dòng có tên nước. */}
                   <p data-reveal className="flex gap-2.5 text-[14px] leading-[1.7] text-[var(--nb-text-dim)]">
@@ -79,9 +81,9 @@ export default async function Page() {
                       {tx.whatsapp}
                     </li>
                   </ul>
-                </div>
+                </KhungHud>
 
-                <div data-reveal data-tilt className="nb-panel overflow-hidden">
+                <KhungHud nhanTrai={congNghe[lang].banDo} className="nb-thong-tin overflow-hidden">
                   <div className="relative h-[220px]">
                     <iframe
                       title={tx.banDo(`${LEGAL.street}, ${LEGAL.city}`)}
@@ -92,7 +94,7 @@ export default async function Page() {
                     />
                   </div>
                   <p data-reveal className="px-5 py-3 text-[12.5px] text-[var(--nb-text-mute)]">{diaChiMotDong(lang)}</p>
-                </div>
+                </KhungHud>
               </aside>
             </div>
           </div>

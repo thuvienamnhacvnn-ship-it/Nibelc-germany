@@ -1,3 +1,4 @@
+import { congNghe } from "@/lib/i18n/dict/cong-nghe";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, Clock, Lightbulb } from "lucide-react";
@@ -45,7 +46,7 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
 
   return (
     <div className="nb-duoi-header">
-      <PageHero
+      <PageHero maTrang={congNghe[lang].trang.bai}
         anh={banner.anh}
         anhDoc={banner.anhDoc}
         nhan={tx.nhom[b.nhom]}
@@ -69,7 +70,7 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
       {/* Thân trang SÁNG ở máy tính (app/trang-sang.css); điện thoại giữ nền cũ. */}
       <div className="nb-sang">
         <div className="nb-wrap grid gap-12 py-10 sm:py-14 lg:grid-cols-[minmax(0,720px)_minmax(0,300px)] lg:justify-between lg:gap-16 lg:py-20">
-          <article className="min-w-0">
+          <article data-bai-doc className="min-w-0">
             {/* Bản /en /de có thể đã dịch tiêu đề mà chưa dịch tóm tắt — khi đó bỏ hẳn đoạn này. */}
             {b.tomTat && (
               <p data-reveal className="text-[16.5px] leading-[1.75] text-[var(--nb-text-dim)] sm:text-[17px] lg:text-[19px] lg:leading-[1.7] lg:text-[var(--nb-text)]">
@@ -136,7 +137,7 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
           </article>
 
           {/* Máy tính: cột phải dính khi cuộn — mục lục (từ tiêu đề các khối) + đọc tiếp */}
-          <aside data-reveal className="hidden lg:block">
+          <aside className="hidden lg:block">
             <div className="sticky top-[calc(var(--nb-header)+24px)] space-y-6">
               <nav data-reveal data-tilt className="nb-panel p-6" aria-label={tx.bai.mucLuc}>
                 <b className="nb-eyebrow block"><TechText>{tx.bai.mucLuc}</TechText></b>

@@ -21,8 +21,14 @@
 /* Điện thoại (phiên mobile): chữ nằm trên nền trang phẳng dưới ảnh, KHÔNG
    có tấm — tấm navy chỉ bật từ lg. */
 .nb-hero-tam {
+  position: relative;
+  padding: 20px 16px;
   text-shadow: none;
 }
+.nb-hero-ma { margin-bottom: 12px; overflow-wrap: anywhere; }
+.nb-hero-luoi { border-block: 1px solid var(--nb-line); }
+.nb-hero-tam > .nb-hud-goc { inset: 0; }
+.nb-kinh-noi { overflow-wrap: anywhere; }
 
 /* Ba lớp trang trí của tấm kính: tắt ở điện thoại (không có tấm). */
 .nb-kinh-nen,
@@ -57,6 +63,8 @@
   }
   .nb-hero-tam {
     position: relative;
+    /* Giữ lề chữ đã sửa 16/10 kể cả khi có nhãn máy và góc HUD. */
+    padding: 28px 36px;
     width: var(--hero-tam-rong);
     max-width: 100%;
     border-radius: var(--hero-tam-bo-lg);

@@ -1,3 +1,6 @@
+import { TheDuLieu } from "@/components/tech/TheDuLieu";
+import { KhungHud } from "@/components/tech/KhungHud";
+import { congNghe } from "@/lib/i18n/dict/cong-nghe";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
@@ -30,7 +33,7 @@ export default async function Page() {
 
   return (
     <div className="nb-duoi-header">
-      <PageHero
+      <PageHero maTrang={congNghe[lang].trang.ve}
         anh={b.anh}
         anhDoc={b.anhDoc}
         nhan={b.nhan}
@@ -113,11 +116,10 @@ export default async function Page() {
                 { so: String(dem.suat), nhan: tx.conSo.suat.ten, mo: tx.conSo.suat.mo },
                 { so: String(soNuoc), nhan: tx.conSo.nuoc.ten, mo: tx.conSo.nuoc.mo },
                 { so: String(INDUSTRIES.length), nhan: tx.conSo.nhomNganh.ten, mo: tx.conSo.nhomNganh.mo },
-              ].map((x) => (
-                <li data-reveal data-tilt key={x.nhan}>
-                  <b className="nb-gold-text nb-display block text-[40px] leading-none sm:text-[46px]"><AnimatedNumber value={Number(x.so)} /></b>
-                  <b className="mt-2 block text-[15px] font-semibold text-white">{x.nhan}</b>
-                  <span className="mt-1 block text-[13px] leading-[1.6] text-[var(--nb-text-dim)]">{x.mo}</span>
+              ].map((x, i) => (
+                <li key={x.nhan}>
+                  <TheDuLieu nhan={congNghe[lang].thongKe[i]!} so={Number(x.so)} chuThich={x.nhan} />
+                  <p className="text-sm text-[var(--nb-text-dim)]">{x.mo}</p>
                 </li>
               ))}
             </ul>
@@ -138,14 +140,14 @@ export default async function Page() {
                 <span data-reveal className="relative block aspect-video overflow-hidden">
                   <Image src={x.anh} alt="" fill sizes="(min-width:1024px) 420px, 100vw" className="object-cover" />
                 </span>
-                <span className="flex flex-1 flex-col p-5 sm:p-6">
+                <KhungHud nhanTrai={congNghe[lang].thongTin} className="nb-thong-tin flex flex-1 flex-col p-5 sm:p-6">
                   <b className="nb-display block text-[19px] text-white sm:text-[21px]">{x.ten}</b>
                   <span className="mt-2.5 block text-[14px] leading-[1.75] text-[var(--nb-text-dim)] lg:mb-6">{x.mo}</span>
                   <NavLink data-magnetic href={x.href} className="nb-btn-ghost mt-auto h-11 w-fit px-5 pt-0 text-[14px]">
                     {x.nut}
                     <ArrowRight size={15} />
                   </NavLink>
-                </span>
+                </KhungHud>
               </li>
             ))}
           </ul>

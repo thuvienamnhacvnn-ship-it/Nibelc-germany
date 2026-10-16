@@ -48,22 +48,34 @@ export function TechText({ children }: { children: ReactNode }) {
 }
 
 /** Nhịp số 85ms và ngưỡng 30% theo AnimatedNumber của bản VN; năm giữ nguyên. */
-export function AnimatedNumber({ value, format = "number" }: { value: number; format?: "number" | "year" }) {
+export function AnimatedNumber({ value, format = "number", demMotLan = false }: { value: number; format?: "number" | "year"; demMotLan?: boolean }) {
   const host = useRef<HTMLSpanElement>(null);
   const [so, datSo] = useState(value);
   const giam = useGiamChuyenDong();
   useEffect(() => {
     if (giam || format === "year" || !host.current || !window.IntersectionObserver) return;
     let nhip = 0;
+    let khung = 0;
     const quanSat = new IntersectionObserver((muc) => {
       clearInterval(nhip);
       if (muc[0]?.isIntersecting) {
+        if (demMotLan) {
+          quanSat.disconnect();
+          const batDau = performance.now();
+          function dem(luc: number) {
+            const tienDo = Math.min(1, (luc - batDau) / 900);
+            datSo(Math.round(value * (1 - (1 - tienDo) ** 3)));
+            if (tienDo < 1) khung = requestAnimationFrame(dem);
+          }
+          khung = requestAnimationFrame(dem);
+          return;
+        }
         nhip = window.setInterval(() => datSo(Math.floor(Math.random() * (Math.max(20, value * 2 + 9) + 1))), 85);
       } else datSo(value);
     }, { threshold: 0.3 });
     quanSat.observe(host.current);
-    return () => { quanSat.disconnect(); clearInterval(nhip); };
-  }, [value, format, giam]);
+    return () => { quanSat.disconnect(); clearInterval(nhip); cancelAnimationFrame(khung); };
+  }, [value, format, giam, demMotLan]);
   return <span ref={host} className="nb-so-dong">
     <span className="sr-only">{value}</span>
     <span className="nb-tech-goc" aria-hidden="true">{value}</span>

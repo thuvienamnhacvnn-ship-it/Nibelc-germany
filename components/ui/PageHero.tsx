@@ -3,6 +3,7 @@ import { NavLink } from "@/components/layout/NavLink";
 import { TamKinh } from "@/components/ui/TamKinh";
 import "./page-hero.css";
 import { TechText } from "@/components/ui/TechText";
+import { LuoiKyThuat } from "@/components/tech/LuoiKyThuat";
 
 /**
  * Dải đầu trang con — thấp (360px ở máy tính), KHÔNG phải hero to như trang chủ.
@@ -33,6 +34,7 @@ export function PageHero({
   mo,
   loiTat,
   children,
+  maTrang,
 }: {
   anh: string;
   /** bản dọc dùng cho màn hẹp; thiếu thì dùng tạm bản ngang */
@@ -52,6 +54,7 @@ export function PageHero({
   /** hàng lối tắt bấm được dưới chân banner, thay cho dãy con số chỉ để ngắm */
   loiTat?: { nhan: string; href: string; so?: number }[];
   children?: ReactNode;
+  maTrang?: string;
 }) {
   return (
     <section className={`relative isolate overflow-hidden ${anhBenPhai ? "lg:bg-[var(--nb-navy-900)]" : ""}`}>
@@ -97,6 +100,7 @@ export function PageHero({
         className={`nb-wrap nb-hero-khung nb-hero-con-chu py-7 sm:py-9 lg:flex lg:items-center lg:pt-8 ${chuaThanhTim ? "lg:pb-16" : "lg:pb-8"}`}
       >
         <TamKinh className="lg:px-9 lg:py-7">
+          {maTrang && <p className="nb-ma nb-hero-ma">{maTrang}</p>}
           <p data-reveal className="nb-eyebrow"><TechText>{nhan}</TechText></p>
           {/* Trên điện thoại clamp() rơi về 30px cho MỌI tiêu đề, kể cả câu dài
               như "Du học nghề Đức – Học nghề – Có lương…", nên chữ tràn ra 4–5
@@ -143,6 +147,8 @@ export function PageHero({
           {children}
         </TamKinh>
       </div>
+      {/* Lưới chỉ thuộc dải navy riêng dưới ảnh, không nằm trên ảnh banner. */}
+      <LuoiKyThuat className="nb-hero-luoi"><span className="block h-5" aria-hidden="true" /></LuoiKyThuat>
     </section>
   );
 }

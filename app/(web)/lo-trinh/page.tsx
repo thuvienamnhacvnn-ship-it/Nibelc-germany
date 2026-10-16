@@ -1,3 +1,4 @@
+import { congNghe } from "@/lib/i18n/dict/cong-nghe";
 import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
 import { JourneyTimeline } from "@/components/journey/JourneyTimeline";
@@ -21,7 +22,7 @@ export default async function Page() {
   const b = await layNoiDung("lo-trinh.banner", lang);
   return (
     <div className="nb-duoi-header">
-      <PageHero
+      <PageHero maTrang={congNghe[lang].trang.trinh}
         anh={b.anh}
         anhDoc={b.anhDoc}
         nhan={b.nhan}

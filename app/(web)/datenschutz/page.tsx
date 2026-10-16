@@ -1,3 +1,4 @@
+import { congNghe } from "@/lib/i18n/dict/cong-nghe";
 import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
 import { getLang } from "@/lib/i18n/server";
@@ -12,10 +13,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Page() {
-  const tx = t(datenschutz, await getLang());
+  const lang = await getLang();
+  const tx = t(datenschutz, lang);
   return (
     <div className="nb-duoi-header">
-      <PageHero
+      <PageHero maTrang={congNghe[lang].trang.phapLy}
         anh="/assets/banners/lien-he.jpg"
         nhan={tx.hero.nhan}
         tieuDe={tx.hero.tieuDe}

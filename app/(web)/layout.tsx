@@ -12,6 +12,7 @@ import { t } from "@/lib/i18n/dict";
 import { common } from "@/lib/i18n/dict/common";
 import { HieuUngThamChieu } from "@/components/layout/HieuUngThamChieu";
 import "@/components/layout/hieu-ung-tham-chieu.css";
+import "@/components/tech/trang-con.css";
 
 /**
  * KHUNG WEB CÔNG KHAI — header, chân trang, menu đáy, hiệu ứng chuyển trang.

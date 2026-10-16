@@ -7,6 +7,7 @@ import { Check, ChevronRight, Clock } from "lucide-react";
 import type { Chang } from "@/data/journey";
 import { useT } from "@/lib/i18n/client";
 import { loTrinh } from "@/lib/i18n/dict/lo-trinh";
+import { DuongBay } from "@/components/tech/DuongBay";
 
 /**
  * TIMELINE LỘ TRÌNH — có tương tác, không phải ảnh infographic chết.
@@ -22,19 +23,20 @@ export function JourneyTimeline({ chang: CHANG }: { chang: Chang[] }) {
   return (
     <>
       {/* ---------- DẢI CHẶNG ---------- */}
-      {/* Điện thoại: hàng cuộn ngang như cũ. Máy tính: lưới 9 cột vừa khung,
-          trước đây hàng cuộn bị cắt mất chặng 7–9 ở mép phải. */}
-      <ol className="nb-no-scrollbar flex gap-3 overflow-x-auto pb-3 lg:grid lg:grid-cols-9 lg:overflow-visible lg:pb-0">
+      {/* Xếp dọc để mỗi chặng có một vị trí cuộn riêng, giữ nguyên bộ chọn chặng. */}
+      <div data-mach-cuon className="nb-mach-khung">
+      <DuongBay doc />
+      <ol className="nb-mach-hanh-trinh">
         {CHANG.map((c, i) => {
           const on = i === mo;
           const daQua = i < mo;
           return (
-            <li key={c.so} className="shrink-0 lg:min-w-0">
+            <li data-chang-mach key={c.so} className="min-w-0">
               <button data-reveal data-tilt
                 type="button"
                 onClick={() => setMo(i)}
                 aria-pressed={on}
-                className={`nb-card group block w-[188px] overflow-hidden p-0 text-left transition lg:flex lg:h-full lg:w-full lg:flex-col ${
+                className={`nb-card group block w-full overflow-hidden p-0 text-left transition lg:flex lg:h-full lg:w-full lg:flex-col ${
                   on ? "border-[var(--nb-gold)]" : ""
                 }`}
               >
@@ -65,7 +67,7 @@ export function JourneyTimeline({ chang: CHANG }: { chang: Chang[] }) {
                     alt=""
                     fill
                     sizes="(min-width:1024px) 150px, 188px"
-                    className={`object-cover transition duration-500 ${on ? "" : "grayscale-[35%] brightness-75"}`}
+                    className="object-cover"
                   />
                 </span>
 
@@ -78,6 +80,7 @@ export function JourneyTimeline({ chang: CHANG }: { chang: Chang[] }) {
           );
         })}
       </ol>
+      </div>
 
       {/* ---------- BẢNG CHI TIẾT ---------- */}
       {/* Dưới lg lưới này chỉ có MỘT cột, nhưng để `grid` trần thì cột tự nở

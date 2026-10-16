@@ -1,3 +1,6 @@
+import { LuoiKyThuat } from "@/components/tech/LuoiKyThuat";
+import { DuongBay } from "@/components/tech/DuongBay";
+import { congNghe } from "@/lib/i18n/dict/cong-nghe";
 import { Facebook, Mail, MapPin, Phone, Youtube } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
 import { LogoDong } from "@/components/home/LogoDong";
@@ -43,6 +46,8 @@ export async function Footer() {
        đáy phía dưới mang màu nền trang, để chân trang sáng hơn một bậc thì
        mép dưới thành một bậc thang thừa. Desktop giữ bậc #123d78 như cũ. */
     <footer className="border-t border-[var(--nb-line-soft)] bg-[var(--nb-navy-900)] lg:bg-[var(--nb-navy-800)]">
+      <LuoiKyThuat className="nb-footer-luoi">
+      <div className="nb-wrap max-w-lg"><DuongBay /></div>
       <div className="nb-wrap grid gap-x-10 gap-y-5 py-6 md:grid-cols-2 lg:gap-y-9 lg:py-14 xl:grid-cols-[1.6fr_1fr_1fr_1.3fr]">
         {/* ---------- 1. Thương hiệu ---------- */}
         <div data-reveal>
@@ -81,6 +86,7 @@ export async function Footer() {
 
         {/* ---------- 2. Điều hướng ---------- */}
         <nav data-reveal aria-label={tx.footer.menuChanTrang} className="hidden md:block">
+          <p className="nb-ma">{congNghe[lang].chan[0]}</p>
           <p data-reveal className="nb-eyebrow"><TechText>{tx.footer.dieuHuong}</TechText></p>
           <ul className="mt-4 space-y-2.5">
             {NAV.map((m) => (
@@ -98,6 +104,7 @@ export async function Footer() {
 
         {/* ---------- 3. Nhóm ngành ---------- */}
         <nav data-reveal aria-label={tx.footer.nhomNganhAria} className="hidden md:block">
+          <p className="nb-ma">{congNghe[lang].chan[1]}</p>
           <p data-reveal className="nb-eyebrow"><TechText>{tx.footer.nhomNganh}</TechText></p>
           <ul className="mt-4 space-y-2.5">
             {nganhChinh.map((n) => (
@@ -125,6 +132,7 @@ export async function Footer() {
         <div data-reveal>
           {/* Ở điện thoại ba biểu tượng ghim/điện thoại/thư đã nói rõ đây là
               phần liên hệ; bỏ nhãn đi lấy lại 31px trên MỌI trang. */}
+          <p className="nb-ma">{congNghe[lang].chan[2]}</p>
           <p data-reveal className="nb-eyebrow hidden lg:block"><TechText>{tx.footer.lienHe}</TechText></p>
           {/* space-y nhỏ ở điện thoại vì mỗi dòng đã tự cao 44px rồi, cộng
               thêm 14px giãn nữa là chân trang dài vô ích. */}
@@ -224,6 +232,7 @@ export async function Footer() {
             mọi trang di động), và cho cả màn lg khi header chưa đủ chỗ. */}
         <ChonNgonNgu kieu="hang" className="w-full sm:ml-auto sm:w-auto" />
       </div>
+      </LuoiKyThuat>
     </footer>
   );
 }

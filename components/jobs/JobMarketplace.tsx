@@ -1,12 +1,15 @@
 "use client";
 
+import { KhungHud } from "@/components/tech/KhungHud";
+import { AnimatedNumber } from "@/components/ui/TechText";
+import { congNghe } from "@/lib/i18n/dict/cong-nghe";
+import { TheDonCongNghe } from "@/components/home/TheDonCongNghe";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Briefcase, ChevronDown, Coins, FileText, GraduationCap, Languages, LayoutGrid, List, MapPin, Search, SlidersHorizontal, X } from "lucide-react";
-import { JobCard } from "@/components/jobs/JobCard";
 import { JobRow } from "@/components/jobs/JobRow";
-import { JobCardSang, JobRowSang } from "@/components/jobs/JobCardSang";
+import { JobRowSang } from "@/components/jobs/JobCardSang";
 import { SearchCommandBar, type BoLoc } from "@/components/jobs/SearchCommandBar";
 import { INDUSTRIES } from "@/data/industries";
 import type { JobFull } from "@/data/jobs";
@@ -324,6 +327,7 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
           nhau. Bản điện thoại thay bằng một hàng: ô tìm chữ + nút mở tấm
           trượt. */}
       <div className="nb-wrap relative z-20 -mt-10 hidden pb-2 lg:block">
+        <p className="nb-ma nb-dieu-khien-ma">{congNghe[lang].loc}</p>
         <SearchCommandBar gt={lenh} dat={datLenh} onTim={() => setHien(9)} thanhPho={DS_THANH_PHO} />
       </div>
 
@@ -397,6 +401,7 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
             </h2>
             <p data-reveal className="mt-1 text-[13.5px] text-[var(--nb-text-dim)] lg:mt-1.5 lg:text-[14px] lg:text-[var(--s-mute)]">
               {tx.hienThi(daHien, ketQua.length)}
+              <span className="nb-ket-qua" aria-hidden="true"><span className="nb-ma">{congNghe[lang].ketQua}</span> <AnimatedNumber key={ketQua.length} value={ketQua.length} demMotLan /></span>
             </p>
           </div>
 
@@ -472,20 +477,20 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
         )}
 
         {ketQua.length === 0 ? (
-          <div data-reveal data-tilt className="nb-panel mt-8 p-8 text-center sm:p-14">
+          <KhungHud nhanTrai={congNghe[lang].rong} className="nb-rong mt-8 p-8 text-center sm:p-14">
             <b className="block text-[17px] text-white lg:text-[var(--s-ink)]">{tx.khongKhop}</b>
             <p data-reveal className="mt-2 text-[14px] text-[var(--nb-text-dim)] lg:text-[var(--s-body)]">{tx.thuBoBot}</p>
             <button data-magnetic type="button" onClick={xoaHet} className="nb-btn-ghost mt-6 h-10 px-5 text-[13.5px]">
               {tx.xoaBoLoc}
             </button>
-          </div>
+          </KhungHud>
         ) : dangLuoi ? (
           <>
             {/* điện thoại / máy tính bảng: thẻ navy như cũ */}
             <ul className="mt-7 grid gap-6 md:grid-cols-2 2xl:grid-cols-3 lg:hidden">
               {ketQua.slice(0, hien).map((j, i) => (
                 <li key={j.id} className={i === 0 && ketQua.length > 2 ? "md:col-span-2" : ""}>
-                  <JobCard job={j} lon={i === 0 && ketQua.length > 2} />
+                  <TheDonCongNghe don={j} lang={lang} chiTiet />
                 </li>
               ))}
             </ul>
@@ -493,7 +498,7 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
             <ul className="hidden lg:mt-7 lg:grid lg:grid-cols-[repeat(2,minmax(0,1fr))] lg:gap-6 xl:grid-cols-[repeat(3,minmax(0,1fr))]">
               {ketQua.slice(0, hien).map((j) => (
                 <li key={j.id}>
-                  <JobCardSang job={j} />
+                  <TheDonCongNghe don={j} lang={lang} chiTiet />
                 </li>
               ))}
             </ul>

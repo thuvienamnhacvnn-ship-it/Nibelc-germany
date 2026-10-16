@@ -1,3 +1,5 @@
+import { DuongBay } from "@/components/tech/DuongBay";
+import { congNghe } from "@/lib/i18n/dict/cong-nghe";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArrowRight, Check, Clock, Languages, TrendingUp } from "lucide-react";
@@ -52,7 +54,7 @@ export default async function Page({ params }: { params: Promise<{ nganh: string
 
   return (
     <div className="nb-duoi-header">
-      <PageHero
+      <PageHero maTrang={congNghe[lang].trang.nghe}
         anh={ANH[n.id] ?? "/assets/jobs/logistik/01-hero-16x9.jpg"}
         nhan={`Ausbildung · ${n.nam}`}
         tieuDe={
@@ -81,7 +83,10 @@ export default async function Page({ params }: { params: Promise<{ nganh: string
           </p>
 
           <h2 data-reveal className="nb-display mt-8 text-[22px] text-white sm:text-[26px] lg:text-[32px]">{tx.troCapTieuDe}</h2>
-          <ol className="mt-6 grid gap-4 sm:grid-cols-3 sm:gap-5 lg:gap-6">
+          <div className="nb-dao-tao-mach nb-dao-tao-nam mt-6">
+          <DuongBay />
+          <DuongBay doc />
+          <ol className="nb-moc-dao-tao relative grid gap-4 sm:grid-cols-3 sm:gap-5 lg:gap-6">
             {n.troCap.map((v, i) => (
               <li data-reveal data-tilt key={i} className="nb-panel p-5 sm:p-6">
                 <span className="nb-eyebrow"><TechText>{tx.namThu(i + 1)}</TechText></span>
@@ -99,6 +104,7 @@ export default async function Page({ params }: { params: Promise<{ nganh: string
               </li>
             ))}
           </ol>
+          </div>
 
           <div data-reveal data-tilt className="nb-panel mt-6 flex flex-wrap items-center justify-between gap-5 p-5 sm:p-6">
             <div className="flex items-center gap-3">

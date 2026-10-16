@@ -1,5 +1,6 @@
 "use client";
 
+import { VienChay } from "@/components/tech/VienChay";
 import Image from "next/image";
 import { ArrowRight, MapPin, Users } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
@@ -18,7 +19,7 @@ export function JobRow({ job }: { job: JobFull }) {
   const tx = useT(donHang);
   const nhanMa = useT(NHAN_DON_HANG);
   return (
-    <NavLink data-reveal data-tilt
+    <VienChay className="h-full"><NavLink data-reveal data-tilt
       href={`/don-hang/${job.slug}`}
       className="nb-card group flex flex-col gap-4 overflow-hidden p-4 sm:flex-row sm:gap-5"
       aria-label={tx.tai(job.title, job.city)}
@@ -36,6 +37,7 @@ export function JobRow({ job }: { job: JobFull }) {
       </span>
 
       <span className="flex min-w-0 flex-1 flex-col">
+        <span className="nb-ma mb-2">{nganh?.code} / {job.state.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/gi, "D")}</span>
         <span className="flex flex-wrap items-center gap-2">
           {/* 12,5px chứ không 11,5px: dưới 12px là dưới sàn đọc được, QA bắt
               ở vòng 2. Tên ngành lấy theo ngôn ngữ đang xem. */}
@@ -79,6 +81,6 @@ export function JobRow({ job }: { job: JobFull }) {
           <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
         </span>
       </span>
-    </NavLink>
+    </NavLink></VienChay>
   );
 }

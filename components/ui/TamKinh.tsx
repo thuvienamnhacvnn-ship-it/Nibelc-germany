@@ -7,6 +7,8 @@ export function TamKinh({ className = "", children }: { className?: string; chil
       <span className="nb-kinh-nen" aria-hidden="true" />
       <span className="nb-kinh-sang" aria-hidden="true" />
       <span className="nb-kinh-lap-lanh" aria-hidden="true" />
+      <i className="nb-hud-goc nb-hud-goc-tren" aria-hidden="true" />
+      <i className="nb-hud-goc nb-hud-goc-duoi" aria-hidden="true" />
       <div className="nb-kinh-noi">{children}</div>
     </div>
   );

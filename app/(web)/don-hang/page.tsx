@@ -1,3 +1,4 @@
+import { congNghe } from "@/lib/i18n/dict/cong-nghe";
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
@@ -49,7 +50,7 @@ export default async function Page() {
   });
   return (
     <div className="nb-duoi-header">
-      <PageHero
+      <PageHero maTrang={congNghe[lang].trang.don}
         anh={b.anh}
         anhDoc={b.anhDoc}
         nhan={b.nhan}

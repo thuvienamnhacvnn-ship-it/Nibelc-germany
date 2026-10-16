@@ -2,6 +2,10 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { useDuongDan, useT } from "@/lib/i18n/client";
+import { congNghe } from "@/lib/i18n/dict/cong-nghe";
+import { donHang } from "@/lib/i18n/dict/don-hang";
+import { NavLink } from "@/components/layout/NavLink";
 
 const bienChuot = ["--rx", "--ry", "--mx", "--my"];
 
@@ -20,6 +24,9 @@ function daHydrate(el: Element) {
 /** Gắn một lần ở khung công khai; quan sát thêm thẻ do bộ lọc và App Router dựng muộn. */
 export function HieuUngThamChieu() {
   const duongDan = usePathname();
+  const duongDanGoc = useDuongDan();
+  const tx = useT(congNghe);
+  const txDon = useT(donHang);
 
   useEffect(() => {
     const goc = document.documentElement;
@@ -29,21 +36,22 @@ export function HieuUngThamChieu() {
 
     function gan() {
       donDep();
-      if (giam.matches || !window.IntersectionObserver) return;
       const phamVi = document.querySelector("#noi-dung");
       const chanTrang = document.querySelector("footer");
       const daGan = new WeakSet<Element>();
       const daNghieng = new Set<HTMLElement>();
       let khung = 0;
-      const quanSat = new IntersectionObserver((muc) => {
+      const quanSat = window.IntersectionObserver ? new IntersectionObserver((muc) => {
         muc.forEach((e) => {
           if (!e.isIntersecting) return;
           e.target.classList.add("revealed");
-          quanSat.unobserve(e.target);
+          quanSat?.unobserve(e.target);
         });
-      }, { threshold: 0.08 });
+      }, { threshold: 0.08 }) : null;
 
       function quet() {
+        cuon();
+        if (giam.matches || !quanSat) return;
         for (const vung of [phamVi, chanTrang]) {
           vung?.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el) => {
             if (daGan.has(el) || !daHydrate(el)) return;
@@ -67,7 +75,7 @@ export function HieuUngThamChieu() {
         daNghieng.delete(el);
       }
       function di(e: PointerEvent) {
-        if (!chuot.matches || e.pointerType !== "mouse" || !(e.target instanceof Element)) return;
+        if (giam.matches || !chuot.matches || e.pointerType !== "mouse" || !(e.target instanceof Element)) return;
         // Xử lý cả tấm kính bên ngoài lẫn nút bên trong, tránh tấm bị kẹt khi qua nút.
         let el = e.target.closest<HTMLElement>("[data-tilt],[data-magnetic]");
         while (el) {
@@ -95,6 +103,25 @@ export function HieuUngThamChieu() {
         khung = requestAnimationFrame(() => {
           const toiDa = goc.scrollHeight - innerHeight;
           goc.style.setProperty("--scroll-progress", String(toiDa > 0 ? Math.max(0, Math.min(1, scrollY / toiDa)) : 0));
+          // Cùng một nhịp cuộn cho mạch lộ trình và tiến độ bài; không thêm listener riêng từng trang.
+          if (!giam.matches) phamVi?.querySelectorAll<HTMLElement>("[data-mach-cuon]").forEach((mach) => {
+            const r = mach.getBoundingClientRect();
+            const moc = innerHeight * 0.7;
+            mach.style.setProperty("--nb-mach-tien-do", String(Math.max(0, Math.min(1, (moc - r.top) / Math.max(1, r.height)))));
+            mach.querySelectorAll<HTMLElement>("[data-chang-mach]").forEach((chang) => {
+              chang.classList.toggle("da-toi", chang.getBoundingClientRect().top <= moc);
+            });
+          });
+          // Đây là trạng thái đọc, vẫn cập nhật khi người dùng giảm chuyển động.
+          const bai = phamVi?.querySelector<HTMLElement>("[data-bai-doc]");
+          const thanh = document.querySelector<HTMLElement>(".nb-doc-tien-do");
+          if (bai && thanh) {
+            const r = bai.getBoundingClientRect();
+            const header = innerWidth >= 1024 ? parseFloat(getComputedStyle(goc).getPropertyValue("--nb-header")) || 72 : 0;
+            const tienDo = Math.max(0, Math.min(1, (header - r.top) / Math.max(1, r.height - innerHeight + header)));
+            thanh.style.setProperty("--nb-doc-tien-do", String(tienDo));
+            thanh.setAttribute("aria-valuenow", String(Math.round(tienDo * 100)));
+          }
           khung = 0;
         });
       }
@@ -111,7 +138,7 @@ export function HieuUngThamChieu() {
         quet();
         if (++lanQuet >= 16) clearInterval(quetLai);
       }, 300);
-      goc.classList.add("nb-motion-ready");
+      if (!giam.matches) goc.classList.add("nb-motion-ready");
       document.addEventListener("pointermove", di, { passive: true });
       document.addEventListener("pointerout", roi);
       window.addEventListener("scroll", cuon, { passive: true });
@@ -120,7 +147,7 @@ export function HieuUngThamChieu() {
       chuot.addEventListener("change", traHet);
       cuon();
       donDep = () => {
-        quanSat.disconnect();
+        quanSat?.disconnect();
         thayDoi.disconnect();
         clearInterval(quetLai);
         document.removeEventListener("pointermove", di);
@@ -142,5 +169,10 @@ export function HieuUngThamChieu() {
     return () => { giam.removeEventListener("change", gan); donDep(); };
   }, [duongDan]);
 
-  return <div className="nb-scroll-progress" aria-hidden="true" />;
+  // Đặt ngoài PageFade: translate của lớp vào trang sẽ giữ fixed theo trang nếu lồng bên trong.
+  return <>
+    <div className="nb-scroll-progress" aria-hidden="true" />
+    {/^\/cam-nang\/[^/]+\/?$/.test(duongDanGoc) && <div className="nb-doc-tien-do" role="progressbar" aria-label={tx.tienDo} aria-valuemin={0} aria-valuemax={100} aria-valuenow={0}><span /></div>}
+    {/^\/don-hang\/[^/]+\/?$/.test(duongDanGoc) && <div className="nb-ung-tuyen-day"><NavLink data-magnetic href="/lien-he" className="nb-btn min-h-12 w-full px-5">{txDon.ct.ungTuyen}</NavLink></div>}
+  </>;
 }

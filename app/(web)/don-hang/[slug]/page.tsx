@@ -1,10 +1,12 @@
+import { KhungHud } from "@/components/tech/KhungHud";
+import { TheDuLieu } from "@/components/tech/TheDuLieu";
+import { congNghe } from "@/lib/i18n/dict/cong-nghe";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArrowRight, Briefcase, CalendarClock, Check, Clock, GraduationCap, MapPin, Users } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
-import { JobCard } from "@/components/jobs/JobCard";
-import { JobCardSang } from "@/components/jobs/JobCardSang";
+import { TheDonCongNghe } from "@/components/home/TheDonCongNghe";
 import { JobGallery } from "@/components/jobs/JobGallery";
 import { layDonHang, layDonTheoSlug, moiSlugDonHang } from "@/data/nguon";
 import { NHAN_DON_HANG } from "@/data/i18n/jobs";
@@ -79,7 +81,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   ];
 
   return (
-    <div className="nb-duoi-header dh-sang lg:[background:linear-gradient(var(--s-ink)_var(--nb-header),var(--s-page)_0)]">
+    <div className="nb-chi-tiet-don nb-duoi-header dh-sang lg:[background:linear-gradient(var(--s-ink)_var(--nb-header),var(--s-page)_0)]">
       {/* Dưới lg lưới này chỉ có MỘT cột, nhưng để `grid` trần thì cột là
           `auto` = min-content, mà min-content của cột trái bị hàng ảnh thu nhỏ
           cuộn ngang trong JobGallery kéo ra 806px — cả trang rộng 839px trên
@@ -125,10 +127,18 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           <h1 data-reveal className="nb-display mt-3 text-[23px] leading-[1.2] text-white sm:text-[clamp(26px,2.6vw,38px)] sm:leading-[1.15] lg:text-[38px] lg:text-balance lg:text-[var(--s-ink)]">{job.title}</h1>
           <p data-reveal className="mt-2 text-[14.5px] text-[var(--nb-text-mute)] lg:text-[15px] lg:text-[var(--s-mute)]">{tenNhaTuyenDung(job, lang)}</p>
 
-          <div className="mt-7">
+          <KhungHud nhanTrai={congNghe[lang].anh} className="nb-thu-vien mt-7">
             <JobGallery anh={job.gallery.length ? job.gallery : [job.image]} ten={job.title} />
-          </div>
+          </KhungHud>
 
+          <KhungHud nhanTrai={congNghe[lang].trang.don} className="nb-bang-don mt-7">
+            <div className="nb-thong-ke">
+              <TheDuLieu nhan={congNghe[lang].lieu[0]!} so={chuoiLuong(job, lang)} chuThich={tx.thuNhap} />
+              <TheDuLieu nhan={congNghe[lang].lieu[1]!} so={job.vacancies} chuThich={tx.ct.soLuong} />
+              <TheDuLieu nhan={congNghe[lang].lieu[2]!} so={nhanNgonNgu(job, lang) ?? "—"} chuThich={job.language ? (job.language === "de" ? tx.ct.tiengDuc : tx.ct.tiengAnh) : congNghe[lang].chuaCo} />
+              <TheDuLieu nhan={congNghe[lang].lieu[3]!} so={noiLamViec(job)} chuThich={tx.ct.noiLamViec} />
+            </div>
+          </KhungHud>
           <ul className="mt-7 grid gap-2.5 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3">
             {THONG_TIN.map(({ Icon, nhan, gt }) => (
               <li data-reveal data-tilt key={nhan} className="nb-panel flex items-center gap-2.5 p-3 sm:gap-3 sm:p-4">
@@ -254,14 +264,14 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             <ul className="mt-6 grid gap-5 sm:mt-7 sm:gap-6 md:grid-cols-2 xl:grid-cols-3 lg:hidden">
               {lienQuan.map((j) => (
                 <li key={j.id}>
-                  <JobCard job={j} />
+                  <TheDonCongNghe don={j} lang={lang} chiTiet />
                 </li>
               ))}
             </ul>
             <ul className="hidden lg:mt-8 lg:grid lg:grid-cols-[repeat(3,minmax(0,1fr))] lg:gap-6">
               {lienQuan.map((j) => (
                 <li key={j.id}>
-                  <JobCardSang job={j} />
+                  <TheDonCongNghe don={j} lang={lang} chiTiet />
                 </li>
               ))}
             </ul>

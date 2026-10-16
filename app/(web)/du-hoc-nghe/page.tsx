@@ -1,3 +1,6 @@
+import { VienChay } from "@/components/tech/VienChay";
+import { DuongBay } from "@/components/tech/DuongBay";
+import { congNghe } from "@/lib/i18n/dict/cong-nghe";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { ArrowRight, BadgeCheck, Banknote, Clock, GraduationCap, Languages } from "lucide-react";
@@ -48,7 +51,7 @@ export default async function Page() {
 
   return (
     <div className="nb-duoi-header">
-      <PageHero
+      <PageHero maTrang={congNghe[lang].trang.nghe}
         anh={b.anh}
         anhDoc={b.anhDoc}
         anhBenPhai
@@ -86,10 +89,10 @@ export default async function Page() {
           </p>
 
           {/* Máy tính: lưới 4 cột x 2 hàng, đủ 8 ngành, không còn hàng cuộn bị cắt mép phải */}
-          <ul className="nb-no-scrollbar mt-7 flex gap-4 overflow-x-auto pb-3 sm:mt-9 sm:gap-5 lg:grid lg:grid-cols-4 lg:gap-6 lg:overflow-visible lg:pb-0">
-            {NGANH_HOC.map((n) => (
-              <li key={n.id} className="w-[250px] shrink-0 sm:w-[268px] lg:w-auto lg:min-w-0">
-                <NavLink data-reveal data-tilt href={`/du-hoc-nghe/${n.id}`} className="nb-card group block h-full overflow-hidden">
+          <ul className="nb-directory mt-7 grid grid-cols-[minmax(0,1fr)] gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {NGANH_HOC.map((n, i) => (
+              <li key={n.id} className="min-w-0">
+                <VienChay className="h-full"><NavLink data-reveal data-tilt href={`/du-hoc-nghe/${n.id}`} className="nb-card group block h-full overflow-hidden">
                   <span data-reveal className="relative block h-[172px] overflow-hidden">
                     <Image
                       src={ANH[n.id] ?? "/assets/jobs/logistik/01-hero-16x9.jpg"}
@@ -103,7 +106,7 @@ export default async function Page() {
                         tấm hình, nên dải phủ 55% chỉ làm tối ảnh chứ không
                         giúp đọc gì. Thẻ đơn hàng đã gỡ y như vậy. */}
                   </span>
-                  <span className="block p-5">
+                  <span className="block p-5"><span className="nb-ma nb-directory-ma">{String(i + 1).padStart(2, "0")} / {n.id}</span>
                     {/* break-words: tên ngành tiếng Đức có từ ghép dài */}
                     <b className="block text-[17px] font-semibold break-words text-white">{n.ten}</b>
                     <span lang={langTenDuc} className="mt-0.5 block text-[12px] text-[var(--nb-text-mute)] italic">
@@ -130,7 +133,7 @@ export default async function Page() {
                       <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
                     </span>
                   </span>
-                </NavLink>
+                </NavLink></VienChay>
               </li>
             ))}
           </ul>
@@ -140,7 +143,10 @@ export default async function Page() {
         <section className="border-y border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] py-11 sm:py-16 lg:py-20">
           <div className="nb-wrap">
             <h2 data-reveal className="nb-display text-[24px] text-white sm:text-[30px] lg:text-[32px]">{tx.buoc.tieuDe}</h2>
-            <ol className="mt-7 grid gap-4 sm:mt-9 sm:gap-5 md:grid-cols-2 lg:gap-6 xl:grid-cols-4">
+            <div className="nb-dao-tao-mach mt-7 sm:mt-9">
+            <DuongBay />
+            <DuongBay doc />
+            <ol className="relative grid gap-4 sm:gap-5 md:grid-cols-2 lg:gap-6 xl:grid-cols-4">
               {tx.buoc.ds.map((b) => (
                 <li data-reveal data-tilt key={b.so} className="nb-panel p-5 sm:p-6">
                   <b className="nb-gold-text nb-display block text-[27px] leading-none sm:text-[30px]">{b.so}</b>
@@ -149,6 +155,7 @@ export default async function Page() {
                 </li>
               ))}
             </ol>
+            </div>
           </div>
         </section>
 

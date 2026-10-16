@@ -9,6 +9,12 @@ import type { ChuTieuDe } from "@/components/home/CumTieuDe";
  * (bản vi cũng để nguyên câu tiếng Đức này — xem cờ `dong1De`).
  */
 export const home = tuDien<{
+  congNghe: {
+    bang: string; thongKe: { ma: string; nhan: string }[];
+    nganhNhan: string; nganhTieuDe: string; nganhMo: string; xemNganh: string;
+    loTrinhNhan: string; loTrinhTieuDe: string; loTrinhMo: string; xemLoTrinh: string;
+    loiNhan: string; loiTieuDe: string; baiNhan: string; baiTieuDe: string; xemBai: string; chuaCoBai: string;
+  };
   hero: ChuTieuDe;
   /** true = dòng 1–2 là câu tiếng Đức cố ý giữ trong bản này → bọc lang="de" */
   dong1De: boolean;
@@ -61,6 +67,12 @@ export const home = tuDien<{
   };
 }>({
   vi: {
+    congNghe: {
+      bang: "Bảng điều khiển hành trình", thongKe: [{ ma: "JOBS", nhan: "Đơn đang tuyển" }, { ma: "OPENINGS", nhan: "Tổng suất tuyển dụng" }, { ma: "SECTORS", nhan: "Nhóm ngành nghề" }, { ma: "GUIDES", nhan: "Bài cẩm nang" }],
+      nganhNhan: "02 / Định hướng nghề nghiệp", nganhTieuDe: "Chọn ngành. Mở hướng đi.", nganhMo: "Khám phá từng lĩnh vực và đối chiếu với các đơn đang tuyển.", xemNganh: "Xem đơn ngành này",
+      loTrinhNhan: "03 / VN → DE", loTrinhTieuDe: "Một hành trình. Từng bước rõ ràng.", loTrinhMo: "Từ hồ sơ đầu tiên đến những ngày ổn định cuộc sống tại Đức.", xemLoTrinh: "Khám phá lộ trình",
+      loiNhan: "04 / Chọn chương trình", loiTieuDe: "Hai lối đi. Cùng một điểm tựa.", baiNhan: "05 / Cẩm nang", baiTieuDe: "Chuẩn bị tốt hơn cho bước tiếp theo.", xemBai: "Tất cả cẩm nang", chuaCoBai: "Các bài cẩm nang đang được cập nhật.",
+    },
     hero: {
       dong1a: "Arbeiten in",
       dong1b: "Deutschland",
@@ -127,6 +139,12 @@ export const home = tuDien<{
     },
   },
   en: {
+    congNghe: {
+      bang: "Journey dashboard", thongKe: [{ ma: "JOBS", nhan: "Current vacancies" }, { ma: "OPENINGS", nhan: "Total openings" }, { ma: "SECTORS", nhan: "Occupational sectors" }, { ma: "GUIDES", nhan: "Practical guides" }],
+      nganhNhan: "02 / Career directory", nganhTieuDe: "Choose a sector. Find your direction.", nganhMo: "Explore each field and compare the vacancies currently available.", xemNganh: "View sector vacancies",
+      loTrinhNhan: "03 / VN → DE", loTrinhTieuDe: "One journey. Clear steps ahead.", loTrinhMo: "From your first documents to settling into life in Germany.", xemLoTrinh: "Explore the journey",
+      loiNhan: "04 / Choose a programme", loiTieuDe: "Two pathways. One trusted partner.", baiNhan: "05 / Practical guides", baiTieuDe: "Be better prepared for your next step.", xemBai: "All guides", chuaCoBai: "New guides are being prepared.",
+    },
     hero: {
       dong1a: "Work in",
       dong1b: "Germany",
@@ -206,6 +224,12 @@ export const home = tuDien<{
     },
   },
   de: {
+    congNghe: {
+      bang: "Ihr Weg im Überblick", thongKe: [{ ma: "JOBS", nhan: "Aktuelle Stellenangebote" }, { ma: "OPENINGS", nhan: "Offene Stellen insgesamt" }, { ma: "SECTORS", nhan: "Berufsfelder" }, { ma: "GUIDES", nhan: "Ratgeberartikel" }],
+      nganhNhan: "02 / Berufliche Orientierung", nganhTieuDe: "Branche wählen. Perspektiven entdecken.", nganhMo: "Entdecken Sie die Berufsfelder und vergleichen Sie aktuelle Stellenangebote.", xemNganh: "Stellen dieser Branche",
+      loTrinhNhan: "03 / VN → DE", loTrinhTieuDe: "Ein Weg. Klare Schritte.", loTrinhMo: "Von den ersten Unterlagen bis zum Ankommen in Deutschland.", xemLoTrinh: "Den Weg entdecken",
+      loiNhan: "04 / Programm wählen", loiTieuDe: "Zwei Wege. Ein verlässlicher Partner.", baiNhan: "05 / Ratgeber", baiTieuDe: "Gut vorbereitet auf den nächsten Schritt.", xemBai: "Alle Ratgeber", chuaCoBai: "Neue Ratgeber werden vorbereitet.",
+    },
     hero: {
       dong1a: "Arbeiten in",
       dong1b: "Deutschland",

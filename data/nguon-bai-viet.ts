@@ -90,6 +90,17 @@ export async function layBaiViet(lang: Lang, loai: LoaiBai = "cam-nang"): Promis
   }
 }
 
+/** Trang chủ ưu tiên ngày tạo thay vì thứ tự biên tập của trang cẩm nang. */
+export async function layBaiMoiNhat(lang: Lang): Promise<BaiCongKhai[]> {
+  try {
+    const ds = await hoi<Dong>("select id, slug, du_lieu, dich from bai_viet where hien and loai = 'cam-nang' order by tao_luc desc, id desc");
+    return docDong(ds, lang).slice(0, 3);
+  } catch (e) {
+    console.error("[nguon] đọc bài mới nhất:", e instanceof Error ? e.message : e);
+    return [];
+  }
+}
+
 /** Một bài theo đường dẫn. undefined khi bài đã ẩn hoặc chưa dịch. CSDL lỗi thì NÉM. */
 export async function layBaiTheoSlug(slug: string, lang: Lang, loai: LoaiBai = "cam-nang"): Promise<BaiCongKhai | undefined> {
   const ds = await hoi<Dong>("select id, slug, du_lieu, dich from bai_viet where slug = $1 and loai = $2 and hien", [slug, loai]);

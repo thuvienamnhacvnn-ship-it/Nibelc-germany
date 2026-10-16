@@ -1,3 +1,4 @@
+import { congNghe } from "@/lib/i18n/dict/cong-nghe";
 import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
 import { GuideHub } from "@/components/guide/GuideHub";
@@ -23,7 +24,7 @@ export default async function Page() {
   const [bai, b] = await Promise.all([layBaiViet(lang), layNoiDung("cam-nang.banner", lang)]);
   return (
     <div className="nb-duoi-header">
-      <PageHero anh={b.anh} anhDoc={b.anhDoc} nhan={b.nhan} tieuDe={b.tieuDe} mo={b.mo || undefined} />
+      <PageHero maTrang={congNghe[lang].trang.bai} anh={b.anh} anhDoc={b.anhDoc} nhan={b.nhan} tieuDe={b.tieuDe} mo={b.mo || undefined} />
 
       {/* Thân trang SÁNG ở máy tính (app/trang-sang.css); điện thoại giữ nền cũ. */}
       <div className="nb-sang">

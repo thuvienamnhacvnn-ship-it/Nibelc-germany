@@ -1,5 +1,7 @@
 "use client";
 
+import { KhungHud } from "@/components/tech/KhungHud";
+import { congNghe } from "@/lib/i18n/dict/cong-nghe";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Check, Send } from "lucide-react";
@@ -120,7 +122,8 @@ export function ConsultationWizard() {
 
   if (xong) {
     return (
-      <div data-reveal data-tilt className="nb-panel p-7 text-center sm:p-10">
+      <KhungHud nhanTrai={congNghe[lang].trangThai} className="nb-thong-tin p-7 text-center sm:p-10">
+        <div role="status" aria-live="polite">
         <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-[var(--nb-gold)]">
           <Check size={30} className="text-[var(--nb-navy-900)]" />
         </span>
@@ -139,12 +142,13 @@ export function ConsultationWizard() {
         >
           {tx.xong.dienLai}
         </button>
-      </div>
+        </div>
+      </KhungHud>
     );
   }
 
   return (
-    <div data-reveal className="nb-panel overflow-hidden">
+    <KhungHud nhanTrai={congNghe[lang].phieu} nhanPhai={SO_BUOC[b]} className="nb-thong-tin nb-phieu overflow-hidden">
       {/* ---------- THANH BƯỚC ---------- */}
       <ol className="nb-no-scrollbar flex gap-2 overflow-x-auto border-b border-[var(--nb-line-soft)] px-4 py-4 sm:flex-wrap sm:overflow-x-visible sm:px-6 sm:py-5">
         {BUOC.map((x, i) => {
@@ -198,8 +202,9 @@ export function ConsultationWizard() {
       >
         {b === 0 && (
           <div className="grid gap-4 sm:grid-cols-2">
-            <O nhan={tx.truong.hoTen} batBuoc gt={v.hoTen} dat={(x) => dat("hoTen", x)} loi={loi.hoTen} auto="name" />
+            <O ma="01" nhan={tx.truong.hoTen} batBuoc gt={v.hoTen} dat={(x) => dat("hoTen", x)} loi={loi.hoTen} auto="name" />
             <O
+              ma="02"
               nhan={tx.truong.ngaySinh}
               gt={v.ngaySinh}
               dat={(x) => dat("ngaySinh", x)}
@@ -207,6 +212,7 @@ export function ConsultationWizard() {
               goiY={tx.truong.ngaySinhGoiY}
             />
             <O
+              ma="03"
               nhan={tx.truong.dienThoai}
               batBuoc
               gt={v.dienThoai}
@@ -214,9 +220,10 @@ export function ConsultationWizard() {
               loi={loi.dienThoai}
               auto="tel"
             />
-            <O nhan={tx.truong.email} gt={v.email} dat={(x) => dat("email", x)} loi={loi.email} auto="email" kieu="email" />
-            <O nhan={tx.truong.noiO} gt={v.noiO} dat={(x) => dat("noiO", x)} />
+            <O ma="04" nhan={tx.truong.email} gt={v.email} dat={(x) => dat("email", x)} loi={loi.email} auto="email" kieu="email" />
+            <O ma="05" nhan={tx.truong.noiO} gt={v.noiO} dat={(x) => dat("noiO", x)} />
             <Select
+              ma="06"
               nhan={tx.truong.hocVan}
               gt={v.hocVan}
               dat={(x) => dat("hocVan", x)}
@@ -229,6 +236,7 @@ export function ConsultationWizard() {
           <div className="space-y-6">
             <div>
               <p data-reveal className="mb-2.5 text-[13px] font-medium text-[var(--nb-text-dim)]">
+                <span className="nb-ma mr-2" aria-hidden="true">07</span>
                 {tx.truong.nganh} <b className="text-[var(--nb-gold)]">*</b>
               </p>
               <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -254,12 +262,14 @@ export function ConsultationWizard() {
 
             <div className="grid gap-4 sm:grid-cols-2">
               <Select
+                ma="08"
                 nhan={tx.truong.chuongTrinh}
                 gt={v.chuongTrinh}
                 dat={(x) => dat("chuongTrinh", x)}
                 ds={MA_CHUONG_TRINH.map((ma) => ({ ma, ten: tx.chuongTrinh[ma] }))}
               />
               <Select
+                ma="09"
                 nhan={tx.truong.thoiGian}
                 gt={v.thoiGian}
                 dat={(x) => dat("thoiGian", x)}
@@ -272,6 +282,7 @@ export function ConsultationWizard() {
         {b === 2 && (
           <div className="space-y-4">
             <Select
+              ma="10"
               nhan={tx.truong.tieng}
               gt={v.tieng}
               dat={(x) => dat("tieng", x)}
@@ -279,6 +290,7 @@ export function ConsultationWizard() {
             />
             <label className="block">
               <span className="mb-1.5 block text-[13px] font-medium text-[var(--nb-text-dim)]">
+                <span className="nb-ma mr-2" aria-hidden="true">11</span>
                 {tx.truong.ghiChu}
               </span>
               <textarea
@@ -338,11 +350,12 @@ export function ConsultationWizard() {
           </button>
         )}
       </div>
-    </div>
+    </KhungHud>
   );
 }
 
 function O({
+  ma,
   nhan,
   gt,
   dat,
@@ -352,6 +365,7 @@ function O({
   auto,
   kieu = "text",
 }: {
+  ma: string;
   nhan: string;
   gt: string;
   dat: (v: string) => void;
@@ -364,6 +378,7 @@ function O({
   return (
     <label className="block">
       <span className="mb-1.5 block text-[13px] font-medium text-[var(--nb-text-dim)]">
+        <span className="nb-ma mr-2" aria-hidden="true">{ma}</span>
         {nhan} {batBuoc && <b className="text-[var(--nb-gold)]">*</b>}
       </span>
       <input
@@ -382,11 +397,13 @@ function O({
 }
 
 function Select({
+  ma,
   nhan,
   gt,
   dat,
   ds,
 }: {
+  ma: string;
   nhan: string;
   gt: string;
   dat: (v: string) => void;
@@ -395,7 +412,7 @@ function Select({
 }) {
   return (
     <label className="block">
-      <span className="mb-1.5 block text-[13px] font-medium text-[var(--nb-text-dim)]">{nhan}</span>
+      <span className="mb-1.5 block text-[13px] font-medium text-[var(--nb-text-dim)]"><span className="nb-ma mr-2" aria-hidden="true">{ma}</span>{nhan}</span>
       <select value={gt} onChange={(e) => dat(e.target.value)} className="nb-input min-h-[44px] sm:min-h-0">
         {ds.map((x) => (
           <option key={x.ma} value={x.ma}>

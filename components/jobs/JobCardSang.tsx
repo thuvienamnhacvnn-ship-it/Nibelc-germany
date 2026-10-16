@@ -1,5 +1,6 @@
 "use client";
 
+import { VienChay } from "@/components/tech/VienChay";
 import Image from "next/image";
 import { ArrowRight, MapPin, Users } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
@@ -42,7 +43,8 @@ function NhanTren({ job }: { job: JobFull }) {
   const lang = useLang();
   const tx = useT(donHang);
   return (
-    <span className="flex min-w-0 items-center gap-2">
+    <span className="flex min-w-0 flex-wrap items-center gap-2">
+      <span className="nb-ma w-full">{nganh?.code} / {job.state.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/gi, "D")}</span>
       {nganh && (
         <span className="min-w-0 truncate text-[12.5px] font-semibold tracking-[0.08em] text-[var(--s-gold)] uppercase">
           {tenNganh(nganh, lang)}
@@ -64,7 +66,7 @@ export function JobCardSang({ job }: { job: JobFull }) {
   const tx = useT(donHang);
   const nhanMa = useT(NHAN_DON_HANG);
   return (
-    <NavLink data-reveal data-tilt
+    <VienChay className="h-full"><NavLink data-reveal data-tilt
       href={`/don-hang/${job.slug}`}
       className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--s-line)] bg-[var(--s-page)] shadow-[var(--s-shadow-rest)] transition duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[var(--s-shadow-hover)]"
       aria-label={tx.tai(job.title, job.city)}
@@ -116,7 +118,7 @@ export function JobCardSang({ job }: { job: JobFull }) {
           </span>
         </span>
       </span>
-    </NavLink>
+    </NavLink></VienChay>
   );
 }
 
@@ -126,7 +128,7 @@ export function JobRowSang({ job }: { job: JobFull }) {
   const tx = useT(donHang);
   const nhanMa = useT(NHAN_DON_HANG);
   return (
-    <NavLink data-reveal data-tilt
+    <VienChay className="h-full"><NavLink data-reveal data-tilt
       href={`/don-hang/${job.slug}`}
       className="group grid grid-cols-[200px_minmax(0,1fr)_auto] items-stretch gap-5 rounded-2xl border border-[var(--s-line)] bg-[var(--s-page)] p-3.5 shadow-[var(--s-shadow-rest)] transition duration-200 ease-out hover:shadow-[var(--s-shadow-hover)]"
       aria-label={tx.tai(job.title, job.city)}
@@ -167,6 +169,6 @@ export function JobRowSang({ job }: { job: JobFull }) {
           <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-0.5" />
         </span>
       </span>
-    </NavLink>
+    </NavLink></VienChay>
   );
 }
