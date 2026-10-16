@@ -1,0 +1,79 @@
+/* GĐ5: chỉ nét trên hero, không nền màu, không tham gia luồng bố cục. */
+.nb-hero-hud { position: absolute; inset: 0; z-index: -1; pointer-events: none; color: var(--nb-text); font: 10px/1.7 ui-monospace,Consolas,monospace; letter-spacing: .1em; --nb-tech-play: paused; }
+.nb-hero-goc { position: absolute; inset: 24px; }
+.nb-hero-goc::before,.nb-hero-goc::after { content: ""; position: absolute; width: 40px; height: 40px; border-color: rgb(255 255 255 / .45); border-style: solid; }
+.nb-hero-goc-tren::before { top: 0; left: 0; border-width: 1px 0 0 1px; }
+.nb-hero-goc-tren::after { top: 0; right: 0; border-width: 1px 1px 0 0; }
+.nb-hero-goc-duoi::before { bottom: 0; left: 0; border-width: 0 0 1px 1px; }
+.nb-hero-goc-duoi::after { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+.nb-hero-live { position: absolute; top: calc(var(--nb-header) + 20px); left: 48px; }
+.nb-hero-thuoc { position: absolute; top: calc(var(--nb-header) + 64px); bottom: 80px; width: 24px; display: flex; flex-direction: column; justify-content: space-between; background: repeating-linear-gradient(0deg,rgb(255 255 255 / .2) 0 1px,transparent 1px 12px) left/6px 100% no-repeat; }
+.nb-hero-thuoc-trai { left: 24px; }
+.nb-hero-thuoc-phai { right: 24px; }
+.nb-hero-thuoc span { writing-mode: vertical-rl; margin-left: 10px; font-size: 8px; opacity: .7; }
+.nb-hero-terminal { position: absolute; right: 48px; top: calc(var(--nb-header) + 20px); max-width: 32vw; overflow-wrap: anywhere; text-align: right; }
+.nb-hero-terminal > span:first-child { visibility: hidden; }
+.nb-hero-terminal > span:last-child { position: absolute; inset: 0; }
+.nb-terminal-cursor { font-weight: 400; }
+.nb-hero-gio { position: absolute; right: 48px; bottom: 40px; display: flex; flex-direction: column; text-align: right; text-transform: uppercase; font-variant-numeric: tabular-nums; }
+.nb-hero-scan { position: absolute; top: 0; bottom: 0; width: 100%; overflow: hidden; }
+.nb-hero-scan::after { content: ""; position: absolute; inset: 0; background: linear-gradient(rgb(255 255 255 / .18),rgb(255 255 255 / .18)) 0 0 / 100% 1px no-repeat; }
+.nb-cong-du-lieu { position: relative; height: 120px; overflow: hidden; perspective: 240px; background-color: var(--nb-bg); border-bottom: 1px solid var(--nb-line); }
+.nb-cong-luoi { position: absolute; inset: -120px -25% -80px; transform: rotateX(64deg); background-image: linear-gradient(var(--nb-grid-active) 1px,transparent 1px),linear-gradient(90deg,var(--nb-grid-active) 1px,transparent 1px); background-size: 48px 48px; mask-image: linear-gradient(transparent,#000 45%); }
+.nb-cong-du-lieu > span { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); white-space: nowrap; font: 9px/1.6 ui-monospace,Consolas,monospace; letter-spacing: .2em; color: var(--nb-text-dim); }
+.nb-home-tech .nb-eyebrow { font-family: ui-monospace,Consolas,monospace; }
+.nb-home-tech .nb-eyebrow::after { content: "_"; margin-left: .4em; }
+.nb-don-tech .nb-don-anh::before { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0; background: linear-gradient(115deg,transparent 40%,rgb(255 255 255 / .1) 49%,transparent 58%); background-size: 220% 220%; background-position: var(--nb-phan-xa-x,50%) var(--nb-phan-xa-y,50%); }
+.nb-mang-luoi { background-color: var(--nb-surface); border-block: 1px solid var(--nb-line); }
+.nb-mang-bo-cuc { display: grid; grid-template-columns: minmax(0,1.8fr) minmax(240px,1fr); align-items: start; gap: 36px; margin-top: 40px; }
+.nb-ban-do { min-width: 0; border: 1px solid var(--nb-line); padding: 12px; }
+.nb-ban-do svg { display: block; width: 100%; height: auto; }
+.nb-ban-do-cham { fill: var(--nb-text-dim); opacity: .42; }
+.nb-ban-do-cung { fill: none; stroke: var(--nb-accent-text); stroke-width: .7; opacity: .3; }
+.nb-ban-do-diem { fill: var(--nb-accent-text); }
+.nb-ban-do-vong { fill: none; stroke: var(--nb-accent-text); stroke-width: .8; }
+.nb-ban-do text { font: 10px ui-monospace,Consolas,monospace; fill: var(--nb-text-dim); letter-spacing: .12em; }
+.nb-ban-do figcaption { border-top: 1px solid var(--nb-line); padding: 12px 4px 0; color: var(--nb-text-dim); font-size: 11px; line-height: 1.8; }
+.nb-mang-ds { max-height: 460px; overflow: auto; scrollbar-width: thin; }
+.nb-mang-ds table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.nb-mang-ds th { text-align: left; color: var(--nb-text-dim); font-size: 11px; font-weight: 400; }
+.nb-mang-ds td,.nb-mang-ds th { padding: 12px 8px; border-bottom: 1px solid var(--nb-line); }
+.nb-mang-ds :is(td,th):last-child { text-align: right; font-variant-numeric: tabular-nums; }
+.nb-mang-ds td:last-child { color: var(--nb-accent-text); font: 22px ui-monospace,Consolas,monospace; }
+.nb-mang-ds small,.nb-mang-ds small span { display: block; margin-top: 4px; color: var(--nb-text-dim); font-size: 11px; }
+/* Nhiễu nằm trong background, dưới ảnh/nội dung; alpha tối đa .04. Không tải mạng. */
+.nb-home-tech :is(.nb-bang-dieu-khien,.nb-mang-luoi,.nb-hanh-trinh,.nb-cta-tech) {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 .04'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Cpath fill='white' filter='url(%23n)' d='M0 0h160v160H0z'/%3E%3C/svg%3E");
+}
+/* Các mục có lưới riêng vẫn giữ nhiễu ở lớp nền dưới cùng. */
+.nb-home-tech :is(.nb-hanh-trinh,.nb-cta-tech) > .nb-luoi { background-color: transparent; }
+@keyframes nb-hero-quet { to { background-position: 0 100%; } }
+@keyframes nb-cong-troi { to { background-position: 0 -48px; } }
+@keyframes nb-con-tro { 50% { opacity: 0; } }
+@keyframes nb-diem-nhip { 50% { opacity: .35; } }
+@keyframes nb-thuoc-troi { to { transform: translateY(-12px); } }
+/* Mặt nạ ô và lệch kênh trong 220ms, không phủ màu lên ảnh. */
+@property --nb-pixel-mo { syntax: '<percentage>'; inherits: false; initial-value: 100%; }
+@keyframes nb-pixel-doi { 0% { --nb-pixel-mo: 25%; filter: url(#nb-rgb-home); transform: translateX(-3px); } 40% { --nb-pixel-mo: 70%; transform: translateX(2px); } 99% { filter: url(#nb-rgb-home); } 100% { --nb-pixel-mo: 100%; filter: none; transform: none; } }
+@media (prefers-reduced-motion:no-preference) {
+  .nb-hero-scan::after { animation: nb-hero-quet 7s linear infinite; animation-play-state: var(--nb-tech-play,paused); }
+  .nb-cong-luoi { animation: nb-cong-troi 3s linear infinite; animation-play-state: var(--nb-tech-play,paused); }
+  .nb-home-tech .nb-eyebrow.revealed::after { animation: nb-con-tro 1.2s steps(1) infinite; animation-play-state: var(--nb-tech-play,paused); }
+  .nb-hero-terminal b { animation: nb-con-tro 1.2s steps(1) infinite; animation-play-state: var(--nb-tech-play,paused); }
+  .nb-hero-thuoc span { animation: nb-thuoc-troi 7s linear infinite; animation-play-state: var(--nb-tech-play,paused); }
+  .nb-ban-do-diem > g { animation: nb-diem-nhip 3s ease-in-out infinite; animation-play-state: var(--nb-tech-play,paused); }
+  html.nb-motion-ready .nb-nganh-doi.revealed img { mask-image: linear-gradient(90deg,#000 var(--nb-pixel-mo),transparent 0),linear-gradient(#000 var(--nb-pixel-mo),transparent 0); mask-size: 18px 18px; mask-composite: intersect; animation: nb-pixel-doi 220ms steps(4) both; animation-play-state: var(--nb-tech-play,paused); }
+  .nb-nganh-thong-tin .nb-so-cuon { animation-play-state: var(--nb-tech-play,paused); }
+}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  .nb-home-tech .nb-don-tech:hover .nb-don-anh::before { opacity: 1; }
+}
+html.nb-tab-hidden :is(.nb-cong-luoi,.nb-ban-do-diem > g,.nb-nganh-doi img,.nb-hero-terminal b,.nb-hero-thuoc span,.nb-nganh-thong-tin .nb-so-cuon),html.nb-tab-hidden .nb-hero-scan::after,html.nb-tab-hidden .nb-home-tech .nb-eyebrow::after { animation-play-state: paused !important; }
+@media (max-width:1023px) {
+  .nb-hero-hud :is(.nb-hero-live,.nb-hero-thuoc,.nb-hero-terminal,.nb-hero-gio) { display: none; }
+  .nb-mang-bo-cuc { grid-template-columns: minmax(0,1fr); gap: 24px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .nb-hero-scan::after { animation: none; background-position: 0 50%; }
+  .nb-home-tech .nb-eyebrow::after { animation: none; }
+}

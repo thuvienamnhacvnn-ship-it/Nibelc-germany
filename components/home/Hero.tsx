@@ -7,6 +7,7 @@ import { useHeroJobRotation } from "@/hooks/useHeroJobRotation";
 import { IndustryRail } from "@/components/home/IndustryRail";
 import { FeaturedJob } from "@/components/home/FeaturedJob";
 import { SearchBar } from "@/components/home/SearchBar";
+import { HeroHud } from "@/components/home/HeroHud";
 import { HeroVideo } from "@/components/home/HeroVideo";
 import { NhomNhanVat } from "@/components/home/NhomNhanVat";
 import { CumTieuDe, type ChuTieuDe } from "@/components/home/CumTieuDe";
@@ -42,10 +43,14 @@ export function Hero({
   goiYDon,
   nganh,
   banner,
+  soDon,
+  soSuat,
 }: {
   /** đơn hiện trên thẻ hero theo từng ngành — đã dịch sẵn phía server */
   donTheoNganh: Record<string, JobFull>;
   goiYDon: DonGoiY[];
+  soDon: number;
+  soSuat: number;
   nganh: NganhTim[];
   /** ảnh nền + chữ cụm tiêu đề đọc từ CSDL (mục "trang-chu.banner"); thiếu thì dùng từ điển + ảnh tĩnh như cũ */
   banner?: { anh: string; anhDoc: string; chu: ChuTieuDe };
@@ -66,6 +71,7 @@ export function Hero({
     <section data-theme-island="dark" className="relative isolate min-h-[calc(100svh-var(--nb-header))] overflow-hidden lg:min-h-[calc(100vh-40px)]">
       {/* ---------- NỀN: video, bản ngang cho desktop và bản dọc cho điện thoại ---------- */}
       <HeroVideo anh={banner?.anh} anhDoc={banner?.anhDoc} />
+      <HeroHud soDon={soDon} soSuat={soSuat} />
 
       {/* KHÔNG phủ lớp màu nào lên video. Chữ hero đọc được nhờ bóng chữ
           riêng (.nb-bong-chu), không nhờ làm tối cả khung hình. */}

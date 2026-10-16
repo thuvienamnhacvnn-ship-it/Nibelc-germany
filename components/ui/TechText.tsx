@@ -25,19 +25,39 @@ export function TechText({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (giam || !goc || !host.current || !window.IntersectionObserver) return;
     let khung = 0;
-    const quanSat = new IntersectionObserver((muc) => {
-      if (!muc[0]?.isIntersecting) return;
-      quanSat.disconnect();
-      const batDau = performance.now();
-      function ve(luc: number) {
-        const moc = Math.min(goc.length, Math.floor((luc - batDau) / 34));
-        datHien(Array.from(goc, (chu, i) => i < moc || /[ .,]/.test(chu) ? chu : kyTu[Math.floor(Math.random() * kyTu.length)]).join(""));
-        if (moc < goc.length) khung = requestAnimationFrame(ve);
-      }
+    let thay = false;
+    let xong = false;
+    let mocTruoc = 0;
+    let daChay = 0;
+    const chuGoc = Array.from(goc);
+    function ve(luc: number) {
+      daChay += Math.min(80, luc - mocTruoc);
+      mocTruoc = luc;
+      const moc = Math.min(chuGoc.length, Math.floor(daChay / 24));
+      datHien(chuGoc.map((chu, i) => i < moc || /[ .,]/.test(chu) ? chu : kyTu[Math.floor(Math.random() * kyTu.length)]).join(""));
+      if (moc < chuGoc.length) khung = requestAnimationFrame(ve);
+      else { xong = true; quanSat.disconnect(); }
+    }
+    function capNhat() {
+      cancelAnimationFrame(khung);
+      if (!thay || document.hidden || xong) return;
+      mocTruoc = performance.now();
       khung = requestAnimationFrame(ve);
+    }
+    const quanSat = new IntersectionObserver((muc) => {
+      thay = !!muc[0]?.isIntersecting;
+      capNhat();
     }, { threshold: 0.25 });
-    quanSat.observe(host.current);
-    return () => { quanSat.disconnect(); cancelAnimationFrame(khung); };
+    const el = host.current;
+    const coRanh = typeof window.requestIdleCallback === "function";
+    const batDau = () => quanSat.observe(el);
+    const cho = coRanh ? window.requestIdleCallback(batDau, { timeout: 700 }) : window.setTimeout(batDau, 300);
+    document.addEventListener("visibilitychange", capNhat);
+    return () => {
+      quanSat.disconnect(); cancelAnimationFrame(khung);
+      document.removeEventListener("visibilitychange", capNhat);
+      if (coRanh) window.cancelIdleCallback(cho); else clearTimeout(cho);
+    };
   }, [goc, giam]);
   if (!goc) return <>{children}</>;
   return <span ref={host} className="nb-tech-text">

@@ -16,7 +16,8 @@ import { useEffect, useRef, useState } from "react";
  * Ảnh poster hiện ngay trong lúc video còn tải, và cũng là thứ duy nhất hiện
  * khi người dùng bật "giảm chuyển động": lúc đó không phát video nữa.
  */
-const DUNG_ANH = true;
+// Sếp 16/10: desktop chạy video Grok "Đức thời AI" (lặp liền mạch) thay ảnh tĩnh.
+const DUNG_ANH = false;
 
 export function HeroVideo({
   anh = "/assets/home/hero-anh.jpg",
@@ -44,7 +45,7 @@ export function HeroVideo({
   // Chưa biết khổ màn thì chưa tải gì cả, tránh tải nhầm bản nặng
   if (dien === null) return <div className="absolute inset-0 -z-20 bg-[var(--nb-navy-900)]" aria-hidden="true" />;
 
-  const ten = dien ? "hero-mobile" : "hero-desktop";
+  const ten = dien ? "hero-ai-mobile" : "hero-ai-desktop";
   const poster = `/assets/home/video/${ten}-poster.jpg`;
   // Điện thoại chỉ dùng ảnh tĩnh khi nhân viên CHỦ ĐỘNG chọn một tấm trong
   // trang quản trị; chưa chọn thì giữ video.

@@ -9,7 +9,7 @@ import { congNghe } from "@/lib/i18n/dict/cong-nghe";
 import { donHang } from "@/lib/i18n/dict/don-hang";
 import { NavLink } from "@/components/layout/NavLink";
 
-const bienChuot = ["--rx", "--ry", "--mx", "--my"];
+const bienChuot = ["--rx", "--ry", "--mx", "--my", "--nb-phan-xa-x", "--nb-phan-xa-y"];
 
 /**
  * Phần tử đã được React nhận (hydrate) chưa. Trang có khối Suspense (vd
@@ -49,7 +49,7 @@ export function HieuUngThamChieu() {
       let khung = 0;
       const quanSat = window.IntersectionObserver ? new IntersectionObserver((muc) => {
         muc.forEach((e) => {
-          const doHoa = e.target.matches("[data-tech-reveal],.nb-don-anh,.nb-bai-anh,.nb-anh-quet");
+          const doHoa = e.target.matches("[data-tech-reveal],.nb-gd5-motion,.nb-don-anh,.nb-bai-anh,.nb-anh-quet");
           if (doHoa) (e.target as HTMLElement).style.setProperty("--nb-tech-play", e.isIntersecting ? "running" : "paused");
           if (!e.isIntersecting) return;
           if (e.target.matches("[data-mask-title]")) {
@@ -69,7 +69,7 @@ export function HieuUngThamChieu() {
         cuon();
         if (giam.matches || !quanSat) return;
         for (const vung of [phamVi, chanTrang]) {
-          vung?.querySelectorAll<HTMLElement>("[data-reveal],[data-mask-title],[data-grid-scan],[data-tech-reveal],.nb-don-anh,.nb-bai-anh,.nb-anh-quet").forEach((el) => {
+          vung?.querySelectorAll<HTMLElement>("[data-reveal],[data-mask-title],[data-grid-scan],[data-tech-reveal],.nb-gd5-motion,.nb-don-anh,.nb-bai-anh,.nb-anh-quet").forEach((el) => {
             if (daGan.has(el) || !daHydrate(el)) return;
             daGan.add(el);
             // Thẻ đã hiện cả khối thì chữ/ảnh bên trong không cần chạy chồng lần nữa.
@@ -108,6 +108,13 @@ export function HieuUngThamChieu() {
             el.style.setProperty("--ry", `${x * 5}deg`);
             el.style.setProperty("--mx", `${x * 5}px`);
             el.style.setProperty("--my", `${y * 5}px`);
+            if (el.matches(".nb-don-tech")) {
+              const a = el.querySelector(".nb-don-anh")?.getBoundingClientRect();
+              if (a?.width && a.height) {
+                el.style.setProperty("--nb-phan-xa-x", `${100 * (e.clientX - a.left) / a.width}%`);
+                el.style.setProperty("--nb-phan-xa-y", `${100 * (e.clientY - a.top) / a.height}%`);
+              }
+            }
             daNghieng.add(el);
           }
           el = el.parentElement?.closest<HTMLElement>("[data-tilt],[data-magnetic]") ?? null;
