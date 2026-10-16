@@ -1,3 +1,4 @@
+import { ThuocToaDo } from "@/components/tech/ThuocToaDo";
 import { TextMask } from "@/components/ui/TextMask";
 import { KhungHud } from "@/components/tech/KhungHud";
 import { TheDuLieu } from "@/components/tech/TheDuLieu";
@@ -259,7 +260,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       </div>
 
       {lienQuan.length > 0 && (
-        <section className="border-t border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] py-11 sm:py-16 lg:border-[var(--s-line-warm)] lg:bg-[var(--s-alt)] lg:py-20">
+        <section className="border-t border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] py-11 sm:py-16 lg:border-[var(--s-line-warm)] lg:bg-[var(--s-alt)] lg:py-20"><ThuocToaDo />
           <div className="nb-wrap">
             <h2 data-reveal className="nb-display text-[22px] text-[var(--nb-heading)] sm:text-[26px] lg:text-[32px] lg:text-[var(--s-ink)]"><TextMask>{tx.ct.cungNganh}</TextMask></h2>
             <ul className="mt-6 grid gap-5 sm:mt-7 sm:gap-6 md:grid-cols-2 xl:grid-cols-3 lg:hidden">
@@ -285,7 +286,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
 function Khoi({ tieuDe, children }: { tieuDe: string; children: React.ReactNode }) {
   return (
-    <section className="mt-9 sm:mt-10 lg:mt-12">
+    <section className="mt-9 sm:mt-10 lg:mt-12"><ThuocToaDo />
       <h2 data-reveal className="nb-display text-[19px] text-[var(--nb-heading)] sm:text-[21px] lg:text-[24px] lg:text-[var(--s-ink)]"><TextMask>{tieuDe}</TextMask></h2>
       <span className="mt-3 mb-5 block h-px w-16 bg-[var(--nb-gold)] lg:h-[2px] lg:w-12 lg:bg-[var(--s-gold-brand)]" aria-hidden="true" />
       {children}

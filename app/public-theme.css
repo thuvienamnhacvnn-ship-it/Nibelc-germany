@@ -22,12 +22,12 @@ html[data-public] {
 }
 html[data-public][data-theme="ngay"] {
   color-scheme: light;
-  --nb-bg: #f5f1e8; --nb-surface: #ffffff; --nb-raised: #e9e5dc;
-  --nb-heading: #071525; --nb-text: #14263b; --nb-text-dim: #3d4b5c; --nb-text-mute: #536173;
-  --nb-accent-text: #70501d; --nb-border: rgba(7,21,37,.25); --nb-border-soft: rgba(7,21,37,.16);
-  --nb-grid: rgba(7,21,37,.08); --nb-grid-active: rgba(7,21,37,.14);
-  --nb-navy-900-rgb: 245 241 232; --nb-navy-600: #dce1e6; --nb-navy-500: #c8d0da;
-  --nb-mask: #f5f1e8; --nb-error: #ac271b;
+  --nb-bg: #eef2f7; --nb-surface: #ffffff; --nb-raised: #f6f8fb;
+  --nb-heading: #0a1f44; --nb-text: #0a1f44; --nb-text-dim: #44526b; --nb-text-mute: #44526b;
+  --nb-accent-text: #173f72; --nb-border: rgba(10,31,68,.28); --nb-border-soft: rgba(10,31,68,.12);
+  --nb-grid: rgba(10,31,68,.08); --nb-grid-active: rgba(10,31,68,.16);
+  --nb-navy-900-rgb: 238 242 247; --nb-navy-600: #dce5f0; --nb-navy-500: #c8d6e8;
+  --nb-mask: #eef2f7; --nb-error: #ac271b;
 }
 
 html[data-public] [data-theme-island="dark"] {
@@ -91,12 +91,12 @@ html[data-public][data-theme="ngay"] { --nb-error: #ac271b; }
 
 @media (prefers-color-scheme: light) { html[data-public]:not([data-theme]) {
   color-scheme: light;
-  --nb-bg: #f5f1e8; --nb-surface: #ffffff; --nb-raised: #e9e5dc;
-  --nb-heading: #071525; --nb-text: #14263b; --nb-text-dim: #3d4b5c; --nb-text-mute: #536173;
-  --nb-accent-text: #70501d; --nb-border: rgba(7,21,37,.25); --nb-border-soft: rgba(7,21,37,.16);
-  --nb-grid: rgba(7,21,37,.08); --nb-grid-active: rgba(7,21,37,.14);
-  --nb-navy-900-rgb: 245 241 232; --nb-navy-600: #dce1e6; --nb-navy-500: #c8d0da;
-  --nb-mask: #f5f1e8;
+  --nb-bg: #eef2f7; --nb-surface: #ffffff; --nb-raised: #f6f8fb;
+  --nb-heading: #0a1f44; --nb-text: #0a1f44; --nb-text-dim: #44526b; --nb-text-mute: #44526b;
+  --nb-accent-text: #173f72; --nb-border: rgba(10,31,68,.28); --nb-border-soft: rgba(10,31,68,.12);
+  --nb-grid: rgba(10,31,68,.08); --nb-grid-active: rgba(10,31,68,.16);
+  --nb-navy-900-rgb: 238 242 247; --nb-navy-600: #dce5f0; --nb-navy-500: #c8d6e8;
+  --nb-mask: #eef2f7;
 } }
 
 @media (max-width: 1023px) {

@@ -1,4 +1,7 @@
 "use client";
+import { DoHoaCongNghe } from "@/components/tech/DoHoaCongNghe";
+import { MachDien } from "@/components/tech/MachDien";
+import { ThuocToaDo } from "@/components/tech/ThuocToaDo";
 import { TextMask } from "@/components/ui/TextMask";
 
 
@@ -21,8 +24,10 @@ export function CtaCuoiTrang() {
   const tx = useT(home).cta;
   const tel = LEGAL.phone.replace(/\s/g, "");
   return (
-    <section className="nb-toi hidden border-b border-[var(--nb-line-soft)] lg:block">
-      <div className="nb-wrap flex items-center justify-between gap-10 py-16">
+    <section data-theme-island="dark" className="nb-toi hidden border-b border-[var(--nb-line-soft)] lg:block">
+      <MachDien />
+      <DoHoaCongNghe loai="net" /><ThuocToaDo />
+      <div className="nb-net-noi-dung nb-wrap flex items-center justify-between gap-10 py-16">
         <div className="max-w-[640px]">
           <p data-reveal className="nb-eyebrow"><TechText>{tx.nhan}</TechText></p>
           <h2 data-reveal className="nb-display mt-3 text-[32px] leading-tight text-[var(--nb-heading)]"><TextMask>{tx.tieuDe}</TextMask></h2>

@@ -1,3 +1,5 @@
+import { DoHoaCongNghe } from "@/components/tech/DoHoaCongNghe";
+import { MachDien } from "@/components/tech/MachDien";
 import { WebsiteNetworkFooter } from "./WebsiteNetwork";
 import { LuoiKyThuat } from "@/components/tech/LuoiKyThuat";
 import { DuongBay } from "@/components/tech/DuongBay";
@@ -46,8 +48,8 @@ export async function Footer() {
     /* Nền chân trang ở điện thoại lấy ĐÚNG nền trang: dải chừa chỗ cho menu
        đáy phía dưới mang màu nền trang, để chân trang sáng hơn một bậc thì
        mép dưới thành một bậc thang thừa. Desktop giữ bậc #123d78 như cũ. */
-    <footer className="border-t border-[var(--nb-line-soft)] bg-[var(--nb-navy-900)] lg:bg-[var(--nb-navy-800)]">
-      <LuoiKyThuat className="nb-footer-luoi">
+    <footer data-theme-island="dark" className="border-t border-[var(--nb-line-soft)] bg-[var(--nb-navy-900)] lg:bg-[var(--nb-navy-800)]">
+      <LuoiKyThuat className="nb-footer-luoi"><DoHoaCongNghe loai="net" />
       <div className="nb-wrap max-w-lg"><DuongBay /></div>
       <div className="nb-wrap grid gap-x-10 gap-y-5 py-6 md:grid-cols-2 lg:gap-y-9 lg:py-14 xl:grid-cols-[1.6fr_1fr_1fr_1.3fr]">
         {/* ---------- 1. Thương hiệu ---------- */}
@@ -207,7 +209,7 @@ export async function Footer() {
       </div>
 
       <WebsiteNetworkFooter lang={lang} />
-      <div className="nb-gold-rule opacity-40" aria-hidden="true" />
+      <MachDien />
 
       {/* Impressum và Datenschutz là trang pháp lý bắt buộc ở Đức, lại nằm
           cạnh nhau — chỉ cao 20px thì ngón tay bấm sang cái bên cạnh. Nới sàn

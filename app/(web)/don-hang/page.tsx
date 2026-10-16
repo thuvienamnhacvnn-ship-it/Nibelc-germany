@@ -1,3 +1,4 @@
+import { BangTinDon } from "@/components/tech/BangTinDon";
 import { congNghe } from "@/lib/i18n/dict/cong-nghe";
 import { Suspense } from "react";
 import type { Metadata } from "next";
@@ -59,6 +60,7 @@ export default async function Page() {
         loiTat={loiTat(lang, banGoc)}
         chuaThanhTim
       />
+      <BangTinDon ds={ban} lang={lang} />
       <Suspense fallback={<div className="nb-wrap py-20 text-[var(--nb-text-dim)]">{tx.dangTaiLoc}</div>}>
         <JobMarketplace jobs={jobs} />
       </Suspense>

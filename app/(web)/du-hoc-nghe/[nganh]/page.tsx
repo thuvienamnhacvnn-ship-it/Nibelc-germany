@@ -1,3 +1,4 @@
+import { ThuocToaDo } from "@/components/tech/ThuocToaDo";
 import { TextMask } from "@/components/ui/TextMask";
 import { DuongBay } from "@/components/tech/DuongBay";
 import { congNghe } from "@/lib/i18n/dict/cong-nghe";
@@ -78,7 +79,7 @@ export default async function Page({ params }: { params: Promise<{ nganh: string
 
       {/* Thân trang SÁNG ở máy tính (app/trang-sang.css); điện thoại giữ nền cũ. */}
       <div className="nb-sang">
-        <section className="nb-wrap py-10 sm:py-14 lg:py-20">
+        <section className="nb-wrap py-10 sm:py-14 lg:py-20"><ThuocToaDo />
           <p data-reveal className="text-[14px] text-[var(--nb-text-mute)] italic">
             {tx.tenHeThong} <span lang={lang === "de" ? undefined : "de"}>{n.tenDuc}</span>
           </p>
@@ -149,7 +150,7 @@ export default async function Page({ params }: { params: Promise<{ nganh: string
           </div>
         </section>
 
-        <section className="border-t border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] py-11 sm:py-14 lg:py-20">
+        <section className="border-t border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] py-11 sm:py-14 lg:py-20"><ThuocToaDo />
           <div className="nb-wrap">
             <h2 data-reveal className="nb-display text-[21px] text-[var(--nb-heading)] sm:text-[24px] lg:text-[32px]"><TextMask>{tx.nganhKhac}</TextMask></h2>
             <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:mt-8 lg:gap-6 xl:grid-cols-4">

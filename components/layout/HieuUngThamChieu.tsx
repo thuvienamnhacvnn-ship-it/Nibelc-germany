@@ -49,6 +49,8 @@ export function HieuUngThamChieu() {
       let khung = 0;
       const quanSat = window.IntersectionObserver ? new IntersectionObserver((muc) => {
         muc.forEach((e) => {
+          const doHoa = e.target.matches("[data-tech-reveal],.nb-don-anh,.nb-bai-anh,.nb-anh-quet");
+          if (doHoa) (e.target as HTMLElement).style.setProperty("--nb-tech-play", e.isIntersecting ? "running" : "paused");
           if (!e.isIntersecting) return;
           if (e.target.matches("[data-mask-title]")) {
             const dong = new Map<number,number>();
@@ -59,7 +61,7 @@ export function HieuUngThamChieu() {
             });
           }
           e.target.classList.add("revealed");
-          quanSat?.unobserve(e.target);
+          if (!doHoa) quanSat?.unobserve(e.target);
         });
       }, { threshold: 0.08 }) : null;
 
@@ -67,11 +69,11 @@ export function HieuUngThamChieu() {
         cuon();
         if (giam.matches || !quanSat) return;
         for (const vung of [phamVi, chanTrang]) {
-          vung?.querySelectorAll<HTMLElement>("[data-reveal],[data-mask-title],[data-grid-scan]").forEach((el) => {
+          vung?.querySelectorAll<HTMLElement>("[data-reveal],[data-mask-title],[data-grid-scan],[data-tech-reveal],.nb-don-anh,.nb-bai-anh,.nb-anh-quet").forEach((el) => {
             if (daGan.has(el) || !daHydrate(el)) return;
             daGan.add(el);
             // Thẻ đã hiện cả khối thì chữ/ảnh bên trong không cần chạy chồng lần nữa.
-            if (el.matches("[data-reveal]") && el.parentElement?.closest("[data-reveal]")) return;
+            if (el.matches("[data-reveal]") && !el.matches(".nb-don-anh,.nb-bai-anh,.nb-anh-quet") && el.parentElement?.closest("[data-reveal]")) return;
             // So le theo vị trí thẻ, chặn ở 280ms để danh sách dài không phải đợi.
             const the = el.closest("li") ?? el;
             const nhom = the.parentElement;
@@ -118,6 +120,7 @@ export function HieuUngThamChieu() {
         }
       }
       function traHet() { daNghieng.forEach(traLai); if (nhanChuot.current) nhanChuot.current.hidden = true; }
+      function hienTab() { goc.classList.toggle("nb-tab-hidden", document.hidden); }
       function cuon() {
         if (khung) return;
         khung = requestAnimationFrame(() => {
@@ -164,6 +167,8 @@ export function HieuUngThamChieu() {
       window.addEventListener("scroll", cuon, { passive: true });
       window.addEventListener("resize", cuon);
       window.addEventListener("blur", traHet);
+      document.addEventListener("visibilitychange", hienTab);
+      hienTab();
       chuot.addEventListener("change", traHet);
       cuon();
       donDep = () => {
@@ -176,6 +181,8 @@ export function HieuUngThamChieu() {
         window.removeEventListener("scroll", cuon);
         window.removeEventListener("resize", cuon);
         window.removeEventListener("blur", traHet);
+        document.removeEventListener("visibilitychange", hienTab);
+        goc.classList.remove("nb-tab-hidden");
         chuot.removeEventListener("change", traHet);
         cancelAnimationFrame(khung);
         traHet();

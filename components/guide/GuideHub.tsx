@@ -1,4 +1,5 @@
 "use client";
+import { ThuocToaDo } from "@/components/tech/ThuocToaDo";
 
 import "@/components/tech/cong-nghe.css";
 import Image from "next/image";
@@ -57,7 +58,7 @@ export function GuideHub({ bai: CAM_NANG }: { bai: BaiHub[] }) {
   const docNhieu = CAM_NANG.slice(0, 5);
 
   return (
-    <div className="nb-chi-muc nb-wrap grid grid-cols-[minmax(0,1fr)] gap-7 py-10 sm:gap-8 sm:py-14 lg:grid-cols-[236px_minmax(0,1fr)_280px] lg:py-20">
+    <div className="nb-chi-muc nb-wrap grid grid-cols-[minmax(0,1fr)] gap-7 py-10 sm:gap-8 sm:py-14 lg:grid-cols-[236px_minmax(0,1fr)_280px] lg:py-20"><ThuocToaDo />
       {/* ---------- CHUYÊN MỤC ---------- */}
       {/* min-w-0 là BẮT BUỘC: ô của lưới mặc định min-width:auto, nên bề rộng
           max-content của hàng chip kéo ngang (11 chip whitespace-nowrap, ~1500px)

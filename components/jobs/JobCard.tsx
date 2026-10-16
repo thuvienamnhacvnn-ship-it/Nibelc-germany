@@ -37,10 +37,10 @@ export function JobCard({ job, lon = false }: { job: JobFull; lon?: boolean }) {
   return (
     <NavLink data-reveal data-tilt
       href={`/don-hang/${job.slug}`}
-      className="nb-card group flex h-full flex-col overflow-hidden"
+      className="nb-card nb-the-quet group flex h-full flex-col overflow-hidden"
       aria-label={tx.tai(job.title, job.city)}
     >
-      <span data-reveal className={`relative block overflow-hidden ${lon ? "aspect-[21/9]" : "aspect-video"}`}>
+      <span data-reveal className={`nb-anh-quet relative block overflow-hidden ${lon ? "aspect-[21/9]" : "aspect-video"}`}>
         <Image
           src={job.image}
           alt=""

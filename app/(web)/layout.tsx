@@ -1,3 +1,4 @@
+import "@/components/tech/blueprint.css";
 import { BangLenh, type MucTim } from "@/components/layout/BangLenh";
 import { layDonHang } from "@/data/nguon";
 import { layBaiViet } from "@/data/nguon-bai-viet";

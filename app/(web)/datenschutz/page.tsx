@@ -1,3 +1,4 @@
+import { ThuocToaDo } from "@/components/tech/ThuocToaDo";
 import { TextMask } from "@/components/ui/TextMask";
 import { congNghe } from "@/lib/i18n/dict/cong-nghe";
 import type { Metadata } from "next";
@@ -29,7 +30,7 @@ export default async function Page() {
       <div className="nb-sang">
         {/* Máy tính: cùng mép trái với banner (khung .nb-wrap 1400/32, >1440 là 1600/40)
             thay vì một cột 820px căn giữa lệch khỏi chữ banner; dòng chữ vẫn giới hạn 820px. */}
-        <section className="mx-auto max-w-[820px] px-8 py-14 lg:max-w-[1400px] lg:py-20 lg:[&>*]:max-w-[820px] min-[1441px]:max-w-[1600px] min-[1441px]:px-10">
+        <section className="mx-auto max-w-[820px] px-8 py-14 lg:max-w-[1400px] lg:py-20 lg:[&>*]:max-w-[820px] min-[1441px]:max-w-[1600px] min-[1441px]:px-10"><ThuocToaDo />
           {tx.ghiChu && (
             <p data-reveal className="mb-9 rounded-[12px] border border-[var(--nb-line)] px-4 py-3 text-[14.5px] leading-[1.7] text-[var(--nb-text-dim)]">
               {tx.ghiChu.mo}{" "}
@@ -45,7 +46,7 @@ export default async function Page() {
             </p>
           )}
           {tx.muc.map((m, i) => (
-            <section key={m.h} className={i > 0 ? "mt-9" : ""}>
+            <section key={m.h} className={i > 0 ? "mt-9" : ""}><ThuocToaDo />
               <h2 data-reveal className="nb-display text-[21px] text-[var(--nb-heading)]"><TextMask>{m.h}</TextMask></h2>
               <span className="mt-3 mb-4 block h-px w-14 bg-[var(--nb-gold)]" aria-hidden="true" />
               {m.p.map((p) => (

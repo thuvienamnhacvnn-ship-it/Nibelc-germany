@@ -1,3 +1,4 @@
+import { ThuocToaDo } from "@/components/tech/ThuocToaDo";
 import { TextMask } from "@/components/ui/TextMask";
 import { congNghe } from "@/lib/i18n/dict/cong-nghe";
 import type { Metadata } from "next";
@@ -80,7 +81,7 @@ export default async function Page({ params }: { params: Promise<{ bai: string }
             )}
 
             {b.khoi.map((k, i) => (
-              <section key={k.tieuDe} id={`muc-${i + 1}`} className="mt-11 scroll-mt-24 lg:mt-14">
+              <section key={k.tieuDe} id={`muc-${i + 1}`} className="mt-11 scroll-mt-24 lg:mt-14"><ThuocToaDo />
                 <h2 data-reveal className="nb-display text-[20px] leading-snug text-[var(--nb-heading)] sm:text-[23px] lg:text-[26px]"><TextMask>{k.tieuDe}</TextMask></h2>
                 <span className="mt-3 mb-5 block h-px w-14 bg-[var(--nb-gold)]" aria-hidden="true" />
 

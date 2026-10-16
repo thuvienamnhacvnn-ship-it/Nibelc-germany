@@ -1,4 +1,5 @@
 "use client";
+import { ThuocToaDo } from "@/components/tech/ThuocToaDo";
 import { TextMask } from "@/components/ui/TextMask";
 
 
@@ -328,7 +329,7 @@ export function JobMarketplace({ jobs }: { jobs: JobSan[] }) {
           trùng chức năng với bảy nhóm lọc ngay bên dưới — hai bộ lọc chồng
           nhau. Bản điện thoại thay bằng một hàng: ô tìm chữ + nút mở tấm
           trượt. */}
-      <div className="nb-wrap relative z-20 -mt-10 hidden pb-2 lg:block">
+      <div className="nb-wrap nb-bo-loc-khung relative z-20 hidden lg:block"><ThuocToaDo />
         <p className="nb-ma nb-dieu-khien-ma">{congNghe[lang].loc}</p>
         <SearchCommandBar gt={lenh} dat={datLenh} onTim={() => setHien(9)} thanhPho={DS_THANH_PHO} />
       </div>

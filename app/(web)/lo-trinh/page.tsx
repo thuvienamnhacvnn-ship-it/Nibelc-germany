@@ -1,3 +1,7 @@
+import { DoHoaCongNghe } from "@/components/tech/DoHoaCongNghe";
+import { ThuocToaDo } from "@/components/tech/ThuocToaDo";
+import { MachDien } from "@/components/tech/MachDien";
+import { doHoa } from "@/lib/i18n/dict/do-hoa";
 import { congNghe } from "@/lib/i18n/dict/cong-nghe";
 import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
@@ -37,7 +41,9 @@ export default async function Page() {
 
       {/* Thân trang SÁNG ở máy tính (app/trang-sang.css); điện thoại giữ nền cũ. */}
       <div className="nb-sang">
-        <section className="nb-wrap py-10 sm:py-14 lg:py-20">
+        <section data-theme-island="dark" className="relative"><div className="nb-wrap nb-quy-dao"><ThuocToaDo /><DoHoaCongNghe loai="cau" /><div><p className="nb-ma">VN → DE / NIBELC</p><h2 className="nb-display mt-4 text-3xl">{doHoa[lang].tuyen}</h2><p className="nb-quy-dao-dia-diem">{doHoa[lang].toaDo}</p></div></div></section>
+        <MachDien />
+        <section className="nb-wrap py-10 sm:py-14 lg:py-20"><ThuocToaDo />
           {/* 9 chặng đã dịch theo ngôn ngữ (data/i18n/journey.ts) — dựng ở server,
               truyền xuống để client không phải mang cả 3 bản dữ liệu */}
           <JourneyTimeline chang={getChang(lang)} />

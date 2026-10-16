@@ -65,7 +65,7 @@ export function Header() {
         >
           {/* Sếp 08/10: logo 3D động thay logo cũ ở mọi trang. Hộp 164px →
               cao 52px, phần hình ~42px, lọt trong header 72px. */}
-          <LogoDong ban="nho" className="w-[128px] xl:w-[164px]" />
+          <span className="nb-logo-chip"><LogoDong ban="nho" className="w-[128px] xl:w-[164px]" /></span>
         </NavLink>
 
         <nav aria-label={tx.menuChinh} className="hidden min-w-0 flex-1 items-center justify-center gap-0 lg:flex xl:gap-1">

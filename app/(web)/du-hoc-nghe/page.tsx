@@ -1,3 +1,4 @@
+import { ThuocToaDo } from "@/components/tech/ThuocToaDo";
 import { TextMask } from "@/components/ui/TextMask";
 import { VienChay } from "@/components/tech/VienChay";
 import { DuongBay } from "@/components/tech/DuongBay";
@@ -83,7 +84,7 @@ export default async function Page() {
       {/* Thân trang SÁNG ở máy tính (app/trang-sang.css); điện thoại giữ nền cũ. */}
       <div className="nb-sang">
         {/* ---------- EXPLORER NGÀNH ---------- */}
-        <section id="nganh-nghe" className="nb-wrap py-11 sm:py-16 lg:py-20">
+        <section id="nganh-nghe" className="nb-wrap py-11 sm:py-16 lg:py-20"><ThuocToaDo />
           <h2 data-reveal className="nb-display text-[24px] text-[var(--nb-heading)] sm:text-[30px] lg:text-[32px]"><TextMask>{tx.nganh.tieuDe}</TextMask></h2>
           <p data-reveal className="mt-3 max-w-[70ch] text-[14.5px] leading-[1.7] text-[var(--nb-text-dim)] sm:text-[15px]">
             {tx.nganh.ghiChu}
@@ -141,7 +142,7 @@ export default async function Page() {
         </section>
 
         {/* ---------- BỐN BƯỚC ---------- */}
-        <section className="border-y border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] py-11 sm:py-16 lg:py-20">
+        <section className="border-y border-[var(--nb-line-soft)] bg-[var(--nb-navy-800)] py-11 sm:py-16 lg:py-20"><ThuocToaDo />
           <div className="nb-wrap">
             <h2 data-reveal className="nb-display text-[24px] text-[var(--nb-heading)] sm:text-[30px] lg:text-[32px]"><TextMask>{tx.buoc.tieuDe}</TextMask></h2>
             <div className="nb-dao-tao-mach mt-7 sm:mt-9">
@@ -161,7 +162,7 @@ export default async function Page() {
         </section>
 
         {/* ---------- KHỐI SPLIT ---------- */}
-        <section className="nb-wrap grid items-center gap-8 py-11 sm:gap-10 sm:py-16 lg:grid-cols-2 lg:gap-14 lg:py-20">
+        <section className="nb-wrap grid items-center gap-8 py-11 sm:gap-10 sm:py-16 lg:grid-cols-2 lg:gap-14 lg:py-20"><ThuocToaDo />
           <span data-reveal className="relative block aspect-[4/3] overflow-hidden rounded-[16px] border border-[var(--nb-line-soft)]">
             <Image
               src="/assets/jobs/mechanik/03-portrait-team-3x4.jpg"

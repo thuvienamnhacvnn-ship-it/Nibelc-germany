@@ -1,3 +1,4 @@
+import { ThuocToaDo } from "@/components/tech/ThuocToaDo";
 import { KhungHud } from "@/components/tech/KhungHud";
 import { congNghe } from "@/lib/i18n/dict/cong-nghe";
 import type { Metadata } from "next";
@@ -44,7 +45,7 @@ export default async function Page() {
       {/* Thân trang SÁNG ở máy tính (app/trang-sang.css); điện thoại giữ nền cũ. */}
       <div className="nb-sang">
         {/* Máy tính: dải đầu sau banner nền TRẮNG như mọi trang con (thẻ có viền + bóng) */}
-        <section className="py-10 sm:py-14 lg:bg-[var(--s-page)] lg:py-20">
+        <section className="py-10 sm:py-14 lg:bg-[var(--s-page)] lg:py-20"><ThuocToaDo />
           <div className="nb-wrap">
             {/* lg:items-start: cột form không bị kéo cao bằng cột phải nữa — trước
                 đây khung form trống ~400px ở đáy. */}

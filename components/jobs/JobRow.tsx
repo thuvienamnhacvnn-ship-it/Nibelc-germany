@@ -21,12 +21,12 @@ export function JobRow({ job }: { job: JobFull }) {
   return (
     <VienChay className="h-full"><NavLink data-reveal data-tilt
       href={`/don-hang/${job.slug}`}
-      className="nb-card group flex flex-col gap-4 overflow-hidden p-4 sm:flex-row sm:gap-5"
+      className="nb-card nb-the-quet group flex flex-col gap-4 overflow-hidden p-4 sm:flex-row sm:gap-5"
       aria-label={tx.tai(job.title, job.city)}
     >
       {/* Ảnh cố định 196px cộng cột giá bên phải làm hàng rộng hơn cả màn hình
           điện thoại. Dưới sm thì xếp dọc: ảnh trải hết chiều ngang. */}
-      <span data-reveal className="relative block h-[168px] w-full shrink-0 overflow-hidden rounded-[10px] sm:h-[128px] sm:w-[196px]">
+      <span data-reveal className="nb-anh-quet relative block h-[168px] w-full shrink-0 overflow-hidden rounded-[10px] sm:h-[128px] sm:w-[196px]">
         <Image
           src={job.image}
           alt=""
