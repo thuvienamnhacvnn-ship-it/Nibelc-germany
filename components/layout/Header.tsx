@@ -10,7 +10,6 @@ import { useChuyenTrang } from "@/components/layout/PageTransition";
 import { ChonNgonNgu } from "@/components/layout/ChonNgonNgu";
 import { useDuongDan, useLang, useLh, useT } from "@/lib/i18n/client";
 import { common } from "@/lib/i18n/dict/common";
-import { WebsiteNetworkMenu } from "./WebsiteNetworkMenu";
 
 /**
  * HEADER TOÀN CỤC
@@ -117,10 +116,6 @@ export function Header() {
             </NavLink>
           </span>
         </div>
-      </div>
-
-      <div className="pointer-events-none absolute inset-x-0 top-full z-[70]">
-        <div className="nb-wrap flex justify-end"><WebsiteNetworkMenu /></div>
       </div>
 
       {/* Hộp tìm kiếm kéo xuống từ header */}
