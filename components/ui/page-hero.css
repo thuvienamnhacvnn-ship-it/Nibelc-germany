@@ -51,7 +51,9 @@
 @media (min-width: 1024px) {
   .nb-hero-khung {
     min-height: var(--hero-cao);
-    perspective: 1100px;
+    /* KHÔNG đặt perspective ở đây nữa: tấm đã có perspective(900px) trong
+       transform. Hai lớp phối cảnh chồng nhau phóng chữ to ra ~7% làm chữ
+       tràn sát/qua mép kính (Sếp báo 16/10). */
   }
   .nb-hero-tam {
     position: relative;
@@ -151,7 +153,9 @@
   /* --- chữ nhô lên khỏi mặt kính --- */
   .nb-kinh-noi {
     position: relative;
-    transform: translateZ(34px);
+    /* Nhô nhẹ 12px: đủ thấy chữ trôi trên mặt kính khi nghiêng, mà chỉ phóng
+       ~1,3% (34px cũ + phối cảnh chồng = ~7%, chữ ăn hết lề trong của tấm). */
+    transform: translateZ(12px);
   }
   .nb-kinh-noi h1 {
     text-shadow:

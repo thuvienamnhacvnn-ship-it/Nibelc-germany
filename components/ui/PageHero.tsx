@@ -96,7 +96,7 @@ export function PageHero({
       <div
         className={`nb-wrap nb-hero-khung nb-hero-con-chu py-7 sm:py-9 lg:flex lg:items-center lg:pt-8 ${chuaThanhTim ? "lg:pb-16" : "lg:pb-8"}`}
       >
-        <TamKinh className="lg:px-8 lg:py-6">
+        <TamKinh className="lg:px-9 lg:py-7">
           <p data-reveal className="nb-eyebrow"><TechText>{nhan}</TechText></p>
           {/* Trên điện thoại clamp() rơi về 30px cho MỌI tiêu đề, kể cả câu dài
               như "Du học nghề Đức – Học nghề – Có lương…", nên chữ tràn ra 4–5

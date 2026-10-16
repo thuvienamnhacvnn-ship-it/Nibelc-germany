@@ -10,6 +10,7 @@ import { useChuyenTrang } from "@/components/layout/PageTransition";
 import { ChonNgonNgu } from "@/components/layout/ChonNgonNgu";
 import { useDuongDan, useLang, useLh, useT } from "@/lib/i18n/client";
 import { common } from "@/lib/i18n/dict/common";
+import { WebsiteNetworkMenu } from "./WebsiteNetworkMenu";
 
 /**
  * HEADER TOÀN CỤC
@@ -55,7 +56,7 @@ export function Header() {
     >
       {/* Trên điện thoại: logo đứng GIỮA, nút chức năng dạt sang phải. Dùng
           một ô trống cùng bề ngang bên trái để logo cân đúng tâm màn hình. */}
-      <div className="nb-wrap flex h-full items-center gap-8">
+      <div className="nb-wrap flex h-full items-center gap-4 xl:gap-8">
         <span className="h-9 w-9 shrink-0 lg:hidden" aria-hidden="true" />
         <NavLink
           href="/"
@@ -64,10 +65,10 @@ export function Header() {
         >
           {/* Sếp 08/10: logo 3D động thay logo cũ ở mọi trang. Hộp 164px →
               cao 52px, phần hình ~42px, lọt trong header 72px. */}
-          <LogoDong ban="nho" className="w-[164px]" />
+          <LogoDong ban="nho" className="w-[128px] xl:w-[164px]" />
         </NavLink>
 
-        <nav aria-label={tx.menuChinh} className="hidden min-w-0 flex-1 items-center justify-center gap-1 lg:flex">
+        <nav aria-label={tx.menuChinh} className="hidden min-w-0 flex-1 items-center justify-center gap-0 lg:flex xl:gap-1">
           {NAV.map((m) => {
             const on = dangMo(m.href);
             return (
@@ -75,7 +76,7 @@ export function Header() {
                 key={m.href}
                 href={m.href}
                 aria-current={on ? "page" : undefined}
-                className={`relative px-3.5 py-2 text-[14.5px] font-medium whitespace-nowrap transition-colors ${
+                className={`relative px-2 py-2 text-[13.5px] font-medium xl:px-3 xl:text-[14.5px] 2xl:px-3.5 whitespace-nowrap transition-colors ${
                   on ? "text-[var(--nb-gold-soft)]" : "text-[var(--nb-text-dim)] hover:text-white"
                 }`}
               >
@@ -116,6 +117,10 @@ export function Header() {
             </NavLink>
           </span>
         </div>
+      </div>
+
+      <div className="pointer-events-none absolute inset-x-0 top-full z-[70]">
+        <div className="nb-wrap flex justify-end"><WebsiteNetworkMenu /></div>
       </div>
 
       {/* Hộp tìm kiếm kéo xuống từ header */}
