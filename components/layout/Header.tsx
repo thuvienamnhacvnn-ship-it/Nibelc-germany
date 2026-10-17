@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { LogoDong } from "@/components/home/LogoDong";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Headphones, Search } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
 import { NAV } from "@/data/nav";
@@ -11,6 +11,7 @@ import { WebsiteNetworkMenu } from "./WebsiteNetworkMenu";
 import { ChonNgonNgu } from "@/components/layout/ChonNgonNgu";
 import { useDuongDan, useLang, useT } from "@/lib/i18n/client";
 import { common } from "@/lib/i18n/dict/common";
+import "./menu-ui.css";
 
 /**
  * HEADER TOÀN CỤC
@@ -25,6 +26,10 @@ export function Header() {
   const lang = useLang();
   const tx = useT(common);
   const [daCuon, setDaCuon] = useState(false);
+  const [hovered, setHovered] = useState<string | null>(null);
+  const [focused, setFocused] = useState<string | null>(null);
+  const reduced = useReducedMotion();
+  const spring = reduced ? { duration: 0 } : { type: "spring" as const, stiffness: 420, damping: 38 };
 
 
   useEffect(() => {
@@ -40,7 +45,8 @@ export function Header() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+      data-scrolled={daCuon}
+      className={`nb-desktop-menu fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
         // Điện thoại bỏ header ở MỌI trang, kể cả trang chủ: logo đã nằm
         // trong banner, điều hướng dồn vào menu đáy. Cuộn xuống là không còn
         // nền lẫn logo nào bám trên đỉnh màn hình.
@@ -68,35 +74,38 @@ export function Header() {
           <span className="nb-logo-chip"><LogoDong ban="nho" className="w-[128px] xl:w-[164px]" /></span>
         </NavLink>
 
-        <nav aria-label={tx.menuChinh} className="hidden min-w-0 flex-1 items-center justify-center gap-0 lg:flex xl:gap-1">
+        <nav aria-label={tx.menuChinh} className="nb-desktop-nav hidden min-w-0 flex-1 items-center justify-center gap-0 lg:flex xl:gap-1" onPointerLeave={() => setHovered(null)} onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setFocused(null); }}>
           {NAV.map((m) => {
             const on = dangMo(m.href);
             return (
+              <span key={m.href} className="nb-nav-item" onPointerEnter={(e) => { if (e.pointerType === "mouse") setHovered(m.href); }} onFocus={() => { setHovered(null); setFocused(m.href); }}>
               <NavLink
-                key={m.href}
                 href={m.href}
                 aria-current={on ? "page" : undefined}
                 className={`relative px-2 py-2 text-[13.5px] font-medium xl:px-3 xl:text-[14.5px] 2xl:px-3.5 whitespace-nowrap transition-colors ${
                   on ? "text-[var(--nb-accent-text)]" : "text-[var(--nb-text-dim)] hover:text-[var(--nb-heading)]"
                 }`}
               >
-                {m.label[lang]}
+                {(hovered ?? focused) === m.href && <motion.span aria-hidden="true" layoutId="nav-hover-pill" className="nb-nav-pill" initial={false} transition={spring} />}
+                <span className="nb-nav-roll">
+                  <span>{m.label[lang]}</span>
+                  <span aria-hidden="true">{m.label[lang]}</span>
+                </span>
                 {on && (
                   <motion.span
                     layoutId="nav-gach"
-                    className="absolute inset-x-3 -bottom-[3px] h-[2px] rounded-full"
-                    style={{
-                      background: "linear-gradient(90deg, transparent, var(--nb-gold-strong), transparent)",
-                    }}
-                    transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                    aria-hidden="true"
+                    className="nb-nav-active"
+                    transition={spring}
                   />
                 )}
               </NavLink>
+              </span>
             );
           })}
         </nav>
 
-        <div className="flex shrink-0 items-center gap-2.5 lg:ml-auto">
+        <div className="nb-menu-tools flex shrink-0 items-center gap-2.5 lg:ml-auto">
           <button
             type="button"
             onClick={() => window.dispatchEvent(new Event("nb:command"))}
@@ -112,7 +121,7 @@ export function Header() {
           <DoiChuDe />
 
           <span className="nb-header-cta hidden lg:contents">
-            <NavLink data-magnetic href="/lien-he" className="nb-btn h-9 px-4 text-[13.5px]">
+            <NavLink data-magnetic href="/lien-he" className="nb-menu-consult nb-btn h-9 px-4 text-[13.5px]">
               <Headphones size={15} />
               {tx.tuVanNgay}
             </NavLink>

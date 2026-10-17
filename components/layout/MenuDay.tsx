@@ -1,34 +1,14 @@
-"use client";
+﻿"use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState, type PointerEvent } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { BookOpen, Briefcase, GraduationCap, Home, Phone } from "lucide-react";
 import { NavLink } from "@/components/layout/NavLink";
 import { mucMenu } from "@/data/nav";
 import { useDuongDan, useLang, useT } from "@/lib/i18n/client";
 import { common } from "@/lib/i18n/dict/common";
 
-/**
- * MENU ĐÁY — CHỈ CÓ TRÊN ĐIỆN THOẠI
- *
- * Đây là thanh điều hướng DUY NHẤT của bản điện thoại: trang phụ đã bỏ hẳn
- * header, nên mọi đường đi đều qua đây.
- *
- * Dáng: một thanh NỔI, bo 24px, cách hai mép 10px và cách đáy 8px — không dán
- * bệt vào cạnh dưới như tab bar mặc định của điện thoại. Nền xanh đặc một bậc
- * sáng hơn nền trang, viền champagne mảnh quanh thanh.
- *
- * Mục đang mở: một VẠCH champagne 3px ở mép trên ô, chữ và icon chuyển vàng.
- * KHÔNG dùng viên champagne đặc và KHÔNG đổ bóng vàng — bản trước có
- * `box-shadow: 0 6px 16px -6px rgba(224,172,61,.6)` là một quầng sáng, trái
- * luật "không glow" của Sếp.
- *
- * Vạch dùng layoutId nên nó TRƯỢT từ mục cũ sang mục mới thay vì nhảy cóc —
- * mắt theo được là mình vừa đi từ đâu sang đâu.
- *
- * Năm mục là trần: quá số đó thì chữ bị bóp và ngón tay bấm nhầm.
- */
-
-// Nhãn lấy từ data/nav.ts (trường `ngan` — bản ngắn cho ô hẹp, đủ 3 ngôn ngữ).
+// Giữ nguyên năm đường dẫn và bộ nhãn vi/en/de của menu đáy.
 const MUC = [
   { ...mucMenu("/"), Icon: Home },
   { ...mucMenu("/don-hang"), Icon: Briefcase },
@@ -37,82 +17,88 @@ const MUC = [
   { ...mucMenu("/lien-he"), Icon: Phone },
 ];
 
+type Ripple = { id: number; x: number; y: number; href: string };
+
 export function MenuDay() {
   const pathname = useDuongDan();
   const lang = useLang();
   const tx = useT(common);
-  const dangMo = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
+  const reduced = useReducedMotion();
+  const dock = useRef<HTMLElement>(null);
+  const rippleId = useRef(0);
+  const [hidden, setHidden] = useState(false);
+  const [ripples, setRipples] = useState<Ripple[]>([]);
+
+  useEffect(() => {
+    let previous = Math.max(0, window.scrollY);
+    let direction = 0;
+    let distance = 0;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const y = Math.max(0, window.scrollY);
+      const delta = y - previous;
+      previous = y;
+      // MenuDayDu hiện khoá cuộn html khi mở; theo dõi trạng thái đó,
+      // không sửa tấm menu hoặc nơi mở nó trong banner.
+      const menuOpen = document.documentElement.style.overflow === "hidden";
+      const nearEnd = y + window.innerHeight >= document.documentElement.scrollHeight - 96;
+      if (menuOpen || nearEnd || y < 24 || dock.current?.querySelector(":focus-visible")) {
+        distance = 0;
+        setHidden(false);
+        return;
+      }
+      if (!delta) return;
+      const nextDirection = Math.sign(delta);
+      distance = nextDirection === direction ? distance + Math.abs(delta) : Math.abs(delta);
+      direction = nextDirection;
+      if (distance >= 8) {
+        setHidden(direction > 0);
+        distance = 0;
+      }
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    const observer = new MutationObserver(schedule);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["style"] });
+    const resize = new ResizeObserver(schedule);
+    resize.observe(document.body);
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    schedule();
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      resize.disconnect();
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+    };
+  }, [pathname]);
+
+  function ripple(e: PointerEvent<HTMLLIElement>, href: string) {
+    if (reduced || e.button !== 0) return;
+    const box = e.currentTarget.getBoundingClientRect();
+    const item = { id: ++rippleId.current, x: e.clientX - box.left, y: e.clientY - box.top, href };
+    setRipples((current) => [...current.slice(-4), item]);
+  }
 
   return (
-    <nav
-      aria-label={tx.menuChinh}
-      data-menu-day
-      className="fixed inset-x-0 bottom-0 z-50 lg:hidden"
-      style={{
-        /* NỀN đặt ở ĐÂY chứ không ở <ul>, và phủ luôn vùng safe-area.
-           Trước đây nav chỉ có padding-bottom bằng safe-area còn nền nằm ở
-           <ul> bên trong, nên trên iPhone có vạch home (safe-area ~34px) cả
-           dải đó trong suốt — nhìn ra là thanh menu BAY lên, hở nền trang
-           bên dưới. Máy tính không có safe-area nên không lộ, phải mở trên
-           điện thoại thật mới thấy. */
-        background: "var(--nb-surface)",
-        paddingBottom: "env(safe-area-inset-bottom, 0px)",
-        boxShadow: "0 -10px 28px -8px rgba(3,12,26,.75)",
-      }}
-    >
-      {/* vạch champagne mảnh ở mép trên, tách thanh khỏi nội dung */}
-      <span
-        aria-hidden="true"
-        className="block h-px w-full"
-        style={{
-          background:
-            "linear-gradient(90deg, transparent, var(--nb-gold-soft) 16%, var(--nb-gold-strong) 50%, var(--nb-gold-soft) 84%, transparent)",
-        }}
-      />
-      <ul
-        className="flex h-[62px] items-stretch"
-        style={{
-        }}
-      >
+    <nav ref={dock} aria-label={tx.menuChinh} data-menu-day data-hidden={hidden}
+      className="nb-mobile-dock fixed z-50 lg:hidden" onFocusCapture={() => setHidden(false)}>
+      <ul className="flex h-full items-stretch">
         {MUC.map(({ href, ngan, Icon }) => {
-          const label = ngan[lang];
-          const on = dangMo(href);
+          const on = href === "/" ? pathname === "/" : pathname.startsWith(href);
           return (
-            <li key={href} className="relative min-w-0 flex-1">
-              <NavLink
-                href={href}
-                aria-current={on ? "page" : undefined}
-                className="relative flex h-full flex-col items-center justify-center gap-1"
-              >
-                {on && (
-                  <motion.span
-                    layoutId="menu-day-vach"
-                    aria-hidden="true"
-                    className="absolute inset-x-3.5 top-0 h-[3px] rounded-b-full"
-                    style={{
-                      background:
-                        "linear-gradient(90deg, var(--nb-gold-soft), var(--nb-gold-strong) 50%, var(--nb-gold-soft))",
-                    }}
-                    transition={{ type: "spring", stiffness: 420, damping: 32 }}
-                  />
-                )}
-
-                <Icon
-                  size={22}
-                  strokeWidth={on ? 2.2 : 1.8}
-                  className={on ? "text-[var(--nb-accent-text)]" : "text-[var(--nb-text-dim)]"}
-                />
-
-                {/* leading-[1.4] chứ KHÔNG leading-none: `truncate` kèm
-                    overflow:hidden, ô dòng cao đúng 1em thì dấu tiếng Việt
-                    ("ề" của "Du học nghề") bị xén mất. */}
-                <span
-                  className={`w-full truncate text-center text-[12px] leading-[1.4] tracking-[-0.01em] ${
-                    on ? "font-bold text-[var(--nb-accent-text)]" : "font-medium text-[var(--nb-text-dim)]"
-                  }`}
-                >
-                  {label}
-                </span>
+            <li key={href} className="nb-dock-item relative min-w-0 flex-1" onPointerDown={(e) => ripple(e, href)}>
+              <NavLink href={href} aria-current={on ? "page" : undefined} aria-label={ngan[lang]}
+                className="nb-dock-link relative flex h-full flex-col items-center justify-center gap-1">
+                {on && <motion.span layoutId="menu-day-pill" aria-hidden="true" className="nb-dock-pill"
+                  initial={false} transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 420, damping: 38 }} />}
+                <Icon size={22} strokeWidth={on ? 2.2 : 1.8} className="nb-dock-icon" />
+                <span className="nb-dock-label w-full text-center text-[12px] leading-[1.4] tracking-[-0.01em]">{ngan[lang]}</span>
+                {ripples.filter((r) => r.href === href).map((r) => (
+                  <span key={r.id} aria-hidden="true" className="nb-dock-ripple" style={{ left: r.x, top: r.y }}
+                    onAnimationEnd={() => setRipples((current) => current.filter((item) => item.id !== r.id))} />
+                ))}
               </NavLink>
             </li>
           );

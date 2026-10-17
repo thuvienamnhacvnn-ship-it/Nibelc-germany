@@ -1,8 +1,8 @@
 /* GĐ6: mobile là cùng hệ màu navy/blueprint, bố cục riêng cho thao tác chạm. */
 @keyframes nb-mobile-anh-lo { from { clip-path: inset(100% 0 0); } to { clip-path: inset(0); } }
 @media (max-width:1023px) {
-  html[data-public] { scroll-padding-bottom: calc(var(--nb-menu-day,63px) + env(safe-area-inset-bottom,0px) + 16px); }
-  html[data-public] body { padding-bottom: calc(var(--nb-menu-day,63px) + env(safe-area-inset-bottom,0px) + 16px); }
+  html[data-public] { --nb-menu-day: 72px; scroll-padding-bottom: calc(var(--nb-menu-day) + env(safe-area-inset-bottom,0px) + 28px); }
+  html[data-public] body { padding-bottom: calc(var(--nb-menu-day) + env(safe-area-inset-bottom,0px) + 28px); }
   html[data-public] .nb-wrap { padding-inline: 16px; }
   html[data-public] :is(.nb-thuoc-toa-do,.nb-scroll-progress,.nb-mach-dien,.nb-dai-du-lieu,.nb-hero-luoi) { display: none; }
   html[data-public] .nb-cong-du-lieu { height: 56px; }
@@ -77,4 +77,45 @@
 /* Thân thẻ đơn ở mobile chỉ đệm 16px; dải nhãn kéo -24px (theo desktop) lòi ra mép phải. */
 @media (max-width: 1023px) {
   html[data-public] .nb-don-than > .nb-don-nhan { margin: -16px -16px 16px; padding: 12px 16px; }
+}
+
+/* Dock nổi: cao 72px gồm 4px đệm + ô chạm 62px + viền. */
+@media (max-width:1023px) {
+  html[data-public] .nb-mobile-dock {
+    left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom,0px));
+    height: var(--nb-menu-day); padding: 4px; border-radius: 20px;
+    border: 1px solid var(--nb-line-soft); background: rgba(7,21,37,.78);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 12px 30px -12px rgba(3,12,26,.55);
+    transition: transform 280ms cubic-bezier(.22,.61,.36,1);
+  }
+  html[data-public][data-theme="ngay"] .nb-mobile-dock { background: rgba(255,255,255,.82); }
+  .nb-mobile-dock[data-hidden="true"] { transform: translateY(calc(100% + 24px + env(safe-area-inset-bottom,0px))); }
+  .nb-mobile-dock:has(:focus-visible) { transform: none; }
+  .nb-dock-item { border-radius: 15px; }
+  .nb-dock-link { min-width: 48px; min-height: 48px; border-radius: 15px; overflow: hidden; isolation: isolate; color: var(--nb-text-dim); transition: transform 160ms ease-out; }
+  .nb-dock-link:active { transform: scale(.92); }
+  .nb-dock-pill { position: absolute; inset: 0; z-index: -1; border-radius: 15px; background: rgba(100,137,183,.16); pointer-events: none; }
+  html[data-public][data-theme="ngay"] .nb-dock-pill { background: rgba(10,31,68,.06); }
+  .nb-dock-icon { flex-shrink: 0; transition: transform 260ms cubic-bezier(.22,.61,.36,1), color 260ms; }
+  .nb-dock-link[aria-current="page"] { color: var(--nb-accent-text); }
+  .nb-dock-link[aria-current="page"] .nb-dock-icon { transform: translateY(-2px); }
+  .nb-dock-label { position: relative; padding-inline: 1px; font-size: clamp(10px,2.9vw,12px); font-weight: 500; }
+  .nb-dock-link[aria-current="page"] .nb-dock-label { font-weight: 700; }
+  .nb-dock-link:focus-visible { outline: 2px solid var(--nb-accent-text); outline-offset: -2px; }
+  .nb-dock-ripple { position: absolute; width: 48px; height: 48px; border-radius: 50%; pointer-events: none; background: var(--nb-accent-text); animation: nb-dock-ripple 400ms ease-out both; }
+}
+@media (max-width:359px) { .nb-mobile-dock .nb-dock-label { font-size: 10px; } }
+@keyframes nb-dock-ripple {
+  from { opacity: .2; transform: translate(-50%,-50%) scale(0); }
+  to { opacity: 0; transform: translate(-50%,-50%) scale(2.2); }
+}
+@media (prefers-color-scheme:light) {
+  html[data-public]:not([data-theme]) .nb-mobile-dock { background: rgba(255,255,255,.82); }
+  html[data-public]:not([data-theme]) .nb-dock-pill { background: rgba(10,31,68,.06); }
+}
+@media (prefers-reduced-motion:reduce) {
+  .nb-mobile-dock, .nb-mobile-dock * { transition: none !important; animation: none !important; }
+  .nb-mobile-dock .nb-dock-link:active { transform: none; }
+  .nb-mobile-dock .nb-dock-ripple { display: none; }
 }

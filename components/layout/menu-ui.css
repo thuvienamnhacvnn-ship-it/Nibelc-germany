@@ -1,0 +1,57 @@
+﻿/* Chỉ tác động hàng menu desktop, không áp dụng WebsiteNetworkMenu. */
+html[data-public] .nb-desktop-menu { background: color-mix(in srgb, var(--nb-surface) 78%, transparent); }
+html[data-public] .nb-desktop-menu[data-scrolled="true"] { background: color-mix(in srgb, var(--nb-surface) 96%, transparent); backdrop-filter: blur(16px); }
+.nb-nav-item { position: relative; flex-shrink: 0; }
+html[data-public] .nb-desktop-nav .nb-nav-item > a { position: relative; border-radius: 12px; isolation: isolate; }
+.nb-nav-pill { position: absolute; inset: 0; z-index: -1; border-radius: 12px; background: color-mix(in srgb, var(--nb-navy-500) 45%, transparent); pointer-events: none; }
+html[data-public][data-theme="ngay"] .nb-nav-pill { background: rgba(10,31,68,.06); }
+.nb-nav-roll { position: relative; display: block; overflow: hidden; line-height: 1.6; }
+.nb-nav-roll > span { display: block; transition: transform 260ms cubic-bezier(.22,.61,.36,1); }
+.nb-nav-roll > span + span { position: absolute; inset: 0; transform: translateY(100%); }
+.nb-nav-item a:is(:hover,:focus-visible) .nb-nav-roll > span:first-child { transform: translateY(-100%); }
+.nb-nav-item a:is(:hover,:focus-visible) .nb-nav-roll > span + span { transform: translateY(0); }
+.nb-nav-active { position: absolute; height: 2px; bottom: 1px; left: 12px; right: 12px; border-radius: 2px; background: var(--nb-gold-strong); pointer-events: none; }
+.nb-nav-active::before, .nb-nav-active::after { content: ""; position: absolute; width: 3px; height: 3px; top: -.5px; border-radius: 50%; background: inherit; }
+.nb-nav-active::before { left: -5px; }
+.nb-nav-active::after { right: -5px; }
+html[data-public] .nb-desktop-menu .nb-menu-tools { gap: 8px; }
+html[data-public] .nb-desktop-menu .nb-menu-tools > button,
+html[data-public] .nb-desktop-menu .nb-menu-tools > div > button {
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+  width: 36px; height: 36px; min-width: 36px; min-height: 36px; padding: 0;
+  border: 1px solid var(--nb-line-soft); border-radius: 50%; color: var(--nb-text-dim);
+  transition: border-color 260ms, color 260ms, background-color 260ms;
+}
+/* Nút ngôn ngữ chỉ hiện globe; giữ aria-label và nhãn đủ trong danh sách. */
+html[data-public] .nb-desktop-menu .nb-menu-tools > div > button { font-size: 0; gap: 0; }
+.nb-desktop-menu .nb-menu-tools > div > button > svg:last-child { display: none; }
+.nb-desktop-menu .nb-menu-tools button > svg { transition: transform 260ms cubic-bezier(.22,.61,.36,1); }
+html[data-public] .nb-desktop-menu .nb-menu-tools button:is(:hover,:focus-visible) { border-color: var(--nb-accent-text); color: var(--nb-accent-text); }
+.nb-desktop-menu .nb-menu-tools > button:is(:hover,:focus-visible) > svg { transform: translateY(-1px) rotate(-8deg); }
+.nb-desktop-menu .nb-menu-tools > div > button:is(:hover,:focus-visible) > svg:first-child { transform: rotate(12deg); }
+.nb-desktop-menu .nb-menu-tools > .nb-theme-button:is(:hover,:focus-visible) > svg { transform: rotate(90deg); }
+html[data-public] .nb-desktop-menu .nb-header-cta { display: contents; }
+html[data-public] .nb-desktop-menu .nb-menu-consult { position: relative; isolation: isolate; overflow: hidden; min-height: 36px; white-space: nowrap; box-shadow: none; }
+html[data-public] .nb-desktop-menu .nb-menu-consult:hover { background: #e3c78f; box-shadow: none; }
+.nb-menu-consult::before { content: ""; position: absolute; z-index: -1; inset: -60% auto -60% -60%; width: 32%; transform: skewX(-24deg) translateX(0); background: linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent); pointer-events: none; }
+.nb-menu-consult:is(:hover,:focus-visible)::before { animation: nb-menu-shine 600ms ease-out both; }
+.nb-menu-consult > svg { transition: transform 260ms; }
+.nb-menu-consult:is(:hover,:focus-visible) > svg { transform: translate(1px,-1px) rotate(-5deg); }
+@keyframes nb-menu-shine { to { left: 135%; } }
+html[data-public] .nb-desktop-menu :is(.nb-nav-item > a,.nb-menu-tools button,.nb-menu-consult):focus-visible { outline: 2px solid var(--nb-accent-text); outline-offset: 3px; }
+@media (min-width:1024px) and (max-width:1399px) {
+  html[data-public] .nb-desktop-menu > .nb-wrap { gap: 10px; padding-inline: 16px; }
+  html[data-public] .nb-desktop-menu .nb-desktop-nav { gap: 0; }
+  html[data-public] .nb-desktop-menu .nb-desktop-nav a { padding-inline: 5px; font-size: 12px; }
+  html[data-public] .nb-desktop-menu .nb-menu-consult { padding-inline: 10px; font-size: 12px; }
+  html[data-public] .nb-desktop-menu .nb-menu-tools { gap: 6px; }
+}
+@media (prefers-color-scheme:light) {
+  html[data-public]:not([data-theme]) .nb-nav-pill { background: rgba(10,31,68,.06); }
+}
+@media (prefers-reduced-motion:reduce) {
+  .nb-desktop-menu *, .nb-desktop-menu *::before, .nb-desktop-menu *::after { transition: none !important; animation: none !important; }
+  .nb-desktop-menu .nb-nav-roll > span { transform: none !important; }
+  .nb-desktop-menu .nb-nav-roll > span + span { display: none; }
+  .nb-desktop-menu .nb-menu-tools button > svg, .nb-desktop-menu .nb-menu-consult > svg { transform: none !important; }
+}
