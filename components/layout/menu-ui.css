@@ -23,12 +23,12 @@ html[data-public] .nb-desktop-menu .nb-menu-tools > div > button {
   transition: border-color 260ms, color 260ms, background-color 260ms;
 }
 /* Nút ngôn ngữ chỉ hiện globe; giữ aria-label và nhãn đủ trong danh sách. */
-html[data-public] .nb-desktop-menu .nb-menu-tools > div > button { font-size: 0; gap: 0; }
-.nb-desktop-menu .nb-menu-tools > div > button > svg:last-child { display: none; }
+html[data-public] .nb-desktop-menu .nb-menu-tools > div:not([data-website-network]) > button { font-size: 0; gap: 0; }
+.nb-desktop-menu .nb-menu-tools > div:not([data-website-network]) > button > svg:last-child { display: none; }
 .nb-desktop-menu .nb-menu-tools button > svg { transition: transform 260ms cubic-bezier(.22,.61,.36,1); }
 html[data-public] .nb-desktop-menu .nb-menu-tools button:is(:hover,:focus-visible) { border-color: var(--nb-accent-text); color: var(--nb-accent-text); }
 .nb-desktop-menu .nb-menu-tools > button:is(:hover,:focus-visible) > svg { transform: translateY(-1px) rotate(-8deg); }
-.nb-desktop-menu .nb-menu-tools > div > button:is(:hover,:focus-visible) > svg:first-child { transform: rotate(12deg); }
+.nb-desktop-menu .nb-menu-tools > div:not([data-website-network]) > button:is(:hover,:focus-visible) > svg:first-child { transform: rotate(12deg); }
 .nb-desktop-menu .nb-menu-tools > .nb-theme-button:is(:hover,:focus-visible) > svg { transform: rotate(90deg); }
 html[data-public] .nb-desktop-menu .nb-header-cta { display: contents; }
 html[data-public] .nb-desktop-menu .nb-menu-consult { position: relative; isolation: isolate; overflow: hidden; min-height: 36px; white-space: nowrap; box-shadow: none; }

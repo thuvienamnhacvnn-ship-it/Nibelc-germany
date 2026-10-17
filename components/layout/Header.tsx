@@ -119,6 +119,7 @@ export function Header() {
 
           <ChonNgonNgu />
           <DoiChuDe />
+          <WebsiteNetworkMenu />
 
           <span className="nb-header-cta hidden lg:contents">
             <NavLink data-magnetic href="/lien-he" className="nb-menu-consult nb-btn h-9 px-4 text-[13.5px]">
@@ -128,8 +129,6 @@ export function Header() {
           </span>
         </div>
       </div>
-
-      <div className="pointer-events-none absolute inset-x-0 top-full z-[70]"><div className="nb-wrap flex justify-end"><WebsiteNetworkMenu /></div></div>
     </header>
   );
 }

@@ -50,7 +50,7 @@ html[data-public] .nb-gold-text { background: none; color: var(--nb-accent-text)
 html[data-public] :focus-visible { outline: 2px solid var(--nb-accent-text); outline-offset: 3px; }
 html[data-public] :is(button,a,input,select,textarea) { touch-action: manipulation; }
 html[data-public] :is(button,.nb-btn,.nb-btn-ghost,.nb-btn-solid) { min-height: 40px; min-width: 40px; }
-html[data-public] header nav a { min-height: 40px; display: inline-flex; align-items: center; }
+html[data-public] header nav:not([data-open]) a { min-height: 40px; display: inline-flex; align-items: center; }
 html[data-public] :is(header,footer,[role="dialog"]) [data-logo-dong] { background: #071525; border-radius: 6px; }
 html[data-public] header { border-bottom: 1px solid var(--nb-border-soft); }
 html[data-public] .nb-theme-button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-width: 40px; height: 40px; border: 1px solid var(--nb-line); border-radius: 999px; color: var(--nb-accent-text); padding: 8px; }
@@ -74,7 +74,7 @@ html[data-public] .nb-theme-button { display: inline-flex; align-items: center; 
 }
 @media (min-width:1024px) and (max-width:1279px) {
   html[data-public] header > .nb-wrap { gap: 10px; padding-inline: 16px; }
-  html[data-public] header nav a { padding-inline: 5px; font-size: 12px; }
+  html[data-public] header nav:not([data-open]) a { padding-inline: 5px; font-size: 12px; }
   html[data-public] header .nb-header-cta { display: none; }
 }
 @media (prefers-reduced-motion: no-preference) {

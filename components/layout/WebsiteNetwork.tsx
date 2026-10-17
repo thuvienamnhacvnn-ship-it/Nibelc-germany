@@ -3,7 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { CURRENT_SITE_ID, WEBSITE_NETWORK, websiteNetworkLabels } from "@/lib/website-network";
 import styles from "./website-network.module.css";
 
-export function WebsiteNetworkList({ lang, cards = false }: { lang: string; cards?: boolean }) {
+export function WebsiteNetworkList({ lang, cards = false, gon = false }: { lang: string; cards?: boolean; gon?: boolean }) {
   const labels = websiteNetworkLabels(lang);
   return (
     <ul className={`${styles.list} ${cards ? styles.cards : ""}`}>
@@ -16,7 +16,7 @@ export function WebsiteNetworkList({ lang, cards = false }: { lang: string; card
           </span>
           <span className={styles.copy}>
             <span className={styles.name}>{site.name}</span>
-            <span className={styles.host}>{site.host}</span>
+            {!gon && <span className={styles.host}>{site.host}</span>}
             {current && <span className={styles.status}>{labels.current}</span>}
           </span>
           {current ? <span className={styles.dot} aria-hidden="true" /> : <>

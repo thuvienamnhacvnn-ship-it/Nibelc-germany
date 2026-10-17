@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import { ChevronDown, Globe } from "lucide-react";
 import { useLang } from "@/lib/i18n/client";
 import { websiteNetworkLabels } from "@/lib/website-network";
 import { WebsiteNetworkList } from "./WebsiteNetwork";
@@ -33,13 +32,17 @@ export function WebsiteNetworkMenu() {
         button.current?.focus();
       }
     }}>
-    <button ref={button} type="button" className={styles.trigger} aria-expanded={open} aria-controls={panelId} onClick={() => setOpen(!open)}>
-      <Globe size={16} aria-hidden="true" />
-      {websiteNetworkLabels(lang).title}
-      <ChevronDown size={15} aria-hidden="true" className={open ? styles.rotated : ""} />
+    {/* Sếp 17/10: dùng đúng nút của Viet-Duc-group — icon lưới 4 ô, chỉ icon, nằm trên thanh menu. */}
+    <button ref={button} type="button" className={styles.trigger} aria-label={websiteNetworkLabels(lang).title} title={websiteNetworkLabels(lang).title} aria-expanded={open} aria-controls={panelId} onClick={() => setOpen(!open)}>
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+        <rect x="3" y="3" width="6" height="6" rx="1.3" />
+        <rect x="15" y="3" width="6" height="6" rx="1.3" />
+        <rect x="3" y="15" width="6" height="6" rx="1.3" />
+        <rect x="15" y="15" width="6" height="6" rx="1.3" />
+      </svg>
     </button>
     <nav id={panelId} className={styles.panel} data-open={open} inert={!open} aria-hidden={!open} aria-label={websiteNetworkLabels(lang).title}>
-      <WebsiteNetworkList lang={lang} />
+      <WebsiteNetworkList lang={lang} gon />
     </nav>
   </div>;
 }
