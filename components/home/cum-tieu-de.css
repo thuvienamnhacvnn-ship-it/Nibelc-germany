@@ -45,3 +45,17 @@
 .nb-title-main .nb-tech-hien { padding-top: .22em; margin-top: -.22em; }
 .nb-title-chips li { min-width: 0; }
 .nb-title-chips li span { min-width: 0; overflow-wrap: anywhere; }
+
+/* Sếp 17/10: "chỉ để cụm text không có khung" — bỏ hẳn tấm kính, viền chạy và
+   hai vạch góc; cụm chữ đứng thẳng trên video, căn giữa như cụm cũ. Bóng tối
+   mềm (không phải quầng sáng) để chữ trắng không chìm vào đèn thành phố. */
+.nb-cum-tieu-de .nb-home-sign { padding: 0 !important; text-align: center; }
+.nb-cum-tieu-de .nb-home-sign::before,
+.nb-cum-tieu-de .nb-home-sign::after,
+.nb-cum-tieu-de .nb-home-sign > :is(.nb-kinh-nen,.nb-kinh-vien,.nb-kinh-sang,.nb-kinh-lap-lanh,.nb-hud-goc) { display: none !important; }
+.nb-cum-tieu-de .nb-title-kicker { justify-content: center; }
+.nb-cum-tieu-de .nb-title-chips { justify-content: center; }
+.nb-cum-tieu-de .nb-title-scan { width: min(520px, 80%); margin-inline: auto; }
+.nb-cum-tieu-de .nb-kinh-noi :is(.nb-title-kicker,.nb-title-sub,.nb-title-chips li) { text-shadow: 0 1px 3px rgb(2 8 18 / .9), 0 2px 14px rgb(2 8 18 / .6); }
+.nb-cum-tieu-de .nb-title-main { filter: drop-shadow(0 2px 3px rgb(2 8 18 / .7)) drop-shadow(0 6px 18px rgb(2 8 18 / .45)); }
+.nb-cum-tieu-de .nb-title-chips li { background: rgb(2 8 18 / .35); }
