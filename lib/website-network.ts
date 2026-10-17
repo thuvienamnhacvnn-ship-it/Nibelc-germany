@@ -5,14 +5,16 @@ export interface NetworkSite {
   name: string;
   url: string;
   host: string;
-  logo: string | null;
+  logo: string;
+  /** nền ô logo: logo màu tối cần nền sáng và ngược lại */
+  plate: "light" | "dark";
 }
 
 export const WEBSITE_NETWORK: readonly NetworkSite[] = [
-  { id: "nibelc-vn", name: "Nibelcgroup Vietnam", url: "https://nibelc.com.vn", host: "nibelc.com.vn", logo: null },
-  { id: "vietduc", name: "Vietducgroup", url: "https://www.vietducgroup.com.vn", host: "www.vietducgroup.com.vn", logo: null },
-  { id: "nibelc-de", name: "NibelcGermany", url: "https://www.nibelcgermany.de", host: "www.nibelcgermany.de", logo: "/assets/brand/nibelc-logo-trang.svg" },
-  { id: "goldenvisa", name: "Goldenvisa", url: "https://golden-visa-europa.com", host: "golden-visa-europa.com", logo: null },
+  { id: "nibelc-vn", name: "Nibelcgroup Vietnam", url: "https://nibelc.com.vn", host: "nibelc.com.vn", logo: "/network-logos/nibelc-vn.png", plate: "light" },
+  { id: "vietduc", name: "Vietducgroup", url: "https://www.vietducgroup.com.vn", host: "www.vietducgroup.com.vn", logo: "/network-logos/vietduc.svg", plate: "dark" },
+  { id: "nibelc-de", name: "NibelcGermany", url: "https://www.nibelcgermany.de", host: "www.nibelcgermany.de", logo: "/network-logos/nibelc-de.png", plate: "dark" },
+  { id: "goldenvisa", name: "Goldenvisa", url: "https://golden-visa-europa.com", host: "golden-visa-europa.com", logo: "/network-logos/goldenvisa.svg", plate: "dark" },
 ];
 
 export const WEBSITE_NETWORK_LABELS = {

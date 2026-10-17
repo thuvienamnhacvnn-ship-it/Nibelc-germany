@@ -6,11 +6,13 @@
 .panel[data-open="true"] { opacity: 1; visibility: visible; transform: translateY(0); }
 .list { display: grid; gap: 8px; list-style: none; padding: 0; margin: 0; }
 .list li { min-width: 0; }
-.item { display: flex; align-items: center; gap: 10px; min-height: 72px; height: 100%; padding: 12px; border: 1px solid var(--nb-line-soft); border-radius: 12px; background: var(--nb-navy-800); color: var(--nb-text); text-decoration: none; }
+.item { display: flex; align-items: center; gap: 12px; min-height: 76px; height: 100%; padding: 12px; border: 1px solid var(--nb-line-soft); border-radius: 12px; background: var(--nb-navy-800); color: var(--nb-text); text-decoration: none; }
 a.item:hover { border-color: var(--nb-accent-text); color: var(--nb-accent-text); }
 .current { border-color: var(--nb-accent-text); }
-.logo { display: grid; place-items: center; flex: 0 0 40px; height: 40px; border-radius: 10px; background: var(--nb-navy-700); color: var(--nb-accent-text); font-size: 20px; font-weight: 700; }
-.logo img { width: 36px; height: 36px; object-fit: contain; }
+.logo { display: flex; align-items: center; justify-content: center; overflow: hidden; flex: 0 0 88px; height: 52px; padding: 6px; border: 1px solid var(--nb-line-soft); border-radius: 6px; }
+.logo img { display: block; width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; }
+.plateLight { background: #fff; }
+.plateDark { background: #0b1b2e; }
 .copy { min-width: 0; flex: 1; }
 .name { display: block; font-size: 14px; font-weight: 600; line-height: 1.4; overflow-wrap: anywhere; }
 .host { display: block; margin-top: 3px; font-size: 11px; line-height: 1.4; color: var(--nb-text-dim); overflow-wrap: anywhere; }
@@ -22,7 +24,10 @@ a.item:hover { border-color: var(--nb-accent-text); color: var(--nb-accent-text)
 .mobile { margin-top: 24px; }
 .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (min-width: 1024px) { .cards { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-@media (max-width: 479px) { .cards { grid-template-columns: minmax(0, 1fr); } }
+/* Thẻ footer: logo lớn hơn, xếp dọc logo trên chữ để vừa lưới 2 cột ở điện thoại. */
+.cards .item { flex-direction: column; align-items: flex-start; }
+.cards .logo { flex-basis: auto; width: 104px; height: 60px; }
+.cards .arrow, .cards .dot { position: absolute; top: 14px; right: 14px; }
+.cards .item { position: relative; }
 @media (prefers-reduced-motion: reduce) { .panel, .trigger svg { transition: none; transform: none; } }
 
-.logo:has(img) { background: #071525; }

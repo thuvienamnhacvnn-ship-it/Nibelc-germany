@@ -10,8 +10,9 @@ export function WebsiteNetworkList({ lang, cards = false }: { lang: string; card
       {WEBSITE_NETWORK.map((site) => {
         const current = site.id === CURRENT_SITE_ID;
         const content = <>
-          <span className={styles.logo} aria-hidden="true">
-            {site.logo ? <img src={site.logo} alt="" width={40} height={40} /> : site.name[0]}
+          <span className={`${styles.logo} ${site.plate === "light" ? styles.plateLight : styles.plateDark}`} aria-hidden="true">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={site.logo} alt="" width={88} height={52} loading="lazy" />
           </span>
           <span className={styles.copy}>
             <span className={styles.name}>{site.name}</span>
