@@ -7,6 +7,7 @@ import { INDUSTRIES } from "@/data/industries";
 import { tenNganh } from "@/data/i18n/industries";
 import { getNganhHoc } from "@/data/i18n/ausbildung";
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { DinhBanner } from "@/components/layout/DinhBanner";
@@ -101,6 +102,9 @@ export default async function KhungWeb({ children }: Readonly<{ children: React.
           <Footer />
           <MenuDay />
         </PageTransition>
-        </LangProvider>    </>
+        </LangProvider>
+        {/* Mùa Noel: ông già Noel 3D + xe tuần lộc (file độc lập public/noel/santa-pet.js). Hết mùa: xoá dòng này. Tắt tạm: ?santa=0 */}
+        <Script src="/noel/santa-pet.js" strategy="afterInteractive" />
+    </>
   );
 }
