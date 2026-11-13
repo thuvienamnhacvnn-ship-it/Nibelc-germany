@@ -94,7 +94,7 @@ export function Hero({
       <NhomNhanVat
         src="/assets/home/people/group-left.png"
         ben="trai"
-        rong="w-[clamp(360px,34vw,610px)]"
+        rong="w-[clamp(252px,23.8vw,427px)]"
         mo={1}
         dich={0}
         w={1005}
@@ -104,7 +104,7 @@ export function Hero({
       <NhomNhanVat
         src="/assets/home/people/group-right.png"
         ben="phai"
-        rong="w-[clamp(340px,32vw,565px)]"
+        rong="w-[clamp(238px,22.4vw,396px)]"
         mo={1}
         dich={0}
         w={909}
